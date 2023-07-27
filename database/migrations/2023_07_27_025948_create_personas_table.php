@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuarios', function (Blueprint $table) {
+        Schema::create('personas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tipo_documento_id')->nullable()->constrained('tipo_documentos')->onDelete('cascade')->onUpdate('cascade');
             $table->string('nro_documento')->nullable();
-            $table->string('name');
-            $table->string('last_name');
-            $table->text('avatar_image')->nullable();
-            $table->string('avatar_initials')->nullable();
-            $table->string('email');
-            $table->string('password');
-            $table->date('fecha_registro')->nullable();
+            $table->string('apellido_paterno');
+            $table->string('apellido_materno');
+            $table->string('nombres');
+            $table->integer('telefono')->nullable();
+            $table->integer('whatsapp')->nullable();
+            $table->text('path_dni')->nullable();
             $table->date('fecha_cumpleaños')->nullable();
+            $table->date('fecha_caducidad_dni');
+            $table->dateTime('fecha_registro')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();
@@ -36,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('personas');
     }
 };

@@ -17,16 +17,14 @@ class UsuarioSeeder extends Seeder
         //
         //1
         DB::table('usuarios')->insert([
-            'tipo_documento_id' => 2,
-            'nro_documento'     => '99999999',
-            'name'              => 'INFO',
-            'last_name'         => 'HBGROUP',
-            'avatar_image'      => '',
-            'avatar_initials'   => 'IN',
+            'nombre_corto'      => 'INFO HBGROUP',
             'email'             => 'info@hbgroup.pe',
             'password'          => Hash::make('password'),
+            'avatar_imagen'   => '',
+            'avatar_initials'   => 'IN',
+            'persona_id'   => 1,
+            'empresa_id'   => 1,
             'fecha_registro'    => date('Y-m-d H:i:s'),
-            'fecha_cumpleaños'  => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);

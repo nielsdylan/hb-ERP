@@ -33,6 +33,7 @@
     <!-- INTERNAL Switcher css -->
     {{-- <link href="{{ asset('template/switcher/css/switcher.css') }}" rel="stylesheet">
     <link href="{{ asset('template/switcher/demo.css') }}" rel="stylesheet"> --}}
+    @yield('css')
 
 </head>
 
@@ -201,7 +202,8 @@
 
     <!-- Switcher js -->
     <script src="{{ asset('template/switcher/js/switcher.js') }}"></script>
-
+    @routes
+    @yield('script')
 </body>
 
 </html>

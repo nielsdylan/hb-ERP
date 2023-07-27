@@ -24,7 +24,10 @@ class DatabaseSeeder extends Seeder
         //     'usuarios',
         // ]);
         $this->call([
+            EmpresaSeeder::class,
+            LogTipoActividadSeeder::class,
             TipoDocumentoSeeder::class,
+            PersonaSeeder::class,
             UsuarioSeeder::class,
         ]);
     }

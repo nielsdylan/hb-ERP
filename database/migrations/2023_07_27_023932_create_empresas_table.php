@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('empresas', function (Blueprint $table) {
             $table->id();
+            $table->string('descripcion');
+            $table->dateTime('fecha_registro');
             $table->timestamps();
+            $table->softDeletes();
+            $table->integer('created_id')->nullable();
+            $table->integer('updated_id')->nullable();
+            $table->integer('deleted_id')->nullable();
         });
     }
 

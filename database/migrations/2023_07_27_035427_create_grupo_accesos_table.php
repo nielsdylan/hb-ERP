@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipo_documentos', function (Blueprint $table) {
+        Schema::create('grupo_accesos', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion')->nullable();
-            $table->dateTime('fecha_registro')->nullable();
+            $table->foreignId('acceso_id')->nullable()->constrained('accesos')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('grupo_id')->nullable()->constrained('grupos')->onDelete('cascade')->onUpdate('cascade');
+            $table->dateTime('fecha_registro');
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipo_documentos');
+        Schema::dropIfExists('grupo_accesos');
     }
 };
