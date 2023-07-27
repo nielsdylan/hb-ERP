@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Components\Academico\AlumnosController;
 use App\Http\Controllers\Components\Auth\LoginController;
 use App\Http\Controllers\Components\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,17 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
     Route::get('logout',[LoginController::class,'logout'])->name('logout');
     Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard')->middleware('auth');
+
+    Route::name('academicos.')->prefix('academicos')->group(function () {
+
+        Route::name('alumnos.')->prefix('alumnos')->group(function () {
+
+            Route::get('lista', [AlumnosController::class, 'lista'])->name('lista');
+            Route::post('listar', [AlumnosController::class, 'listar'])->name('listar');
+            Route::post('formulario', [AlumnosController::class, 'formulario'])->name('formulario');
+            Route::post('guardar', [AlumnosController::class, 'guardar'])->name('guardar');
+            Route::get('editar', [AlumnosController::class, 'editar'])->name('editar');
+            Route::put('eliminar/{id}', [AlumnosController::class, 'eliminar'])->name('eliminar');
+        });
+    });
 });

@@ -19,7 +19,7 @@ class AlumnosController extends Controller
         // $tipo_habitacion = TipoHabitacion::where('empresa_id',Auth()->user()->empresa_id)->get();
         // $estado = HabitacionEstado::where('empresa_id',Auth()->user()->empresa_id)->get();
         LogActividades::guardar(Auth()->user()->id, 1, 'LISTADO DE HABITACIONES', null, null, null, 'INGRESO A LA LISTA DE TIPO DE HABITACIONES');
-        return view('dashboard.configuracion_hotel.habitaciones.lista', get_defined_vars());
+        return view('components.alumnos.lista', get_defined_vars());
     }
     public function listar()
     {
