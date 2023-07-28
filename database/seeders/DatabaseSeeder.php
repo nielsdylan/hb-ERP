@@ -25,10 +25,12 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             EmpresaSeeder::class,
+            RolSeeder::class,
             LogTipoActividadSeeder::class,
             TipoDocumentoSeeder::class,
             PersonaSeeder::class,
             UsuarioSeeder::class,
+            UsuarioRolSeeder::class,
         ]);
     }
     // protected function truncateTables(array $tables)

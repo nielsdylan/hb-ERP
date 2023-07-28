@@ -28,5 +28,46 @@ class UsuarioSeeder extends Seeder
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
+
+
+        //2
+        DB::table('usuarios')->insert([
+            'nombre_corto'      => 'NIELS QUISPE',
+            'email'             => 'niels@hotmail.com',
+            'password'          => Hash::make('password'),
+            'avatar_imagen'   => '',
+            'avatar_initials'   => 'NQ',
+            'persona_id'   => 2,
+            'empresa_id'   => 2,
+            'fecha_registro'    => date('Y-m-d H:i:s'),
+            'created_at'        => date('Y-m-d H:i:s'),
+            'updated_at'        => date('Y-m-d H:i:s'),
+        ]);
+        //3
+        DB::table('usuarios')->insert([
+            'nombre_corto'      => 'WENDY ZUÑIGA',
+            'email'             => 'wendy@hotmail.com',
+            'password'          => Hash::make('password'),
+            'avatar_imagen'   => '',
+            'avatar_initials'   => 'WZ',
+            'persona_id'   => 3,
+            'empresa_id'   => 3,
+            'fecha_registro'    => date('Y-m-d H:i:s'),
+            'created_at'        => date('Y-m-d H:i:s'),
+            'updated_at'        => date('Y-m-d H:i:s'),
+        ]);
+        //4
+        DB::table('usuarios')->insert([
+            'nombre_corto'      => 'JORGE MEDINA',
+            'email'             => 'jorge@hotmail.com',
+            'password'          => Hash::make('password'),
+            'avatar_imagen'   => '',
+            'avatar_initials'   => 'JM',
+            'persona_id'   => 4,
+            'empresa_id'   => 1,
+            'fecha_registro'    => date('Y-m-d H:i:s'),
+            'created_at'        => date('Y-m-d H:i:s'),
+            'updated_at'        => date('Y-m-d H:i:s'),
+        ]);
     }
 }

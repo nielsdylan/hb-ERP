@@ -6,17 +6,17 @@ class AlumnoModel {
 
     guardar = (data) => {
         return $.ajax({
-            url: route("erp.configuracion-general.habitaciones.guardar"),
+            url: route("hb.academicos.alumnos.guardar"),
             type: "POST",
             dataType: "JSON",
-            // processData: false,
-            // contentType: false,
+            processData: false,
+            contentType: false,
             data: data,
         });
     };
     editar = (id) => {
         return $.ajax({
-            url: route("erp.configuracion-general.habitaciones.editar",{id:id}),
+            url: route("hb.academicos.alumnos.editar",{id:id}),
             type: "GET",
             dataType: "JSON",
             // processData: false,
@@ -27,7 +27,7 @@ class AlumnoModel {
 
     eliminar = (id) => {
         return $.ajax({
-            url: route("erp.configuracion-general.habitaciones.eliminar",{id: id}),
+            url: route("hb.academicos.alumnos.eliminar",{id: id}),
             type: "PUT",
             dataType: "JSON",
             // processData: false,

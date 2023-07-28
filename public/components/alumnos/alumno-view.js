@@ -20,7 +20,7 @@ class AlumnoView {
                 const $input = $filter.find('input');
                 $filter.append('<button id="btnBuscar" class="btn btn-default btn-sm" type="button" style="border-bottom-left-radius: 0px;border-top-left-radius: 0px;"><i class="fa fa-search"></i></button>');
                 $input.addClass('form-control-sm');
-                $input.attr('style','border-bottom-right-radius: 0px;border-top-right-radius: 0px;padding-top: 2px;');
+                $input.attr('style','border-bottom-right-radius: 0px;border-top-right-radius: 0px;padding-top: 3px;');
                 
                 $input.off();
                 $input.on('keyup', (e) => {
@@ -51,10 +51,13 @@ class AlumnoView {
             },
             columns: [
                 {data: 'id', },
-                {data: 'nro_documento', className: 'text-center'},
-                {data: 'apellido_paterno', className: 'text-center'},
-                {data: 'nombres', className: 'text-center'},
-                {data: 'fecha_caducidad_dni', className: 'text-center'},
+                {data: 'documento', className: 'text-center'},
+                {data: 'apellidos_nombres', className: 'text-center'},
+                {data: 'email', className: 'text-center'},
+                {data: 'cargo', className: 'text-center'},
+                {data: 'celular', className: 'text-center'},
+                {data: 'sexo', className: 'text-center'},
+                {data: 'fecha_caducidad', className: 'text-center'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
             ]
         });
@@ -98,10 +101,9 @@ class AlumnoView {
         $('#nuevo').click((e) => {
             e.preventDefault();
             $('#guardar')[0].reset();
-            $('#modal-formulario').find('.modal-title').text('Nuevo Nivel')
-            $('#modal-formulario').modal('show');
+            $('#modal-alumno').find('.modal-title').text('Nuevo Alumno')
+            $('#modal-alumno').modal('show');
             $('#guardar').find('[name="id"]').val(0);
-            $('#modal-formulario').addClass('effect-scale');
 
             // $('[name="empresa_id"]').select2({
             //     dropdownParent: $('#modal-formulario')
@@ -115,37 +117,49 @@ class AlumnoView {
         // console.log(UsuarioModel());
         $('#guardar').on("submit", (e) => {
             e.preventDefault();
-            var data =$(e.currentTarget).serialize();
+            var data =new FormData($(e.currentTarget)[0]);
             let model = this.model;
             
-            swal({
-                title: "Información",
-                text: "Esta seguro de guardar el registro",
-                type: "info",
+            Swal.fire({
+                title: 'Información',
+                text: "¿Está seguro de guardar?",
+                icon: 'warning',
                 showCancelButton: true,
-                closeOnConfirm: false,
-                confirmButtonText: "Si, guardar!",
-                showLoaderOnConfirm: true
-              }, function () {
-                model.guardar(data).then((respuesta) => {
-                    swal({
-                        title: respuesta.titulo,
-                        text: respuesta.mensaje,
-                        type: respuesta.tipo,
-                        showCancelButton: false,
-                        // confirmButtonClass: "btn-danger",
-                        confirmButtonText: "Aceptar",
-                        closeOnConfirm: true
-                      },
-                      function(){
-                        $('#tabla-data').DataTable().ajax.reload();
-                        $('#modal-formulario').modal('hide');
-                        // location.href=route("erp.configuracion-general.habitaciones.lista");
+                confirmButtonText: 'Si, guardar',
+                cancelButtonText: 'No, cancelar',
+                showLoaderOnConfirm: true,
+                preConfirm: (login) => {
+                    return model.guardar(data).then((respuesta) => {
+                        return respuesta;
+                    }).fail((respuesta) => {
+                        // return respuesta;
+                    }).always(() => {
                     });
-                }).fail((respuesta) => {
-                }).always(() => {
-                });
-            });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Éxito!',
+                        'Se guardo con éxito!',
+                        'success'
+                    );
+                    // swal({
+                    //     title: respuesta.titulo,
+                    //     text: respuesta.mensaje,
+                    //     type: respuesta.tipo,
+                    //     showCancelButton: false,
+                    //     // confirmButtonClass: "btn-danger",
+                    //     confirmButtonText: "Aceptar",
+                    //     closeOnConfirm: true
+                    // },
+                    // function(){
+                        $('#tabla-data').DataTable().ajax.reload();
+                        $('#modal-alumno').modal('hide');
+                    // });
+                }
+            })
+
             
         });
         /**
@@ -157,16 +171,27 @@ class AlumnoView {
             let form = $('#guardar');
 
             this.model.editar(id).then((respuesta) => {
-                form.find('[name="id"]').val(respuesta.id);
-                form.find('[name="nombre"]').val(respuesta.nombre);
-                form.find('[name="moneda_id"]').val(respuesta.moneda_id).trigger('change.select2');
-                form.find('[name="precio"]').val(respuesta.precio);
-                form.find('[name="nivel_id"]').val(respuesta.nivel_id).trigger('change.select2');
-                form.find('[name="habitacion_estado_id"]').val(respuesta.habitacion_estado_id).trigger('change.select2');
-                form.find('[name="tipo_habitacion_id"]').val(respuesta.tipo_habitacion_id).trigger('change.select2');
-                form.find('[name="descripcion"]').val(respuesta.descripcion);
-                $('#modal-formulario').find('.modal-title').text('Editar Nivel')
-                $('#modal-formulario').modal('show');
+                form.find('[name="id"]').val(respuesta.persona.id);
+                form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
+                form.find('[name="nro_documento"]').val(respuesta.persona.nro_documento);
+                form.find('[name="apellido_paterno"]').val(respuesta.persona.apellido_paterno);
+                form.find('[name="apellido_materno"]').val(respuesta.persona.apellido_materno);
+                form.find('[name="nombres"]').val(respuesta.persona.nombres);
+                form.find('[name="sexo"]').val(respuesta.persona.sexo).trigger('change.select2');
+                form.find('[name="nacionalidad"]').val(respuesta.persona.nacionalidad);
+                form.find('[name="cargo"]').val(respuesta.persona.cargo);
+                form.find('[name="telefono"]').val(respuesta.persona.telefono);
+                form.find('[name="whatsapp"]').val(respuesta.persona.whatsapp);
+                // form.find('[name="path_dni"]').val(respuesta.persona.path_dni);
+                form.find('[name="fecha_cumpleaños"]').val(respuesta.persona.fecha_cumpleaños);
+                form.find('[name="fecha_caducidad_dni"]').val(respuesta.persona.fecha_caducidad_dni);
+
+                form.find('[name="email"]').val(respuesta.usuario.email);
+                form.find('[name="empresa_id"]').val(respuesta.usuario.empresa_id).trigger('change.select2');
+
+                form.find('[name="path_dni"]').removeAttr('required')
+                $('#modal-alumno').find('.modal-title').text('Editar Alumno')
+                $('#modal-alumno').modal('show');
             }).fail((respuesta) => {
             }).always(() => {
             });
@@ -178,27 +203,52 @@ class AlumnoView {
         $("#tabla-data").on("click", "button.eliminar", (e) => {
             let model = this.model;
             let id = $(e.currentTarget).attr('data-id');
-            swal({
-                title: "Eliminar",
-                text: "¿Está seguro de eliminar?",
-                type: "warning",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                confirmButtonText: "Si, eliminar!",
-                showLoaderOnConfirm: true
-              }, function () {
-                model.eliminar(id).then((respuesta) => {
+            // swal({
+            //     title: "Eliminar",
+            //     text: "¿Está seguro de eliminar?",
+            //     type: "warning",
+            //     showCancelButton: true,
+            //     closeOnConfirm: false,
+            //     confirmButtonText: "Si, eliminar!",
+            //     showLoaderOnConfirm: true
+            //   }, function () {
+            //     model.eliminar(id).then((respuesta) => {
                     
-                    swal(respuesta.titulo, respuesta.mensaje, respuesta.tipo);
-                    $('#tabla-data').DataTable().ajax.reload();
-                }).fail((respuesta) => {
-                    // swal(respuesta.titlo, respuesta.mensaje, respuesta.tipo);
-                }).always(() => {
-                    // $boton.html();
-                });
-            });
+            //         swal(respuesta.titulo, respuesta.mensaje, respuesta.tipo);
+            //         $('#tabla-data').DataTable().ajax.reload();
+            //     }).fail((respuesta) => {
+            //     }).always(() => {
+            //     });
+            // });
 
-           
+            Swal.fire({
+                title: 'Eliminar',
+                text: "¿Está seguro de eliminar?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Si, eliminar',
+                cancelButtonText: 'No, cancelar',
+                showLoaderOnConfirm: true,
+                preConfirm: (login) => {
+                    return model.eliminar(id).then((respuesta) => {
+                        return respuesta;
+                    }).fail((respuesta) => {
+                        // return respuesta;
+                    }).always(() => {
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Éxito!',
+                        'Se elimino con éxito!',
+                        'success'
+                    );
+                    $('#tabla-data').DataTable().ajax.reload();
+                    $('#modal-alumno').modal('hide');
+                }
+            })
         });
         
     }

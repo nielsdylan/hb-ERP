@@ -29,6 +29,12 @@
 
     <!--- FONT-ICONS CSS -->
     <link href="{{ asset('template/css/icons.css') }}" rel="stylesheet">
+    
+    <link href="{{ asset('template/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('template/plugins/protip/protip.min.css') }}">
+
+    
+    <link href="{{ asset('css/erp.css') }}" rel="stylesheet">
 
     <!-- INTERNAL Switcher css -->
     {{-- <link href="{{ asset('template/switcher/css/switcher.css') }}" rel="stylesheet">
@@ -165,43 +171,25 @@
 
     <!-- BACK-TO-TOP -->
     <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
-
-    <!-- JQUERY JS -->
     <script src="{{ asset('template/js/jquery.min.js') }}"></script>
-
-    <!-- BOOTSTRAP JS -->
     <script src="{{ asset('template/plugins/bootstrap/js/popper.min.js') }}"></script>
     <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
-
-	<!-- TypeHead js -->
 	<script src="{{ asset('template/plugins/bootstrap5-typehead/autocomplete.js') }}"></script>
     <script src="{{ asset('template/js/typehead.js') }}"></script>
-
-    <!-- Perfect SCROLLBAR JS-->
     <script src="{{ asset('template/plugins/p-scroll/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('template/plugins/p-scroll/pscroll.js') }}"></script>
     <script src="{{ asset('template/plugins/p-scroll/pscroll-1.js') }}"></script>
-
-    <!-- SIDE-MENU JS -->
     <script src="{{ asset('template/plugins/sidemenu/sidemenu.js') }}"></script>
-
-    <!-- SIDEBAR JS -->
     <script src="{{ asset('template/plugins/sidebar/sidebar.js') }}"></script>
-
-    <!-- Color Theme js -->
     <script src="{{ asset('template/js/themeColors.js') }}"></script>
-
-    <!-- Sticky js -->
     <script src="{{ asset('template/js/sticky.js') }}"></script>
-
-    <!-- CUSTOM JS -->
     <script src="{{ asset('template/js/custom.js') }}"></script>
-
-    <!-- Custom-switcher -->
-    <script src="{{ asset('template/js/custom-swicher.js') }}"></script>
-
-    <!-- Switcher js -->
-    <script src="{{ asset('template/switcher/js/switcher.js') }}"></script>
+    <script src="{{ asset('template/plugins/protip/protip.min.js') }}"></script>
+    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    
+    
+    {{-- <script src="{{ asset('template/js/custom-swicher.js') }}"></script>
+    <script src="{{ asset('template/switcher/js/switcher.js') }}"></script> --}}
     @routes
     <script>
         const csrf_token = '{{ csrf_token() }}';
@@ -231,6 +219,12 @@
                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
             }
         };
+        $(document).ready(function () {
+            $.protip();
+            
+            
+        });
+
     </script>
     @yield('script')
 </body>

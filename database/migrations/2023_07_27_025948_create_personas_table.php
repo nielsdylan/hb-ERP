@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('apellido_paterno');
             $table->string('apellido_materno');
             $table->string('nombres');
+            $table->string('sexo')->nullable();
+            $table->string('nacionalidad')->nullable();
+            $table->string('cargo')->nullable();
             $table->integer('telefono')->nullable();
             $table->integer('whatsapp')->nullable();
             $table->text('path_dni')->nullable();
