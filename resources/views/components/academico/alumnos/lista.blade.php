@@ -22,7 +22,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Lista de Alumnos</h3>
                     <div class="card-options">
-                        <a href="javascript:void(0)" class="btn btn-success btn-sm" id="nuevo" ><i class="fe fe-plus"></i> Nuevo alumno</a>
+                        <a href="{{ route('hb.academicos.alumnos.modelo-importar-alumnos-excel') }}" class="btn btn-info btn-sm" ><i class="fe fe-download"></i> Modelo de excel</a>
+                        <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="carga-excel" ><i class="fe fe-upload"></i> Carga masiva de Alumnos</a>
+                        <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2" id="nuevo" ><i class="fe fe-plus"></i> Nuevo alumno</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -81,7 +83,7 @@
                             <div class="col-md-4">
                                 <div class="form-group ">
                                     <label class="form-label">N° Documento : <span class="text-red">*</span></label>
-                                    <input type="text" name="nro_documento" class="form-control form-control-sm" placeholder="Número de documento..." required>
+                                    <input type="text" name="nro_documento" class="form-control form-control-sm" placeholder="Número de documento..." data-search="numero_documento" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -149,7 +151,7 @@
                                     <select name="empresa_id" class="form-control form-select form-select-sm select2" required>
                                         <option value="">Seleccione...</option>
                                         @foreach ($empresas as $key=>$item)
-                                            <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->razon_social }}</option>
                                         @endforeach
                                         
                                     </select>
@@ -195,6 +197,41 @@
             </div>
         </div>
     </div>
+
+    <!-- MODAL EFFECTS -->
+    <div class="modal fade effect-super-scaled " id="modal-importar">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Importar Alumnos</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form id="form-importar" action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="id" value="0">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group ">
+                                    <label class="form-label">Importar : <span class="text-red">*</span></label>
+                                    <input type="file" name="importar_excel" class="form-control form-control-sm" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" data-table="respuesta">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 
@@ -224,8 +261,8 @@
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script>
 
-    <script src="{{asset('components/alumnos/alumno-model.js')}}"></script>
-    <script src="{{asset('components/alumnos/alumno-view.js')}}"></script>
+    <script src="{{asset('components/academico/alumnos/alumno-model.js')}}"></script>
+    <script src="{{asset('components/academico/alumnos/alumno-view.js')}}"></script>
     <script>
         // Select2
         

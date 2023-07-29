@@ -3,12 +3,12 @@
     <div class="app-sidebar">
         <div class="side-header">
             <a class="header-brand1" href="index.html">
-                <img src="{{ asset('template/images/brand/logo-white.png') }}" class="header-brand-img desktop-logo" alt="logo">
-                <img src="{{ asset('template/images/brand/icon-white.png') }}" class="header-brand-img toggle-logo"
+                <img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img desktop-logo" alt="logo" style=" width: 60px;background-color: #ffff;border-radius: 30px; ">
+                <img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img toggle-logo"
                     alt="logo">
-                <img src="{{ asset('template/images/brand/icon-dark.png') }}" class="header-brand-img light-logo" alt="logo">
-                <img src="{{ asset('template/images/brand/logo-dark.png') }}" class="header-brand-img light-logo1"
-                    alt="logo">
+                <img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img light-logo" alt="logo">
+                <img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img light-logo1"
+                    alt="logo" style=" width: 60px;background-color: #ffff;border-radius: 30px; ">
             </a>
             <!-- LOGO -->
         </div>
@@ -22,7 +22,7 @@
                     <h3>Main</h3>
                 </li>
                 <li class="slide">
-                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="index.html"><i
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{ route('hb.dashboard') }}"><i
                             class="side-menu__icon fe fe-home"></i><span
                             class="side-menu__label">Dashboard</span></a>
                 </li>
@@ -44,6 +44,33 @@
                                             <li class="side-menu-label1"><a href="javascript:void(0)">Apps</a></li>
                                             <li><a href="{{ route('hb.academicos.alumnos.lista') }}" class="slide-item"> Alumnos</a></li>
                                             <li><a href="{{ route('hb.academicos.alumnos.lista') }}" class="slide-item"> Docente</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{ route('hb.empresas.lista') }}"><i
+                            class="side-menu__icon fa fa-building-o"></i><span
+                            class="side-menu__label">Empresas</span></a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+                            class="side-menu__icon fe fe-slack"></i><span
+                            class="side-menu__label">Configuraciones</span><i
+                            class="angle fe fe-chevron-right"></i>
+                    </a>
+                    <ul class="slide-menu">
+                        <li class="panel sidetab-menu">
+                            <div class="panel-body tabs-menu-body p-0 border-0">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="side1">
+                                        <ul class="sidemenu-list">
+                                            <li class="side-menu-label1"><a href="javascript:void(0)">Configuraciones</a></li>
+                                            <li><a href="{{ route('hb.configuraciones.tipo-documentos.lista') }}" class="slide-item"> Tipo de Documentos</a></li>
+                                            <li><a href="{{ route('hb.configuraciones.tipo-monedas.lista') }}" class="slide-item"> Tipo de Monedas</a></li>
                                         </ul>
                                     </div>
                                 </div>

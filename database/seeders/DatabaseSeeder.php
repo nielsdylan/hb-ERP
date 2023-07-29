@@ -24,10 +24,12 @@ class DatabaseSeeder extends Seeder
         //     'usuarios',
         // ]);
         $this->call([
+            TipoDocumentoSeeder::class,
+            TipoMonedaSeeder::class,
             EmpresaSeeder::class,
             RolSeeder::class,
             LogTipoActividadSeeder::class,
-            TipoDocumentoSeeder::class,
+            
             PersonaSeeder::class,
             UsuarioSeeder::class,
             UsuarioRolSeeder::class,

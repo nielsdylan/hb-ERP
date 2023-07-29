@@ -11,16 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('empresas', function (Blueprint $table) {
+        Schema::create('tipo_monedas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tipo_documento_id')->nullable()->constrained('tipo_documentos')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('ruc')->nullable();
-            $table->string('razon_social')->nullable();
-            $table->string('direccion')->nullable();
-            $table->string('email')->nullable();
-            $table->string('celular')->nullable();
-            // $table->string('descripcion')->nullable();
-            $table->dateTime('fecha_registro');
+            $table->string('descripcion');
+            $table->string('simbolo')->nullable();
+            $table->dateTime('fecha_registro')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();
@@ -34,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('empresas');
+        Schema::dropIfExists('tipo_monedas');
     }
 };
