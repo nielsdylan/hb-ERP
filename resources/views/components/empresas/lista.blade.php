@@ -1,4 +1,7 @@
 @extends('components.layouts.app')
+@section('titulo')
+HB GROUP - Gestion de Empresas
+@endsection
 @section('content')
 <div class="main-container container-fluid">
 
