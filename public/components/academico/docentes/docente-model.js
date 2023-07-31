@@ -1,4 +1,4 @@
-class AlumnoModel {
+class DocenteModel {
 
     constructor(token) {
         this.token = token;
@@ -6,7 +6,7 @@ class AlumnoModel {
 
     guardar = (data) => {
         return $.ajax({
-            url: route("hb.academicos.alumnos.guardar"),
+            url: route("hb.academicos.docentes.guardar"),
             type: "POST",
             dataType: "JSON",
             processData: false,
@@ -16,7 +16,7 @@ class AlumnoModel {
     };
     editar = (id) => {
         return $.ajax({
-            url: route("hb.academicos.alumnos.editar",{id:id}),
+            url: route("hb.academicos.docentes.editar",{id:id}),
             type: "GET",
             dataType: "JSON",
             // processData: false,
@@ -27,7 +27,7 @@ class AlumnoModel {
 
     eliminar = (id) => {
         return $.ajax({
-            url: route("hb.academicos.alumnos.eliminar",{id: id}),
+            url: route("hb.academicos.docentes.eliminar",{id: id}),
             type: "PUT",
             dataType: "JSON",
             // processData: false,
@@ -37,7 +37,7 @@ class AlumnoModel {
     }
     buscarPersona = (id,nro_documento) => {
         return $.ajax({
-            url: route("hb.academicos.alumnos.buscar"),
+            url: route("hb.academicos.docentes.buscar"),
             type: "POST",
             dataType: "JSON",
             // processData: false,

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Components\Academico\AlumnosController;
+use App\Http\Controllers\Components\Academico\DocentesController;
 use App\Http\Controllers\Components\Auth\LoginController;
 use App\Http\Controllers\Components\DashboardController;
 use App\Http\Controllers\Components\EmpresasController;
@@ -38,7 +39,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
             Route::get('lista', [AlumnosController::class, 'lista'])->name('lista');
             Route::post('listar', [AlumnosController::class, 'listar'])->name('listar');
-            Route::post('formulario', [AlumnosController::class, 'formulario'])->name('formulario');
+            // Route::post('formulario', [AlumnosController::class, 'formulario'])->name('formulario');
             Route::post('guardar', [AlumnosController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [AlumnosController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [AlumnosController::class, 'eliminar'])->name('eliminar');
@@ -46,6 +47,20 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('buscar', [AlumnosController::class, 'buscar'])->name('buscar');
             Route::get('modelo-importar-alumnos-excel', [AlumnosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             Route::post('importar-alumnos-excel', [AlumnosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
+        });
+
+        Route::name('docentes.')->prefix('docentes')->group(function () {
+
+            Route::get('lista', [DocentesController::class, 'lista'])->name('lista');
+            Route::post('listar', [DocentesController::class, 'listar'])->name('listar');
+            // Route::post('formulario', [DocentesController::class, 'formulario'])->name('formulario');
+            Route::post('guardar', [DocentesController::class, 'guardar'])->name('guardar');
+            Route::get('editar/{id}', [DocentesController::class, 'editar'])->name('editar');
+            Route::put('eliminar/{id}', [DocentesController::class, 'eliminar'])->name('eliminar');
+
+            Route::post('buscar', [DocentesController::class, 'buscar'])->name('buscar');
+            // Route::get('modelo-importar-alumnos-excel', [DocentesController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
+            // Route::post('importar-alumnos-excel', [DocentesController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
         });
     });
     Route::name('empresas.')->prefix('empresas')->group(function () {

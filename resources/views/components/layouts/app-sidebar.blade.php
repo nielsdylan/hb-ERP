@@ -43,7 +43,7 @@
                                         <ul class="sidemenu-list">
                                             <li class="side-menu-label1"><a href="javascript:void(0)">Apps</a></li>
                                             <li><a href="{{ route('hb.academicos.alumnos.lista') }}" class="slide-item"> Alumnos</a></li>
-                                            <li><a href="{{ route('hb.academicos.alumnos.lista') }}" class="slide-item"> Docente</a></li>
+                                            <li><a href="{{ route('hb.academicos.docentes.lista') }}" class="slide-item"> Docente</a></li>
                                         </ul>
                                     </div>
                                 </div>

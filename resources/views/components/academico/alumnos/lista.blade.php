@@ -250,16 +250,6 @@ HB GROUP - Gestion de Alumnos
     <script src="{{asset('template/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
     
-    {{-- <script src="{{asset('template/plugins/extension-datatable/autofill/dataTables.autoFill.min.js')}}"></script>
-    <script src="{{asset('template/plugins/extension-datatable/autofill/autoFill.bootstrap5.min.js')}}"></script>
-    <script src="{{asset('template/plugins/extension-datatable/keytable/dataTables.keyTable.min.js')}}"></script> --}}
-
-    {{-- <script src="{{asset('template/plugins/datatable/js/jszip.min.js')}}"></script>
-    <script src="{{asset('template/plugins/datatable/pdfmake/pdfmake.min.js')}}"></script>
-    <script src="{{asset('template/plugins/datatable/pdfmake/vfs_fonts.js')}}"></script>
-    <script src="{{asset('template/plugins/datatable/js/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('template/plugins/datatable/js/buttons.print.min.js')}}"></script>
-    <script src="{{asset('template/plugins/datatable/js/buttons.colVis.min.js')}}"></script> --}}
     <script src="{{asset('template/plugins/datatable/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script>

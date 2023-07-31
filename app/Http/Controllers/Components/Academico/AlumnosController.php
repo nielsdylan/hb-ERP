@@ -49,7 +49,7 @@ class AlumnosController extends Controller
             return $data->usuario->persona->cargo;
         })
         ->addColumn('celular', function ($data) { 
-            return $data->usuario->persona->celular;
+            return $data->usuario->persona->telefono;
         })
         ->addColumn('sexo', function ($data) { 
             return ($data->usuario->persona->sexo=='M'?'MASCULINO':'FEMENINO');
@@ -110,9 +110,10 @@ class AlumnosController extends Controller
                     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ALUMNO', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN ALUMNO');
                 }
 
+                $usuario = User::firstOrNew(['persona_id' => $data->id]);
                 if ((int) $request->id == 0) {
                 
-                    $usuario = User::firstOrNew(['persona_id' => $data->id]);
+                    
                     $usuario->nombre_corto      = $request->apellido_paterno.' '.(explode(' ',$request->nombres)[0]);
                     $usuario->email             = $request->email;
                     $usuario->password          = Hash::make($request->nro_documento);
@@ -133,21 +134,22 @@ class AlumnosController extends Controller
                         LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
                     }
 
-                    $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id],['rol_id'=>2]);
-                    $usuario_rol->usuario_id = $usuario->id;
-                    $usuario_rol->rol_id = 2;
-                    if ((int) $request->id == 0) {
-                        $usuario_rol->created_at = date('Y-m-d H:i:s');
-                        $usuario_rol->created_id = Auth()->user()->id;
-                        $usuario_rol->save();
-                        LogActividades::guardar(Auth()->user()->id, 3, 'SE ASIGNO UN ROL AL USUARIO', $data->getTable(), NULL, $usuario_rol, 'SE ASIGNO ROL A UN USUARIO');
-                    }else{
-                        $usuarior_rol_old = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->first();
-                        $usuario_rol->updated_at   = date('Y-m-d H:i:s');
-                        $usuario_rol->updated_id   = Auth()->user()->id;
-                        $usuario_rol->save();
-                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
-                    }
+                    
+                }
+                $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id,'rol_id'=>2]);
+                $usuario_rol->usuario_id = $usuario->id;
+                $usuario_rol->rol_id = 2;
+                if ((int) $request->id == 0) {
+                    $usuario_rol->created_at = date('Y-m-d H:i:s');
+                    $usuario_rol->created_id = Auth()->user()->id;
+                    $usuario_rol->save();
+                    LogActividades::guardar(Auth()->user()->id, 3, 'SE ASIGNO UN ROL AL USUARIO', $data->getTable(), NULL, $usuario_rol, 'SE ASIGNO ROL A UN USUARIO');
+                }else{
+                    $usuarior_rol_old = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->first();
+                    $usuario_rol->updated_at   = date('Y-m-d H:i:s');
+                    $usuario_rol->updated_id   = Auth()->user()->id;
+                    $usuario_rol->save();
+                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
                 }
                     
                 
@@ -191,8 +193,9 @@ class AlumnosController extends Controller
     public function buscar(Request $request) {
         if ((int)$request->id == 0) {
             $data = Personas::where('nro_documento','=',$request->nro_documento)->first();
+            $usuario = User::where('persona_id',$data->id)->first();
             if ($data) {
-                return response()->json(["success"=>true,"data"=>$data],200);
+                return response()->json(["success"=>true,"persona"=>$data,"usuario"=>$usuario],200);
             }
             return response()->json(["success"=>false],200);
         }
