@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('celular')->nullable();
             // $table->string('descripcion')->nullable();
-            $table->dateTime('fecha_registro');
+            $table->dateTime('fecha_registro')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

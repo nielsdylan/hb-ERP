@@ -34,7 +34,11 @@
 
     <!-- GLOBAL-LOADER -->
     <div id="global-loader">
-        <img src="{{ asset('template/images/loader.svg') }}" class="loader-img" alt="Loader">
+        <div class="spinner2 loader-img">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+        </div>
+        {{-- <img src="{{ asset('template/images/loader.svg') }}" class="loader-img" alt="Loader"> --}}
     </div>
     <!-- /GLOBAL-LOADER -->
 

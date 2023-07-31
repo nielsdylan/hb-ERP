@@ -7,6 +7,7 @@ use App\Http\Controllers\Components\DashboardController;
 use App\Http\Controllers\Components\EmpresasController;
 use App\Http\Controllers\Configuraciones\TipoDocumentosController;
 use App\Http\Controllers\Configuraciones\TipoMonedasController;
+use App\Http\Controllers\Configuraciones\UsuariosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -91,6 +92,15 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('guardar', [TipoMonedasController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [TipoMonedasController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [TipoMonedasController::class, 'eliminar'])->name('eliminar');
+
+        });
+        Route::name('usuarios.')->prefix('usuarios')->group(function () {
+
+            Route::get('lista', [UsuariosController::class, 'lista'])->name('lista');
+            Route::post('listar', [UsuariosController::class, 'listar'])->name('listar');
+            Route::post('guardar', [UsuariosController::class, 'guardar'])->name('guardar');
+            Route::get('editar/{id}', [UsuariosController::class, 'editar'])->name('editar');
+            Route::put('eliminar/{id}', [UsuariosController::class, 'eliminar'])->name('eliminar');
 
         });
     });

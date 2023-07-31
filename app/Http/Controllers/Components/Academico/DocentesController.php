@@ -96,13 +96,13 @@ class DocentesController extends Controller
                     $data->created_at           = date('Y-m-d H:i:s');
                     $data->created_id           = Auth()->user()->id;
                     $data->save();
-                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN ALUMNO', $data->getTable(), NULL, $data, 'SE A CREADO UN NUEVO ALUMNO ');
+                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN DOCENTE', $data->getTable(), NULL, $data, 'SE A CREADO UN NUEVO DOCENTE ');
                 }else{
                     $data_old=Personas::find($request->id);
                     $data->updated_at   = date('Y-m-d H:i:s');
                     $data->updated_id   = Auth()->user()->id;
                     $data->save();
-                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ALUMNO', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN ALUMNO');
+                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN DOCENTE', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN DOCENTE');
                 }
 
                 $usuario = User::firstOrNew(['persona_id' => $data->id]);
@@ -159,7 +159,7 @@ class DocentesController extends Controller
         $usuario_rol = UsuariosRoles::find($id);
         $usuario = User::find($usuario_rol->usuario_id);
         $persona = Personas::find($usuario->persona_id);
-        LogActividades::guardar(Auth()->user()->id, 6, 'TABLA DE ALUMNO ALUMNO', $persona->getTable(), $persona, NULL, 'SELECCIONO UN ALUMNO PARA MODIFICARLO');
+        LogActividades::guardar(Auth()->user()->id, 6, 'DOCENTE', $persona->getTable(), $persona, NULL, 'SELECCIONO UN DOCENTE PARA MODIFICARLO');
         return response()->json([
             "success"=>true,
             "usuario_rol"=>$usuario_rol,
@@ -181,7 +181,7 @@ class DocentesController extends Controller
         $persona->deleted_id   = Auth()->user()->id;
         $persona->save();
         $persona->delete();
-        LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN ALUMNO', $persona->getTable(), $persona, NULL, 'ELIMINO UN REGISTRO DE LA LISTA DE ALUMNO');
+        LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN DOCENTE', $persona->getTable(), $persona, NULL, 'ELIMINO UN REGISTRO DE LA LISTA DE DOCENTE');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
         return response()->json($respuesta,200);
     }

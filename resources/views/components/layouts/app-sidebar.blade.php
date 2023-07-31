@@ -71,6 +71,7 @@
                                             <li class="side-menu-label1"><a href="javascript:void(0)">Configuraciones</a></li>
                                             <li><a href="{{ route('hb.configuraciones.tipo-documentos.lista') }}" class="slide-item"> Tipo de Documentos</a></li>
                                             <li><a href="{{ route('hb.configuraciones.tipo-monedas.lista') }}" class="slide-item"> Tipo de Monedas</a></li>
+                                            <li><a href="{{ route('hb.configuraciones.usuarios.lista') }}" class="slide-item"> Usuarios</a></li>
                                         </ul>
                                     </div>
                                 </div>

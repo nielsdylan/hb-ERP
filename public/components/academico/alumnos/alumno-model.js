@@ -45,4 +45,14 @@ class AlumnoModel {
             data: {_token:this.token,id:id,nro_documento:nro_documento},
         });
     };
+    importarExcel = (data) => {
+        return $.ajax({
+            url: route("hb.academicos.alumnos.importar-alumnos-excel"),
+            type: "POST",
+            dataType: "JSON",
+            processData: false,
+            contentType: false,
+            data: data,
+        });
+    };
 }

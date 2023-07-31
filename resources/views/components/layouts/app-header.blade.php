@@ -343,20 +343,20 @@
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <div class="drop-heading">
                                         <div class="text-center">
-                                            <h5 class="text-dark mb-0 fs-14 fw-semibold">Percy Kewshun</h5>
-                                            <small class="text-muted">Senior Admin</small>
+                                            <h5 class="text-dark mb-0 fs-14 fw-semibold">{{ Auth::user()->nombre_corto }}</h5>
+                                            {{-- <small class="text-muted">Senior Admin</small> --}}
                                         </div>
                                     </div>
                                     <div class="dropdown-divider m-0"></div>
                                     <a class="dropdown-item" href="profile.html">
-                                        <i class="dropdown-icon fe fe-user"></i> Profile
+                                        <i class="dropdown-icon fe fe-user"></i> Perfil
                                     </a>
-                                    <a class="dropdown-item" href="email-inbox.html">
-                                        <i class="dropdown-icon fe fe-mail"></i> Inbox
+                                    {{-- <a class="dropdown-item" href="email-inbox.html">
+                                        <i class="dropdown-icon fe fe-mail"></i> Correos
                                         <span class="badge bg-danger rounded-pill float-end">5</span>
-                                    </a>
+                                    </a> --}}
                                     <a class="dropdown-item" href="lockscreen.html">
-                                        <i class="dropdown-icon fe fe-lock"></i> Lockscreen
+                                        <i class="dropdown-icon fe fe-lock"></i> Desarrollo
                                     </a>
                                     <a class="dropdown-item" href="{{ route('hb.logout') }}">
                                         <i class="dropdown-icon fe fe-alert-circle"></i> Cerrar sesion
