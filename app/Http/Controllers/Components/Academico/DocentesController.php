@@ -115,38 +115,40 @@ class DocentesController extends Controller
                     $usuario->avatar_initials   = substr($request->apellido_paterno, 0, 1).substr(explode(' ',$request->nombres)[0], 0, 1);
                     $usuario->persona_id        = $data->id;
                     $usuario->empresa_id        = $request->empresa_id;
-                    if ((int) $request->id == 0) {
+                    // if ((int) $request->id == 0) {
                         $usuario->fecha_registro    = date('Y-m-d H:i:s');
                         $usuario->created_at = date('Y-m-d H:i:s');
                         $usuario->created_id = Auth()->user()->id;
                         $usuario->save();
                         LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO');
-                    }else{
-                        $usuario_old=User::where('persona_id',$data->id);
-                        $usuario->updated_at   = date('Y-m-d H:i:s');
-                        $usuario->updated_id   = Auth()->user()->id;
-                        $usuario->save();
-                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
-                    }
+                    // }else{
+                    //     $usuario_old=User::where('persona_id',$data->id);
+                    //     $usuario->updated_at   = date('Y-m-d H:i:s');
+                    //     $usuario->updated_id   = Auth()->user()->id;
+                    //     $usuario->save();
+                    //     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
+                    // }
 
                     
                 }
 
                 $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id,'rol_id'=>3]);
-                $usuario_rol->usuario_id = $usuario->id;
-                $usuario_rol->rol_id = 3;
+                
                 if ((int) $request->id == 0) {
+                    $usuario_rol->usuario_id = $usuario->id;
+                    $usuario_rol->rol_id = 3;
                     $usuario_rol->created_at = date('Y-m-d H:i:s');
                     $usuario_rol->created_id = Auth()->user()->id;
                     $usuario_rol->save();
                     LogActividades::guardar(Auth()->user()->id, 3, 'SE ASIGNO UN ROL AL USUARIO', $data->getTable(), NULL, $usuario_rol, 'SE ASIGNO ROL A UN USUARIO');
-                }else{
-                    $usuarior_rol_old = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->first();
-                    $usuario_rol->updated_at   = date('Y-m-d H:i:s');
-                    $usuario_rol->updated_id   = Auth()->user()->id;
-                    $usuario_rol->save();
-                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
                 }
+                // else{
+                //     $usuarior_rol_old = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->first();
+                //     $usuario_rol->updated_at   = date('Y-m-d H:i:s');
+                //     $usuario_rol->updated_id   = Auth()->user()->id;
+                //     $usuario_rol->save();
+                //     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
+                // }
                     
                 
             $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");

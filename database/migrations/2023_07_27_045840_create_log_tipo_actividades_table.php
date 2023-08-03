@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('log_tipo_actividades', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion');
+            $table->string('descripcion')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

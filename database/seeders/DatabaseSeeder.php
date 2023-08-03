@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             PersonaSeeder::class,
             UsuarioSeeder::class,
             UsuarioRolSeeder::class,
+            CursoSeeder::class,
         ]);
     }
     // protected function truncateTables(array $tables)

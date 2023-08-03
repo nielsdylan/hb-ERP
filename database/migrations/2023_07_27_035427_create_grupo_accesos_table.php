@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('acceso_id')->nullable()->constrained('accesos')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('grupo_id')->nullable()->constrained('grupos')->onDelete('cascade')->onUpdate('cascade');
-            $table->dateTime('fecha_registro');
+            $table->dateTime('fecha_registro')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

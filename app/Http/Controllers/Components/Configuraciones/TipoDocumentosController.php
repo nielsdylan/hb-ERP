@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Configuraciones;
+namespace App\Http\Controllers\Components\Configuraciones;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogActividades;

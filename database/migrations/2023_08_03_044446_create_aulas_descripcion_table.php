@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grupos', function (Blueprint $table) {
+        Schema::create('aulas_descripcion', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion');
+            $table->boolean('reserva')->default(true);
+            $table->foreignId('aula_id')->constrained('aulas')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('alumno_id')->constrained('usuarios')->onDelete('cascade')->onUpdate('cascade');
             $table->dateTime('fecha_registro')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('grupos');
+        Schema::dropIfExists('aulas_descripcion');
     }
 };

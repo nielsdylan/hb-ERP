@@ -184,6 +184,18 @@ HB GROUP - Gestion de Usuarios
                             
                             
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group select2-sm">
+                                    <label class="form-label">Roles : <span class="text-red">*</span></label>
+                                    <select name="roles[]" class="form-control form-select form-select-sm select2 form-control-sm" multiple required>
+                                        @foreach ($roles as $key=>$item)
+                                            <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Guardar</button>
