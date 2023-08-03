@@ -55,14 +55,20 @@ class AlumnosController extends Controller
             return ($data->usuario->persona->sexo=='M'?'MASCULINO':'FEMENINO');
         })
         ->addColumn('fecha_caducidad', function ($data) { 
-            return $data->usuario->persona->fecha_caducidad_dni;
+            return date("d/m/Y", strtotime($data->usuario->persona->fecha_caducidad_dni)) ;
         })
-        ->addColumn('accion', function ($data) { return
+        ->addColumn('accion', function ($data) { 
+            ;
+            
+            return
             '<div class="btn-list">
-                <button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
+                '.((empty($data->usuario->persona->fecha_caducidad_dni) || empty($data->usuario->persona->path_dni)) ? '<button type="button" class="protip btn text-info btn-sm btn-pulse-info" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Falta validar su registro de Imagend e Dni/Fecha de caducación" >
+                <i class="fe fe-alert-triangle fs-14"></i>
+            </button>' : '' ).'
+                <button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
                     <i class="fe fe-edit fs-14"></i>
                 </button>
-                <button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
+                <button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
                 </button>
                 
@@ -160,9 +166,10 @@ class AlumnosController extends Controller
         return response()->json($respuesta,200);
     }
     function editar($id) {
-        $usuario_rol = UsuariosRoles::find($id);
-        $usuario = User::find($usuario_rol->usuario_id);
-        $persona = Personas::find($usuario->persona_id);
+        
+        $persona = Personas::find($id);
+        $usuario = User::where('persona_id',$persona->id)->first();
+        $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->get();
         LogActividades::guardar(Auth()->user()->id, 6, 'TABLA DE ALUMNO ALUMNO', $persona->getTable(), $persona, NULL, 'SELECCIONO UN ALUMNO PARA MODIFICARLO');
         return response()->json([
             "success"=>true,
@@ -173,18 +180,21 @@ class AlumnosController extends Controller
         ],200);
     }
     function eliminar($id) {
-        $usuario_rol = UsuariosRoles::find($id);
-        $usuario_rol->deleted_id   = Auth()->user()->id;
-        $usuario_rol->save();
-        $usuario_rol->delete();
-        $usuario = User::find($usuario_rol->usuario_id);
-        $usuario->deleted_id   = Auth()->user()->id;
-        $usuario->save();
-        $usuario->delete();
-        $persona = Personas::find($usuario->persona_id);
+        $persona = Personas::find($id);
         $persona->deleted_id   = Auth()->user()->id;
         $persona->save();
         $persona->delete();
+
+        $usuario = User::where('persona_id',$persona->id)->first();
+        $usuario->deleted_id   = Auth()->user()->id;
+        $usuario->save();
+        $usuario->delete();
+
+        $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->first();
+        $usuario_rol->deleted_id   = Auth()->user()->id;
+        $usuario_rol->save();
+        $usuario_rol->delete();
+        
         LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN ALUMNO', $persona->getTable(), $persona, NULL, 'ELIMINO UN REGISTRO DE LA LISTA DE ALUMNO');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
         return response()->json($respuesta,200);

@@ -2,6 +2,35 @@
 @section('titulo')
 HB GROUP - Gestion de Alumnos
 @endsection
+@section('css')
+<style>
+    .btn-pulse-info {
+        -webkit-animation: pulse-black 1.5s linear infinite;
+    }
+    @keyframes  pulse-black{
+        0%{
+            -webkit-transform:scale(1);
+            transform:scale(1);
+            box-shadow:0 0 0 0 #1170e4
+        }
+        70%{
+            -webkit-transform:scale(1);
+            transform:scale(1);
+            box-shadow:0 0 0 10px transparent
+        }
+        100%{
+            -webkit-transform:scale(1);
+            transform:scale(1);
+            box-shadow:0 0 0 0 transparent
+        }
+    }
+    a.list-group-item span.badge {
+        position: absolute;
+        inset-block-start: 18px;
+        inset-inline-end: 20px;
+    }
+</style>
+@endsection
 @section('content')
 <div class="main-container container-fluid">
 

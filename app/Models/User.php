@@ -47,4 +47,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Personas::class);
     }
+    public function empresa(): BelongsTo
+    {
+        return $this->belongsTo(Empresas::class);
+    }
 }
