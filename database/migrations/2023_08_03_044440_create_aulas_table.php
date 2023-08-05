@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('aulas', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion');
+            $table->string('nombre');
+            $table->string('descripcion')->nullable();
             $table->integer('capacidad');
             $table->date('fecha')->nullable();
             $table->time('hora_inicio')->nullable();

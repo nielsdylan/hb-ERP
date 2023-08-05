@@ -45,7 +45,7 @@
                                             <li><a href="{{ route('hb.academicos.alumnos.lista') }}" class="slide-item"> Alumnos</a></li>
                                             <li><a href="{{ route('hb.academicos.docentes.lista') }}" class="slide-item"> Docente</a></li>
                                             <li><a href="{{ route('hb.academicos.cursos.lista') }}" class="slide-item"> Cursos</a></li>
-                                            <li><a href="{{ route('hb.academicos.cursos.lista') }}" class="slide-item"> Aulas</a></li>
+                                            <li><a href="{{ route('hb.academicos.aulas.lista') }}" class="slide-item"> Aulas</a></li>
                                         </ul>
                                     </div>
                                 </div>

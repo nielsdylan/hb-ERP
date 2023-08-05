@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Components\Academico\AlumnosController;
+use App\Http\Controllers\Components\Academico\AulasController;
 use App\Http\Controllers\Components\Academico\CursosController;
 use App\Http\Controllers\Components\Academico\DocentesController;
 use App\Http\Controllers\Components\Auth\LoginController;
@@ -77,6 +78,21 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('buscar', [CursosController::class, 'buscar'])->name('buscar');
             Route::get('modelo-importar-alumnos-excel', [CursosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             Route::post('importar-alumnos-excel', [CursosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
+        });
+
+        Route::name('aulas.')->prefix('aulas')->group(function () {
+
+            Route::get('lista', [AulasController::class, 'lista'])->name('lista');
+            Route::post('listar', [AulasController::class, 'listar'])->name('listar');
+            Route::post('formulario', [AulasController::class, 'formulario'])->name('formulario');
+            Route::post('agregar-participantes', [AulasController::class, 'agregarParticipantes'])->name('agregar-participantes');
+            Route::post('guardar', [AulasController::class, 'guardar'])->name('guardar');
+            Route::get('editar/{id}', [AulasController::class, 'editar'])->name('editar');
+            Route::put('eliminar/{id}', [AulasController::class, 'eliminar'])->name('eliminar');
+
+            // Route::post('buscar', [CursosController::class, 'buscar'])->name('buscar');
+            // Route::get('modelo-importar-alumnos-excel', [CursosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
+            // Route::post('importar-alumnos-excel', [CursosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
         });
     });
     Route::name('empresas.')->prefix('empresas')->group(function () {
