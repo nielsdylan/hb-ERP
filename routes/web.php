@@ -83,13 +83,18 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
         Route::name('aulas.')->prefix('aulas')->group(function () {
 
             Route::get('lista', [AulasController::class, 'lista'])->name('lista');
-            Route::post('listar', [AulasController::class, 'listar'])->name('listar');
+            // Route::post('listar', [AulasController::class, 'listar'])->name('listar');
             Route::post('formulario', [AulasController::class, 'formulario'])->name('formulario');
-            Route::post('agregar-participantes', [AulasController::class, 'agregarParticipantes'])->name('agregar-participantes');
+            
             Route::post('guardar', [AulasController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [AulasController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [AulasController::class, 'eliminar'])->name('eliminar');
 
+            Route::post('agregar-alumnos', [AulasController::class, 'agregarAlumnos'])->name('agregar-alumnos');
+            Route::post('guardar-alumnos', [AulasController::class, 'guardarAlumnos'])->name('guardar-alumnos');
+            Route::post('listar-alumnos', [AulasController::class, 'listardarAlumnos'])->name('listar-alumnos');
+            Route::put('eliminar-alumno/{id}', [AulasController::class, 'eliminarAlumno'])->name('eliminar-alumno');
+            Route::get('confirmar-alumno/{id}', [AulasController::class, 'confirmarAlumno'])->name('confirmar-alumno');
             // Route::post('buscar', [CursosController::class, 'buscar'])->name('buscar');
             // Route::get('modelo-importar-alumnos-excel', [CursosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             // Route::post('importar-alumnos-excel', [CursosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');

@@ -33,7 +33,7 @@ HB GROUP - Gestion de Aula
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="nombre" class="form-label">Nombre : <span class="text-red">*</span></label>
-                                    <input type="text" name="nombre" class="form-control form-control-sm" id="nombre" placeholder="Nombre...." required>
+                                    <input type="text" name="nombre" class="form-control form-control-sm" id="nombre" placeholder="Nombre...." value="{{ ($aula ? $aula->nombre : null) }}" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -43,26 +43,26 @@ HB GROUP - Gestion de Aula
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
-                                        <input class="form-control form-control-sm fc-datepicker" placeholder="MM/DD/YYYY" type="text" name="fecha" id="fecha" value="{{ date('d/m/Y') }}" required>
+                                        <input class="form-control form-control-sm fc-datepicker" placeholder="MM/DD/YYYY" type="text" name="fecha" id="fecha" value="{{ ($aula ?date("d/m/Y", strtotime($aula->fecha)) : date('d/m/Y'))  }}" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="hora_inicio" class="form-label">Hora Inicio : <span class="text-red">*</span></label>
-                                    <input type="time" name="hora_inicio" class="form-control form-control-sm" id="hora_inicio" placeholder="Nombre...." required>
+                                    <input type="time" name="hora_inicio" class="form-control form-control-sm" id="hora_inicio" placeholder="Nombre...." value="{{ ($aula ? $aula->hora_inicio : null) }}" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="hora_final" class="form-label">Hora Final : <span class="text-red">*</span></label>
-                                    <input type="time" name="hora_final" class="form-control form-control-sm" id="hora_final" placeholder="Nombre...."  required>
+                                    <input type="time" name="hora_final" class="form-control form-control-sm" id="hora_final" placeholder="Nombre...." value="{{ ($aula ? $aula->hora_final : null) }}"  required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="capacidad" class="form-label">Cantidad : <span class="text-red">*</span></label>
-                                    <input type="number" name="capacidad" class="form-control form-control-sm" id="capacidad" placeholder="Cantidad...." required>
+                                    <input type="number" name="capacidad" class="form-control form-control-sm" id="capacidad" placeholder="Cantidad...." value="{{ ($aula ? $aula->capacidad : null) }}" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -70,7 +70,7 @@ HB GROUP - Gestion de Aula
                                     <label for="curso_id" class="form-label">Cursos : <span class="text-red">*</span></label>
                                     <select class="form-control select2-show-search form-select" name="curso_id" id="curso_id" data-placeholder="Seleccione..">
                                         @foreach ($cursos as $item)
-                                            <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
+                                            <option value="{{ $item->id }}" {{ ( ($aula && $aula->curso_id==$item->id) ? 'selected' : null) }}>{{ $item->descripcion }}</option>
                                         @endforeach
                                         
                                     </select>
@@ -81,12 +81,13 @@ HB GROUP - Gestion de Aula
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="descripcion" class="form-label">Descripción : </label>
-                                    <textarea name="descripcion" class="form-control form-control-sm" id="descripcion" cols="30" rows="10"></textarea>
+                                    <textarea name="descripcion" class="form-control form-control-sm" id="descripcion" cols="30" rows="10">{{ ($aula ? $aula->descripcion : null) }}</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-end">
+                                <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                                 <button class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
                             </div>
                         </div>

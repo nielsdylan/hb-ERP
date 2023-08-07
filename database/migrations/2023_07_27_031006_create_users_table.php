@@ -16,6 +16,7 @@ return new class extends Migration
             
             // $table->string('');
             $table->string('nombre_corto');
+            $table->string('nro_documento')->nullable();
             $table->string('email');
             $table->string('password');
             $table->text('avatar_imagen')->nullable();

@@ -110,6 +110,7 @@ class DocentesController extends Controller
                 
                     
                     $usuario->nombre_corto      = $request->apellido_paterno.' '.(explode(' ',$request->nombres)[0]);
+                    $usuario->nro_documento     = $request->nro_documento;
                     $usuario->email             = $request->email;
                     $usuario->password          = Hash::make($request->nro_documento);
                     $usuario->avatar_initials   = substr($request->apellido_paterno, 0, 1).substr(explode(' ',$request->nombres)[0], 0, 1);

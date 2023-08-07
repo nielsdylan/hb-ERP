@@ -55,8 +55,22 @@ HB GROUP - Gestion de Aulas
     <div class="row">
         @foreach ($aulas as $item)
         <div class="col-md-2">
+            
             <div class="card">
                 <div class="card-body text-center">
+                    <div class="media-body pt-0">
+                        <div class="float-md-end d-flex fs-15">
+                            {{-- <a href="javascript:void(0)"><i class="mdi mdi-dots-vertical"></i></a> --}}
+                            {{-- <div class="dropdown"> --}}
+                                <a class="nav-link float-end  pe-0 pt-0" href="javascript:void(0)" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item editar" href="javascript:void(0)" data-id="{{ $item->id }}"><i class="fe fe-edit me-1 d-inline-flex"></i> Editar Aula</a>
+                                    <a class="dropdown-item eliminar" href="javascript:void(0)" data-id="{{ $item->id }}"><i class="fe fe-trash-2 me-1 d-inline-flex"></i> Eliminar Aula</a>
+                                </div>
+                            {{-- </div> --}}
+                        </div>
+                    </div>
+
                     <i class="fa fa-graduation-cap text-info fa-3x"></i>
                     <h6 class="mt-4 mb-2">{{ $item->nombre }}</h6>
                     <h2 class="mb-2  number-font">{{ $item->capacidad }}</h2>

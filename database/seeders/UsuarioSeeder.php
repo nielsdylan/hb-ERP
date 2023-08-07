@@ -18,6 +18,7 @@ class UsuarioSeeder extends Seeder
         //1
         DB::table('usuarios')->insert([
             'nombre_corto'      => 'INFO HBGROUP',
+            'nro_documento'         => '9999999',
             'email'             => 'info@hbgroup.pe',
             'password'          => Hash::make('password'),
             // 'avatar_imagen'   => '',
@@ -33,6 +34,7 @@ class UsuarioSeeder extends Seeder
         //2
         DB::table('usuarios')->insert([
             'nombre_corto'      => 'NIELS QUISPE',
+            'nro_documento'         => '1111111',
             'email'             => 'niels@hotmail.com',
             'password'          => Hash::make('password'),
             // 'avatar_imagen'   => '',
@@ -46,6 +48,7 @@ class UsuarioSeeder extends Seeder
         //3
         DB::table('usuarios')->insert([
             'nombre_corto'      => 'WENDY ZUÑIGA',
+            'nro_documento'         => '222222',
             'email'             => 'wendy@hotmail.com',
             'password'          => Hash::make('password'),
             // 'avatar_imagen'   => '',
@@ -59,6 +62,7 @@ class UsuarioSeeder extends Seeder
         //4
         DB::table('usuarios')->insert([
             'nombre_corto'      => 'JORGE MEDINA',
+            'nro_documento'         => '333333',
             'email'             => 'jorge@hotmail.com',
             'password'          => Hash::make('password'),
             // 'avatar_imagen'   => '',
