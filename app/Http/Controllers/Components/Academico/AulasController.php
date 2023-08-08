@@ -82,29 +82,34 @@ class AulasController extends Controller
         return view('components.academico.aulas.agregar-alumnos', get_defined_vars());
     }
     public function guardarAlumnos(Request $request) {
-        $alumnos = AulasDescripcion::where('aula_id',$request->aula_id)->get();
-        $array_id = array();
-        foreach ($alumnos as $key => $value) {
-            array_push($array_id,$value->aula_id);
-        }
-        AulasDescripcion::where('aula_id',$request->aula_id)->whereNotIn('aula_id', $array_id)->delete();
-        foreach ($request->usuarios as $key => $value) {
-            // return $value;exit;
-            // AulasDescripcion::where('alumno_id', (int) $value)->where('aula_id',$request->aula_id)->restore();
-
-            $data = AulasDescripcion::firstOrNew(['alumno_id' => (int) $value,'aula_id'=>$request->aula_id]);
-            $data->reserva          = true;
-            $data->aula_id          = $request->aula_id;
-            $data->alumno_id        = (int) $value;
-            $data->fecha_registro   = date('Y-m-d H:i:s');
-            $data->created_at       = date('Y-m-d H:i:s');
-            $data->created_id       = Auth()->user()->id;
-            $data->save();
-            LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN ALUMNO', $data->getTable(), NULL, $data, 'SE AGREGO UN ALUMNO AL AULA');
-        }
-
         
-        $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");
+        $aula = Aulas::find($request->aula_id);
+        foreach ($request->usuarios as $key => $value) {
+
+            $alumnos = AulasDescripcion::where('aula_id',$request->aula_id)->get();
+
+            if (sizeof($alumnos) < $aula->capacidad) {
+                $data = AulasDescripcion::firstOrNew(['alumno_id' => (int) $value,'aula_id'=>$request->aula_id]);
+                $data->reserva          = true;
+                $data->aula_id          = $request->aula_id;
+                $data->alumno_id        = (int) $value;
+                $data->fecha_registro   = date('Y-m-d H:i:s');
+                $data->created_at       = date('Y-m-d H:i:s');
+                $data->created_id       = Auth()->user()->id;
+                $data->save();
+                LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN ALUMNO', $data->getTable(), NULL, $data, 'SE AGREGO UN ALUMNO AL AULA');
+                $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");
+            }else{
+                $respuesta = array("titulo"=>"Alerta","mensaje"=>"Solo se le permite el registro a ".$aula->capacidad." alumnos","tipo"=>"warning");
+                break;
+            }
+
+                
+        }
+        
+            
+       
+        
         return response()->json($respuesta,200);
     }
 

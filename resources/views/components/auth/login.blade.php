@@ -71,15 +71,19 @@
                 <!-- CONTAINER OPEN -->
                 <div class="col col-login mx-auto mt-7">
                     <div class="text-center">
-                        <a href="index.html"><img src="{{ asset('template/images/brand/logo-white.png') }}"" class="header-brand-img" alt=""></a>
+                        {{-- <a href="index.html"><img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img" alt=""></a> --}}
                     </div>
                 </div>
 
                 <div class="container-login100">
+                    
                     <div class="wrap-login100 p-6">
+                        
                         <form method="POST" class="login100-form validate-form">
                             @csrf
+                            
                             <span class="login100-form-title pb-5">
+                                <a href="index.html" class="text-center"><img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img" alt="" style="width: 67px;"></a><br>
                                 Login
                                 
                             </span>
@@ -111,12 +115,19 @@
                                                 </a>
                                                 <input class="input100 border-start-0 form-control ms-0" type="password" placeholder="Password" name="password" required>
                                             </div>
-                                            <div class="text-end pt-4">
-                                                <label for="remember">
-                                                    <input type="checkbox" name="remember" id="remember">Recordar Contraseña
+                                            <div class="form-group">
+                                                <label class="custom-control custom-checkbox mb-0">
+                                                    <input type="checkbox" class="custom-control-input" name="remember" id="remember">
+                                                    <span class="custom-control-label">Recordar Contraseña</span>
                                                 </label>
-                                                <p class="mb-0"><a href="forgot-password.html" class="text-primary ms-1">Forgot Password?</a></p>
                                             </div>
+                                            {{-- <div class="text-end pt-4">
+                                                
+                                                <p class="mb-0">
+                                                    <a href="forgot-password.html" class="text-primary ms-1">Forgot Password?</a>
+                                                    
+                                                </p>
+                                            </div> --}}
                                             <div class="container-login100-form-btn">
                                                 <button type="submit" class="login100-form-btn btn-primary">
                                                         Ingresar

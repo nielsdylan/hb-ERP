@@ -72,7 +72,7 @@ class AulaView {
                 },
                 // allowOutsideClick: () => !Swal.isLoading()
               }).then((result) => {
-                if (result.value.tipo == 'success') {
+                if (result.isConfirmed) {
 
                     Swal.fire({
                         title: result.value.titulo,
@@ -118,7 +118,7 @@ class AulaView {
                 },
               }).then((result) => {
 
-                if (result.value.tipo == 'success') {
+                if (result.isConfirmed) {
 
                     Swal.fire({
                         title: result.value.titulo,
@@ -188,25 +188,28 @@ class AulaView {
                 },
                 // allowOutsideClick: () => !Swal.isLoading()
               }).then((result) => {
-                if (result.value.tipo == 'success') {
+                if (result.isConfirmed) {
+                    if (result.isConfirmed) {
 
-                    Swal.fire({
-                        title: result.value.titulo,
-                        text: result.value.mensaje,
-                        icon: result.value.tipo,
-                        showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Aceptar',
-                        allowOutsideClick: false,
-                    }).then((resultado) => {
-                        if (resultado.isConfirmed) {
-                            // window.location.href = route('hb.academicos.aulas.lista');
-                            $('#tabla-data').DataTable().ajax.reload();
-                        }
-                    })
-
-                      
+                        Swal.fire({
+                            title: result.value.titulo,
+                            text: result.value.mensaje,
+                            icon: result.value.tipo,
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Aceptar',
+                            allowOutsideClick: false,
+                        }).then((resultado) => {
+                            if (resultado.isConfirmed) {
+                                // window.location.href = route('hb.academicos.aulas.lista');
+                                $('#tabla-data').DataTable().ajax.reload();
+                            }
+                        })
+    
+                          
+                    }
                 }
+
             })
         });
 
@@ -236,7 +239,7 @@ class AulaView {
                 },
               }).then((result) => {
 
-                if (result.value.tipo == 'success') {
+                if (result.isConfirmed) {
 
                     Swal.fire({
                         title: result.value.titulo,
@@ -282,7 +285,7 @@ class AulaView {
                 },
               }).then((result) => {
 
-                if (result.value.tipo == 'success') {
+                if (result.isConfirmed) {
 
                     Swal.fire({
                         title: result.value.titulo,
