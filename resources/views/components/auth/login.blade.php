@@ -29,7 +29,7 @@
     <meta name="description" content="Login - HB Group">
 
     <!-- FAVICON -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template/images/brand/favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo/hb_group.png') }}">
 
     <!-- TITLE -->
     <title>Login - HB Group</title>

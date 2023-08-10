@@ -10,6 +10,7 @@ use App\Http\Controllers\Components\EmpresasController;
 use App\Http\Controllers\Components\Configuraciones\TipoDocumentosController;
 use App\Http\Controllers\Components\Configuraciones\TipoMonedasController;
 use App\Http\Controllers\Components\Configuraciones\UsuariosController;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +24,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Redirect::view('/login');
+Route::redirect('/', 'login');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::middleware(['guest'])->group(function () {
     Route::get('login',[LoginController::class,'viewLogin'])->name('login');

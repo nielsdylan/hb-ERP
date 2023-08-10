@@ -23,6 +23,8 @@ class UsuariosController extends Controller
         $empresas = Empresas::all();
         $roles = Roles::all();
         LogActividades::guardar(Auth()->user()->id, 1, 'GESTION DE USUARIOS', null, null, null, 'INGRESO A LA LISTA DE USUARIOS');
+
+        // return $empresas;exit;
         return view('components.configuraciones.usuario.lista', get_defined_vars());
     }
     public function listar()
@@ -30,7 +32,7 @@ class UsuariosController extends Controller
         $data = User::all();
         return DataTables::of($data)
         ->addColumn('empresa', function ($data) { 
-            return $data->empresa->razon_social;
+            return ($data->empresa ? $data->empresa->razon_social:null);
         })
         ->addColumn('accion', function ($data) { return
             '<div class="btn-list">
@@ -172,6 +174,8 @@ class UsuariosController extends Controller
         // $usuario_rol->deleted_id   = Auth()->user()->id;
         // $usuario_rol->save();
         // $usuario_rol->delete();
+        UsuariosRoles::where('usuario_id', $usuario->id)
+        ->update(['deleted_id' => Auth()->user()->id, 'deleted_at'=>date('Y-m-d H:i:s')]);
 
         UsuariosRoles::where('usuario_id', $usuario->id)
         ->update(

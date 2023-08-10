@@ -65,7 +65,7 @@ class DocentesController extends Controller
         })->rawColumns(['accion'])->make(true);
     }
     public function guardar(Request $request) {
-
+        // return $request;exit;
         // try {
                 $data = Personas::firstOrNew(['id' => $request->id]);
                 $data->tipo_documento_id        = $request->tipo_documento_id;
@@ -135,7 +135,7 @@ class DocentesController extends Controller
 
                 $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id,'rol_id'=>3]);
                 
-                if ((int) $request->id == 0) {
+                if (!UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',3)->first()) {
                     $usuario_rol->usuario_id = $usuario->id;
                     $usuario_rol->rol_id = 3;
                     $usuario_rol->created_at = date('Y-m-d H:i:s');

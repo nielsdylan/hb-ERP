@@ -14,6 +14,6 @@ class ModeloImportarAlumnosExport implements FromView
     */
     public function view(): View
     {
-        return view('components.alumnos.excel.modelo-importar-alumnos');
+        return view('components.academico.alumnos.excel.modelo-importar-alumnos');
     }
 }

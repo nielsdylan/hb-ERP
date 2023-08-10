@@ -353,7 +353,10 @@ class AulaView {
             ajax: {
                 url: route('hb.academicos.aulas.listar-alumnos'),
                 method: 'POST',
-                headers: {'X-CSRF-TOKEN': csrf_token}
+                headers: {'X-CSRF-TOKEN': csrf_token},
+                data:{
+                    aula_id:$('#guardar-alumno').find('[name="aula_id"]').val()
+                }
             },
             columns: [
                 {data: 'id', },

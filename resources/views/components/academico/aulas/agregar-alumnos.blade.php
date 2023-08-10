@@ -24,23 +24,33 @@ HB GROUP - Agregar Participantes
     <div class="row justify-content-md-center">
         <div class="col-md-10">
             <div class="card">
-                
+                <div class="card-header">
+                    <h3 class="card-title">{{ $aula->nombre }}</h3>
+                </div>
                 <div class="card-body">
                     <form action="" id="guardar-alumno">
                         @csrf
                         <input type="hidden" name="aula_id" value="{{ $id }}">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group select2-sm">
                                     <label class="form-label">Lista de usuarios</label>
-                                    <select class="form-control select2" name="usuarios[]" data-placeholder="Seleccione a lso usuarios.." required multiple>
+                                    <select class="form-control form-control-sm select2 select2-sm" name="usuarios[]" data-placeholder="Seleccione a lso usuarios.." required multiple>
                                         @foreach ($alumnos as $value)
-                                        <option value="{{ $value->usuario->id }}">{{ $value->usuario->nro_documento.' - '. $value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres }}</option>
+                                            {{-- @if ($value->usuario) --}}
+                                                <option value="{{ $value->usuario->id }}">{{ $value->usuario->nro_documento.' - '. $value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres }}</option>
+                                            {{-- @endif --}}
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 text-end">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="form-label">Maximo de alumnos</label>
+                                    <input type="text" value="{{ $aula->capacidad }}" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-2 text-end">
                                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Agregar alumnos</button>
                             </div>
                         </div>

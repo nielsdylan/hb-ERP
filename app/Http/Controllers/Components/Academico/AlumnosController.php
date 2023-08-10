@@ -66,7 +66,7 @@ class AlumnosController extends Controller
                     <i class="fe fe-user fs-14"></i>
                 </button>
 
-                '.((empty($data->usuario->persona->fecha_caducidad_dni) || empty($data->usuario->persona->path_dni)) ? '<button type="button" class="protip btn text-info btn-sm btn-pulse-info" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Falta validar su registro de Imagend e Dni/Fecha de caducación" >
+                '.((empty($data->usuario->persona->fecha_caducidad_dni) || empty($data->usuario->persona->path_dni)) ? '<button type="button" class="protip btn text-info btn-sm btn-pulse-info" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Falta validar su registro de Imagen de Dni/Fecha de caducación" >
                 <i class="fe fe-alert-triangle fs-14"></i>
             </button>' : '' ).'
                 <button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >

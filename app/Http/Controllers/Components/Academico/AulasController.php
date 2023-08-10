@@ -77,7 +77,10 @@ class AulasController extends Controller
 
     public function agregarAlumnos(Request $request) {
         $id = $request->id;
+        $aula = Aulas::find($request->id);
         $alumnos = UsuariosRoles::where('rol_id',2)->get();
+        // return $alumnos[0]->usuario;exit;
+        // return $alumnos;exit;
         LogActividades::guardar(Auth()->user()->id, 2, 'FORMULARIO DE AGREGAR PARTICIPANTES', null, null, null, 'INGRESO AL FORMULARIO DE AGREGAR PARTICIPANTES');
         return view('components.academico.aulas.agregar-alumnos', get_defined_vars());
     }
@@ -113,8 +116,8 @@ class AulasController extends Controller
         return response()->json($respuesta,200);
     }
 
-    public function listardarAlumnos() {
-        $data = AulasDescripcion::all();
+    public function listardarAlumnos(Request $request) {
+        $data = AulasDescripcion::where('aula_id', $request->aula_id)->get();
         return DataTables::of($data)
         ->addColumn('numero_documento', function ($data) { 
             return $data->usuario->persona->nro_documento;
