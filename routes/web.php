@@ -5,6 +5,9 @@ use App\Http\Controllers\Components\Academico\AulasController;
 use App\Http\Controllers\Components\Academico\CursosController;
 use App\Http\Controllers\Components\Academico\DocentesController;
 use App\Http\Controllers\Components\Auth\LoginController;
+use App\Http\Controllers\Components\Configuraciones\AccesosController;
+use App\Http\Controllers\Components\Configuraciones\AccionesController;
+use App\Http\Controllers\Components\Configuraciones\ConfiguracionesController;
 use App\Http\Controllers\Components\DashboardController;
 use App\Http\Controllers\Components\EmpresasController;
 use App\Http\Controllers\Components\Configuraciones\TipoDocumentosController;
@@ -115,6 +118,8 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
         Route::post('buscar', [EmpresasController::class, 'buscar'])->name('buscar');
     });
     Route::name('configuraciones.')->prefix('configuraciones')->group(function () {
+        Route::get('dashboard', [ConfiguracionesController::class, 'dashboard'])->name('dashboard');
+
         Route::name('tipo-documentos.')->prefix('tipo-documentos')->group(function () {
 
             Route::get('lista', [TipoDocumentosController::class, 'lista'])->name('lista');
@@ -140,6 +145,18 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('guardar', [UsuariosController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [UsuariosController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [UsuariosController::class, 'eliminar'])->name('eliminar');
+
+            Route::post('asignar-accesos', [UsuariosController::class, 'asignarAccesos'])->name('asignar-accesos');
+
+        });
+
+        Route::name('accesos.')->prefix('accesos')->group(function () {
+
+            Route::get('lista', [AccesosController::class, 'lista'])->name('lista');
+            Route::post('listar', [AccesosController::class, 'listar'])->name('listar');
+            Route::post('guardar', [AccesosController::class, 'guardar'])->name('guardar');
+            Route::get('editar/{id}', [AccesosController::class, 'editar'])->name('editar');
+            Route::put('eliminar/{id}', [AccesosController::class, 'eliminar'])->name('eliminar');
 
         });
     });

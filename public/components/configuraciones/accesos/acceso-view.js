@@ -1,4 +1,4 @@
-class UsuarioView {
+class AccesoView {
 
     constructor(model) {
         this.model = model;
@@ -45,15 +45,14 @@ class UsuarioView {
             },
             order: [[0, 'asc']],
             ajax: {
-                url: route('hb.configuraciones.usuarios.listar'),
+                url: route('hb.configuraciones.accesos.listar'),
                 method: 'POST',
                 headers: {'X-CSRF-TOKEN': csrf_token}
             },
             columns: [
                 {data: 'id', },
-                {data: 'nombre_corto', className: 'text-center'},
-                {data: 'email', className: 'text-center'},
-                {data: 'empresa', className: 'text-center'},
+                {data: 'descripcion', className: 'text-center'},
+                {data: 'fecha_registro', className: 'text-center'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
             ]
         });
@@ -84,23 +83,13 @@ class UsuarioView {
         /**
          * Nuevo - información 
          */
-        // $(document).on("click",'[data-action="nuevo"]', (e) => {
-        //     e.preventDefault();
-        //     // $('#guardar-usuario')[0].reset();
-        //     $('#modal-formulario').modal('show');
-        //     // $('#modal-formulario').addClass('effect-scale');
-            
-        // });
-        // $(document).on('click','[data-action="nuevo"]',function () {
-        //     $('#modal-formulario').modal('show');
-        // });
         $('#nuevo').click((e) => {
             e.preventDefault();
             $('#guardar')[0].reset();
-            $('#modal-usuario').find('.modal-title').text('Nueva Usuario')
-            $('#modal-usuario').modal('show');
+            $('#modal-documento').find('.modal-title').text('Nuevo Acceso')
+            $('#modal-documento').modal('show');
             $('#guardar').find('[name="id"]').val(0);
-            $('#guardar').find('[name="roles[]"]').val(null).trigger('change');
+
             // $('[name="empresa_id"]').select2({
             //     dropdownParent: $('#modal-formulario')
             // });
@@ -110,7 +99,6 @@ class UsuarioView {
         /**
          * Guardar - editar - Cargar información por ID y llenar en el formulario
          */
-        // console.log(UsuarioModel());
         $('#guardar').on("submit", (e) => {
             e.preventDefault();
             var data = $(e.currentTarget).serialize();
@@ -141,23 +129,10 @@ class UsuarioView {
                         'Se guardo con éxito!',
                         'success'
                     );
-                    // swal({
-                    //     title: respuesta.titulo,
-                    //     text: respuesta.mensaje,
-                    //     type: respuesta.tipo,
-                    //     showCancelButton: false,
-                    //     // confirmButtonClass: "btn-danger",
-                    //     confirmButtonText: "Aceptar",
-                    //     closeOnConfirm: true
-                    // },
-                    // function(){
-                        $('#tabla-data').DataTable().ajax.reload();
-                        $('#modal-usuario').modal('hide');
-                    // });
+                    $('#tabla-data').DataTable().ajax.reload();
+                    $('#modal-documento').modal('hide');
                 }
             })
-
-            
         });
         /**
          * EDITAR - registro por ID
@@ -166,41 +141,14 @@ class UsuarioView {
             e.preventDefault();
             let id = $(e.currentTarget).attr('data-id');
             let form = $('#guardar');
-            let roles_id = [];
-            form.find('[name="roles[]"]').val(null).trigger('change');
+
             this.model.editar(id).then((respuesta) => {
-                // form.find('[name="id"]').val(respuesta.id);
+                form.find('[name="id"]').val(respuesta.data.id);
                 // form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
-                // form.find('[name="descripcion"]').val(respuesta.descripcion);
-                // form.find('[name="simbolo"]').val(respuesta.simbolo);
-
-                form.find('[name="id"]').val(respuesta.persona.id);
-                form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
-                form.find('[name="nro_documento"]').val(respuesta.persona.nro_documento);
-                form.find('[name="apellido_paterno"]').val(respuesta.persona.apellido_paterno);
-                form.find('[name="apellido_materno"]').val(respuesta.persona.apellido_materno);
-                form.find('[name="nombres"]').val(respuesta.persona.nombres);
-                form.find('[name="sexo"]').val(respuesta.persona.sexo).trigger('change.select2');
-                form.find('[name="nacionalidad"]').val(respuesta.persona.nacionalidad);
-                form.find('[name="cargo"]').val(respuesta.persona.cargo);
-                form.find('[name="telefono"]').val(respuesta.persona.telefono);
-                form.find('[name="whatsapp"]').val(respuesta.persona.whatsapp);
-                // form.find('[name="path_dni"]').val(respuesta.persona.path_dni);
-                form.find('[name="fecha_cumpleaños"]').val(respuesta.persona.fecha_cumpleaños);
-                form.find('[name="fecha_caducidad_dni"]').val(respuesta.persona.fecha_caducidad_dni);
-
-                form.find('[name="email"]').val(respuesta.usuario.email);
-                form.find('[name="empresa_id"]').val(respuesta.usuario.empresa_id).trigger('change.select2');
-
-                form.find('[name="path_dni"]').removeAttr('required')
+                form.find('[name="descripcion"]').val(respuesta.data.descripcion);
                 
-                $.each(respuesta.usuario_rol, function (index, element) { 
-                    roles_id.push(element.rol_id);
-                });
-                form.find('[name="roles[]"]').val(roles_id).trigger('change');
-                
-                $('#modal-usuario').find('.modal-title').text('Editar Usuario')
-                $('#modal-usuario').modal('show');
+                $('#modal-documento').find('.modal-title').text('Editar Tipo de Documento')
+                $('#modal-documento').modal('show');
             }).fail((respuesta) => {
             }).always(() => {
             });
@@ -236,7 +184,7 @@ class UsuarioView {
                         'success'
                     );
                     $('#tabla-data').DataTable().ajax.reload();
-                    $('#modal-usuario').modal('hide');
+                    $('#modal-documento').modal('hide');
                 }
             })
         });
@@ -267,23 +215,6 @@ class UsuarioView {
                 // return respuesta;
             }).always(() => {
             });
-        });
-
-
-        /*
-        *   ingresar al formulario para asiganra accesos
-        *
-        */
-        $("#tabla-data").on("click", "button.asignar-accesos", (e) => {
-            e.preventDefault();
-            let id = $(e.currentTarget).attr('data-id'),
-                form = $('<form action="'+route('hb.configuraciones.usuarios.asignar-accesos')+'" method="POST">'+
-                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
-                    '<input type="hidden" name="id" value="'+id+'" >'+
-                    // '<input type="hidden" name="tipo" value="'+tipo+'" >'+
-                '</form>');
-            $('body').append(form);
-            form.submit();
         });
     }
 }

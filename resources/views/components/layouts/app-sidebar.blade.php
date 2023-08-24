@@ -58,29 +58,6 @@
                             class="side-menu__icon fa fa-building-o"></i><span
                             class="side-menu__label">Empresas</span></a>
                 </li>
-                <li class="slide">
-                    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                            class="side-menu__icon fe fe-slack"></i><span
-                            class="side-menu__label">Configuraciones</span><i
-                            class="angle fe fe-chevron-right"></i>
-                    </a>
-                    <ul class="slide-menu">
-                        <li class="panel sidetab-menu">
-                            <div class="panel-body tabs-menu-body p-0 border-0">
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="side1">
-                                        <ul class="sidemenu-list">
-                                            <li class="side-menu-label1"><a href="javascript:void(0)">Configuraciones</a></li>
-                                            <li><a href="{{ route('hb.configuraciones.tipo-documentos.lista') }}" class="slide-item"> Tipo de Documentos</a></li>
-                                            <li><a href="{{ route('hb.configuraciones.tipo-monedas.lista') }}" class="slide-item"> Tipo de Monedas</a></li>
-                                            <li><a href="{{ route('hb.configuraciones.usuarios.lista') }}" class="slide-item"> Usuarios</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
             </ul>
         </div>
     </div>

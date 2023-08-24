@@ -50,8 +50,9 @@ HB GROUP - Agregar Participantes
                                     <input type="text" value="{{ $aula->capacidad }}" class="form-control" disabled>
                                 </div>
                             </div>
-                            <div class="col-md-2 text-end">
+                            <div class="col-md-4 text-end">
                                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Agregar alumnos</button>
+                                <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                             </div>
                         </div>
                     </form>

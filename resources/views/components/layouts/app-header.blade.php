@@ -358,6 +358,9 @@
                                     <a class="dropdown-item" href="lockscreen.html">
                                         <i class="dropdown-icon fe fe-lock"></i> Desarrollo
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('hb.configuraciones.dashboard') }}">
+                                        <i class="dropdown-icon fe fe-settings"></i> Configuraciones
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('hb.logout') }}">
                                         <i class="dropdown-icon fe fe-alert-circle"></i> Cerrar sesion
                                     </a>

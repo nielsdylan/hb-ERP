@@ -34,6 +34,9 @@ class DatabaseSeeder extends Seeder
             UsuarioSeeder::class,
             UsuarioRolSeeder::class,
             CursoSeeder::class,
+
+            GrupoSeeder::class,
+            AccesoSeeder::class,
         ]);
     }
     // protected function truncateTables(array $tables)

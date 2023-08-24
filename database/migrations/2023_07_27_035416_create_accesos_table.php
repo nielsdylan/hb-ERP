@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('accesos', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion');
-            $table->integer('numero');
+            $table->string('descripcion')->nullable();
+            $table->integer('numero')->nullable();
             $table->dateTime('fecha_registro')->nullable();
             $table->timestamps();
             $table->softDeletes();

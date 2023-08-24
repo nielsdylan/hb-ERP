@@ -21,7 +21,7 @@ HB GROUP - Gestion de Cursos
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-status bg-blue br-te-7 br-ts-7"></div>
+                {{-- <div class="card-status bg-blue br-te-7 br-ts-7"></div> --}}
                 <div class="card-header">
                     <h3 class="card-title">Lista des Cursos</h3>
                     <div class="card-options">

@@ -36,6 +36,9 @@ class UsuariosController extends Controller
         })
         ->addColumn('accion', function ($data) { return
             '<div class="btn-list">
+                <button type="button" class="asignar-accesos protip btn btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Asignar Accesos" >
+                    <i class="fe fe-shield fs-14"></i>
+                </button>
                 <button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
                     <i class="fe fe-edit fs-14"></i>
                 </button>
@@ -189,5 +192,15 @@ class UsuariosController extends Controller
         LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN USUARIO', $persona->getTable(), $persona, NULL, 'ELIMINO UN USUARIO DE LA LISTA DE GESTION DE USUARIOS');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
         return response()->json($respuesta,200);
+    }
+
+    public function asignarAccesos(Request $request) {
+
+        $usuario = User::find($request->id);
+        // return $usuario;exit;
+        LogActividades::guardar(Auth()->user()->id, 1, 'GESTION DE USUARIOS', null, null, null, 'INGRESO A LA LISTA DE USUARIOS');
+
+        // return $empresas;exit;
+        return view('components.configuraciones.usuario.asignar-accesos', get_defined_vars());
     }
 }
