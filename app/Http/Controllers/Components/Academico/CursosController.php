@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Components\Academico;
 use App\Http\Controllers\Controller;
 use App\Models\Cursos;
 use App\Models\LogActividades;
+use App\Models\UsuariosAccesos;
 use Exception;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -13,6 +14,12 @@ class CursosController extends Controller
 {
     //
     public function lista() {
+        $array_accesos = array();
+        $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
+        foreach ($usuario_accesos as $key => $value) {
+            array_push($array_accesos,$value->acceso_id);
+        }
+        
         LogActividades::guardar(Auth()->user()->id, 1, 'LISTADO DE TIPOS DE DOCUMENTOS', null, null, null, 'INGRESO A LA LISTA DE TIPOS DE DOCUMENTOS');
         return view('components.academico.cursos.lista', get_defined_vars());
     }
@@ -20,14 +27,21 @@ class CursosController extends Controller
     {
         $data = Cursos::all();
         return DataTables::of($data)
-        ->addColumn('accion', function ($data) { return
+        ->addColumn('accion', function ($data) { 
+            $array_accesos = array();
+            $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
+            foreach ($usuario_accesos as $key => $value) {
+                array_push($array_accesos,$value->acceso_id);
+            }
+
+            return
             '<div class="btn-list">
-                <button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
+                '.(in_array(14,$array_accesos)?'<button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
                     <i class="fe fe-edit fs-14"></i>
-                </button>
-                <button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
+                </button>':'').'
+                '.(in_array(15,$array_accesos)?'<button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
-                </button>
+                </button>':'').'
                 
             </div>';
         })->rawColumns(['accion'])->make(true);

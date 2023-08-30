@@ -47,44 +47,62 @@ HB GROUP - Gestion de Alumnos
     <!-- PAGE-HEADER END -->
 
     <!-- ROW-1 -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                {{-- <div class="card-status bg-blue br-te-7 br-ts-7"></div> --}}
-                <div class="card-header">
-                    <h3 class="card-title">Lista de Alumnos</h3>
-                    <div class="card-options">
-                        <a href="{{ route('hb.academicos.alumnos.modelo-importar-alumnos-excel') }}" class="btn btn-info btn-sm" ><i class="fe fe-download"></i> Modelo de excel</a>
-                        <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="carga-excel" ><i class="fe fe-upload"></i> Carga masiva de Alumnos</a>
-                        <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2" id="nuevo" ><i class="fe fe-plus"></i> Nuevo alumno</a>
+    @if (in_array(1,$array_accesos))
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    {{-- <div class="card-status bg-blue br-te-7 br-ts-7"></div> --}}
+                    <div class="card-header">
+                        <h3 class="card-title">Lista de Alumnos</h3>
+                        <div class="card-options">
+                            @if (in_array(6,$array_accesos))
+                                <a href="{{ route('hb.academicos.alumnos.modelo-importar-alumnos-excel') }}" class="btn btn-info btn-sm" ><i class="fe fe-download"></i> Modelo de excel</a>
+                            @endif
+                            @if (in_array(5,$array_accesos))
+                            <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="carga-excel" ><i class="fe fe-upload"></i> Carga masiva de Alumnos</a>
+                            @endif
+                            @if (in_array(2,$array_accesos))
+                            <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2" id="nuevo" ><i class="fe fe-plus"></i> Nuevo alumno</a>
+                            @endif
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-12">
-                            <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th class="wd-15p border-bottom-0">#</th>
-                                        <th class="wd-15p border-bottom-0">N° Documento</th>
-                                        <th class="wd-15p border-bottom-0">Apellidos yNombres</th>
-                                        <th class="wd-20p border-bottom-0">Correo Electronico</th>
-                                        <th class="wd-20p border-bottom-0">Cargo</th>
-                                        <th class="wd-20p border-bottom-0">Telefono</th>
-                                        <th class="wd-20p border-bottom-0">Sexo</th>
-                                        <th class="wd-20p border-bottom-0">Fecha Caducidad</th>
-                                        <th class="wd-15p border-bottom-0">-</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                    <div class="card-body">
+                        <div class="row justify-content-md-center">
+                            <div class="col-md-12">
+                                <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="wd-15p border-bottom-0">#</th>
+                                            <th class="wd-15p border-bottom-0">N° Documento</th>
+                                            <th class="wd-15p border-bottom-0">Apellidos yNombres</th>
+                                            <th class="wd-20p border-bottom-0">Correo Electronico</th>
+                                            <th class="wd-20p border-bottom-0">Cargo</th>
+                                            <th class="wd-20p border-bottom-0">Telefono</th>
+                                            <th class="wd-20p border-bottom-0">Sexo</th>
+                                            <th class="wd-20p border-bottom-0">Fecha Caducidad</th>
+                                            <th class="wd-15p border-bottom-0">-</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @else
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    <span class="alert-inner--icon"><i class="fe fe-bell"></i></span>
+                    <span class="alert-inner--text"><strong>Información!</strong> Solicite los accesos al administrador</span>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- ROW-1 END -->
 
     <!-- MODAL EFFECTS -->

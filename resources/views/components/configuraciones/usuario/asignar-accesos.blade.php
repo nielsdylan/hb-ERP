@@ -21,21 +21,43 @@ HB GROUP - Gestion de Accesos
 <!-- ROW-1 -->
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            {{-- <div class="card-status bg-blue br-te-7 br-ts-7"></div> --}}
-            <div class="card-header">
-                <h3 class="card-title">Accesos</h3>
-                <div class="card-options">
+        <form action="" id="guardar">
+            <div class="card">
+                {{-- <div class="card-status bg-blue br-te-7 br-ts-7"></div> --}}
+                <div class="card-header">
+                    <h3 class="card-title">Accesos</h3>
+                    <div class="card-options">
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
+                <div class="card-body">
+                    <input type="hidden" name="usuario_id" value="{{ $usuario->id }}">
+                    <div class="row  pb-5">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label"> Menus</label>
+                                <select class="form-control select2 select2-show-search form-select menus-seleccionar" data-placeholder="Seleccione..." name="menu" required>
+                                    <option label="Seleccione..."></option>
+                                    @foreach ($menu_padres as $key=>$item)
+                                        <option value="{{ $item->id }}">{{ $item->titulo }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label"> Sub Menus </label>
+                                <select class="form-control select2 select2-show-search form-select menus-seleccionar" data-placeholder="Seleccione..." name="sub-menu" disabled>
+                                    <option label="Seleccione..."></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center"data-action="accesoss" id="opciones-accesos">
                         
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 <!-- ROW-1 END -->
@@ -51,7 +73,7 @@ HB GROUP - Gestion de Accesos
                 @csrf
                 <input type="hidden" name="id" value="0">
                 <div class="modal-body">
-
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Guardar</button>
@@ -71,25 +93,29 @@ HB GROUP - Gestion de Accesos
     {{-- <script src="{{asset('template/js/select2.js')}}"></script> --}}
     
     <!-- DATA TABLE JS-->
-    <script src="{{asset('template/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+    {{-- <script src="{{asset('template/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
     
     <script src="{{asset('template/plugins/datatable/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
-    <script src="{{asset('template/js/table-data.js')}}"></script>
+    <script src="{{asset('template/js/table-data.js')}}"></script> --}}
 
     <script src="{{asset('components/configuraciones/usuarios/usuario-model.js')}}"></script>
-    <script src="{{asset('components/configuraciones/usuarios/usuario-view.js')}}"></script>
+    <script src="{{asset('components/configuraciones/usuarios/accesos_usuarios-view.js')}}"></script>
     <script>
         // Select2
-        
+        $('.select2-show-search').select2({
+            minimumResultsForSearch: '',
+            width: '100%'
+        });
         $(document).ready(function () {
-            const view = new UsuarioView(new UsuarioModel(csrf_token));
-            view.listar();
+            const view = new AccesosUsuariosView(new UsuarioModel(csrf_token));
+            // view.listar();
             view.eventos();
         });
+
 
 
 

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accesos', function (Blueprint $table) {
+        Schema::create('usuarios_accesos', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion')->nullable();
-            $table->integer('numero')->nullable();
-            $table->dateTime('fecha_registro')->nullable();
+            $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('acceso_id')->constrained('accesos')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('menu_id')->constrained('menus')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accesos');
+        Schema::dropIfExists('usuarios_accesos');
     }
 };

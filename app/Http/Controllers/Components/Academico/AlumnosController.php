@@ -12,6 +12,7 @@ use App\Models\Personas;
 use App\Models\Roles;
 use App\Models\TipoDocumentos;
 use App\Models\User;
+use App\Models\UsuariosAccesos;
 use App\Models\UsuariosRoles;
 use Exception;
 use Illuminate\Http\Request;
@@ -29,6 +30,12 @@ class AlumnosController extends Controller
         // $tipo_habitacion = TipoHabitacion::where('empresa_id',Auth()->user()->empresa_id)->get();
         $tipos_documentos = TipoDocumentos::all();
         $empresas = Empresas::all();
+        $array_accesos = array();
+        $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
+        foreach ($usuario_accesos as $key => $value) {
+            array_push($array_accesos,$value->acceso_id);
+        }
+
         LogActividades::guardar(Auth()->user()->id, 1, 'LISTADO DE ALUMNOS', null, null, null, 'INGRESO A LA LISTA DE ALUMNOS');
         return view('components.academico.alumnos.lista', get_defined_vars());
     }
@@ -58,23 +65,24 @@ class AlumnosController extends Controller
             return date("d/m/Y", strtotime($data->usuario->persona->fecha_caducidad_dni)) ;
         })
         ->addColumn('accion', function ($data) { 
-            ;
-            
+            $array_accesos = array();
+            $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
+            foreach ($usuario_accesos as $key => $value) {
+                array_push($array_accesos,$value->acceso_id);
+            }            
             return
             '<div class="btn-list">
-                <button type="button" class="protip btn text-dark btn-sm" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Ver Perfil" >
-                    <i class="fe fe-user fs-14"></i>
-                </button>
+                '.(in_array(7,$array_accesos)?'<button type="button" class="protip btn text-dark btn-sm" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Ver Perfil" > <i class="fe fe-user fs-14"></i> </button>':'').'
 
                 '.((empty($data->usuario->persona->fecha_caducidad_dni) || empty($data->usuario->persona->path_dni)) ? '<button type="button" class="protip btn text-info btn-sm btn-pulse-info" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Falta validar su registro de Imagen de Dni/Fecha de caducación" >
-                <i class="fe fe-alert-triangle fs-14"></i>
-            </button>' : '' ).'
-                <button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
+                <i class="fe fe-alert-triangle fs-14"></i> </button>' : '' ).'
+
+                '.(in_array(3,$array_accesos)?'<button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
                     <i class="fe fe-edit fs-14"></i>
-                </button>
-                <button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
+                </button>' : '' ).'
+                '.(in_array(4,$array_accesos)?'<button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
-                </button>
+                </button>' : '' ).'
                 
             </div>';
         })->rawColumns(['accion'])->make(true);

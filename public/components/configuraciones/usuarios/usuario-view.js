@@ -84,16 +84,6 @@ class UsuarioView {
         /**
          * Nuevo - información 
          */
-        // $(document).on("click",'[data-action="nuevo"]', (e) => {
-        //     e.preventDefault();
-        //     // $('#guardar-usuario')[0].reset();
-        //     $('#modal-formulario').modal('show');
-        //     // $('#modal-formulario').addClass('effect-scale');
-            
-        // });
-        // $(document).on('click','[data-action="nuevo"]',function () {
-        //     $('#modal-formulario').modal('show');
-        // });
         $('#nuevo').click((e) => {
             e.preventDefault();
             $('#guardar')[0].reset();
@@ -110,7 +100,6 @@ class UsuarioView {
         /**
          * Guardar - editar - Cargar información por ID y llenar en el formulario
          */
-        // console.log(UsuarioModel());
         $('#guardar').on("submit", (e) => {
             e.preventDefault();
             var data = $(e.currentTarget).serialize();
@@ -285,6 +274,7 @@ class UsuarioView {
             $('body').append(form);
             form.submit();
         });
+
     }
 }
 

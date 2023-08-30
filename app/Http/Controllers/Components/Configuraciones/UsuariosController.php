@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Components\Configuraciones;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accesos;
 use App\Models\Empresas;
 use App\Models\LogActividades;
+use App\Models\Menus;
 use App\Models\Personas;
 use App\Models\Roles;
 use App\Models\TipoDocumentos;
 use App\Models\User;
+use App\Models\UsuariosAccesos;
 use App\Models\UsuariosRoles;
 use Exception;
 use Illuminate\Http\Request;
@@ -197,10 +200,78 @@ class UsuariosController extends Controller
     public function asignarAccesos(Request $request) {
 
         $usuario = User::find($request->id);
-        // return $usuario;exit;
+        $menu_padres = Menus::where('padre_id',0)->get();
         LogActividades::guardar(Auth()->user()->id, 1, 'GESTION DE USUARIOS', null, null, null, 'INGRESO A LA LISTA DE USUARIOS');
 
         // return $empresas;exit;
         return view('components.configuraciones.usuario.asignar-accesos', get_defined_vars());
+    }
+    public function buscarSubMenu($id) {
+        $data = Menus::where('padre_id',$id)->get();
+        $success = false;
+        if (sizeof($data)>0) {
+            $success = true;
+        }
+        return response()->json(["data"=>$data,"success"=>$success],200);
+    }
+    public function buscarAccesos($id, $usuario_id) {
+        // $menu
+        $accesos = Accesos::where('menu_id',$id)->get();
+        $usuario_accesos = UsuariosAccesos::where('usuario_id', $usuario_id)->where('menu_id',$id)->get();
+        $success = false;
+
+        
+        if (sizeof($accesos)>0) {
+            $success = true;
+            foreach ($accesos as $key => $item) {
+                $item->checked = false;
+                foreach ($usuario_accesos as $key => $value) {
+                    if ($item->id == $value->acceso_id) {
+                        $item->checked = true;
+                    }
+                }
+            }
+        }
+        // return [$id, $usuario_id];exit;
+        return response()->json(["success"=>$success, "data"=>$accesos, "accesos"=>$usuario_accesos],200);
+    }
+    public function guardarAccesos(Request $request) {
+        // return $request->all();exit;
+
+        if ($request->marcado =='true') {
+            UsuariosAccesos::where('usuario_id', $request->usuario_id)
+            ->where('menu_id', $request->menu_id)
+            ->where('acceso_id',$request->acceso_id)
+            ->restore();
+
+            $data = UsuariosAccesos::firstOrNew(['usuario_id' => $request->usuario_id,'menu_id' => $request->menu_id,'acceso_id' => $request->acceso_id]);
+                $data->usuario_id   = $request->usuario_id;
+                $data->acceso_id    = $request->acceso_id;
+                $data->menu_id    = $request->menu_id;
+                if (UsuariosAccesos::where('usuario_id', $request->usuario_id)
+                ->where('menu_id', $request->menu_id)
+                ->where('acceso_id',$request->acceso_id)
+                ->first()) {
+                    $data->deleted_id = null;
+                    $data->updated_id = Auth()->user()->id;
+                }else{
+                    $data->created_at = date('Y-m-d H:i:s');
+                    $data->created_id = Auth()->user()->id;
+                
+                }
+            $data->save();
+                
+        }else{
+            UsuariosAccesos::where('usuario_id', $request->usuario_id)
+            ->where('menu_id', $request->menu_id)
+            ->where('acceso_id',$request->acceso_id)
+            ->update([
+                'deleted_at' =>date('Y-m-d H:i:s'), 
+                'deleted_id' =>Auth()->user()->id
+            ]);
+        }
+    
+            
+        return response()->json(["data"=>$request],200);
     }
 }

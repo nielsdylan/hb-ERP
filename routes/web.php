@@ -147,6 +147,9 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::put('eliminar/{id}', [UsuariosController::class, 'eliminar'])->name('eliminar');
 
             Route::post('asignar-accesos', [UsuariosController::class, 'asignarAccesos'])->name('asignar-accesos');
+            Route::get('buscar-sub-menu/{id}', [UsuariosController::class, 'buscarSubMenu'])->name('buscar-sub-menu');
+            Route::get('buscar-accesos/{id}/{usuario_id}', [UsuariosController::class, 'buscarAccesos'])->name('buscar-accesos');
+            Route::post('guardar-accesos', [UsuariosController::class, 'guardarAccesos'])->name('guardar-accesos');
 
         });
 

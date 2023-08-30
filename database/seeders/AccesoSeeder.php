@@ -17,49 +17,49 @@ class AccesoSeeder extends Seeder
         //1
         DB::table('accesos')->insert([
             'descripcion'       => 'VER LISTA DE ALUMNOS',
-            // 'numero'            => 1,
+            'menu_id'           => 5,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'NUEVO ALUMNO',
-            // 'numero'            => 1,
+            'menu_id'           =>5,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'EDITAR ALUMNO',
-            // 'numero'            => 1,
+            'menu_id'           =>5,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'ELIMINAR ALUMNO',
-            // 'numero'            => 1,
+            'menu_id'           =>5,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'CARGA MASIVA DE ALUMNOS',
-            // 'numero'            => 1,
+            'menu_id'           =>5,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'MODELO DE EXCEL ALUMNO',
-            // 'numero'            => 1,
+            'menu_id'           =>5,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'VER PERFIL DE ALUMNO',
-            // 'numero'            => 1,
+            'menu_id'           =>5,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
@@ -67,28 +67,28 @@ class AccesoSeeder extends Seeder
         // DOCENTES
         DB::table('accesos')->insert([
             'descripcion'       => 'VER LISTA DE DOCENTES',
-            // 'numero'            => 1,
+            'menu_id'           =>2,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'NUEVO DOCENTE',
-            // 'numero'            => 1,
+            'menu_id'           =>2,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'EDITAR DOCENTE',
-            // 'numero'            => 1,
+            'menu_id'           =>2,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'ELIMINAR DOCENTE',
-            // 'numero'            => 1,
+            'menu_id'           =>2,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
@@ -96,28 +96,28 @@ class AccesoSeeder extends Seeder
         // CURSOS
         DB::table('accesos')->insert([
             'descripcion'       => 'VER LISTA DE CURSOS',
-            // 'numero'            => 1,
+            'menu_id'           =>3,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'NUEVO CURSO',
-            // 'numero'            => 1,
+            'menu_id'           =>3,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'EDITAR CURSO',
-            // 'numero'            => 1,
+            'menu_id'           =>3,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'ELIMINAR CURSO',
-            // 'numero'            => 1,
+            'menu_id'           =>3,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
@@ -125,42 +125,42 @@ class AccesoSeeder extends Seeder
         // AULAS
         DB::table('accesos')->insert([
             'descripcion'       => 'VER LISTA DE AULAS',
-            // 'numero'            => 1,
+            'menu_id'           =>4,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'NUEVO AULA',
-            // 'numero'            => 1,
+            'menu_id'           =>4,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'EDITAR AULA',
-            // 'numero'            => 1,
+            'menu_id'           =>4,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'ELIMINAR AULA',
-            // 'numero'            => 1,
+            'menu_id'           =>4,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'ASISTENCIA DE ALUMNOS DEL AULA',
-            // 'numero'            => 1,
+            'menu_id'           =>4,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'AGREGAR ALUMNO AL AULA',
-            // 'numero'            => 1,
+            'menu_id'           =>4,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
@@ -168,28 +168,28 @@ class AccesoSeeder extends Seeder
         // EMPRESAS
         DB::table('accesos')->insert([
             'descripcion'       => 'VER LISTA DE EMPRESAS',
-            // 'numero'            => 1,
+            'menu_id'           =>6,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'NUEVO EMPRESA',
-            // 'numero'            => 1,
+            'menu_id'           =>6,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'EDITAR EMPRESA',
-            // 'numero'            => 1,
+            'menu_id'           =>6,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         DB::table('accesos')->insert([
             'descripcion'       => 'ELIMINAR EMPRESA',
-            // 'numero'            => 1,
+            'menu_id'           =>6,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
