@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LogActividades extends Model
@@ -26,5 +27,13 @@ class LogActividades extends Model
         $actividad->created_id = $usuario_id;
         $actividad->created_at = date('Y-m-d H:i:s');
         $actividad->save();
+    }
+    public function usuario(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function tipoActividades(): BelongsTo
+    {
+        return $this->belongsTo(LogTipoActividades::class,'log_tipo_actividad_id');
     }
 }

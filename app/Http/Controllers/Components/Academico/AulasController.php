@@ -7,6 +7,7 @@ use App\Models\Aulas;
 use App\Models\AulasDescripcion;
 use App\Models\Cursos;
 use App\Models\LogActividades;
+use App\Models\UsuariosAccesos;
 use App\Models\UsuariosRoles;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,7 +19,11 @@ class AulasController extends Controller
     public function lista()
     {
         $aulas = Aulas::paginate(12);
-        
+        $array_accesos = array();
+        $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
+        foreach ($usuario_accesos as $key => $value) {
+            array_push($array_accesos,$value->acceso_id);
+        }
         LogActividades::guardar(Auth()->user()->id, 1, 'LISTADO DE ALUMNOS', null, null, null, 'INGRESO A LA LISTA DE ALUMNOS');
         return view('components.academico.aulas.lista', get_defined_vars());
     }

@@ -40,6 +40,11 @@ HB GROUP - Configuraciones
                                 <i class="fa fa-street-view fs-18 me-2 text-warning p-2"></i> Accesos
                             </a>
                         </div>
+                        <div>
+                            <a href="{{ route('hb.configuraciones.log-actividades.lista') }}" class="list-group-item  d-flex align-items-center px-0">
+                                <i class="fe fe-eye fs-18 me-2 text-danger p-2"></i> Log de Actividades
+                            </a>
+                        </div>
                         
                     </div>
                 </div>

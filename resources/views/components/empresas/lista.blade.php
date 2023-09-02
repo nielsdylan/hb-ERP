@@ -18,6 +18,7 @@ HB GROUP - Gestion de Empresas
     <!-- PAGE-HEADER END -->
 
     <!-- ROW-1 -->
+    @if (in_array(22,$array_accesos))
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -25,7 +26,9 @@ HB GROUP - Gestion de Empresas
                 <div class="card-header">
                     <h3 class="card-title">Lista de Empresas</h3>
                     <div class="card-options">
+                        @if (in_array(23,$array_accesos))
                         <a href="javascript:void(0)" class="btn btn-success btn-sm" id="nuevo" ><i class="fe fe-plus"></i> Nuevo Empresas</a>
+                        @endif
                     </div>
                 </div>
                 <div class="card-body">
@@ -53,6 +56,16 @@ HB GROUP - Gestion de Empresas
             </div>
         </div>
     </div>
+    @else
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    <span class="alert-inner--icon"><i class="fe fe-bell"></i></span>
+                    <span class="alert-inner--text"><strong>Información!</strong> Solicite los accesos al administrador</span>
+                </div>
+            </div>
+        </div>
+    @endif
     <!-- ROW-1 END -->
 
     <!-- MODAL EFFECTS -->

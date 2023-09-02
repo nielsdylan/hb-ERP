@@ -47,9 +47,12 @@ HB GROUP - Gestion de Aulas
     <!-- PAGE-HEADER END -->
 
     <!-- ROW-1 -->
+    @if (in_array(16,$array_accesos))
     <div class="row">
         <div class="col-md-12 text-end">
+            @if (in_array(17,$array_accesos))
             <button type="button" id="nuevo" class="btn btn-success"><i class="fa fa-plus"></i> Nueva Aula</button>
+            @endif
         </div>
     </div>
     <div class="row">
@@ -64,8 +67,12 @@ HB GROUP - Gestion de Aulas
                             {{-- <div class="dropdown"> --}}
                                 <a class="nav-link float-end  pe-0 pt-0" href="javascript:void(0)" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></a>
                                 <div class="dropdown-menu dropdown-menu-end">
+                                    @if (in_array(18,$array_accesos))
                                     <a class="dropdown-item editar" href="javascript:void(0)" data-id="{{ $item->id }}"><i class="fe fe-edit me-1 d-inline-flex"></i> Editar Aula</a>
+                                    @endif
+                                    @if (in_array(19,$array_accesos))
                                     <a class="dropdown-item eliminar" href="javascript:void(0)" data-id="{{ $item->id }}"><i class="fe fe-trash-2 me-1 d-inline-flex"></i> Eliminar Aula</a>
+                                    @endif
                                 </div>
                             {{-- </div> --}}
                         </div>
@@ -77,8 +84,12 @@ HB GROUP - Gestion de Aulas
                     <p class="text-muted">{{ $item->descripcion }}</p>
                     <div class="d-grid gap-2">
                         <button class="btn btn-sm btn-pill btn-success-light unirse-sala" data-id="{{ $item->id }}">Unirse a la sala</button>
+                        @if (in_array(20,$array_accesos))
                         <button class="btn btn-sm btn-pill btn-info-light asistencia" data-id="{{ $item->id }}">Asistencia</button>
+                        @endif
+                        @if (in_array(21,$array_accesos))
                         <button class="btn btn-sm btn-pill btn-warning-light agregar-participantes" data-id="{{ $item->id }}">Agregar participantes</button>
+                        @endif
                     </div>
                     
                 </div>
@@ -92,6 +103,16 @@ HB GROUP - Gestion de Aulas
             {{ $aulas->links() }}
         </div>
     </div>
+    @else
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    <span class="alert-inner--icon"><i class="fe fe-bell"></i></span>
+                    <span class="alert-inner--text"><strong>Información!</strong> Solicite los accesos al administrador</span>
+                </div>
+            </div>
+        </div>
+    @endif
     <!-- ROW-1 END -->
 
 

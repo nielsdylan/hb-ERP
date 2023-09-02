@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Components;
 use App\Http\Controllers\Controller;
 use App\Models\Empresas;
 use App\Models\LogActividades;
+use App\Models\UsuariosAccesos;
 use Exception;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -13,6 +14,11 @@ class EmpresasController extends Controller
 {
     //
     public function lista() {
+        $array_accesos = array();
+        $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
+        foreach ($usuario_accesos as $key => $value) {
+            array_push($array_accesos,$value->acceso_id);
+        }
         LogActividades::guardar(Auth()->user()->id, 1, 'LISTADO DE EMPRESAS', null, null, null, 'INGRESO A LA LISTA DE EMPRESAS');
         return view('components.empresas.lista', get_defined_vars());
     }
@@ -20,14 +26,20 @@ class EmpresasController extends Controller
     {
         $data = Empresas::all();
         return DataTables::of($data)
-        ->addColumn('accion', function ($data) { return
+        ->addColumn('accion', function ($data) { 
+            $array_accesos = array();
+            $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
+            foreach ($usuario_accesos as $key => $value) {
+                array_push($array_accesos,$value->acceso_id);
+            }
+            return
             '<div class="btn-list">
-                <button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
+                '.(in_array(24,$array_accesos)?'<button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
                     <i class="fe fe-edit fs-14"></i>
-                </button>
-                <button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
+                </button>':'').'
+                '.(in_array(25,$array_accesos)?'<button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
-                </button>
+                </button>':'').'
                 
             </div>';
         })->rawColumns(['accion'])->make(true);

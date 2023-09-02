@@ -27,6 +27,7 @@ HB GROUP - Gestion de Accesos
                 <div class="card-header">
                     <h3 class="card-title">Accesos</h3>
                     <div class="card-options">
+                        <a href="{{ route('hb.configuraciones.usuarios.lista') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                     </div>
                 </div>
                 <div class="card-body">

@@ -8,6 +8,7 @@ use App\Http\Controllers\Components\Auth\LoginController;
 use App\Http\Controllers\Components\Configuraciones\AccesosController;
 use App\Http\Controllers\Components\Configuraciones\AccionesController;
 use App\Http\Controllers\Components\Configuraciones\ConfiguracionesController;
+use App\Http\Controllers\Components\Configuraciones\LogActividadesController;
 use App\Http\Controllers\Components\DashboardController;
 use App\Http\Controllers\Components\EmpresasController;
 use App\Http\Controllers\Components\Configuraciones\TipoDocumentosController;
@@ -160,6 +161,16 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('guardar', [AccesosController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [AccesosController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [AccesosController::class, 'eliminar'])->name('eliminar');
+
+        });
+        Route::name('log-actividades.')->prefix('log-actividades')->group(function () {
+
+            Route::get('lista', [LogActividadesController::class, 'lista'])->name('lista');
+            Route::post('listar', [LogActividadesController::class, 'listar'])->name('listar');
+            Route::post('ver', [LogActividadesController::class, 'ver'])->name('ver');
+            // Route::post('guardar', [AccesosController::class, 'guardar'])->name('guardar');
+            // Route::get('editar/{id}', [AccesosController::class, 'editar'])->name('editar');
+            // Route::put('eliminar/{id}', [AccesosController::class, 'eliminar'])->name('eliminar');
 
         });
     });
