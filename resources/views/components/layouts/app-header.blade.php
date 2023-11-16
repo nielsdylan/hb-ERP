@@ -36,13 +36,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-flex country">
+                            {{-- <div class="d-flex country">
                                 <a class="nav-link icon text-center" data-bs-target="#country-selector"
                                     data-bs-toggle="modal">
                                     <i class="fe fe-globe"></i><span
                                         class="fs-16 ms-2 d-none d-xl-block">English</span>
                                 </a>
-                            </div>
+                            </div> --}}
                             <!-- COUNTRY -->
                             <div class="d-flex">
                                 <a class="nav-link icon theme-layout nav-link-bg layout-setting">
@@ -52,9 +52,9 @@
                             </div>
                             <!-- Theme-Layout -->
                             <div class="dropdown  d-flex shopping-cart">
-                                <a class="nav-link icon text-center" data-bs-toggle="dropdown">
+                                {{-- <a class="nav-link icon text-center" data-bs-toggle="dropdown">
                                     <i class="fe fe-shopping-cart"></i><span class="badge bg-secondary header-badge">4</span>
-                                </a>
+                                </a> --}}
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <div class="drop-heading border-bottom">
                                         <div class="d-flex">
@@ -170,15 +170,15 @@
                             </div>
                             <!-- CART -->
                             <div class="dropdown d-flex">
-                                <a class="nav-link icon full-screen-link nav-link-bg">
+                                {{-- <a class="nav-link icon full-screen-link nav-link-bg">
                                     <i class="fe fe-minimize fullscreen-button"></i>
-                                </a>
+                                </a> --}}
                             </div>
                             <!-- FULL-SCREEN -->
                             <div class="dropdown  d-flex notifications">
-                                <a class="nav-link icon" data-bs-toggle="dropdown"><i
+                                {{-- <a class="nav-link icon" data-bs-toggle="dropdown"><i
                                         class="fe fe-bell"></i><span class=" pulse"></span>
-                                </a>
+                                </a> --}}
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <div class="drop-heading border-bottom">
                                         <div class="d-flex">
@@ -235,9 +235,9 @@
                             </div>
                             <!-- NOTIFICATIONS -->
                             <div class="dropdown  d-flex message">
-                                <a class="nav-link icon text-center" data-bs-toggle="dropdown">
+                                {{-- <a class="nav-link icon text-center" data-bs-toggle="dropdown">
                                     <i class="fe fe-message-square"></i><span class="pulse-danger"></span>
-                                </a>
+                                </a> --}}
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <div class="drop-heading border-bottom">
                                         <div class="d-flex">
@@ -328,16 +328,16 @@
                             </div>
                             <!-- MESSAGE-BOX -->
                             <div class="dropdown d-flex header-settings">
-                                <a href="javascript:void(0);" class="nav-link icon"
+                                {{-- <a href="javascript:void(0);" class="nav-link icon"
                                     data-bs-toggle="sidebar-right" data-target=".sidebar-right">
                                     <i class="fe fe-align-right"></i>
-                                </a>
+                                </a> --}}
                             </div>
                             <!-- SIDE-MENU -->
                             <div class="dropdown d-flex profile-1">
                                 <a href="javascript:void(0)" data-bs-toggle="dropdown" class="nav-link leading-none d-flex">
                                     {{-- <img src="{{ asset('template/images/users/21.jpg') }}" alt="profile-user"
-                                        class="avatar  profile-user brround cover-image"> --}}  
+                                        class="avatar  profile-user brround cover-image"> --}}
                                         <span class="avatar avatar-md brround bg-info">{{ Auth::user()->avatar_initials }}</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -372,4 +372,4 @@
             </div>
         </div>
     </div>
-</div>  
+</div>
