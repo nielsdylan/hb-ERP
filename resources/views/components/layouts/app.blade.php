@@ -176,15 +176,15 @@
     <script src="{{ asset('template/js/custom.js') }}"></script>
     <script src="{{ asset('template/plugins/protip/protip.min.js') }}"></script>
     <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-    
-    
+
+
     {{-- <script src="{{ asset('template/js/custom-swicher.js') }}"></script>
     <script src="{{ asset('template/switcher/js/switcher.js') }}"></script> --}}
     @routes
     <script>
         const csrf_token = '{{ csrf_token() }}';
         const idioma = {
-            "sProcessing":     "Procesando...",
+            "sProcessing":     '<i class="fa fa-spinner fa-spin"></i> Procesando...',
             "sLengthMenu":     "Mostrar _MENU_ registros",
             "sZeroRecords":    "No se encontraron resultados",
             "sEmptyTable":     "Ningún dato disponible en esta tabla",
@@ -211,7 +211,7 @@
         };
         $(document).ready(function () {
             $.protip();
-            
+
         });
 
     </script>

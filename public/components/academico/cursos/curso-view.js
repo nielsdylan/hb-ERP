@@ -15,13 +15,14 @@ class CursoView {
             pageLength: 10,
             language: idioma,
             serverSide: true,
+            processing: true,
             initComplete: function (settings, json) {
                 const $filter = $('#tabla-data_filter');
                 const $input = $filter.find('input');
                 $filter.append('<button id="btnBuscar" class="btn btn-default btn-sm" type="button" style="border-bottom-left-radius: 0px;border-top-left-radius: 0px;"><i class="fa fa-search"></i></button>');
                 $input.addClass('form-control-sm');
                 $input.attr('style','border-bottom-right-radius: 0px;border-top-right-radius: 0px;padding-top: 3px;');
-                
+
                 $input.off();
                 $input.on('keyup', (e) => {
                     if (e.key == 'Enter') {
@@ -32,7 +33,7 @@ class CursoView {
                     $tabla.search($input.val()).draw();
                 });
                 $('#tabla-data_length label').addClass('select2-sm');
-                //______Select2 
+                //______Select2
                 $('.select2').select2({
                     minimumResultsForSearch: Infinity
                 });
@@ -81,7 +82,7 @@ class CursoView {
 
 
         /**
-         * Nuevo - información 
+         * Nuevo - información
          */
         $('#nuevo').click((e) => {
             e.preventDefault();
@@ -93,7 +94,7 @@ class CursoView {
             // $('[name="empresa_id"]').select2({
             //     dropdownParent: $('#modal-formulario')
             // });
-            
+
         });
 
         /**
@@ -103,7 +104,7 @@ class CursoView {
             e.preventDefault();
             var data = $(e.currentTarget).serialize();
             let model = this.model;
-            
+
             Swal.fire({
                 title: 'Información',
                 text: "¿Está seguro de guardar?",
@@ -146,7 +147,7 @@ class CursoView {
                 form.find('[name="id"]').val(respuesta.id);
                 // form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
                 form.find('[name="descripcion"]').val(respuesta.descripcion);
-                
+
                 $('#modal-curso').find('.modal-title').text('Editar Curso')
                 $('#modal-curso').modal('show');
             }).fail((respuesta) => {
@@ -191,7 +192,7 @@ class CursoView {
 
         /*
         *
-        *Buscador de empresa 
+        *Buscador de empresa
         *
         */
         $("#guardar").on("change", '[data-search="ruc"]', (e) => {

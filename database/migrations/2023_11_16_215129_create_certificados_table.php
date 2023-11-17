@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('codigo_curso')->nullable();
             $table->string('curso')->nullable();
             $table->string('tipo_curso')->nullable();
-            $table->string('tipo_documento')->nullable();
+            $table->foreignId('tipo_documento')->nullable()->constrained('tipo_documentos')->onDelete('cascade')->onUpdate('cascade');
             $table->string('numero_documento')->nullable();
             $table->string('apellido_paterno')->nullable();
             $table->string('apellido_materno')->nullable();

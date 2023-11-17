@@ -15,13 +15,14 @@ class UsuarioView {
             pageLength: 10,
             language: idioma,
             serverSide: true,
+            processing: true,
             initComplete: function (settings, json) {
                 const $filter = $('#tabla-data_filter');
                 const $input = $filter.find('input');
                 $filter.append('<button id="btnBuscar" class="btn btn-default btn-sm" type="button" style="border-bottom-left-radius: 0px;border-top-left-radius: 0px;"><i class="fa fa-search"></i></button>');
                 $input.addClass('form-control-sm');
                 $input.attr('style','border-bottom-right-radius: 0px;border-top-right-radius: 0px;padding-top: 3px;');
-                
+
                 $input.off();
                 $input.on('keyup', (e) => {
                     if (e.key == 'Enter') {
@@ -32,7 +33,7 @@ class UsuarioView {
                     $tabla.search($input.val()).draw();
                 });
                 $('#tabla-data_length label').addClass('select2-sm');
-                //______Select2 
+                //______Select2
                 $('.select2').select2({
                     minimumResultsForSearch: Infinity
                 });
@@ -82,7 +83,7 @@ class UsuarioView {
 
 
         /**
-         * Nuevo - información 
+         * Nuevo - información
          */
         $('#nuevo').click((e) => {
             e.preventDefault();
@@ -94,7 +95,7 @@ class UsuarioView {
             // $('[name="empresa_id"]').select2({
             //     dropdownParent: $('#modal-formulario')
             // });
-            
+
         });
 
         /**
@@ -104,7 +105,7 @@ class UsuarioView {
             e.preventDefault();
             var data = $(e.currentTarget).serialize();
             let model = this.model;
-            
+
             Swal.fire({
                 title: 'Información',
                 text: "¿Está seguro de guardar?",
@@ -146,7 +147,7 @@ class UsuarioView {
                 }
             })
 
-            
+
         });
         /**
          * EDITAR - registro por ID
@@ -182,12 +183,12 @@ class UsuarioView {
                 form.find('[name="empresa_id"]').val(respuesta.usuario.empresa_id).trigger('change.select2');
 
                 form.find('[name="path_dni"]').removeAttr('required')
-                
-                $.each(respuesta.usuario_rol, function (index, element) { 
+
+                $.each(respuesta.usuario_rol, function (index, element) {
                     roles_id.push(element.rol_id);
                 });
                 form.find('[name="roles[]"]').val(roles_id).trigger('change');
-                
+
                 $('#modal-usuario').find('.modal-title').text('Editar Usuario')
                 $('#modal-usuario').modal('show');
             }).fail((respuesta) => {
@@ -232,7 +233,7 @@ class UsuarioView {
 
         /*
         *
-        *Buscador de empresa 
+        *Buscador de empresa
         *
         */
         $("#guardar").on("change", '[data-search="ruc"]', (e) => {

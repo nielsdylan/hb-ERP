@@ -73,13 +73,14 @@ HB GROUP - Gestion de Alumnos
                                     <thead>
                                         <tr>
                                             <th class="wd-15p border-bottom-0">#</th>
-                                            <th class="wd-15p border-bottom-0">N° Documento</th>
-                                            <th class="wd-15p border-bottom-0">Apellidos yNombres</th>
-                                            <th class="wd-20p border-bottom-0">Correo Electronico</th>
-                                            <th class="wd-20p border-bottom-0">Cargo</th>
-                                            <th class="wd-20p border-bottom-0">Telefono</th>
-                                            <th class="wd-20p border-bottom-0">Sexo</th>
-                                            <th class="wd-20p border-bottom-0">Fecha Caducidad</th>
+                                            <th class="wd-15p border-bottom-0">Código</th>
+                                            <th class="wd-15p border-bottom-0">Curso</th>
+                                            <th class="wd-20p border-bottom-0">Número Documento</th>
+                                            <th class="wd-20p border-bottom-0">Apellidos y Nombres</th>
+                                            <th class="wd-20p border-bottom-0">Empresa</th>
+                                            <th class="wd-20p border-bottom-0">Email</th>
+                                            <th class="wd-20p border-bottom-0">Nota</th>
+                                            <th class="wd-20p border-bottom-0">Estado</th>
                                             <th class="wd-15p border-bottom-0">-</th>
                                         </tr>
                                     </thead>
@@ -121,10 +122,10 @@ HB GROUP - Gestion de Alumnos
                                 <div class="form-group select2-sm">
                                     <label class="form-label">Tipos de Documentos : <span class="text-red">*</span></label>
                                     <select name="tipo_documento_id" class="form-control form-select form-select-sm select2" required>
-                                        <option value="">Seleccione...</option>
+                                        {{-- <option value="">Seleccione...</option>
                                         @foreach ($tipos_documentos as $key=>$item)
                                             <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
-                                        @endforeach
+                                        @endforeach --}}
 
                                     </select>
                                 </div>
@@ -200,9 +201,9 @@ HB GROUP - Gestion de Alumnos
                                     <label class="form-label">Empresa : <span class="text-red">*</span></label>
                                     <select name="empresa_id" class="form-control form-select form-select-sm select2" required>
                                         <option value="">Seleccione...</option>
-                                        @foreach ($empresas as $key=>$item)
+                                        {{-- @foreach ($empresas as $key=>$item)
                                             <option value="{{ $item->id }}">{{ $item->razon_social }}</option>
-                                        @endforeach
+                                        @endforeach --}}
 
                                     </select>
                                 </div>
@@ -301,13 +302,13 @@ HB GROUP - Gestion de Alumnos
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script>
 
-    <script src="{{asset('components/academico/alumnos/alumno-model.js')}}"></script>
-    <script src="{{asset('components/academico/alumnos/alumno-view.js')}}"></script>
+    <script src="{{asset('components/academico/certificados/certificado-model.js')}}"></script>
+    <script src="{{asset('components/academico/certificados/certificado-view.js')}}"></script>
     <script>
         // Select2
 
         $(document).ready(function () {
-            const view = new AlumnoView(new AlumnoModel(csrf_token));
+            const view = new CertificadoView(new CertificadoModel(csrf_token));
             view.listar();
             view.eventos();
         });

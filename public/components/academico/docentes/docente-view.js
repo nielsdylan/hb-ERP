@@ -15,13 +15,14 @@ class DocenteView {
             pageLength: 10,
             language: idioma,
             serverSide: true,
+            processing: true,
             initComplete: function (settings, json) {
                 const $filter = $('#tabla-data_filter');
                 const $input = $filter.find('input');
                 $filter.append('<button id="btnBuscar" class="btn btn-default btn-sm" type="button" style="border-bottom-left-radius: 0px;border-top-left-radius: 0px;"><i class="fa fa-search"></i></button>');
                 $input.addClass('form-control-sm');
                 $input.attr('style','border-bottom-right-radius: 0px;border-top-right-radius: 0px;padding-top: 3px;');
-                
+
                 $input.off();
                 $input.on('keyup', (e) => {
                     if (e.key == 'Enter') {
@@ -32,7 +33,7 @@ class DocenteView {
                     $tabla.search($input.val()).draw();
                 });
                 $('#tabla-data_length label').addClass('select2-sm');
-                //______Select2 
+                //______Select2
                 $('.select2').select2({
                     minimumResultsForSearch: Infinity
                 });
@@ -86,7 +87,7 @@ class DocenteView {
 
 
         /**
-         * Nuevo - alumno 
+         * Nuevo - alumno
          */
         $('#nuevo').click((e) => {
             e.preventDefault();
@@ -100,7 +101,7 @@ class DocenteView {
             // $('[name="empresa_id"]').select2({
             //     dropdownParent: $('#modal-formulario')
             // });
-            
+
         });
 
         /**
@@ -111,7 +112,7 @@ class DocenteView {
             e.preventDefault();
             var data =new FormData($(e.currentTarget)[0]);
             let model = this.model;
-            
+
             Swal.fire({
                 title: 'Información',
                 text: "¿Está seguro de guardar?",
@@ -141,7 +142,7 @@ class DocenteView {
                 }
             })
 
-            
+
         });
         /**
          * EDITAR - registro por ID
@@ -216,7 +217,7 @@ class DocenteView {
         });
         /*
         *
-        *Buscador de docentes por numero de documento 
+        *Buscador de docentes por numero de documento
         *
         */
         $("#guardar").on("change", '[data-search="numero_documento"]', (e) => {

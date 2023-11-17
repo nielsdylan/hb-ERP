@@ -113,7 +113,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
             Route::get('lista', [CertificadoController::class, 'lista'])->name('lista');
             Route::post('listar', [CertificadoController::class, 'listar'])->name('listar');
-            // Route::post('formulario', [AlumnosController::class, 'formulario'])->name('formulario');
+            Route::post('formulario', [CertificadoController::class, 'formulario'])->name('formulario');
             Route::post('guardar', [CertificadoController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [CertificadoController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [CertificadoController::class, 'eliminar'])->name('eliminar');

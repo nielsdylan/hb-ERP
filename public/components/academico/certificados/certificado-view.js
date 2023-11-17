@@ -1,4 +1,4 @@
-class TipoDocumentoView {
+class CertificadoView {
 
     constructor(model) {
         this.model = model;
@@ -46,14 +46,20 @@ class TipoDocumentoView {
             },
             order: [[0, 'asc']],
             ajax: {
-                url: route('hb.configuraciones.tipo-documentos.listar'),
+                url: route('hb.academicos.certificados.listar'),
                 method: 'POST',
                 headers: {'X-CSRF-TOKEN': csrf_token}
             },
             columns: [
-                {data: 'id', },
-                {data: 'descripcion', className: 'text-center'},
-                {data: 'fecha_registro', className: 'text-center'},
+                {data: 'id' },
+                {data: 'codigo_curso', className: 'text-center'},
+                {data: 'curso', className: 'text-center'},
+                {data: 'numero_documento', className: 'text-center'},
+                {data: 'apellidos_nombres', className: 'text-center'},
+                {data: 'empresa', className: 'text-center'},
+                {data: 'email', className: 'text-center'},
+                {data: 'nota', className: 'text-center'},
+                {data: 'estado', className: 'text-center'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
             ]
         });
@@ -82,18 +88,35 @@ class TipoDocumentoView {
 
 
         /**
-         * Nuevo - información
+         * Nueva aula - información
          */
         $('#nuevo').click((e) => {
             e.preventDefault();
-            $('#guardar')[0].reset();
-            $('#modal-documento').find('.modal-title').text('Nuevo Tipo de Documento')
-            $('#modal-documento').modal('show');
-            $('#guardar').find('[name="id"]').val(0);
+            let id = 0,
+                tipo ="Nuevo Certificado",
+                form = $('<form action="'+route('hb.academicos.certificados.formulario')+'" method="POST">'+
+                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                    '<input type="hidden" name="id" value="'+id+'" >'+
+                    '<input type="hidden" name="tipo" value="'+tipo+'" >'+
+                '</form>');
+            $('body').append(form);
+            form.submit();
 
-            // $('[name="empresa_id"]').select2({
-            //     dropdownParent: $('#modal-formulario')
-            // });
+        });
+        /**
+         * Editar aula - información
+         */
+        $('.editar').click((e) => {
+            e.preventDefault();
+            let id = $(e.currentTarget).attr('data-id'),
+                tipo ="Editar Aula",
+                form = $('<form action="'+route('hb.academicos.certificados.formulario')+'" method="POST">'+
+                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                    '<input type="hidden" name="id" value="'+id+'" >'+
+                    '<input type="hidden" name="tipo" value="'+tipo+'" >'+
+                '</form>');
+            $('body').append(form);
+            form.submit();
 
         });
 
@@ -113,6 +136,7 @@ class TipoDocumentoView {
                 confirmButtonText: 'Si, guardar',
                 cancelButtonText: 'No, cancelar',
                 showLoaderOnConfirm: true,
+                allowOutsideClick: false,
                 // backdrop: false, allowOutsideClick: false,
                 preConfirm: (login) => {
                     return model.guardar(data).then((respuesta) => {
@@ -125,40 +149,31 @@ class TipoDocumentoView {
                 // allowOutsideClick: () => !Swal.isLoading()
               }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Éxito!',
-                        'Se guardo con éxito!',
-                        'success'
-                    );
-                    $('#tabla-data').DataTable().ajax.reload();
-                    $('#modal-documento').modal('hide');
+
+                    Swal.fire({
+                        title: result.value.titulo,
+                        text: result.value.mensaje,
+                        icon: result.value.tipo,
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar',
+                        allowOutsideClick: false,
+                    }).then((resultado) => {
+                        if (resultado.isConfirmed) {
+                            // window.location.href = route('hb.academicos.certificados.lista');
+                        }
+                    })
+
+
                 }
             })
         });
-        /**
-         * EDITAR - registro por ID
-         */
-        $("#tabla-data").on("click", "button.editar", (e) => {
-            e.preventDefault();
-            let id = $(e.currentTarget).attr('data-id');
-            let form = $('#guardar');
 
-            this.model.editar(id).then((respuesta) => {
-                form.find('[name="id"]').val(respuesta.id);
-                // form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
-                form.find('[name="descripcion"]').val(respuesta.descripcion);
-
-                $('#modal-documento').find('.modal-title').text('Editar Tipo de Documento')
-                $('#modal-documento').modal('show');
-            }).fail((respuesta) => {
-            }).always(() => {
-            });
-        });
 
         /**
          * Eliminar - Eliminar registro por ID
          */
-        $("#tabla-data").on("click", "button.eliminar", (e) => {
+        $('.eliminar').click((e) => {
             let model = this.model;
             let id = $(e.currentTarget).attr('data-id');
             Swal.fire({
@@ -178,46 +193,46 @@ class TipoDocumentoView {
                     });
                 },
               }).then((result) => {
+
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Éxito!',
-                        'Se elimino con éxito!',
-                        'success'
-                    );
-                    $('#tabla-data').DataTable().ajax.reload();
-                    $('#modal-documento').modal('hide');
+
+                    Swal.fire({
+                        title: result.value.titulo,
+                        text: result.value.mensaje,
+                        icon: result.value.tipo,
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar',
+                        allowOutsideClick: false,
+                    }).then((resultado) => {
+                        if (resultado.isConfirmed) {
+                            window.location.href = route('hb.academicos.certificados.lista');
+                        }
+                    })
                 }
+
             })
         });
 
         /*
         *
-        *Buscador de empresa
+        *Agregar participantes
         *
         */
-        $("#guardar").on("change", '[data-search="ruc"]', (e) => {
-            let id = $('#guardar').find('input[name="id"]').val();
-            let ruc = $(e.currentTarget).val();
-
-            let data ={
-                id:id,
-                ruc:ruc
-            }
-            this.model.buscarEmpresa(id,ruc).then((respuesta) => {
-                if (respuesta.success === true) {
-                    Swal.fire(
-                        'Alerta!',
-                        'Este ruc ya se encuentra en uso!',
-                        'warning'
-                    );
-                    $(e.currentTarget).val('');
-                }
-            }).fail((respuesta) => {
-                // return respuesta;
-            }).always(() => {
-            });
+        $('.agregar-participantes').click((e) => {
+            e.preventDefault();
+            let id = $(e.currentTarget).attr('data-id'),
+                tipo ="Nueva Aula",
+                form = $('<form action="'+route('hb.academicos.certificados.agregar-alumnos')+'" method="POST">'+
+                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                    '<input type="hidden" name="id" value="'+id+'" >'+
+                    // '<input type="hidden" name="tipo" value="'+tipo+'" >'+
+                '</form>');
+            $('body').append(form);
+            form.submit();
         });
     }
+
 }
 
 
