@@ -4,30 +4,13 @@ HB GROUP - Gestion de Alumnos
 @endsection
 @section('css')
 <style>
-    .btn-pulse-info {
-        -webkit-animation: pulse-black 1.5s linear infinite;
+    .table th, .text-wrap table th{
+        font-size: 0.675rem !important;
+        text-transform: math-auto !important;
+
     }
-    @keyframes  pulse-black{
-        0%{
-            -webkit-transform:scale(1);
-            transform:scale(1);
-            box-shadow:0 0 0 0 #1170e4
-        }
-        70%{
-            -webkit-transform:scale(1);
-            transform:scale(1);
-            box-shadow:0 0 0 10px transparent
-        }
-        100%{
-            -webkit-transform:scale(1);
-            transform:scale(1);
-            box-shadow:0 0 0 0 transparent
-        }
-    }
-    a.list-group-item span.badge {
-        position: absolute;
-        inset-block-start: 18px;
-        inset-inline-end: 20px;
+    .table tbody tr{
+        font-size: 0.675rem !important;
     }
 </style>
 @endsection
@@ -69,7 +52,9 @@ HB GROUP - Gestion de Alumnos
                     <div class="card-body">
                         <div class="row justify-content-md-center">
                             <div class="col-md-12">
-                                <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data" width="100%">
+                                <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data"
+                                {{-- style="width: 100%; font-size: x-small" --}}
+                                width="100%">
                                     <thead>
                                         <tr>
                                             <th class="wd-15p border-bottom-0">#</th>

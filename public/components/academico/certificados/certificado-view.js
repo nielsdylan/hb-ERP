@@ -52,7 +52,7 @@ class CertificadoView {
             },
             columns: [
                 {data: 'id' },
-                {data: 'codigo_curso', className: 'text-center'},
+                {data: 'cod_certificado', className: 'text-center'},
                 {data: 'curso', className: 'text-center'},
                 {data: 'numero_documento', className: 'text-center'},
                 {data: 'apellidos_nombres', className: 'text-center'},
@@ -106,7 +106,7 @@ class CertificadoView {
         /**
          * Editar aula - información
          */
-        $('.editar').click((e) => {
+        $("#tabla-data").on("click", "button.editar", (e) => {
             e.preventDefault();
             let id = $(e.currentTarget).attr('data-id'),
                 tipo ="Editar Aula",
@@ -160,7 +160,7 @@ class CertificadoView {
                         allowOutsideClick: false,
                     }).then((resultado) => {
                         if (resultado.isConfirmed) {
-                            // window.location.href = route('hb.academicos.certificados.lista');
+                            window.location.href = route('hb.academicos.certificados.lista');
                         }
                     })
 
