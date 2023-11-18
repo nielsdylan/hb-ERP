@@ -118,7 +118,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('editar/{id}', [CertificadoController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [CertificadoController::class, 'eliminar'])->name('eliminar');
 
-            // Route::post('buscar', [AlumnosController::class, 'buscar'])->name('buscar');
+            Route::post('buscar-codigo', [CertificadoController::class, 'buscarCodigo'])->name('buscar-codigo');
             // Route::get('modelo-importar-alumnos-excel', [AlumnosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             // Route::post('importar-alumnos-excel', [AlumnosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
         });

@@ -131,4 +131,15 @@ class CertificadoController extends Controller
         }
         
     }
+    public function buscarCodigo(Request $request) {
+        if ((int)$request->id == 0) {
+            $certificado = Certificado::where('cod_certificado','=',$request->codigo)->first();
+            if ($certificado) {
+                return response()->json(array("success"=>true),200);
+            } 
+            return response()->json(array("success"=>false),200);
+        }
+        return response()->json(array("success"=>false),200);
+
+    }
 }

@@ -38,14 +38,15 @@ class CertificadoView {
                 $('.select2').select2({
                     minimumResultsForSearch: Infinity
                 });
-                const $paginate = $('#tabla-data_paginate');
-                $paginate.find('ul.pagination').addClass('pagination-sm');
+                // const $paginate = $('#tabla-data_paginate');
+                // $paginate.find('ul.pagination').addClass('pagination-sm');
             },
             drawCallback: function (settings) {
                 $('#tabla-data_filter input').prop('disabled', false);
                 $('#btnBuscar').html('<i class="fa fa-search"></i>').prop('disabled', false);
                 $('#tabla-data_filter input').trigger('focus');
-
+                const $paginate = $('#tabla-data_paginate');
+                $paginate.find('ul.pagination').addClass('pagination-sm');
             },
             order: [[0, 'desc']],
             ajax: {
@@ -219,21 +220,36 @@ class CertificadoView {
 
         /*
         *
-        *Agregar participantes
+        * verifica que el codigo sea unico
         *
         */
-        $('.agregar-participantes').click((e) => {
+        $('[data-action="unico"]').change((e) => {
             e.preventDefault();
-            let id = $(e.currentTarget).attr('data-id'),
-                tipo ="Nueva Aula",
-                form = $('<form action="'+route('hb.academicos.certificados.agregar-alumnos')+'" method="POST">'+
-                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
-                    '<input type="hidden" name="id" value="'+id+'" >'+
-                    // '<input type="hidden" name="tipo" value="'+tipo+'" >'+
-                '</form>');
-            $('body').append(form);
-            form.submit();
+            let id = $('#guardar').find('[name="id"]').val(),
+                codigo = $(e.currentTarget).val(),
+                input_this = $(e.currentTarget);
+            this.model.buscarCodigo(id,codigo).then((respuesta) => {
+                if (respuesta.success==true) {
+                    input_this.val('');
+                    Swal.fire('Información','El codigo de certificado se encuentra en uso.','info');
+                }
+                console.log(respuesta);
+            }).fail((respuesta) => {
+                // return respuesta;
+            }).always(() => {
+            });
         });
+
+        /*
+        *
+        *
+        * 
+        */
+        $('#importar').click((e) => {
+            e.preventDefault();
+            $('#modal-importar').modal('show');
+        });
+        
     }
 
 }

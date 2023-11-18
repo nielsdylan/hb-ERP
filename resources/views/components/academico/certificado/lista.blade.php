@@ -48,6 +48,8 @@ HB GROUP - Gestion de Alumnos
                             <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="carga-excel" ><i class="fe fe-upload"></i> Carga masiva de Alumnos</a>
                             @endif
                             @if (in_array(2,$array_accesos)) --}}
+                            <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="modelo" ><i class="fe fe-download"></i> Modelo de excel</a>
+                            <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="importar" ><i class="fe fe-upload"></i> Importarción Certificado</a>
                             <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2" id="nuevo" ><i class="fe fe-plus"></i> Nuevo Certificado</a>
                             {{-- @endif --}}
                         </div>
@@ -95,170 +97,22 @@ HB GROUP - Gestion de Alumnos
     <!-- ROW-1 END -->
 
     <!-- MODAL EFFECTS -->
-    <div class="modal fade effect-super-scaled " id="modal-alumno">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title">Nuevo Alumno</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <form id="guardar" action="" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="id" value="0">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group select2-sm">
-                                    <label class="form-label">Tipos de Documentos : <span class="text-red">*</span></label>
-                                    <select name="tipo_documento_id" class="form-control form-select form-select-sm select2" required>
-                                        {{-- <option value="">Seleccione...</option>
-                                        @foreach ($tipos_documentos as $key=>$item)
-                                            <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
-                                        @endforeach --}}
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group ">
-                                    <label class="form-label">N° Documento : <span class="text-red">*</span></label>
-                                    <input type="text" name="nro_documento" class="form-control form-control-sm" placeholder="Número de documento..." data-search="numero_documento" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group ">
-                                    <label class="form-label">Apellido Paterno : <span class="text-red">*</span></label>
-                                    <input type="text" name="apellido_paterno" class="form-control form-control-sm" placeholder="Apellido Paterno..." required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group ">
-                                    <label class="form-label">Apellido Materno : <span class="text-red">*</span></label>
-                                    <input type="text" name="apellido_materno" class="form-control form-control-sm" placeholder="Apellido Materno..." required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group ">
-                                    <label class="form-label">Nombres : <span class="text-red">*</span></label>
-                                    <input type="text" name="nombres" class="form-control form-control-sm" placeholder="Nombres..." required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group ">
-                                    <label class="form-label">Whatsapp : </label>
-                                    <input type="number" name="whatsapp" class="form-control form-control-sm" placeholder="Whatsapp...">
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group ">
-                                    <label class="form-label">Nacionalidad : </label>
-                                    <input type="text" name="nacionalidad" class="form-control form-control-sm" placeholder="Nacionalidad...">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group ">
-                                    <label class="form-label">Cargo : </label>
-                                    <input type="text" name="cargo" class="form-control form-control-sm" placeholder="Cargo...">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group ">
-                                    <label class="form-label">Telefono : </label>
-                                    <input type="number" name="telefono" class="form-control form-control-sm" placeholder="Telefono...">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group select2-sm">
-                                    <label class="form-label">Sexo : <span class="text-red">*</span></label>
-                                    <select name="sexo" class="form-control form-select form-select-sm select2" required>
-                                        <option value="">Seleccione...</option>
-                                        <option value="M">Masculino</option>
-                                        <option value="F">Femenino</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group select2-sm">
-                                    <label class="form-label">Empresa : <span class="text-red">*</span></label>
-                                    <select name="empresa_id" class="form-control form-select form-select-sm select2" required>
-                                        <option value="">Seleccione...</option>
-                                        {{-- @foreach ($empresas as $key=>$item)
-                                            <option value="{{ $item->id }}">{{ $item->razon_social }}</option>
-                                        @endforeach --}}
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group ">
-                                    <label class="form-label">Imagen de DNI : <span class="text-red">*</span></label>
-                                    <input type="file" name="path_dni" class="form-control form-control-sm" placeholder="path_dni..." accept=".jpg,.png" required>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-label">Fecha de Cumpleaños : <span class="text-red">*</span></label>
-                                    <input type="date" name="fecha_cumpleaños" class="form-control form-control-sm text-center"  required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-label">Fecha de Caducidad de DNI : <span class="text-red">*</span></label>
-                                    <input type="date" name="fecha_caducidad_dni" class="form-control form-control-sm text-center"  required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-label">Email : <span class="text-red">*</span></label>
-                                    <input type="email" name="email" class="form-control form-control-sm text-center" placeholder="email@hotmail.com..."  required>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL EFFECTS -->
     <div class="modal fade effect-super-scaled " id="modal-importar">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">Importar Alumnos</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h6 class="modal-title">Importar excel</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
                 </div>
-                <form id="form-importar" action="" method="POST" enctype="multipart/form-data">
+                <form id="guardar-certificado" action="" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" value="0">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group ">
-                                    <label class="form-label">Importar : <span class="text-red">*</span></label>
-                                    <input type="file" name="importar_excel" class="form-control form-control-sm" required>
+                                <div class="form-group">
+                                    <label class="form-label mt-0">Single File input Upload</label>
+                                    <input class="form-control" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12" data-table="respuesta">
-
                             </div>
                         </div>
                     </div>
@@ -271,6 +125,7 @@ HB GROUP - Gestion de Alumnos
             </div>
         </div>
     </div>
+
 </div>
 @endsection
 

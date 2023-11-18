@@ -35,35 +35,15 @@ class CertificadoModel {
             data: {_token:this.token},
         });
     }
-    guardarAlumnos = (data) => {
+    
+    buscarCodigo = (id, codigo) => {
         return $.ajax({
-            url: route("hb.academicos.certificados.guardar-alumnos"),
+            url: route("hb.academicos.certificados.buscar-codigo"),
             type: "POST",
             dataType: "JSON",
             // processData: false,
             // contentType: false,
-            data: data,
+            data: {_token:this.token, id:id, codigo:codigo},
         });
     };
-    eliminarAlumnos = (id) => {
-        return $.ajax({
-            url: route("hb.academicos.certificados.eliminar-alumno",{id: id}),
-            type: "PUT",
-            dataType: "JSON",
-            // processData: false,
-            // contentType: false,
-            data: {_token:this.token},
-        });
-    }
-    confirmarAlumnos = (id) => {
-        return $.ajax({
-            url: route("hb.academicos.certificados.confirmar-alumno",{id:id}),
-            type: "GET",
-            dataType: "JSON",
-            // processData: false,
-            // contentType: false,
-            data: {_token:this.token},
-        });
-    };
-
 }
