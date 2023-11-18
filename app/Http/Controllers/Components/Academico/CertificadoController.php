@@ -31,29 +31,15 @@ class CertificadoController extends Controller
     }
     public function listar()
     {
-        $data = Certificado::all();
+        $data = Certificado::where('estado',1)->get();
         return DataTables::of($data)
-        // ->addColumn('documento', function ($data) {
-        //     return $data->usuario->persona->nro_documento;
-        // })
+        ->addColumn('vigencia', function ($data) {
+            Certificado::vigencia($data->id);
+            return Certificado::vigencia($data->id);
+        })
         ->addColumn('apellidos_nombres', function ($data) {
             return $data->apellido_paterno.' '.$data->apellido_materno.' '.$data->nombres;
         })
-        // ->addColumn('email', function ($data) {
-        //     return $data->usuario->email;
-        // })
-        // ->addColumn('cargo', function ($data) {
-        //     return $data->usuario->persona->cargo;
-        // })
-        // ->addColumn('celular', function ($data) {
-        //     return $data->usuario->persona->telefono;
-        // })
-        // ->addColumn('sexo', function ($data) {
-        //     return ($data->usuario->persona->sexo=='M'?'MASCULINO':'FEMENINO');
-        // })
-        // ->addColumn('fecha_caducidad', function ($data) {
-        //     return date("d/m/Y", strtotime($data->usuario->persona->fecha_caducidad_dni)) ;
-        // })
         ->addColumn('accion', function ($data) {
             $array_accesos = array();
             $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
@@ -71,7 +57,7 @@ class CertificadoController extends Controller
                 </button>
 
             </div>';
-        })->rawColumns(['accion'])->make(true);
+        })->rawColumns(['accion','vigencia'])->make(true);
     }
     public function formulario(Request $request)
     {
@@ -115,7 +101,7 @@ class CertificadoController extends Controller
             $data->nota                     = $request->nota;
             $data->aprobado                 = 1;
             $data->comentario               = $request->comentario;
-        $data->estado                   = $request->estado;
+            $data->estado                   = 1;
 
         if ((int) $request->id == 0) {
             $data->created_at           = date('Y-m-d H:i:s');
@@ -131,5 +117,18 @@ class CertificadoController extends Controller
         }
 
         return response()->json(["titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success"],200);
+    }
+    public function eliminar($id)
+    {
+        try {
+            $data = Certificado::find($id);
+            $data->estado = 0;
+            $data->save();
+            $data->delete();
+            return response()->json(["titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success"],200);
+        } catch (\Throwable $th) {
+            return response()->json(["titulo"=>"Error","mensaje"=>"Ocurrior un error comuniquese con el area de TI","tipo"=>"error"],200);
+        }
+        
     }
 }

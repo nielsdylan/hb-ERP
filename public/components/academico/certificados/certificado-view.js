@@ -16,6 +16,7 @@ class CertificadoView {
             language: idioma,
             serverSide: true,
             processing: true,
+            // pagingType: 'full_numbers',
             initComplete: function (settings, json) {
                 const $filter = $('#tabla-data_filter');
                 const $input = $filter.find('input');
@@ -37,6 +38,8 @@ class CertificadoView {
                 $('.select2').select2({
                     minimumResultsForSearch: Infinity
                 });
+                const $paginate = $('#tabla-data_paginate');
+                $paginate.find('ul.pagination').addClass('pagination-sm');
             },
             drawCallback: function (settings) {
                 $('#tabla-data_filter input').prop('disabled', false);
@@ -44,22 +47,22 @@ class CertificadoView {
                 $('#tabla-data_filter input').trigger('focus');
 
             },
-            order: [[0, 'asc']],
+            order: [[0, 'desc']],
             ajax: {
                 url: route('hb.academicos.certificados.listar'),
                 method: 'POST',
                 headers: {'X-CSRF-TOKEN': csrf_token}
             },
             columns: [
-                {data: 'id' },
-                {data: 'cod_certificado', className: 'text-center'},
-                {data: 'curso', className: 'text-center'},
+                {data: 'id', className: 'text-center'},
+                {data: 'cod_certificado'},
+                {data: 'curso'},
                 {data: 'numero_documento', className: 'text-center'},
-                {data: 'apellidos_nombres', className: 'text-center'},
+                {data: 'apellidos_nombres'},
                 {data: 'empresa', className: 'text-center'},
                 {data: 'email', className: 'text-center'},
                 {data: 'nota', className: 'text-center'},
-                {data: 'estado', className: 'text-center'},
+                {data: 'vigencia', className: 'text-center'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
             ]
         });
@@ -173,7 +176,7 @@ class CertificadoView {
         /**
          * Eliminar - Eliminar registro por ID
          */
-        $('.eliminar').click((e) => {
+        $("#tabla-data").on("click", "button.eliminar", (e) => {
             let model = this.model;
             let id = $(e.currentTarget).attr('data-id');
             Swal.fire({

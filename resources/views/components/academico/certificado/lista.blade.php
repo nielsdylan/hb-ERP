@@ -12,6 +12,9 @@ HB GROUP - Gestion de Alumnos
     .table tbody tr{
         font-size: 0.675rem !important;
     }
+    div.dataTables_wrapper div.dataTables_info{
+        font-size: 0.675rem !important;
+    }
 </style>
 @endsection
 @section('content')
