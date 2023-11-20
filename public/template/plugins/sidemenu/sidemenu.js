@@ -372,8 +372,6 @@ function ActiveSubmenu() {
             prevValue = prevWidth[prevWidth.length - 2];
         }
 
-        console.log(pageUrl);
-        console.log(position);
         if (pageUrl === position) {
             setTimeout(() => {
                 if ($this.closest('.sub-slide-menu2')) {
