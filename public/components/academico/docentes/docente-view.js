@@ -42,6 +42,8 @@ class DocenteView {
                 $('#tabla-data_filter input').prop('disabled', false);
                 $('#btnBuscar').html('<i class="fa fa-search"></i>').prop('disabled', false);
                 $('#tabla-data_filter input').trigger('focus');
+                const $paginate = $('#tabla-data_paginate');
+                $paginate.find('ul.pagination').addClass('pagination-sm');
 
             },
             order: [[0, 'asc']],

@@ -3,19 +3,6 @@
 HB GROUP - Gestion de Alumnos
 @endsection
 @section('css')
-<style>
-    .table th, .text-wrap table th{
-        font-size: 0.675rem !important;
-        text-transform: math-auto !important;
-
-    }
-    .table tbody tr{
-        font-size: 0.675rem !important;
-    }
-    div.dataTables_wrapper div.dataTables_info{
-        font-size: 0.675rem !important;
-    }
-</style>
 @endsection
 @section('content')
 <div class="main-container container-fluid">
