@@ -90,7 +90,7 @@ let currentWidth;
         }
     });
     //p-scroll
-    
+
     const ps = new PerfectScrollbar('.app-sidebar', {
         useBothWheelAxes: true,
         suppressScrollX: true,
@@ -112,17 +112,17 @@ let currentWidth;
 
     HorizontalHovermenu();
 
-    // for Icon-text Menu	
-    //icontext(); 	
+    // for Icon-text Menu
+    //icontext();
 
-    // default layout	
+    // default layout
     hovermenu();
 
     ActiveSubmenu();
 })();
 
 function responsive() {
-    
+
     const mediaQuery = window.innerWidth;
     currentWidth.push(mediaQuery);
     if (currentWidth.length > 2) { currentWidth.shift() }
@@ -159,7 +159,7 @@ function iconoverlay() {
         $('body').removeClass('sidenav-toggled-open');
     });
 
-    //Mobile menu 
+    //Mobile menu
     var alterClass = function () {
         var ww = document.body.clientWidth;
         if (ww < 992) {
@@ -239,7 +239,7 @@ $(document).on('click', '.horizontal-content', function () {
 })
 
 
-// page load active menu 
+// page load active menu
 setTimeout(() => {
     if ($('.slide-item').hasClass('active')) {
         $('.app-sidebar').animate({
@@ -361,8 +361,9 @@ $(window).resize(
 
 function ActiveSubmenu() {
 
-    var position = window.location.pathname.split('/');
-    position = position[position.length - 1];
+    // var position = window.location.pathname.split('/');
+    var position = window.location.href;
+    // position = position[position.length - 1];
     $(".app-sidebar li a").each(function () {
         var $this = $(this);
         var pageUrl = $this.attr("href");
@@ -371,7 +372,8 @@ function ActiveSubmenu() {
             prevValue = prevWidth[prevWidth.length - 2];
         }
 
-
+        console.log(pageUrl);
+        console.log(position);
         if (pageUrl === position) {
             setTimeout(() => {
                 if ($this.closest('.sub-slide-menu2')) {
@@ -692,7 +694,7 @@ function menuClick() {
             }
         }
     });
-    // Activate sidebar slide toggle	
+    // Activate sidebar slide toggle
     $("[data-bs-toggle='sub-slide']").on('click', function (e) {
         var $this = $(this);
         var checkElement = $this.next();
@@ -719,7 +721,7 @@ function menuClick() {
             e.preventDefault();
         }
     });
-    // Activate sidebar slide toggle	
+    // Activate sidebar slide toggle
     $("[data-bs-toggle='sub-slide2']").on('click', function (e) {
         var $this = $(this);
         var checkElement = $this.next();
@@ -759,7 +761,7 @@ function HorizontalHovermenu() {
     else {
         menuClick();
     }
-} 
+}
 document.querySelector('.main-content').addEventListener('click', () => {
     if (document.querySelector('body').classList.contains('horizontal')) {
         let li = document.querySelectorAll('.side-menu li')
