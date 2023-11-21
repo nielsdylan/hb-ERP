@@ -119,6 +119,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::put('eliminar/{id}', [CertificadoController::class, 'eliminar'])->name('eliminar');
 
             Route::post('buscar-codigo', [CertificadoController::class, 'buscarCodigo'])->name('buscar-codigo');
+            Route::post('importar-certificados-excel', [CertificadoController::class, 'importarCertificadosExcel'])->name('importar-certificados-excel');
             // Route::get('modelo-importar-alumnos-excel', [AlumnosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             // Route::post('importar-alumnos-excel', [AlumnosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
         });

@@ -242,14 +242,26 @@ class CertificadoView {
 
         /*
         *
+        * funcsiones para importar excel de certificados
         *
-        * 
         */
         $('#importar').click((e) => {
             e.preventDefault();
             $('#modal-importar').modal('show');
         });
-        
+
+        $('#guardar-certificado').on("submit", (e) => {
+            e.preventDefault();
+            // var data = $(e.currentTarget).serialize();
+            let data = new FormData($(e.currentTarget)[0]);
+
+            this.model.importarCertificadosExcel(data).then((respuesta) => {
+                console.log(respuesta);
+            }).fail((respuesta) => {
+                // return respuesta;
+            }).always(() => {
+            });
+        });
     }
 
 }

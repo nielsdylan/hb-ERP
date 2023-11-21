@@ -129,17 +129,22 @@ class CertificadoController extends Controller
         } catch (\Throwable $th) {
             return response()->json(["titulo"=>"Error","mensaje"=>"Ocurrior un error comuniquese con el area de TI","tipo"=>"error"],200);
         }
-        
+
     }
     public function buscarCodigo(Request $request) {
         if ((int)$request->id == 0) {
             $certificado = Certificado::where('cod_certificado','=',$request->codigo)->first();
             if ($certificado) {
                 return response()->json(array("success"=>true),200);
-            } 
+            }
             return response()->json(array("success"=>false),200);
         }
         return response()->json(array("success"=>false),200);
 
+    }
+    public function importarCertificadosExcel(Request $request){
+        // https://www.youtube.com/watch?v=FSkobxzqY3g
+        $path = storage_path().'/app/'.$request->file('certificado')->store('tmp');
+        return response()->json(["tipo"=>true],200);
     }
 }

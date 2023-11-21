@@ -98,7 +98,7 @@ HB GROUP - Gestion de Alumnos
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label mt-0">Single File input Upload</label>
-                                    <input class="form-control" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+                                    <input class="form-control" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="certificado" required>
                                 </div>
                             </div>
                         </div>

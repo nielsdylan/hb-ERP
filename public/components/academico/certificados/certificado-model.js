@@ -35,7 +35,7 @@ class CertificadoModel {
             data: {_token:this.token},
         });
     }
-    
+
     buscarCodigo = (id, codigo) => {
         return $.ajax({
             url: route("hb.academicos.certificados.buscar-codigo"),
@@ -44,6 +44,16 @@ class CertificadoModel {
             // processData: false,
             // contentType: false,
             data: {_token:this.token, id:id, codigo:codigo},
+        });
+    };
+    importarCertificadosExcel = (data) => {
+        return $.ajax({
+            url: route("hb.academicos.certificados.importar-certificados-excel"),
+            type: "POST",
+            dataType: "JSON",
+            processData: false,
+            contentType: false,
+            data: data,
         });
     };
 }
