@@ -8,6 +8,9 @@ use App\Models\LogActividades;
 use App\Models\TipoDocumentos;
 use App\Models\UsuariosAccesos;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Reader\Xls;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Shared\Xls as SharedXls;
 use Yajra\DataTables\Facades\DataTables;
 
 class CertificadoController extends Controller
@@ -145,6 +148,12 @@ class CertificadoController extends Controller
     public function importarCertificadosExcel(Request $request){
         // https://www.youtube.com/watch?v=FSkobxzqY3g
         $path = storage_path().'/app/'.$request->file('certificado')->store('tmp');
-        return response()->json(["tipo"=>true],200);
+
+        $reader = new Xlsx();
+        $spreadsheet = $reader->load($path);
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $workShetInfo = $reader->listWorksheetInfo($path);
+        dd($workShetInfo);
     }
 }
