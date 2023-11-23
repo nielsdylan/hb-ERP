@@ -6,7 +6,7 @@ class AccesosUsuariosView {
 
     eventos = () => {
         /**
-         * busca los sub menus del menu padre 
+         * busca los sub menus del menu padre
          */
         $('[name="menu"]').on("change", (e) => {
             let id = $(e.currentTarget).val();
@@ -15,12 +15,12 @@ class AccesosUsuariosView {
             this.model.buscarSubMenu(id).then((respuesta) => {
 
                 if (respuesta.success==true) {
-                   $.each(respuesta.data, function (index, element) { 
+                   $.each(respuesta.data, function (index, element) {
                         html+='<option value="'+element.id+'">'+element.titulo+'</option>'
-                    }); 
+                    });
                     $('[name="sub-menu"]').removeAttr('disabled');
                 }
-                
+
                 $('[name="sub-menu"]').html(html);
             }).fail((respuesta) => {
                 console.log(respuesta);
@@ -29,7 +29,7 @@ class AccesosUsuariosView {
         });
 
         /**
-         * busca los accesos de cada menu 
+         * busca los accesos de cada menu
          */
         $('.menus-seleccionar').on("change", (e) => {
             let id = $(e.currentTarget).val();
@@ -38,7 +38,7 @@ class AccesosUsuariosView {
 
             this.model.buscarAccesos(id, usuario_id).then((respuesta) => {
                 if (respuesta.success==true) {
-                    $.each(respuesta.data, function (index, element) { 
+                    $.each(respuesta.data, function (index, element) {
                         html+=`
                         <div class="col-md-3" >
                             <div class="form-group">
@@ -52,7 +52,7 @@ class AccesosUsuariosView {
                         </div>
 
                         `;
-                    }); 
+                    });
                     $('[name="sub-menu"]').removeAttr('disabled');
                  }
                  $('[data-action="accesoss"]').html(html);
@@ -69,20 +69,22 @@ class AccesosUsuariosView {
             let usuario_id = $('#guardar').find('[name="usuario_id"]').val();
             let marcado = ($(e.currentTarget).is(':checked')?true:false);
             let data={
-                _token: csrf_token, 
-                acceso_id:  id, 
-                usuario_id: usuario_id, 
-                menu_id : menu_id, 
+                _token: csrf_token,
+                acceso_id:  id,
+                usuario_id: usuario_id,
+                menu_id : menu_id,
                 marcado:marcado
             };
-            
+
 
             this.model.guardarAccesos(data).then((respuesta) => {
-                Swal.fire(
-                    'Éxito!',
-                    'Se guardo con éxito',
-                    'success'
-                )
+                notif({
+                    msg: `<div class="alert alert-success text-white pt-0" role="alert">
+                    <span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>
+                    <span class="alert-inner--text"><strong>Éxito!</strong> Se guardo con éxito!</span>
+                </div>`,
+                    type: "success"
+                });
             }).fail((respuesta) => {
                 console.log(respuesta);
             }).always(() => {

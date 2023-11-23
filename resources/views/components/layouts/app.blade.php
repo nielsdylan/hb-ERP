@@ -166,6 +166,8 @@
     <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('template/plugins/bootstrap5-typehead/autocomplete.js') }}"></script>
     <script src="{{ asset('template/js/typehead.js') }}"></script>
+    <script src="{{ asset('template/plugins/notify/js/sample.js') }}"></script>
+    <script src="{{ asset('template/plugins/notify/js/notifIt.js') }}"></script>
     <script src="{{ asset('template/plugins/p-scroll/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('template/plugins/p-scroll/pscroll.js') }}"></script>
     <script src="{{ asset('template/plugins/p-scroll/pscroll-1.js') }}"></script>

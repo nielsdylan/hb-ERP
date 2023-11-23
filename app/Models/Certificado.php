@@ -16,7 +16,7 @@ class Certificado extends Model
         'codigo_curso',
         'curso',
         'tipo_curso',
-        'tipo_documento',
+        'tipo_documento_id',
         'numero_documento',
         'apellido_paterno',
         'apellido_materno',
@@ -49,7 +49,7 @@ class Certificado extends Model
             $fecha_actual = date("Y-m-d",strtotime(date("Y-m-d")));
             $estado='Vigente';
             $color = 'success';
-            
+
             if (date("Y-m-d") >= date("Y-m-d",strtotime($certificado->fecha_vencimiento."- 1 month"))) {
                 $estado='Perecer';
                 $color = 'warning';
@@ -59,6 +59,6 @@ class Certificado extends Model
         }else{
             return '<span class="badge rounded-pill bg-danger badge-sm me-1 mb-1 mt-1 protip" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Vencido">Vencido</span>';
         }
-        
+
     }
 }

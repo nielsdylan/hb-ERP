@@ -35,7 +35,7 @@ HB GROUP - Gestion de Alumnos
                             <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="carga-excel" ><i class="fe fe-upload"></i> Carga masiva de Alumnos</a>
                             @endif
                             @if (in_array(2,$array_accesos)) --}}
-                            <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="modelo" ><i class="fe fe-download"></i> Modelo de excel</a>
+                            <a href="{{ route('hb.academicos.certificados.certificado-modelo-excel') }}" class="btn btn-info btn-sm ms-2" id="modelo" ><i class="fe fe-download"></i> Modelo de excel</a>
                             <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="importar" ><i class="fe fe-upload"></i> Importarción Certificado</a>
                             <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2" id="nuevo" ><i class="fe fe-plus"></i> Nuevo Certificado</a>
                             {{-- @endif --}}
@@ -49,15 +49,15 @@ HB GROUP - Gestion de Alumnos
                                 width="100%">
                                     <thead>
                                         <tr>
-                                            <th class="wd-15p border-bottom-0">#</th>
-                                            <th class="wd-15p border-bottom-0">Código</th>
-                                            <th class="wd-15p border-bottom-0">Curso</th>
-                                            <th class="wd-20p border-bottom-0">Número Documento</th>
-                                            <th class="wd-20p border-bottom-0">Apellidos y Nombres</th>
-                                            <th class="wd-20p border-bottom-0">Empresa</th>
-                                            <th class="wd-20p border-bottom-0">Email</th>
-                                            <th class="wd-20p border-bottom-0">Nota</th>
-                                            <th class="wd-20p border-bottom-0">Estado</th>
+                                            <th class="wd-15p border-bottom-0" width="">#</th>
+                                            <th class="wd-15p border-bottom-0" width="">Código</th>
+                                            <th class="wd-15p border-bottom-0" width="">Curso</th>
+                                            <th class="wd-15p border-bottom-0" width="">N° Documento</th>
+                                            <th class="wd-15p border-bottom-0" width="">Apellidos y Nombres</th>
+                                            <th class="wd-15p border-bottom-0">Empresa</th>
+                                            <th class="wd-15p border-bottom-0">Email</th>
+                                            <th class="wd-15p border-bottom-0">Nota</th>
+                                            <th class="wd-15p border-bottom-0">Estado</th>
                                             <th class="wd-15p border-bottom-0">-</th>
                                         </tr>
                                     </thead>
@@ -98,14 +98,14 @@ HB GROUP - Gestion de Alumnos
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label mt-0">Single File input Upload</label>
-                                    <input class="form-control" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="certificado" required>
+                                    <input class="form-control" type="file" accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="certificado" required>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save"></i> Guardar</button>
+                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal"><i class="fe fe-x"></i> Cerrar</button>
                     </div>
                 </form>
 

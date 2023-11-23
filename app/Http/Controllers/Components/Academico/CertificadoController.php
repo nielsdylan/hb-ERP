@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\Components\Academico;
 
+use App\Exports\ModeloCertificadoExcelModeloExport;
 use App\Http\Controllers\Controller;
+use App\Imports\CertificadosImport;
 use App\Models\Certificado;
 use App\Models\LogActividades;
 use App\Models\TipoDocumentos;
 use App\Models\UsuariosAccesos;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
-use PhpOffice\PhpSpreadsheet\Shared\Xls as SharedXls;
 use Yajra\DataTables\Facades\DataTables;
 
 class CertificadoController extends Controller
@@ -146,14 +151,115 @@ class CertificadoController extends Controller
 
     }
     public function importarCertificadosExcel(Request $request){
-        // https://www.youtube.com/watch?v=FSkobxzqY3g
-        $path = storage_path().'/app/'.$request->file('certificado')->store('tmp');
 
-        $reader = new Xlsx();
-        $spreadsheet = $reader->load($path);
-        $sheet = $spreadsheet->getActiveSheet();
+        try {
+            $spreadsheet = IOFactory::load(request()->file('certificado'));
 
-        $workShetInfo = $reader->listWorksheetInfo($path);
-        dd($workShetInfo);
+            $indiceHoja = 0; // indicamos la primera hoja por defecto
+
+            $hojaActual = $spreadsheet->getSheet($indiceHoja);
+            # obtener el numero filas
+            $numeroDeFilas = $hojaActual->getHighestRow(); // Numérico
+
+            $arrayExcluidos = array();
+
+            # Iterar filas con ciclo for e índices
+            for ($indiceFila = 1; $indiceFila <= $numeroDeFilas; $indiceFila++) {
+                if ($indiceFila!=1) {
+
+                    $documento = TipoDocumentos::where('descripcion',$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue())->first();
+                    // return  $hojaActual->getCellByColumnAndRow(20, $indiceFila)->getFormattedValue();
+                    if ($documento) {
+
+                        // $data = Certificado::where('cod_certificado', $hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue())->where('estado', 1)->first();
+                        // return response()->json([$data],200);
+                        // if (!$data) {
+                        //     $data = new Certificado;
+                        // }
+                        $data = Certificado::firstOrNew(
+                            ['cod_certificado' => $hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue()],
+                            ['estado' => 1]
+                        );
+                            $data->fecha_curso              = Carbon::parse($hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue())->format('Y-m-d') ;
+                        // $data->codigo_curso             = $request->codigo_curso;
+                            $data->curso                    = $hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue();
+                            $data->tipo_curso               = $hojaActual->getCellByColumnAndRow(3, $indiceFila)->getFormattedValue();
+                            $data->tipo_documento_id        = $documento->id;
+                            $data->numero_documento         = $hojaActual->getCellByColumnAndRow(5, $indiceFila)->getFormattedValue();
+                            $data->apellido_paterno         = $hojaActual->getCellByColumnAndRow(6, $indiceFila)->getFormattedValue();
+                            $data->apellido_materno         = $hojaActual->getCellByColumnAndRow(7, $indiceFila)->getFormattedValue();
+                            $data->nombres                  = $hojaActual->getCellByColumnAndRow(8, $indiceFila)->getFormattedValue();
+                            $data->empresa                  = $hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue();
+                            $data->cargo                    = $hojaActual->getCellByColumnAndRow(10, $indiceFila)->getFormattedValue();
+                            $data->email                    = $hojaActual->getCellByColumnAndRow(11, $indiceFila)->getFormattedValue();
+                            $data->supervisor_responsable   = $hojaActual->getCellByColumnAndRow(12, $indiceFila)->getFormattedValue();
+                            $data->observaciones            = $hojaActual->getCellByColumnAndRow(13, $indiceFila)->getFormattedValue();
+                        // $data->acronimos                = $request->acronimos;
+                        // $data->nombre_curso_oficial     = $request->nombre_curso_oficial;
+                        // $data->fecha_oficial            = $request->fecha_oficial;
+                            $data->cod_certificado          = $hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue();
+                        // $data->descripcion_larga        = $request->descripcion_larga;
+                        // $data->descripcion_corta        = $request->descripcion_corta;
+                            $data->fecha_vencimiento        = Carbon::parse($hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue())->format('Y-m-d');
+                            $data->duracion                 = $hojaActual->getCellByColumnAndRow(22, $indiceFila)->getFormattedValue();
+                            $data->nota                     = (float) $hojaActual->getCellByColumnAndRow(20, $indiceFila)->getFormattedValue();
+                            $data->aprobado                 = 1;
+                            $data->comentario               = $hojaActual->getCellByColumnAndRow(24, $indiceFila)->getFormattedValue();
+                            $data->estado                   = 1;
+
+                        if (Certificado::where('cod_certificado', $hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue())->first()) {
+                            $data->created_at           = date('Y-m-d H:i:s');
+                            $data->created_id           = Auth()->user()->id;
+                            $data->save();
+                            LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN CERTIFICADO', $data->getTable(), NULL, $data, 'SE A CREADO UN NUEVO CERTIFICADO DESDE LA IMPORTACION DE CERTIFICADOS');
+                        }else{
+                            $data_old=Certificado::find($request->id);
+                            $data->updated_at   = date('Y-m-d H:i:s');
+                            $data->updated_id   = Auth()->user()->id;
+                            $data->save();
+                            LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN CERTIFICADO', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN CERTIFICADO DESDE LA IMPORTACION DE CERTIFICADOS');
+                        }
+
+                    }else{
+                        array_push($arrayExcluidos,array(
+                            "FECHA DE CURSO"            =>$hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue(),
+                            "CURSO"                     =>$hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue(),
+                            "TIPO DE CURSO"             =>$hojaActual->getCellByColumnAndRow(3, $indiceFila)->getFormattedValue(),
+                            "TIPO DE DOCUMENTO"         =>$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue(),
+                            "N° DE DOCUMENTO"           =>$hojaActual->getCellByColumnAndRow(5, $indiceFila)->getFormattedValue(),
+                            "APELLIDO PATERNO"          =>$hojaActual->getCellByColumnAndRow(6, $indiceFila)->getFormattedValue(),
+                            "APELLIDO MATERNO"          =>$hojaActual->getCellByColumnAndRow(7, $indiceFila)->getFormattedValue(),
+                            "NOMBRES"                   =>$hojaActual->getCellByColumnAndRow(8, $indiceFila)->getFormattedValue(),
+                            "EMPRESA"                   =>$hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue(),
+                            "CARGO"                     =>$hojaActual->getCellByColumnAndRow(10, $indiceFila)->getFormattedValue(),
+                            "CORREO ELECTRONICO"        =>$hojaActual->getCellByColumnAndRow(11, $indiceFila)->getFormattedValue(),
+                            "SUPERVISOR RESPONSABLE"    =>$hojaActual->getCellByColumnAndRow(12, $indiceFila)->getFormattedValue(),
+                            "OBSERVACIONES"             =>$hojaActual->getCellByColumnAndRow(13, $indiceFila)->getFormattedValue(),
+                            "CURSO(CODIGO DEL CURSO)"   =>$hojaActual->getCellByColumnAndRow(14, $indiceFila)->getFormattedValue(),
+                            "COD"                       =>$hojaActual->getCellByColumnAndRow(15, $indiceFila)->getFormattedValue(),
+                            "LETRA"                     =>$hojaActual->getCellByColumnAndRow(16, $indiceFila)->getFormattedValue(),
+                            "AAAA"                      =>$hojaActual->getCellByColumnAndRow(17, $indiceFila)->getFormattedValue(),
+                            "MM"                        =>$hojaActual->getCellByColumnAndRow(18, $indiceFila)->getFormattedValue(),
+                            "DD"                        =>$hojaActual->getCellByColumnAndRow(19, $indiceFila)->getFormattedValue(),
+                            "NOTA"                      =>$hojaActual->getCellByColumnAndRow(20, $indiceFila)->getFormattedValue(),
+                            "CODIGO CERTIFICADO"        =>$hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue(),
+                            "DURACION"                  =>$hojaActual->getCellByColumnAndRow(22, $indiceFila)->getFormattedValue(),
+                            "FECHA VENCIMIENTO"         =>$hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue(),
+                            "COMENTARIO"                =>$hojaActual->getCellByColumnAndRow(24, $indiceFila)->getFormattedValue(),
+                        ));
+                    }
+                }
+
+            }
+            return response()->json(["titulo"=>"Éxito", "mensaje"=>"Se importo con exito la lista de certificados","tipo"=>"success","data"=>$arrayExcluidos],200);
+        } catch (\Throwable $th) {
+            return response()->json(["titulo"=>"Error", "mensaje"=>"Ocurrio un error comuniquese con su soporte de TI.","tipo"=>"error"],200);
+        }
+
+
+
+    }
+    public function certificadoModeloExcel(){
+        return Excel::download(new ModeloCertificadoExcelModeloExport, 'modeloCertificado.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }

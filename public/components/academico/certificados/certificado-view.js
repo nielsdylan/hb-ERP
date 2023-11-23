@@ -59,9 +59,9 @@ class CertificadoView {
                 {data: 'cod_certificado'},
                 {data: 'curso'},
                 {data: 'numero_documento', className: 'text-center'},
-                {data: 'apellidos_nombres'},
-                {data: 'empresa', className: 'text-center'},
-                {data: 'email', className: 'text-center'},
+                {data: 'apellidos_nombres', className: 'text-center'},
+                {data: 'empresa'},
+                {data: 'email'},
                 {data: 'nota', className: 'text-center'},
                 {data: 'vigencia', className: 'text-center'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
@@ -210,7 +210,7 @@ class CertificadoView {
                         allowOutsideClick: false,
                     }).then((resultado) => {
                         if (resultado.isConfirmed) {
-                            window.location.href = route('hb.academicos.certificados.lista');
+                            $('#tabla-data').DataTable().ajax.reload();
                         }
                     })
                 }
@@ -254,9 +254,26 @@ class CertificadoView {
             e.preventDefault();
             // var data = $(e.currentTarget).serialize();
             let data = new FormData($(e.currentTarget)[0]);
-
+            console.log($('[name="certificado"]').val());;
             this.model.importarCertificadosExcel(data).then((respuesta) => {
-                console.log(respuesta);
+
+                $('#modal-importar').modal('hide');
+                $("#guardar-certificado")[0].reset()
+                Swal.fire({
+                    title: respuesta.titulo,
+                    text: respuesta.mensaje,
+                    icon: respuesta.tipo,
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar',
+                    allowOutsideClick: false,
+                }).then((resultado) => {
+                    if (resultado.isConfirmed) {
+                        $('#tabla-data').DataTable().ajax.reload();
+                    }
+                })
+
+
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
