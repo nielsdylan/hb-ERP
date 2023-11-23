@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use SebastianBergmann\Type\TrueType;
 use Yajra\DataTables\Facades\DataTables;
 
 class CertificadoController extends Controller
@@ -166,16 +167,57 @@ class CertificadoController extends Controller
             # Iterar filas con ciclo for e índices
             for ($indiceFila = 1; $indiceFila <= $numeroDeFilas; $indiceFila++) {
                 if ($indiceFila!=1) {
+                    $requeridos = true;
+                    $documento = false;
+                    if (!$hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }else{
+                        $documento = TipoDocumentos::where('descripcion',$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue())->first();
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(5, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(6, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(7, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(8, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(14, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(15, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(20, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(22, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
+                    if (!$hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue()) {
+                        $requeridos = false;
+                    }
 
-                    $documento = TipoDocumentos::where('descripcion',$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue())->first();
+                    if (!$documento) {
+                        $requeridos = false;
+                    }
                     // return  $hojaActual->getCellByColumnAndRow(20, $indiceFila)->getFormattedValue();
-                    if ($documento) {
+                    if ($requeridos) {
 
-                        // $data = Certificado::where('cod_certificado', $hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue())->where('estado', 1)->first();
-                        // return response()->json([$data],200);
-                        // if (!$data) {
-                        //     $data = new Certificado;
-                        // }
+
                         $data = Certificado::firstOrNew(
                             ['cod_certificado' => $hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue()],
                             ['estado' => 1]
@@ -222,36 +264,38 @@ class CertificadoController extends Controller
 
                     }else{
                         array_push($arrayExcluidos,array(
-                            "FECHA DE CURSO"            =>$hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue(),
+                            "FECHA_DE_CURSO"            =>$hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue(),
                             "CURSO"                     =>$hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue(),
-                            "TIPO DE CURSO"             =>$hojaActual->getCellByColumnAndRow(3, $indiceFila)->getFormattedValue(),
-                            "TIPO DE DOCUMENTO"         =>$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue(),
-                            "N° DE DOCUMENTO"           =>$hojaActual->getCellByColumnAndRow(5, $indiceFila)->getFormattedValue(),
-                            "APELLIDO PATERNO"          =>$hojaActual->getCellByColumnAndRow(6, $indiceFila)->getFormattedValue(),
-                            "APELLIDO MATERNO"          =>$hojaActual->getCellByColumnAndRow(7, $indiceFila)->getFormattedValue(),
+                            "TIPO_DE_CURSO"             =>$hojaActual->getCellByColumnAndRow(3, $indiceFila)->getFormattedValue(),
+                            "TIPO_DE_DOCUMENTO"         =>$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue(),
+                            "N_DE_DOCUMENTO"           =>$hojaActual->getCellByColumnAndRow(5, $indiceFila)->getFormattedValue(),
+                            "APELLIDO_PATERNO"          =>$hojaActual->getCellByColumnAndRow(6, $indiceFila)->getFormattedValue(),
+                            "APELLIDO_MATERNO"          =>$hojaActual->getCellByColumnAndRow(7, $indiceFila)->getFormattedValue(),
                             "NOMBRES"                   =>$hojaActual->getCellByColumnAndRow(8, $indiceFila)->getFormattedValue(),
                             "EMPRESA"                   =>$hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue(),
                             "CARGO"                     =>$hojaActual->getCellByColumnAndRow(10, $indiceFila)->getFormattedValue(),
-                            "CORREO ELECTRONICO"        =>$hojaActual->getCellByColumnAndRow(11, $indiceFila)->getFormattedValue(),
-                            "SUPERVISOR RESPONSABLE"    =>$hojaActual->getCellByColumnAndRow(12, $indiceFila)->getFormattedValue(),
+                            "CORREO_ELECTRONICO"        =>$hojaActual->getCellByColumnAndRow(11, $indiceFila)->getFormattedValue(),
+                            "SUPERVISOR_RESPONSABLE"    =>$hojaActual->getCellByColumnAndRow(12, $indiceFila)->getFormattedValue(),
                             "OBSERVACIONES"             =>$hojaActual->getCellByColumnAndRow(13, $indiceFila)->getFormattedValue(),
-                            "CURSO(CODIGO DEL CURSO)"   =>$hojaActual->getCellByColumnAndRow(14, $indiceFila)->getFormattedValue(),
+                            "CODIGO_DEL_CURSO"   =>$hojaActual->getCellByColumnAndRow(14, $indiceFila)->getFormattedValue(),
                             "COD"                       =>$hojaActual->getCellByColumnAndRow(15, $indiceFila)->getFormattedValue(),
                             "LETRA"                     =>$hojaActual->getCellByColumnAndRow(16, $indiceFila)->getFormattedValue(),
                             "AAAA"                      =>$hojaActual->getCellByColumnAndRow(17, $indiceFila)->getFormattedValue(),
                             "MM"                        =>$hojaActual->getCellByColumnAndRow(18, $indiceFila)->getFormattedValue(),
                             "DD"                        =>$hojaActual->getCellByColumnAndRow(19, $indiceFila)->getFormattedValue(),
                             "NOTA"                      =>$hojaActual->getCellByColumnAndRow(20, $indiceFila)->getFormattedValue(),
-                            "CODIGO CERTIFICADO"        =>$hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue(),
+                            "CODIGO_CERTIFICADO"        =>$hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue(),
                             "DURACION"                  =>$hojaActual->getCellByColumnAndRow(22, $indiceFila)->getFormattedValue(),
-                            "FECHA VENCIMIENTO"         =>$hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue(),
+                            "FECHA_VENCIMIENTO"         =>$hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue(),
                             "COMENTARIO"                =>$hojaActual->getCellByColumnAndRow(24, $indiceFila)->getFormattedValue(),
                         ));
                     }
                 }
-
             }
-            return response()->json(["titulo"=>"Éxito", "mensaje"=>"Se importo con exito la lista de certificados","tipo"=>"success","data"=>$arrayExcluidos],200);
+            if (sizeof($arrayExcluidos)>0) {
+                return response()->json(["titulo"=>"Alerta", "mensaje"=>"Se encontro que ".sizeof($arrayExcluidos)." registros no tienen los campos requeridos.","tipo"=>"warning","data"=>$arrayExcluidos],200);
+            }
+            return response()->json(["titulo"=>"Éxito", "mensaje"=>"Se importo con exito la lista de certificados","tipo"=>"success"],200);
         } catch (\Throwable $th) {
             return response()->json(["titulo"=>"Error", "mensaje"=>"Ocurrio un error comuniquese con su soporte de TI.","tipo"=>"error"],200);
         }

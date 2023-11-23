@@ -79,10 +79,8 @@ class AccesosUsuariosView {
 
             this.model.guardarAccesos(data).then((respuesta) => {
                 notif({
-                    msg: `<div class="alert alert-success text-white pt-0" role="alert">
-                    <span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>
-                    <span class="alert-inner--text"><strong>Éxito!</strong> Se guardo con éxito!</span>
-                </div>`,
+                    msg: `<span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>
+                    <span class="alert-inner--text"><strong>Éxito!</strong> Se guardo con éxito el cambio de acceso!</span>`,
                     type: "success"
                 });
             }).fail((respuesta) => {

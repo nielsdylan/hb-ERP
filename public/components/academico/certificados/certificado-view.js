@@ -233,7 +233,6 @@ class CertificadoView {
                     input_this.val('');
                     Swal.fire('Información','El codigo de certificado se encuentra en uso.','info');
                 }
-                console.log(respuesta);
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
@@ -242,7 +241,7 @@ class CertificadoView {
 
         /*
         *
-        * funcsiones para importar excel de certificados
+        * funsiones para importar excel de certificados
         *
         */
         $('#importar').click((e) => {
@@ -254,24 +253,41 @@ class CertificadoView {
             e.preventDefault();
             // var data = $(e.currentTarget).serialize();
             let data = new FormData($(e.currentTarget)[0]);
-            console.log($('[name="certificado"]').val());;
+            let html = '';
+
             this.model.importarCertificadosExcel(data).then((respuesta) => {
 
-                $('#modal-importar').modal('hide');
-                $("#guardar-certificado")[0].reset()
-                Swal.fire({
-                    title: respuesta.titulo,
-                    text: respuesta.mensaje,
-                    icon: respuesta.tipo,
-                    showCancelButton: false,
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Aceptar',
-                    allowOutsideClick: false,
-                }).then((resultado) => {
-                    if (resultado.isConfirmed) {
-                        $('#tabla-data').DataTable().ajax.reload();
-                    }
-                })
+                // $('#modal-importar').modal('hide');
+                $("#guardar-certificado")[0].reset();
+
+                notif({
+                    msg: '<span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>'+
+                    '<span class="alert-inner--text"><strong> '+respuesta.titulo+'!</strong> '+respuesta.mensaje+'</span>',
+                    type: respuesta.tipo,
+                    width: 480,
+                });
+
+                if (respuesta.tipo=="warning") {
+                    $.each(respuesta.data, function (index, element) {
+                        html+='<tr>'+
+                            '<td>'+element.FECHA_DE_CURSO+'</td>'+
+                            '<td>'+element.CURSO+'</td>'+
+                            '<td>'+element.TIPO_DE_DOCUMENTO+'</td>'+
+                            '<td>'+element.N_DE_DOCUMENTO+'</td>'+
+                            '<td>'+element.APELLIDO_PATERNO+'</td>'+
+                            '<td>'+element.APELLIDO_MATERNO+'</td>'+
+                            '<td>'+element.NOMBRES+'</td>'+
+                            '<td>'+element.CODIGO_DEL_CURSO+'</td>'+
+                            '<td>'+element.COD+'</td>'+
+                            '<td>'+element.NOTA+'</td>'+
+                            '<td>'+element.CODIGO_CERTIFICADO+'</td>'+
+                            '<td>'+element.DURACION+'</td>'+
+                            '<td>'+element.FECHA_VENCIMIENTO+'</td>'+
+                        '</tr>';
+                    });
+                    $('[data-table="excluidos"]').html(html);
+                }
+                $('#tabla-data').DataTable().ajax.reload();
 
 
             }).fail((respuesta) => {

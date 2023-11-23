@@ -102,6 +102,47 @@ HB GROUP - Gestion de Alumnos
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered text-nowrap border-bottom table-hover table-sm table-responsive" id="tabla-data"
+                                {{-- style="width: 100%; font-size: x-small" --}}
+                                width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="" width="15"> FECHA DE CURSO </th>
+                                            <th style="" width="20"> CURSO </th>
+                                            {{-- <th style="" width="20"> TIPO DE CURSO </th> --}}
+                                            <th style="" width="20"> TIPO DE DOCUMENTO </th>
+                                            <th style="" width="20"> N° DE DOCUMENTO </th>
+
+                                            <th style="" width="20"> APELLIDO PATERNO </th>
+                                            <th style="" width="20"> APELLIDO MATERNO </th>
+                                            <th style="" width="20"> NOMBRES </th>
+
+                                            {{-- <th style="" width="20"> EMPRESA </th>
+                                            <th style="" width="10"> CARGO </th>
+                                            <th style="" width="15"> CORREO ELECTRONICO </th>
+                                            <th style="" width="20"> SUPERVISOR RESPONSABLE </th>
+                                            <th style="" width="20"> OBSERVACIONES </th> --}}
+
+                                            <th style="" width="20"> CURSO(CODIGO DEL CURSO) </th>
+                                            <th style="" width="20"> COD </th>
+                                            {{-- <th style="" width="20"> LETRA </th>
+                                            <th style="" width="20"> AAAA </th>
+                                            <th style="" width="20"> MM </th>
+                                            <th style="" width="20"> DD </th> --}}
+                                            <th style="" width="20"> NOTA </th>
+                                            <th style="" width="20"> CODIGO CERTIFICADO </th>
+                                            <th style="" width="20"> DURACION </th>
+                                            <th style="" width="20"> FECHA VENCIMIENTO </th>
+                                            {{-- <th style="" width="20"> COMENTARIO </th> --}}
+                                        </tr>
+                                    </thead>
+                                    <tbody data-table="excluidos">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save"></i> Guardar</button>
