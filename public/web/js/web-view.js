@@ -35,12 +35,13 @@ class WebView {
                                 '<tbody>';
 
                                 $.each(respuesta.data, function (index, element) {
+                                    console.log(element.vigencia);
                                     html+='<tr>'+
                                         '<td>'+element.numero_documento+'</td>'+
                                         '<td>'+element.apellido_paterno + ' ' + element.apellido_materno + ' '+ element.nombres+'</td>'+
                                         '<td>'+element.curso+'</td>'+
                                         '<td>'+element.fecha_curso+'</td>'+
-                                        '<td><span class="badge badge-pill badge-primary">'+element.fecha_vencimiento+'</span></td>'+
+                                        '<td><span class="badge badge-pill badge-'+element.vigencia.color+'">'+element.fecha_vencimiento+'</span></td>'+
                                         '<td><a href="'+route('exportar-certificado-pdf',{id:element.id})+'" class="text-primary" ><i class="fas fa-cloud-download-alt"></i> PDF</a></td>'+
                                     '</tr>';
                                 });
@@ -49,10 +50,20 @@ class WebView {
                         '</div>'+
                     '</div>';
                 }else{
-
+                    html = ''+
+                    '<div class="alert alert-warning" role="alert">'+
+                        '<p>'+
+                            'Si no encuentra su certificado comuniquese con el area de soporte academico, marcando al numero telefonico'+
+                            '<a href="tel:+51 932 777 533" class="email-contact" >(+51) 932 777 533</a>'+
+                            'o enviando un correo electronico a'+
+                            '<a href="mailto:comercial@hbgroup.pe?Subject=Consulta%20de%20su%20servicio&body=Con%20urgencia" class="email-contact">&nbsp;comercial@hbgroup.pe</a>.'+
+                            ' Gracias por su comprensión.'+
+                        '</p>'+
+                    '</div>';
                 }
-
+                $('[data-table="table"]').closest("div.slideInUp").removeClass('d-none')
                 $('[data-table="table"]').html(html);
+
                 console.log(respuesta);
             }).fail((respuesta) => {
                 // return respuesta;

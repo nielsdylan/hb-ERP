@@ -56,7 +56,7 @@ class Certificado extends Model
             }
             return array("color"=>$color,"texto"=>$estado);
         }else{
-            return array("color"=>"dangerr","texto"=>"Vencido");
+            return array("color"=>"danger","texto"=>"Vencido");
         }
 
     }

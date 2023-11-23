@@ -31,10 +31,20 @@ class HomeController extends Controller
     }
     public function buscarCertificado(Request $request){
         $data = Certificado::where('numero_documento', 'like', '%'.$request->dni.'%')->where('estado',1)->get();
-        if (sizeof($data)>0) {
-            return response()->json(["tipo"=>true,"data"=>$data],200);
+        $dataArray = array();
+        foreach ($data as $key => $value) {
+            $value->vigencia = $value->vigencia($value->id);
+            if ($value->vigencia['color'] !='danger') {
+                array_push($dataArray, $value);
+            }
+
         }
-        return response()->json(["tipo"=>false,"data"=>$data],200);
+        if (sizeof($dataArray)>0) {
+            return response()->json(["tipo"=>true,"data"=>$dataArray],200);
+        }else{
+            return response()->json(["tipo"=>false,"data"=>$dataArray],200);
+        }
+
     }
     public function exportarCertificadoPDF($id){
         $instructor = (object)array(

@@ -82,8 +82,8 @@
                 </div>
             </div>
 
-            <div class="row  d-none d-sm-none d-lg-block d-md-block ">
-                <div class="col-md-8 offset-2 mt-5 animated slideInUp">
+            <div class="row  d-none d-sm-none d-lg-block d-md-block">
+                <div class="col-md-8 offset-2 mt-5 animated slideInUp  d-none">
                     <div class="card">
                         <div class="card-body" data-table="table">
 
@@ -94,7 +94,7 @@
             </div>
 
             <div class="row d-block d-sm-block d-lg-none d-md-none">
-                <div class="col-md-12 mt-5 animated slideInUp">
+                <div class="col-md-12 mt-5 animated slideInUp  d-none">
                     <div class="card">
                         <div class="card-body" data-table="table">
 
