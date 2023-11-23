@@ -42,8 +42,8 @@ class CertificadoController extends Controller
         $data = Certificado::where('estado',1)->get();
         return DataTables::of($data)
         ->addColumn('vigencia', function ($data) {
-            Certificado::vigencia($data->id);
-            return Certificado::vigencia($data->id);
+            $resuesta = Certificado::vigencia($data->id);
+            return '<span class="badge rounded-pill bg-'.$resuesta['color'].' badge-sm me-1 mb-1 mt-1 protip" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="'.$resuesta['texto'].'">'.$resuesta['texto'].'</span>';
         })
         ->addColumn('apellidos_nombres', function ($data) {
             return $data->apellido_paterno.' '.$data->apellido_materno.' '.$data->nombres;

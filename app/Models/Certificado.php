@@ -54,10 +54,9 @@ class Certificado extends Model
                 $estado='Perecer';
                 $color = 'warning';
             }
-
-            return '<span class="badge rounded-pill bg-'.$color.' badge-sm me-1 mb-1 mt-1 protip" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="'.$estado.'">'.$estado.'</span>';
+            return array("color"=>$color,"texto"=>$estado);
         }else{
-            return '<span class="badge rounded-pill bg-danger badge-sm me-1 mb-1 mt-1 protip" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Vencido">Vencido</span>';
+            return array("color"=>"dangerr","texto"=>"Vencido");
         }
 
     }

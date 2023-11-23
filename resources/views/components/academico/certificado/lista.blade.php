@@ -44,7 +44,7 @@ HB GROUP - Gestion de Alumnos
                     <div class="card-body">
                         <div class="row justify-content-md-center">
                             <div class="col-md-12">
-                                <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data"
+                                <table class="table table-bordered text-nowrap border-bottom table-hover " id="tabla-data"
                                 {{-- style="width: 100%; font-size: x-small" --}}
                                 width="100%">
                                     <thead>

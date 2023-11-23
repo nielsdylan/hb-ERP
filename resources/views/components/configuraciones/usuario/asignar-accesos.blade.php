@@ -27,14 +27,14 @@ HB GROUP - Gestion de Accesos
                 <div class="card-header">
                     <h3 class="card-title">Accesos</h3>
                     <div class="card-options">
-                        <a href="{{ route('hb.configuraciones.usuarios.lista') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Volver</a>
+                        <a href="{{ route('hb.configuraciones.usuarios.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                     </div>
                 </div>
                 <div class="card-body">
                     <input type="hidden" name="usuario_id" value="{{ $usuario->id }}">
                     <div class="row  pb-5">
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="form-group select2-sm">
                                 <label class="form-label"> Menus</label>
                                 <select class="form-control select2 select2-show-search form-select menus-seleccionar" data-placeholder="Seleccione..." name="menu" required>
                                     <option label="Seleccione..."></option>
@@ -45,7 +45,7 @@ HB GROUP - Gestion de Accesos
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="form-group select2-sm">
                                 <label class="form-label"> Sub Menus </label>
                                 <select class="form-control select2 select2-show-search form-select menus-seleccionar" data-placeholder="Seleccione..." name="sub-menu" disabled>
                                     <option label="Seleccione..."></option>
@@ -54,7 +54,7 @@ HB GROUP - Gestion de Accesos
                         </div>
                     </div>
                     <div class="row justify-content-md-center"data-action="accesoss" id="opciones-accesos">
-                        
+
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@ HB GROUP - Gestion de Accesos
                 @csrf
                 <input type="hidden" name="id" value="0">
                 <div class="modal-body">
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Guardar</button>
@@ -92,13 +92,13 @@ HB GROUP - Gestion de Accesos
     <!-- INTERNAL SELECT2 JS -->
     <script src="{{asset('template/plugins/select2/select2.full.min.js')}}"></script>
     {{-- <script src="{{asset('template/js/select2.js')}}"></script> --}}
-    
+
     <!-- DATA TABLE JS-->
     {{-- <script src="{{asset('template/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
-    
+
     <script src="{{asset('template/plugins/datatable/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script> --}}

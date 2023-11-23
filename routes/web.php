@@ -40,6 +40,8 @@ Route::get('contacto',[HomeController::class,'contacto'])->name('contacto');
 Route::get('certificado',[HomeController::class,'certificado'])->name('certificado');
 Route::get('calendario',[HomeController::class,'calendario'])->name('calendario');
 
+Route::post('buscar-certificado',[HomeController::class,'buscarCertificado'])->name('buscar-certificado');
+Route::get('exportar-certificado-pdf/{id}',[HomeController::class,'exportarCertificadoPDF'])->name('exportar-certificado-pdf');
 /*
 * rutas para el erp educativop de hb group peru
 */
