@@ -1,0 +1,26 @@
+body {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: visible;
+    background-color: #ffffff;
+}
+.btn-whatsapp-link {
+    position: fixed;
+    bottom: 14vh;
+    right: 21px;
+    background: #25d366;
+    width: 65px;
+    height: 65px;
+    color: rgb(255, 255, 255)!important;
+    z-index: 10;
+    transition: .3s background ease-in-out;
+    border-radius: 50%;
+    font-size: 34px;
+    text-align: center;
+    padding-top: 6px;
+    box-shadow: -1px 2px 3px #929292;
+}
+#autentication {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}

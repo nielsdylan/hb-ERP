@@ -30,13 +30,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Redirect::view('/login');
-// Route::redirect('/', 'login');
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-Route::get('/',[HomeController::class,'inicio'])->name('login');
+/*
+* rutas para la landing de hb group peru
+*/
+Route::get('/',[HomeController::class,'inicio'])->name('inicio');
+Route::get('nosotros',[HomeController::class,'nosotros'])->name('nosotros');
+Route::get('servicios',[HomeController::class,'servicios'])->name('servicios');
+Route::get('contacto',[HomeController::class,'contacto'])->name('contacto');
+Route::get('certificado',[HomeController::class,'certificado'])->name('certificado');
+Route::get('calendario',[HomeController::class,'calendario'])->name('calendario');
 
+/*
+* rutas para el erp educativop de hb group peru
+*/
 Route::middleware(['guest'])->group(function () {
     Route::get('login',[LoginController::class,'viewLogin'])->name('login');
     Route::post('login',[LoginController::class,'login']);

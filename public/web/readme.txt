@@ -1,0 +1,1 @@
+carpetas assets y uploads son de la landing anterior eliminarlas caundo se cree la nueva landing

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HB Group</title>
-    <link rel="stylesheet" href="{{ asset('web/plugins/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/plugins/bootstrap5/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('web/plugins/swiper/css/swiper.min.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('web/plugins/swiper/css/swiper-bundle.min.css') }}"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('web/plugins/swiper/css/index.e309a75a.css') }}"> --}}
@@ -71,7 +71,7 @@
         <div class="swiper-scrollbar"></div>
     </div>
 
-    <script src="{{ asset('web/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('web/plugins/bootstrap5/js/bootstrap.min.js') }}"></script>
 
     <script type="module" src="{{ asset('web/plugins/swiper/js/swiper.min.js') }}"></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> --}}

@@ -94,11 +94,11 @@ HB GROUP - Gestion de Alumnos
                     @csrf
                     <input type="hidden" name="id" value="0">
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
+                        <div class="row justify-content-md-center">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label mt-0">Single File input Upload</label>
-                                    <input class="form-control" type="file" accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="certificado" required>
+                                    <label class="form-label mt-0">Seleccione un archivo</label>
+                                    <input class="form-control form-control-sm" type="file" accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="certificado" required>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +108,6 @@ HB GROUP - Gestion de Alumnos
                         <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal"><i class="fe fe-x"></i> Cerrar</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
