@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('acceso_id')->constrained('accesos')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('menu_id')->constrained('menus')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

@@ -23,8 +23,8 @@ class DocentesController extends Controller
         // $moneda = Alum::where('empresa_id',Auth()->user()->empresa_id)->get();
         // $nivel = Nivel::where('empresa_id',Auth()->user()->empresa_id)->get();
         // $tipo_habitacion = TipoHabitacion::where('empresa_id',Auth()->user()->empresa_id)->get();
-        $tipos_documentos = TipoDocumentos::all();
-        $empresas = Empresas::all();
+        $tipos_documentos = TipoDocumentos::where('estado',1)->get();
+        $empresas = Empresas::where('estado',1)->get();
         $array_accesos = array();
         $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
         foreach ($usuario_accesos as $key => $value) {
@@ -35,7 +35,7 @@ class DocentesController extends Controller
     }
     public function listar()
     {
-        $data = UsuariosRoles::where('rol_id',3)->get();
+        $data = UsuariosRoles::where('rol_id',3)->where('estado',1)->get();
         return DataTables::of($data)
         ->addColumn('documento', function ($data) { 
             return $data->usuario->persona->nro_documento;
@@ -118,7 +118,7 @@ class DocentesController extends Controller
                 }
 
                 $usuario = User::firstOrNew(['persona_id' => $data->id]);
-                if ((int) $request->id == 0) {
+                // if ((int) $request->id == 0) {
                 
                     
                     $usuario->nombre_corto      = $request->apellido_paterno.' '.(explode(' ',$request->nombres)[0]);
@@ -143,7 +143,7 @@ class DocentesController extends Controller
                     // }
 
                     
-                }
+                // }
 
                 $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id,'rol_id'=>3]);
                 
@@ -186,18 +186,17 @@ class DocentesController extends Controller
     function eliminar($id) {
         $persona = Personas::find($id);
         $persona->deleted_id   = Auth()->user()->id;
+        $persona->estado   = 0;
         $persona->save();
-        $persona->delete();
 
         $usuario = User::where('persona_id',$persona->id)->first();
         $usuario->deleted_id   = Auth()->user()->id;
+        $usuario->estado   = 0;
         $usuario->save();
-        $usuario->delete();
 
-        $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',3)->first();
+        $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',3)->where('estado',1)->first();
         $usuario_rol->deleted_id   = Auth()->user()->id;
         $usuario_rol->save();
-        $usuario_rol->delete();
         
         LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN DOCENTE', $persona->getTable(), $persona, NULL, 'ELIMINO UN REGISTRO DE LA LISTA DE DOCENTE');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
@@ -206,9 +205,9 @@ class DocentesController extends Controller
 
     public function buscar(Request $request) {
         if ((int)$request->id == 0) {
-            $data = Personas::where('nro_documento','=',$request->nro_documento)->first();
-            $usuario = User::where('persona_id',$data->id)->first();
+            $data = Personas::where('nro_documento','=',$request->nro_documento)->where('estado',1)->first();
             if ($data) {
+                $usuario = User::where('persona_id',$data->id)->first();
                 return response()->json(["success"=>true,"persona"=>$data,"usuario"=>$usuario],200);
             }
             return response()->json(["success"=>false],200);

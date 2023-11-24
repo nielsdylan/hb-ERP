@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('descripcion')->nullable();
             $table->dateTime('fecha_registro')->nullable();
+            $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

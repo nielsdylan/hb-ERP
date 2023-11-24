@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('numero')->nullable();
             $table->dateTime('fecha_registro')->nullable();
             $table->foreignId('menu_id')->constrained('menus')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

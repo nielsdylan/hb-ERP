@@ -10,6 +10,6 @@ class Empresas extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'empresas';
-    protected $fillable = ['ruc', 'razon_social','direccion','email','celular','fecha_registro','created_id', 'updated_id', 'deleted_id'];
+    protected $fillable = ['ruc', 'razon_social','direccion','email','celular','fecha_registro', 'estado','created_id', 'updated_id', 'deleted_id'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 }

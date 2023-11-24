@@ -35,7 +35,7 @@ class PersonaSeeder extends Seeder
         //2
         DB::table('personas')->insert([
             'tipo_documento_id'     => 2,
-            'nro_documento'         => '1111111',
+            'nro_documento'         => '74250891',
             'apellido_paterno'      => 'QUISPE',
             'apellido_materno'      => 'PERALTA',
             'nombres'               => 'NIELS',
@@ -54,9 +54,9 @@ class PersonaSeeder extends Seeder
         DB::table('personas')->insert([
             'tipo_documento_id'     => 2,
             'nro_documento'         => '222222',
-            'apellido_paterno'      => 'ZUÑIGA',
-            'apellido_materno'      => 'SARMIENTO',
-            'nombres'               => 'WENDY',
+            'apellido_paterno'      => 'HB',
+            'apellido_materno'      => 'GROUP',
+            'nombres'               => 'COMERCIAL',
             'sexo'                  => 'F',
             'nacionalidad'          => 'PERUANO',
             // 'cargo'                 => '',
@@ -72,9 +72,9 @@ class PersonaSeeder extends Seeder
         DB::table('personas')->insert([
             'tipo_documento_id'     => 2,
             'nro_documento'         => '333333',
-            'apellido_paterno'      => 'MEDINA',
-            'apellido_materno'      => 'PERALTA',
-            'nombres'               => 'JORGE',
+            'apellido_paterno'      => 'HB',
+            'apellido_materno'      => 'GROUP',
+            'nombres'               => 'SERVICIOS',
             'sexo'                  => 'M',
             'nacionalidad'          => 'PERUANO',
             // 'cargo'                 => '',

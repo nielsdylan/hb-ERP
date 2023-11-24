@@ -43,7 +43,7 @@ HB GROUP - Gestion de Aula
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
-                                        <input class="form-control form-control-sm fc-datepicker" placeholder="MM/DD/YYYY" type="text" name="fecha" id="fecha" value="{{ ($aula ?date("d/m/Y", strtotime($aula->fecha)) : date('d/m/Y'))  }}" required>
+                                        <input class="form-control form-control-sm fc-datepicker" placeholder="MM/DD/YYYY" type="text" name="fecha" id="fecha" value="{{ ($aula ?date("d-m-Y", strtotime($aula->fecha)) : date('d-m-Y'))  }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -87,8 +87,8 @@ HB GROUP - Gestion de Aula
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-end">
-                                <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Volver</a>
-                                <button class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
+                                <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> Volver</a>
+                                <button class="btn btn-success btn-sm"><i class="fa fa-save"></i> Guardar</button>
                             </div>
                         </div>
                         
@@ -125,7 +125,8 @@ HB GROUP - Gestion de Aula
             $('.fc-datepicker').datepicker({
                 showOtherMonths: true,
                 selectOtherMonths: true,
-                // language:'es'
+                // language:'es',
+                dateFormat: "dd-mm-yy"
             });
             // Select2 by showing the search
             $('.select2-show-search').select2({

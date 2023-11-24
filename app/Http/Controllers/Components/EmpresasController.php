@@ -24,7 +24,7 @@ class EmpresasController extends Controller
     }
     public function listar()
     {
-        $data = Empresas::all();
+        $data = Empresas::where('estado',1)->get();
         return DataTables::of($data)
         ->addColumn('accion', function ($data) { 
             $array_accesos = array();

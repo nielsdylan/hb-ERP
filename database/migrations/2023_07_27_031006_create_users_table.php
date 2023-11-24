@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('persona_id')->nullable()->constrained('personas')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('empresa_id')->nullable()->constrained('empresas')->onDelete('cascade')->onUpdate('cascade');
             $table->dateTime('fecha_registro')->nullable();
+            $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

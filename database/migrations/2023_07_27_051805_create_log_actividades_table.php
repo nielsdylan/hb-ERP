@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('valor_anterior')->nullable();
             $table->text('nuevo_valor')->nullable();
             $table->text('comentarios')->nullable();
-            
+            $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

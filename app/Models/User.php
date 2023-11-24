@@ -29,7 +29,8 @@ class User extends Authenticatable
         'persona_id',
         'empresa_id',
         'fecha_registro',
-        'fecha_cumpleaños',
+        'fecha_cumpleaños', 'estado',
+        
         'created_id',
         'updated_id',
         'deleted_id'

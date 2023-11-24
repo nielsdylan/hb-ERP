@@ -20,7 +20,7 @@ class AulasController extends Controller
     {
         $aulas = Aulas::paginate(12);
         $array_accesos = array();
-        $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
+        $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->where('estado',1)->get();
         foreach ($usuario_accesos as $key => $value) {
             array_push($array_accesos,$value->acceso_id);
         }
@@ -31,7 +31,7 @@ class AulasController extends Controller
     {
         $id = $request->id;
         $tipo = $request->tipo;
-        $cursos = Cursos::all();
+        $cursos = Cursos::where('estado',1)->get();
         $aula = Aulas::find($id);
         LogActividades::guardar(Auth()->user()->id, 2, 'FORMULARIO DE AULA', null, null, null, 'INGRESO AL FORMULARIO DE AULA');
         return view('components.academico.aulas.formulario', get_defined_vars());
@@ -73,8 +73,8 @@ class AulasController extends Controller
     function eliminar($id) {
         $data = Aulas::find($id);
         $data->deleted_id   = Auth()->user()->id;
+        $data->estado   = 0;
         $data->save();
-        $data->delete();
         LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINACIOND E AULA', $data->getTable(), $data, NULL, 'ELIMINO UNA AULA DE LA GESTIONDE  AULAS');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
         return response()->json($respuesta,200);
@@ -83,7 +83,7 @@ class AulasController extends Controller
     public function agregarAlumnos(Request $request) {
         $id = $request->id;
         $aula = Aulas::find($request->id);
-        $alumnos = UsuariosRoles::where('rol_id',2)->get();
+        $alumnos = UsuariosRoles::where('rol_id',2)->where('estado',1)->get();
         // return $alumnos[0]->usuario;exit;
         // return $alumnos;exit;
         LogActividades::guardar(Auth()->user()->id, 2, 'FORMULARIO DE AGREGAR PARTICIPANTES', null, null, null, 'INGRESO AL FORMULARIO DE AGREGAR PARTICIPANTES');
@@ -94,7 +94,7 @@ class AulasController extends Controller
         $aula = Aulas::find($request->aula_id);
         foreach ($request->usuarios as $key => $value) {
 
-            $alumnos = AulasDescripcion::where('aula_id',$request->aula_id)->get();
+            $alumnos = AulasDescripcion::where('aula_id',$request->aula_id)->where('estado',1)->get();
 
             if (sizeof($alumnos) < $aula->capacidad) {
                 $data = AulasDescripcion::firstOrNew(['alumno_id' => (int) $value,'aula_id'=>$request->aula_id]);
@@ -122,7 +122,7 @@ class AulasController extends Controller
     }
 
     public function listardarAlumnos(Request $request) {
-        $data = AulasDescripcion::where('aula_id', $request->aula_id)->get();
+        $data = AulasDescripcion::where('aula_id', $request->aula_id)->where('estado',1)->get();
         return DataTables::of($data)
         ->addColumn('numero_documento', function ($data) { 
             return $data->usuario->persona->nro_documento;
@@ -134,7 +134,9 @@ class AulasController extends Controller
             return date("d/m/Y", strtotime($data->fecha_registro));
         })
         ->addColumn('reservacion', function ($data) { 
-            return '<span class="badge bg-'.($data->reserva==1?'warning':'success').'-transparent rounded-pill text-'.($data->reserva==1?'warning':'success').' p-2 px-3">'.($data->reserva==1?'Reservado':'Confirmado').'</span>';
+            return '<span class="badge rounded-pill bg-'.($data->reserva==1?'warning':'success').' badge-sm me-1 mb-1 mt-1 protip" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="'.($data->reserva==1?'Reservado':'Confirmado').'">'.($data->reserva==1?'Reservado':'Confirmado').'</span>';
+
+            // return '<span class="badge bg-'.($data->reserva==1?'warning':'success').'-transparent rounded-pill text-'.($data->reserva==1?'warning':'success').' p-2 px-3">'.($data->reserva==1?'Reservado':'Confirmado').'</span>';
         })
         ->addColumn('accion', function ($data) { return
             '<div class="btn-list">
@@ -152,8 +154,8 @@ class AulasController extends Controller
     public function eliminarAlumno($id) {
         $data = AulasDescripcion::find($id);
         $data->deleted_id   = Auth()->user()->id;
+        $data->estado   = 0;
         $data->save();
-        $data->delete();
         LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINACION DE ALUMNO', $data->getTable(), $data, NULL, 'ELIMINO UN ALUMNO');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
         return response()->json($respuesta,200);

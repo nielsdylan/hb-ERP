@@ -203,7 +203,7 @@
 <body>
     <div class="container">
         <div id="img-pdf" class="border-pdf">
-            <div class="text-right margin-top-10"><span class="border-number margin-right-20" style="font-size: 12px; color: #00000059 !import;font-family: 'Roboto', normal;">N&deg;: {{$number}}</span></div>
+            <div class="text-right margin-top-10"><span class="border-number margin-right-20" style="font-size: 12px; color: #00000059 !import;font-family: 'Roboto', normal;">N&deg;: {{$json['number']}}</span></div>
 
             <div class="text-center"><img src="{{public_path().'/web/assets/img/logo_snc.png'}}" width="150"></div>
             <div class="text-center"><h3 class="margin-0">HB GROUP PERU</h3></div>
@@ -211,35 +211,35 @@
                 <h1 class="text-white text-center padding-top-liston margin-bottom-0">CERTIFICADO</h1>
             </div>
             <div class="text-center"><h3 class="margin-top-0">OTORGADO A:</h3></div>
-            <div class="text-center margin-bottom-15"><h1 class="margin-0 text-blue">{{$last_name.' '.$name}}</h1></div>
-            <div class="text-center"><h2 class="margin-0 text-blue">Identificado con DNI N&deg; {{$document}}</h2></div>
-            <div class="text-center"><h2 class="margin-0 text-blue"> {{($business_curso?'de la empresa '.$business_curso:'')}} </h2></div>
+            <div class="text-center margin-bottom-15"><h1 class="margin-0 text-blue">{{$json['last_name'].' '.$json['name']}}</h1></div>
+            <div class="text-center"><h2 class="margin-0 text-blue">Identificado con DNI N&deg; {{$json['document']}}</h2></div>
+            <div class="text-center"><h2 class="margin-0 text-blue"> {{($json['business_curso']?'de la empresa '.$json['business_curso']:'')}} </h2></div>
             <div class="text-center margin-bottom-20 margin-top-20">Por haber aprobado satisfactoriamente el curso de:</div>
 
-            <div class="text-center margin-bottom-30"><h2 class="margin-top-0 text-blue"> “{{$description}}”</h2></div>
+            <div class="text-center margin-bottom-30"><h2 class="margin-top-0 text-blue"> “{{$json['description']}}”</h2></div>
 
 
-            <div class="text-center" style="font-family: 'Roboto', normal;">{{$date_1}}</div>
-            <div class="text-center" style="font-family: 'Roboto', normal;">{{$date_2}}</div>
-            <div class="text-center" style="font-family: 'Roboto', normal;">{{($fecha_vencimiento?'Valido hasta '.$fecha_vencimiento:'')}} </div>
-            <div class="text-center" style="font-family: 'Roboto', normal;">{{($comentario?$comentario:'')}}</div>
+            <div class="text-center" style="font-family: 'Roboto', normal;">{{$json['date_1']}}</div>
+            <div class="text-center" style="font-family: 'Roboto', normal;">{{$json['date_2']}}</div>
+            <div class="text-center" style="font-family: 'Roboto', normal;">{{($json['fecha_vencimiento']?'Valido hasta '.$json['fecha_vencimiento']:'')}} </div>
+            <div class="text-center" style="font-family: 'Roboto', normal;">{{($json['comentario']?$json['comentario']:'')}}</div>
             <div></div>
-            <div class="text-center" style="position: absolute;top: 823px;left: 280px;"><img src="{{public_path().'/web/assets/img/user/'.$img_firm}}" width="150"></div>
+            <div class="text-center" style="position: absolute;top: 823px;left: 280px;"><img src="{{public_path().'/web/assets/img/user/'.$json['img_firm']}}" width="150"></div>
             <div class="text-center" style="position: absolute;top: 875px;left: 255px;"><hr size="1" width="150" class="border-solid"></div>
-            <div class="text-center" style="position: absolute;top: 885px;left: 275px;font-weight: 700;"> {{ $name_firm }} </div>
-            <div class="text-center" style="position: absolute;top: 905px;left: 305px;font-weight: 700;"> {{ $cargo_firm }} </div>
-            <div class="text-center" style="position: absolute;top: 925px;left: 275px;font-weight: 700;"> {{ $business_firm }} </div>
+            <div class="text-center" style="position: absolute;top: 885px;left: 275px;font-weight: 700;"> {{ $json['name_firm'] }} </div>
+            <div class="text-center" style="position: absolute;top: 905px;left: 305px;font-weight: 700;"> {{ $json['cargo_firm'] }} </div>
+            <div class="text-center" style="position: absolute;top: 925px;left: 275px;font-weight: 700;"> {{ $json['business_firm'] }} </div>
             <img src="{{public_path().'/web/assets/img/sello-fondo-hb.png'}}" width="150" class="sello-white" style="position: absolute;top: 825px;">
             <img src="{{public_path().'/web/assets/img/sello-hb.png'}}" width="150" class="sello" style="position: absolute;top: 773px; left:430px">
 
             <div style="font-size: 14px;font-family: 'Roboto' !important;">
                 <hr style="position: absolute;top: 975px;width: 100%;height: 20.5px;background-color: #8090b0;border: transparent;left: 0px;">
                 <div style="position: absolute;top: 1005px;margin-left: 28px;">
-                    <span>{{$name_business}}</span> |
-                    <img src="{{public_path().'/web/assets/img/telephone-cetificado.png'}}" width="15" class="firma"><span> {{$telephone}}</span> |
-                    <span>{{$cell}}</span> |
-                    <img src="{{public_path().'/web/assets/img/message-certificado.png'}}" width="15" class="firma"> <span>{{$email}}</span> |
-                    <img src="{{public_path().'/web/assets/img/web-certificado.png'}}" width="15" class="firma"> <span>{{$web}}</span>
+                    <span>{{$json['name_business']}}</span> |
+                    <img src="{{public_path().'/web/assets/img/telephone-cetificado.png'}}" width="15" class="firma"><span> {{$json['telephone']}}</span> |
+                    <span>{{$json['cell']}}</span> |
+                    <img src="{{public_path().'/web/assets/img/message-certificado.png'}}" width="15" class="firma"> <span>{{$json['email']}}</span> |
+                    <img src="{{public_path().'/web/assets/img/web-certificado.png'}}" width="15" class="firma"> <span>{{$json['web']}}</span>
                 </div>
             </div>
         </div>

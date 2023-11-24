@@ -18,7 +18,7 @@ class TipoDocumentosController extends Controller
     }
     public function listar()
     {
-        $data = TipoDocumentos::all();
+        $data = TipoDocumentos::where('estado',1)->get();
         return DataTables::of($data)
         ->addColumn('accion', function ($data) { return
             '<div class="btn-list">
@@ -69,8 +69,8 @@ class TipoDocumentosController extends Controller
     function eliminar($id) {
         $data = TipoDocumentos::find($id);
         $data->deleted_id   = Auth()->user()->id;
+        $data->estado       = 0;
         $data->save();
-        $data->delete();
         LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN TIPO DE DOCUMENTO', $data->getTable(), $data, NULL, 'ELIMINO UN TIPO DE DOCUMENTO DE LA LISTA DE GESTION DE TIPOS DE DOCUMENTOS');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
         return response()->json($respuesta,200);

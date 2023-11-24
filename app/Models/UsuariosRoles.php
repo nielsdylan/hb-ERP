@@ -11,7 +11,7 @@ class UsuariosRoles extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'usuarios_roles';
-    protected $fillable = ['usuario_id','rol_id','created_id', 'updated_id', 'deleted_id'];
+    protected $fillable = ['usuario_id','rol_id', 'estado','created_id', 'updated_id', 'deleted_id'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     public function usuario(): BelongsTo

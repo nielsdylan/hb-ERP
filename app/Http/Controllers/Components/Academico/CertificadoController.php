@@ -24,16 +24,6 @@ class CertificadoController extends Controller
     //
     public function lista()
     {
-        // $moneda = Alum::where('empresa_id',Auth()->user()->empresa_id)->get();
-        // $nivel = Nivel::where('empresa_id',Auth()->user()->empresa_id)->get();
-        // $tipo_habitacion = TipoHabitacion::where('empresa_id',Auth()->user()->empresa_id)->get();
-        // $tipos_documentos = TipoDocumentos::all();
-        // $empresas = Empresas::all();
-        // $array_accesos = array();
-        // $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
-        // foreach ($usuario_accesos as $key => $value) {
-        //     array_push($array_accesos,$value->acceso_id);
-        // }
 
         LogActividades::guardar(Auth()->user()->id, 1, 'LISTADO DE CERTIFICADOS', null, null, null, 'INGRESO A LA LISTA DE CERTIFICADOS');
         return view('components.academico.certificado.lista', get_defined_vars());
@@ -72,7 +62,7 @@ class CertificadoController extends Controller
     {
         $id = $request->id;
         $tipo = $request->tipo;
-        $tipos_documentos = TipoDocumentos::all();
+        $tipos_documentos = TipoDocumentos::where('estado',1)->get();
         $data = array();
         if ((int)$id>0) {
             $data = Certificado::find($id);

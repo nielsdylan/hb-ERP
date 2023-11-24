@@ -22,9 +22,9 @@ class UsuariosController extends Controller
 {
     //
     public function lista() {
-        $tipos_documentos = TipoDocumentos::all();
-        $empresas = Empresas::all();
-        $roles = Roles::all();
+        $tipos_documentos = TipoDocumentos::where('estado',1)->get();
+        $empresas = Empresas::where('estado',1)->get();
+        $roles = Roles::where('estado',1)->get();
         LogActividades::guardar(Auth()->user()->id, 1, 'GESTION DE USUARIOS', null, null, null, 'INGRESO A LA LISTA DE USUARIOS');
 
         // return $empresas;exit;
@@ -32,7 +32,7 @@ class UsuariosController extends Controller
     }
     public function listar()
     {
-        $data = User::all();
+        $data = User::where('estado',1)->get();
         return DataTables::of($data)
         ->addColumn('empresa', function ($data) { 
             return ($data->empresa ? $data->empresa->razon_social:null);
@@ -85,13 +85,13 @@ class UsuariosController extends Controller
                     $data->created_at           = date('Y-m-d H:i:s');
                     $data->created_id           = Auth()->user()->id;
                     $data->save();
-                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN PERSONA', $data->getTable(), NULL, $data, 'SE A CREADO UN NUEVO PERSONA ');
+                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN PERSONA', $data->getTable(), NULL, $data, 'SE A CREADO UN NUEVO PERSONA  DE LA LISTA DE USUARIOS');
                 }else{
                     $data_old=Personas::find($request->id);
                     $data->updated_at   = date('Y-m-d H:i:s');
                     $data->updated_id   = Auth()->user()->id;
                     $data->save();
-                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN PERSONA', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN PERSONA');
+                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN PERSONA', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN PERSONA DE LA LISTA DE USUARIOS');
                 }
 
                 $usuario = User::firstOrNew(['persona_id' => $data->id]);
@@ -108,41 +108,39 @@ class UsuariosController extends Controller
                     $usuario->created_at = date('Y-m-d H:i:s');
                     $usuario->created_id = Auth()->user()->id;
                     $usuario->save();
-                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO');
+                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO DE LA LISTA DE USUARIOS');
                     
                 }else{
                     $usuario_old=User::where('persona_id',$data->id);
                     $usuario->updated_at   = date('Y-m-d H:i:s');
                     $usuario->updated_id   = Auth()->user()->id;
                     $usuario->save();
-                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
+                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO DE LA LISTA DE USUARIOS');
                 }
 
-                $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->delete();
+                UsuariosRoles::where('usuario_id', $usuario->id)
+                ->update(
+                    [
+                        'estado'    => 0,
+                        'deleted_id' => Auth()->user()->id,
+                        'updated_id' => Auth()->user()->id,
+                        'deleted_at' => date('Y-m-d H:i:s')
+                    ],
+                );
 
                 foreach ($request->roles as $key => $value) {
                     UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',$value)->restore();
 
-                    $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id,'rol_id'=>$value]);
-                    $usuario_rol->usuario_id = $usuario->id;
-                    $usuario_rol->created_at = date('Y-m-d H:i:s');
-                    $usuario_rol->created_id = Auth()->user()->id;
+                    $usuario_rol = new UsuariosRoles();
+                    $usuario_rol->usuario_id    = $usuario->id;
+                    $usuario_rol->rol_id        = $value;
+                    $usuario_rol->estado        = 1;
+                    $usuario_rol->created_at    = date('Y-m-d H:i:s');
+                    $usuario_rol->created_id    = Auth()->user()->id;
+                    $usuario_rol->save();
                     
                     
-                    if (!UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',$value)->first()) {
-                        
-                        $usuario_rol->created_at = date('Y-m-d H:i:s');
-                        $usuario_rol->created_id = Auth()->user()->id;
-                        $usuario_rol->save();
-                        LogActividades::guardar(Auth()->user()->id, 3, 'SE ASIGNO UN ROL AL USUARIO', $data->getTable(), NULL, $usuario_rol, 'SE ASIGNO ROL A UN USUARIO');
-                    }
-                    else{
-                        $usuarior_rol_old = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',1)->first();
-                        $usuario_rol->updated_at   = date('Y-m-d H:i:s');
-                        $usuario_rol->updated_id   = Auth()->user()->id;
-                        $usuario_rol->save();
-                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
-                    }
+                    LogActividades::guardar(Auth()->user()->id, 3, 'SE ASIGNO UN ROL AL USUARIO', $data->getTable(), NULL, $usuario_rol, 'SE ASIGNO ROL A UN USUARIO');
                 }
                 
                                 
@@ -168,31 +166,32 @@ class UsuariosController extends Controller
     function eliminar($id) {
         $persona = Personas::find($id);
         $persona->deleted_id   = Auth()->user()->id;
+        $persona->estado = 0;
         $persona->save();
-        $persona->delete();
 
         $usuario = User::where('persona_id',$persona->id)->first();
         $usuario->deleted_id   = Auth()->user()->id;
+        $usuario->estado = 0;
         $usuario->save();
-        $usuario->delete();
 
         // $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->get();
         // $usuario_rol->deleted_id   = Auth()->user()->id;
         // $usuario_rol->save();
         // $usuario_rol->delete();
-        UsuariosRoles::where('usuario_id', $usuario->id)
-        ->update(['deleted_id' => Auth()->user()->id, 'deleted_at'=>date('Y-m-d H:i:s')]);
 
         UsuariosRoles::where('usuario_id', $usuario->id)
         ->update(
             [
+                'estado' => 0,
                 'deleted_id' => Auth()->user()->id,
                 'updated_id' => Auth()->user()->id,
                 'deleted_at' => date('Y-m-d H:i:s')
             ],
         );
+        UsuariosRoles::where('usuario_id',$usuario->id)->delete();
+        LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN PERSONAL', $persona->getTable(), $persona, NULL, 'ELIMINO UN PERSONAL DE LA LISTA DE GESTION DE USUARIOS');
 
-        LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN USUARIO', $persona->getTable(), $persona, NULL, 'ELIMINO UN USUARIO DE LA LISTA DE GESTION DE USUARIOS');
+        LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN USUARIO', $usuario->getTable(), $persona, NULL, 'ELIMINO UN USUARIO DE LA LISTA DE GESTION DE USUARIOS');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
         return response()->json($respuesta,200);
     }
@@ -236,7 +235,6 @@ class UsuariosController extends Controller
         return response()->json(["success"=>$success, "data"=>$accesos, "accesos"=>$usuario_accesos],200);
     }
     public function guardarAccesos(Request $request) {
-        // return $request->all();exit;
 
         if ($request->marcado =='true') {
             UsuariosAccesos::where('usuario_id', $request->usuario_id)

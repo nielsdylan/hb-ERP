@@ -20,7 +20,7 @@ class AccesosController extends Controller
     }
     public function listar()
     {
-        $data = Accesos::all();
+        $data = Accesos::where('estado',1)->get();
         return DataTables::of($data)
         // ->addColumn('empresa', function ($data) { 
         //     return ($data->empresa ? $data->empresa->razon_social:null);

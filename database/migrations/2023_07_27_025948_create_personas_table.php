@@ -25,8 +25,9 @@ return new class extends Migration
             $table->integer('whatsapp')->nullable();
             $table->text('path_dni')->nullable();
             $table->date('fecha_cumpleaños')->nullable();
-            $table->date('fecha_caducidad_dni');
+            $table->date('fecha_caducidad_dni')->nullable();
             $table->dateTime('fecha_registro')->nullable();
+            $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

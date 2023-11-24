@@ -11,7 +11,7 @@ class LogActividades extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'log_actividades';
-    protected $fillable = ['fecha', 'usuario_id', 'log_tipo_actividad_id', 'formulario', 'tabla', 'valor_anterior', 'nuevo_valor', 'comentarios', 'created_id', 'updated_id', 'deleted_id'];
+    protected $fillable = ['fecha', 'usuario_id', 'log_tipo_actividad_id', 'formulario', 'tabla', 'valor_anterior', 'nuevo_valor', 'comentarios', 'estado', 'created_id', 'updated_id', 'deleted_id'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     public static function guardar($usuario_id, $log_tipo_actividad_id, $formulario, $tabla, $valor_anterior, $nuevo_valor, $comentarios) {

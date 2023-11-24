@@ -10,6 +10,6 @@ class LogTipoActividades extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'log_tipo_actividades';
-    protected $fillable = ['descripcion', 'created_id', 'updated_id', 'deleted_id'];
+    protected $fillable = ['descripcion', 'estado', 'created_id', 'updated_id', 'deleted_id'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 }

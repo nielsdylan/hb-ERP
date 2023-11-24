@@ -250,7 +250,10 @@ class AlumnoView {
                     //     'warning'
                     // );
                     // $(e.currentTarget).val('');
+                }else{
+                    form.find('[name="id"]').val(0);
                 }
+
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->time('hora_final')->nullable();
             $table->dateTime('fecha_registro')->nullable();
             $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

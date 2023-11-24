@@ -18,7 +18,7 @@ class LogActividadesController extends Controller
     }
     public function listar()
     {
-        $data = LogActividades::all();
+        $data = LogActividades::where('estado',1)->get();
         return DataTables::of($data)
         ->addColumn('usuario', function ($data) { 
             return $data->usuario->nombre_corto;

@@ -51,8 +51,8 @@ HB GROUP - Agregar Participantes
                                 </div>
                             </div>
                             <div class="col-md-4 text-end">
-                                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Agregar alumnos</button>
-                                <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Volver</a>
+                                <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Agregar alumnos</button>
+                                <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                             </div>
                         </div>
                     </form>

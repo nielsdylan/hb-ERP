@@ -28,8 +28,8 @@ class AlumnosController extends Controller
         // $moneda = Alum::where('empresa_id',Auth()->user()->empresa_id)->get();
         // $nivel = Nivel::where('empresa_id',Auth()->user()->empresa_id)->get();
         // $tipo_habitacion = TipoHabitacion::where('empresa_id',Auth()->user()->empresa_id)->get();
-        $tipos_documentos = TipoDocumentos::all();
-        $empresas = Empresas::all();
+        $tipos_documentos = TipoDocumentos::where('estado',1)->get();
+        $empresas = Empresas::where('estado',1)->get();
         $array_accesos = array();
         $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
         foreach ($usuario_accesos as $key => $value) {
@@ -41,7 +41,7 @@ class AlumnosController extends Controller
     }
     public function listar()
     {
-        $data = UsuariosRoles::where('rol_id',2)->get();
+        $data = UsuariosRoles::where('rol_id',2)->where('estado',1)->get();
         return DataTables::of($data)
         ->addColumn('documento', function ($data) { 
             return $data->usuario->persona->nro_documento;
@@ -119,21 +119,21 @@ class AlumnosController extends Controller
                     $data->created_at           = date('Y-m-d H:i:s');
                     $data->created_id           = Auth()->user()->id;
                     $data->save();
-                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN ALUMNO', $data->getTable(), NULL, $data, 'SE A CREADO UN NUEVO ALUMNO ');
+                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO DE PERSONA', $data->getTable(), NULL, $data, 'SE A CREADO UNA PERSONA DEL FORMULARIO DE ALUMNO ');
                 }else{
                     $data_old=Personas::find($request->id);
                     $data->updated_at   = date('Y-m-d H:i:s');
                     $data->updated_id   = Auth()->user()->id;
                     $data->save();
-                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ALUMNO', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN ALUMNO');
+                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICACION DE PERSONA', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UNA PERSONA DEL FORMULARIO DE ALUMNO ');
                 }
 
                 $usuario = User::firstOrNew(['persona_id' => $data->id]);
-                if ((int) $request->id == 0) {
+                // if ((int) $request->id == 0) {
                 
                     
                     $usuario->nombre_corto      = $request->apellido_paterno.' '.(explode(' ',$request->nombres)[0]);
-                    $usuario->nro_documento  = $request->nro_documento;
+                    $usuario->nro_documento     = $request->nro_documento;
                     $usuario->email             = $request->email;
                     $usuario->password          = Hash::make($request->nro_documento);
                     $usuario->avatar_initials   = substr($request->apellido_paterno, 0, 1).substr(explode(' ',$request->nombres)[0], 0, 1);
@@ -144,7 +144,7 @@ class AlumnosController extends Controller
                         $usuario->created_at = date('Y-m-d H:i:s');
                         $usuario->created_id = Auth()->user()->id;
                         $usuario->save();
-                        LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO');
+                        LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO DESDE EL FORMULARIO DE ALUMNO');
                     // }else{
                     //     $usuario_old=User::where('persona_id',$data->id);
                     //     $usuario->updated_at   = date('Y-m-d H:i:s');
@@ -154,7 +154,7 @@ class AlumnosController extends Controller
                     // }
 
                     
-                }
+                // }
                 $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id,'rol_id'=>2]);
                 
                 if ((int) $request->id == 0) {
@@ -197,18 +197,18 @@ class AlumnosController extends Controller
     function eliminar($id) {
         $persona = Personas::find($id);
         $persona->deleted_id   = Auth()->user()->id;
+        $persona->estado   = 0;
         $persona->save();
-        $persona->delete();
 
         $usuario = User::where('persona_id',$persona->id)->first();
         $usuario->deleted_id   = Auth()->user()->id;
+        $usuario->estado   = 0;
         $usuario->save();
-        $usuario->delete();
 
-        $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->first();
+        $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->where('estado',1)->first();
         $usuario_rol->deleted_id   = Auth()->user()->id;
+        $usuario_rol->estado   = 0;
         $usuario_rol->save();
-        $usuario_rol->delete();
 
         LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN ALUMNO', $persona->getTable(), $persona, NULL, 'ELIMINO UN REGISTRO DE LA LISTA DE ALUMNO');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
@@ -217,9 +217,9 @@ class AlumnosController extends Controller
 
     public function buscar(Request $request) {
         if ((int)$request->id == 0) {
-            $data = Personas::where('nro_documento','=',$request->nro_documento)->first();
-            $usuario = User::where('persona_id',$data->id)->first();
+            $data = Personas::where('nro_documento','=',$request->nro_documento)->where('estado',1)->first();
             if ($data) {
+                $usuario = User::where('persona_id',$data->id)->first();
                 return response()->json(["success"=>true,"persona"=>$data,"usuario"=>$usuario],200);
             }
             return response()->json(["success"=>false],200);

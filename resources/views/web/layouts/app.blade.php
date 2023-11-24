@@ -37,7 +37,7 @@
     <link href="{{asset('web/assets/calendar/css/fullcalendar.css')}}" rel='stylesheet' />
     <link href="{{asset('web/assets/css/calendar.css')}}" rel='stylesheet' />
 
-    {{-- <link rel="icon" href="{{asset('uploads/public/logo_snc.png')}}" type="image/x-icon"> --}}
+    <link rel="icon" href="{{asset('web/uploads/public/logo_snc.png')}}" type="image/x-icon">
     <title>@yield('title')</title>
 </head>
 <body class="hidden">

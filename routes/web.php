@@ -42,6 +42,7 @@ Route::get('calendario',[HomeController::class,'calendario'])->name('calendario'
 
 Route::post('buscar-certificado',[HomeController::class,'buscarCertificado'])->name('buscar-certificado');
 Route::get('exportar-certificado-pdf/{id}',[HomeController::class,'exportarCertificadoPDF'])->name('exportar-certificado-pdf');
+Route::get('exportar-certificado-pdf-vista/{id}',[HomeController::class,'exportarCertificadoPDFVista'])->name('exportar-certificado-pdf-vista');
 /*
 * rutas para el erp educativop de hb group peru
 */

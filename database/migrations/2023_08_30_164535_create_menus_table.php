@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('padre_id')->nullable();
             $table->boolean('target')->default(false);
             $table->boolean('hijos')->default(false);
+            $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

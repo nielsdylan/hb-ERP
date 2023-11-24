@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('log_tipo_actividades', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion')->nullable();
+            $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->integer('created_id')->nullable();

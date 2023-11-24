@@ -10,6 +10,6 @@ class Docentes extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'docentes';
-    protected $fillable = ['persona_id','fecha_registro','created_id', 'updated_id', 'deleted_id'];
+    protected $fillable = ['persona_id','fecha_registro', 'estado','created_id', 'updated_id', 'deleted_id'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 }

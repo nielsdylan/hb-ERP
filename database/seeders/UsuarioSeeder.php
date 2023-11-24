@@ -17,7 +17,7 @@ class UsuarioSeeder extends Seeder
         //
         //1
         DB::table('usuarios')->insert([
-            'nombre_corto'      => 'INFO HBGROUP',
+            'nombre_corto'      => 'INFO',
             'nro_documento'         => '9999999',
             'email'             => 'info@hbgroup.pe',
             'password'          => Hash::make('password'),
@@ -34,39 +34,39 @@ class UsuarioSeeder extends Seeder
         //2
         DB::table('usuarios')->insert([
             'nombre_corto'      => 'NIELS QUISPE',
-            'nro_documento'         => '1111111',
-            'email'             => 'niels@hotmail.com',
+            'nro_documento'         => '74250891',
+            'email'             => 'niels_dylan@hotmail.com',
             'password'          => Hash::make('password'),
             // 'avatar_imagen'   => '',
             'avatar_initials'   => 'NQ',
             'persona_id'   => 2,
-            'empresa_id'   => 2,
+            'empresa_id'   => 1,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         //3
         DB::table('usuarios')->insert([
-            'nombre_corto'      => 'WENDY ZUÑIGA',
+            'nombre_corto'      => 'COMERCIAL',
             'nro_documento'         => '222222',
-            'email'             => 'wendy@hotmail.com',
+            'email'             => 'comercial@hbgroup.pe',
             'password'          => Hash::make('password'),
             // 'avatar_imagen'   => '',
-            'avatar_initials'   => 'WZ',
+            'avatar_initials'   => 'CM',
             'persona_id'   => 3,
-            'empresa_id'   => 3,
+            'empresa_id'   => 1,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
             'updated_at'        => date('Y-m-d H:i:s'),
         ]);
         //4
         DB::table('usuarios')->insert([
-            'nombre_corto'      => 'JORGE MEDINA',
+            'nombre_corto'      => 'SERVICIOS',
             'nro_documento'         => '333333',
-            'email'             => 'jorge@hotmail.com',
+            'email'             => 'servicio@hbgroup.pe',
             'password'          => Hash::make('password'),
             // 'avatar_imagen'   => '',
-            'avatar_initials'   => 'JM',
+            'avatar_initials'   => 'SV',
             'persona_id'   => 4,
             'empresa_id'   => 1,
             'fecha_registro'    => date('Y-m-d H:i:s'),
