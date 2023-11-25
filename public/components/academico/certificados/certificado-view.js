@@ -246,12 +246,14 @@ class CertificadoView {
         */
         $('#importar').click((e) => {
             e.preventDefault();
+            $('#tabla-excluido').addClass('d-none');
             $('#modal-importar').modal('show');
         });
 
         $('#guardar-certificado').on("submit", (e) => {
             e.preventDefault();
             // var data = $(e.currentTarget).serialize();
+
             let data = new FormData($(e.currentTarget)[0]);
             let html = '';
 
@@ -286,6 +288,7 @@ class CertificadoView {
                         '</tr>';
                     });
                     $('[data-table="excluidos"]').html(html);
+                    $('#tabla-excluido').removeClass('d-none');
                 }
                 $('#tabla-data').DataTable().ajax.reload();
 

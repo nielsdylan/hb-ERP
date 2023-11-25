@@ -29,17 +29,18 @@ class DatabaseSeeder extends Seeder
             EmpresaSeeder::class,
             RolSeeder::class,
             LogTipoActividadSeeder::class,
-            
+
             PersonaSeeder::class,
             UsuarioSeeder::class,
             UsuarioRolSeeder::class,
             CursoSeeder::class,
 
-            
+
             MenuSeeder::class,
             AccesoSeeder::class,
             GrupoSeeder::class,
-            
+            UsuarioAccesoSeeder::class,
+
         ]);
     }
     // protected function truncateTables(array $tables)

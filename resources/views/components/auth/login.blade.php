@@ -76,18 +76,18 @@
                 </div>
 
                 <div class="container-login100">
-                    
+
                     <div class="wrap-login100 p-6">
-                        
+
                         <form method="POST" class="login100-form validate-form">
                             @csrf
-                            
+
                             <span class="login100-form-title pb-5">
                                 <a href="index.html" class="text-center"><img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img" alt="" style="width: 67px;"></a><br>
                                 Login
-                                
+
                             </span>
-                            
+
                             <div class="panel panel-primary">
                                 <div class="tab-menu-heading">
                                     <div class="tabs-menu1">
@@ -107,7 +107,7 @@
                                                 <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
                                                     <i class="zmdi zmdi-email text-muted" aria-hidden="true"></i>
                                                 </a>
-                                                <input class="input100 border-start-0 form-control ms-0" type="email" placeholder="Email" name="email" required>
+                                                <input class="input100 border-start-0 form-control ms-0" type="text" placeholder="Email" name="email" required>
                                             </div>
                                             <div class="wrap-input100 validate-input input-group" id="Password-toggle">
                                                 <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
@@ -122,10 +122,10 @@
                                                 </label>
                                             </div>
                                             {{-- <div class="text-end pt-4">
-                                                
+
                                                 <p class="mb-0">
                                                     <a href="forgot-password.html" class="text-primary ms-1">Forgot Password?</a>
-                                                    
+
                                                 </p>
                                             </div> --}}
                                             <div class="container-login100-form-btn">

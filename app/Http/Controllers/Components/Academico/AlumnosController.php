@@ -18,6 +18,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
 
 class AlumnosController extends Controller
@@ -43,33 +44,33 @@ class AlumnosController extends Controller
     {
         $data = UsuariosRoles::where('rol_id',2)->where('estado',1)->get();
         return DataTables::of($data)
-        ->addColumn('documento', function ($data) { 
+        ->addColumn('documento', function ($data) {
             return $data->usuario->persona->nro_documento;
         })
-        ->addColumn('apellidos_nombres', function ($data) { 
+        ->addColumn('apellidos_nombres', function ($data) {
             return $data->usuario->persona->apellido_paterno.' '.$data->usuario->persona->apellido_materno.' '.$data->usuario->persona->nombres;
         })
-        ->addColumn('email', function ($data) { 
+        ->addColumn('email', function ($data) {
             return $data->usuario->email;
         })
-        ->addColumn('cargo', function ($data) { 
+        ->addColumn('cargo', function ($data) {
             return $data->usuario->persona->cargo;
         })
-        ->addColumn('celular', function ($data) { 
+        ->addColumn('celular', function ($data) {
             return $data->usuario->persona->telefono;
         })
-        ->addColumn('sexo', function ($data) { 
+        ->addColumn('sexo', function ($data) {
             return ($data->usuario->persona->sexo=='M'?'MASCULINO':'FEMENINO');
         })
-        ->addColumn('fecha_caducidad', function ($data) { 
+        ->addColumn('fecha_caducidad', function ($data) {
             return date("d/m/Y", strtotime($data->usuario->persona->fecha_caducidad_dni)) ;
         })
-        ->addColumn('accion', function ($data) { 
+        ->addColumn('accion', function ($data) {
             $array_accesos = array();
             $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
             foreach ($usuario_accesos as $key => $value) {
                 array_push($array_accesos,$value->acceso_id);
-            }            
+            }
             return
             '<div class="btn-list">
                 '.(in_array(7,$array_accesos)?'<button type="button" class="protip btn text-dark btn-sm" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Ver Perfil" > <i class="fe fe-user fs-14"></i> </button>':'').'
@@ -83,7 +84,7 @@ class AlumnosController extends Controller
                 '.(in_array(4,$array_accesos)?'<button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
                 </button>' : '' ).'
-                
+
             </div>';
         })->rawColumns(['accion'])->make(true);
     }
@@ -130,8 +131,8 @@ class AlumnosController extends Controller
 
                 $usuario = User::firstOrNew(['persona_id' => $data->id]);
                 // if ((int) $request->id == 0) {
-                
-                    
+
+
                     $usuario->nombre_corto      = $request->apellido_paterno.' '.(explode(' ',$request->nombres)[0]);
                     $usuario->nro_documento     = $request->nro_documento;
                     $usuario->email             = $request->email;
@@ -153,10 +154,10 @@ class AlumnosController extends Controller
                     //     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
                     // }
 
-                    
+
                 // }
                 $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id,'rol_id'=>2]);
-                
+
                 if ((int) $request->id == 0) {
                     $usuario_rol->usuario_id = $usuario->id;
                     $usuario_rol->rol_id = 2;
@@ -172,8 +173,8 @@ class AlumnosController extends Controller
                 //     $usuario_rol->save();
                 //     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
                 // }
-                    
-                
+
+
             $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");
         } catch (Exception $ex) {
             $respuesta = array("titulo"=>"Error","mensaje"=>"Hubo un problema al registrar. Por favor intente de nuevo, si persiste comunicarse con su area de TI","tipo"=>"error","ex"=>$ex);
@@ -181,7 +182,7 @@ class AlumnosController extends Controller
         return response()->json($respuesta,200);
     }
     function editar($id) {
-        
+
         $persona = Personas::find($id);
         $usuario = User::where('persona_id',$persona->id)->first();
         $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->get();
@@ -226,7 +227,7 @@ class AlumnosController extends Controller
         }
         return response()->json(["success"=>false],200);
     }
-    public function modeloImportarAlumnosExport() 
+    public function modeloImportarAlumnosExport()
     {
         return Excel::download(new ModeloImportarAlumnosExport, 'modelo-importar-alumnos.xlsx');
     }
@@ -237,106 +238,109 @@ class AlumnosController extends Controller
         $mensaje    = '';
         $tipo       = '';
         $success    = true;
-        // try {
-            foreach ($collection[0] as $key => $value) {
-                if ($key!=0 && !empty($value[0]) && !empty($value[1])&& !empty($value[2])&& !empty($value[3])&& !empty($value[4])&& !empty($value[9])&& !empty($value[10])&& !empty($value[11])&& !empty($value[12])&& !empty($value[13])) {
 
-                    $tipo_documento = TipoDocumentos::firstOrNew(['descripcion' => $value[0]]);
-                    $tipo_documento->descripcion = $value[0];
-                    $tipo_documento->save();
+        foreach ($collection[0] as $key => $value) {
 
-                    $empresa = Empresas::firstOrNew(['razon_social' => $value[10]]);
-                    $empresa->razon_social = $value[10];
-                    $empresa->tipo_documento_id = 1;
-                    // $empresa->fecha_registro = date('Y-m-d H:i:s');
-                    $empresa->save();
+            $tipo_documento = TipoDocumentos::where('descripcion', $value[0])->first();
+            $empresa = Empresas::where('razon_social', $value[10])->first();
+            if (
+                $key!=0             &&
+                !empty($value[0])   &&
+                !empty($value[1])   &&
+                !empty($value[2])   &&
+                !empty($value[3])   &&
+                !empty($value[4])   &&
+                !empty($value[9])   &&
+                !empty($value[10])  &&
+                !empty($value[11])  &&
+                !empty($value[12])  &&
+                !empty($value[13])  &&
+                $tipo_documento     &&
+                $empresa
+            ) {
 
-                    $data = Personas::firstOrNew(['nro_documento' => $value[1]]);
-                    $data->tipo_documento_id        = $tipo_documento->id;
-                    $data->nro_documento            = $value[1];
-                    $data->apellido_paterno         = $value[2];
-                    $data->apellido_materno         = $value[3];
-                    $data->nombres                  = $value[4];
-                    $data->sexo                     = $value[9];
-                    $data->nacionalidad             = $value[6];
-                    $data->cargo                    = $value[7];
-                    $data->telefono                 = $value[8];
-                    $data->whatsapp                 = $value[8];
+                $data = Personas::firstOrNew(['nro_documento' => $value[1]]);
+                $data->tipo_documento_id        = $tipo_documento->id;
+                $data->nro_documento            = $value[1];
+                $data->apellido_paterno         = $value[2];
+                $data->apellido_materno         = $value[3];
+                $data->nombres                  = $value[4];
+                $data->sexo                     = $value[9];
+                $data->nacionalidad             = $value[6];
+                $data->cargo                    = $value[7];
+                $data->telefono                 = $value[8];
+                $data->whatsapp                 = $value[8];
 
-                    $data->fecha_cumpleaños         = date("Y-m-d", strtotime($value[11]));
-                    $data->fecha_caducidad_dni      = date("Y-m-d", strtotime($value[12]));
+                $data->fecha_cumpleaños         = date("Y-m-d", strtotime($value[11]));
+                $data->fecha_caducidad_dni      = date("Y-m-d", strtotime($value[12]));
 
-                    if (!Personas::firstOrNew(['nro_documento' => $value[1]])) {
-                        $data->fecha_registro       = date('Y-m-d H:i:s');
-                        $data->created_at           = date('Y-m-d H:i:s');
-                        $data->created_id           = Auth()->user()->id;
-                        $data->save();
-                        LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN ALUMNO', $data->getTable(), NULL, $data, 'SE A CREADO UN NUEVO ALUMNO ');
-                    }else{
-                        $data_old=Personas::firstOrNew(['nro_documento' => $value[1]]);
-                        $data->updated_at   = date('Y-m-d H:i:s');
-                        $data->updated_id   = Auth()->user()->id;
-                        $data->save();
-                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ALUMNO', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN ALUMNO');
-                    }
-
-                    // registramos como usuario
-                    $usuario = User::firstOrNew(['persona_id' => $data->id]);
-                    $usuario->nombre_corto      = $data->apellido_paterno.' '.(explode(' ',$data->nombres)[0]);
-                    $usuario->email             = $value[13];
-                    $usuario->password          = Hash::make($data->nro_documento);
-                    $usuario->avatar_initials   = substr($data->apellido_paterno, 0, 1).substr(explode(' ',$data->nombres)[0], 0, 1);
-                    $usuario->persona_id        = $data->id;
-                    $usuario->empresa_id        = $empresa->id;
-                    if (!User::firstOrNew(['persona_id' => $data->id])) {
-                        $usuario->fecha_registro    = date('Y-m-d H:i:s');
-                        $usuario->created_at = date('Y-m-d H:i:s');
-                        $usuario->created_id = Auth()->user()->id;
-                        $usuario->save();
-                        LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO');
-                    }else{
-                        $usuario_old=User::where('persona_id',$data->id);
-                        $usuario->updated_at   = date('Y-m-d H:i:s');
-                        $usuario->updated_id   = Auth()->user()->id;
-                        $usuario->save();
-                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
-                    }
-
-                    $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id],['rol_id'=>2]);
-                    $usuario_rol->usuario_id = $usuario->id;
-                    $usuario_rol->rol_id = 2;
-                    if ((int) $request->id == 0) {
-                        $usuario_rol->created_at = date('Y-m-d H:i:s');
-                        $usuario_rol->created_id = Auth()->user()->id;
-                        $usuario_rol->save();
-                        LogActividades::guardar(Auth()->user()->id, 3, 'SE ASIGNO UN ROL AL USUARIO', $data->getTable(), NULL, $usuario_rol, 'SE ASIGNO ROL A UN USUARIO');
-                    }else{
-                        $usuarior_rol_old = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->first();
-                        $usuario_rol->updated_at   = date('Y-m-d H:i:s');
-                        $usuario_rol->updated_id   = Auth()->user()->id;
-                        $usuario_rol->save();
-                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
-                    }
-                    $titulo     = 'Éxito';
-                    $mensaje    = 'Se registro con éxito al alumno';
-                    $tipo       = 'success';
+                if (!Personas::firstOrNew(['nro_documento' => $value[1]])) {
+                    $data->fecha_registro       = date('Y-m-d H:i:s');
+                    $data->created_at           = date('Y-m-d H:i:s');
+                    $data->created_id           = Auth()->user()->id;
+                    $data->save();
+                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN ALUMNO', $data->getTable(), NULL, $data, 'SE A CREADO UN NUEVO ALUMNO ');
                 }else{
-                    if (!empty($value[0]) || !empty($value[1]) || !empty($value[2]) || !empty($value[3]) || !empty($value[4]) || !empty($value[5]) || !empty($value[6]) || !empty($value[7]) || !empty($value[8]) || !empty($value[9]) || !empty($value[10]) || !empty($value[11]) || !empty($value[12]) || !empty($value[13])) {
-                        array_push($array_nulos,(object)$value);
-                        $titulo     = 'Warning';
-                        $mensaje    = 'Los registro estan incompletos';
-                        $tipo       = 'success';
-                    }
-                    
-                    
+                    $data_old=Personas::firstOrNew(['nro_documento' => $value[1]]);
+                    $data->updated_at   = date('Y-m-d H:i:s');
+                    $data->updated_id   = Auth()->user()->id;
+                    $data->save();
+                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ALUMNO', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN ALUMNO');
                 }
-                
+
+                // registramos como usuario
+                $usuario = User::firstOrNew(['persona_id' => $data->id]);
+                $usuario->nombre_corto      = $data->apellido_paterno.' '.(explode(' ',$data->nombres)[0]);
+                $usuario->email             = $value[13];
+                $usuario->password          = Hash::make($data->nro_documento);
+                $usuario->avatar_initials   = substr($data->apellido_paterno, 0, 1).substr(explode(' ',$data->nombres)[0], 0, 1);
+                $usuario->persona_id        = $data->id;
+                $usuario->empresa_id        = $empresa->id;
+                if (!User::firstOrNew(['persona_id' => $data->id])) {
+                    $usuario->fecha_registro    = date('Y-m-d H:i:s');
+                    $usuario->created_at = date('Y-m-d H:i:s');
+                    $usuario->created_id = Auth()->user()->id;
+                    $usuario->save();
+                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO');
+                }else{
+                    $usuario_old=User::where('persona_id',$data->id);
+                    $usuario->updated_at   = date('Y-m-d H:i:s');
+                    $usuario->updated_id   = Auth()->user()->id;
+                    $usuario->save();
+                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
+                }
+
+                $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id],['rol_id'=>2]);
+                $usuario_rol->usuario_id = $usuario->id;
+                $usuario_rol->rol_id = 2;
+                if (!UsuariosRoles::where('usuario_id' , $usuario->id)->where('rol_id',2)->first()) {
+                    $usuario_rol->created_at = date('Y-m-d H:i:s');
+                    $usuario_rol->created_id = Auth()->user()->id;
+                    $usuario_rol->save();
+                    LogActividades::guardar(Auth()->user()->id, 3, 'SE ASIGNO UN ROL AL USUARIO', $data->getTable(), NULL, $usuario_rol, 'SE ASIGNO ROL A UN USUARIO');
+                }else{
+                    $usuarior_rol_old = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->first();
+                    $usuario_rol->updated_at   = date('Y-m-d H:i:s');
+                    $usuario_rol->updated_id   = Auth()->user()->id;
+                    $usuario_rol->save();
+                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
+                }
+                $titulo     = 'Éxito';
+                $mensaje    = 'Se registro con éxito al alumno';
+                $tipo       = 'success';
+            }else{
+                $success = false;
+                array_push($array_nulos,(object)$value);
             }
-        // } catch (Exception $ex) {
-        //     $titulo     = 'Error';
-        //     $mensaje    = 'Ocurrio un error al importar el Excel';
-        //     $tipo       = 'error';
-        // }
+
+        }
+
+
+        if ($success == false) {
+            $titulo     = 'Warning';
+            $mensaje    = "Se encontro que ".(sizeof($array_nulos)-1)." que no fue registrado.";
+            $tipo       = 'warning';
+        }
 
         $respuesta = array("titulo"=>$titulo,"mensaje"=>$mensaje,"tipo"=>$tipo,"incompletos"=>$array_nulos);
         return response()->json($respuesta,200);

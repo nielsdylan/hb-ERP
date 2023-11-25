@@ -57,8 +57,8 @@ HB GROUP - Gestion de Aulas
     </div>
     <div class="row">
         @foreach ($aulas as $item)
-        <div class="col-md-2">
-            
+        <div class="col-md-3">
+
             <div class="card">
                 <div class="card-body text-center">
                     <div class="media-body pt-0">
@@ -91,7 +91,7 @@ HB GROUP - Gestion de Aulas
                         <button class="btn btn-sm btn-pill btn-warning-light agregar-participantes" data-id="{{ $item->id }}">Agregar participantes</button>
                         @endif
                     </div>
-                    
+
                 </div>
             </div>
         </div>

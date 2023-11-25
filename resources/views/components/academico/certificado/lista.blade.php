@@ -97,12 +97,12 @@ HB GROUP - Gestion de Alumnos
                         <div class="row justify-content-md-center">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label mt-0">Seleccione un archivo</label>
+                                    <label class="form-label mt-0">Importar : <span class="text-red">*</span></label>
                                     <input class="form-control form-control-sm" type="file" accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="certificado" required>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row d-none" id="tabla-excluido">
                             <div class="col-md-12">
                                 <table class="table table-bordered text-nowrap border-bottom table-hover table-sm table-responsive" id="tabla-data"
                                 {{-- style="width: 100%; font-size: x-small" --}}

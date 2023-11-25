@@ -123,7 +123,6 @@ class CertificadoController extends Controller
             $data = Certificado::find($id);
             $data->estado = 0;
             $data->save();
-            $data->delete();
             return response()->json(["titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success"],200);
         } catch (\Throwable $th) {
             return response()->json(["titulo"=>"Error","mensaje"=>"Ocurrior un error comuniquese con el area de TI","tipo"=>"error"],200);

@@ -125,11 +125,11 @@ HB GROUP - Gestion de Alumnos
                                         @foreach ($tipos_documentos as $key=>$item)
                                             <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
                                         @endforeach
-                                        
+
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-4">
                                 <div class="form-group ">
                                     <label class="form-label">N° Documento : <span class="text-red">*</span></label>
@@ -162,7 +162,7 @@ HB GROUP - Gestion de Alumnos
                                     <input type="number" name="whatsapp" class="form-control form-control-sm" placeholder="Whatsapp...">
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="row">
                             <div class="col-md-4">
@@ -203,7 +203,7 @@ HB GROUP - Gestion de Alumnos
                                         @foreach ($empresas as $key=>$item)
                                             <option value="{{ $item->id }}">{{ $item->razon_social }}</option>
                                         @endforeach
-                                        
+
                                     </select>
                                 </div>
                             </div>
@@ -213,7 +213,7 @@ HB GROUP - Gestion de Alumnos
                                     <input type="file" name="path_dni" class="form-control form-control-sm" placeholder="path_dni..." accept=".jpg,.png" required>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="row">
                             <div class="col-md-4">
@@ -234,8 +234,8 @@ HB GROUP - Gestion de Alumnos
                                     <input type="email" name="email" class="form-control form-control-sm text-center" placeholder="email@hotmail.com..."  required>
                                 </div>
                             </div>
-                            
-                            
+
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -259,15 +259,15 @@ HB GROUP - Gestion de Alumnos
                     @csrf
                     <input type="hidden" name="id" value="0">
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
+                        <div class="row justify-content-md-center">
+                            <div class="col-md-6">
                                 <div class="form-group ">
                                     <label class="form-label">Importar : <span class="text-red">*</span></label>
                                     <input type="file" name="importar_excel" class="form-control form-control-sm" required>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="tabla-excluido">
                             <div class="col-md-12" data-table="respuesta">
 
                             </div>
@@ -290,13 +290,13 @@ HB GROUP - Gestion de Alumnos
     <!-- INTERNAL SELECT2 JS -->
     <script src="{{asset('template/plugins/select2/select2.full.min.js')}}"></script>
     {{-- <script src="{{asset('template/js/select2.js')}}"></script> --}}
-    
+
     <!-- DATA TABLE JS-->
     <script src="{{asset('template/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
-    
+
     <script src="{{asset('template/plugins/datatable/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script>
@@ -305,7 +305,7 @@ HB GROUP - Gestion de Alumnos
     <script src="{{asset('components/academico/alumnos/alumno-view.js')}}"></script>
     <script>
         // Select2
-        
+
         $(document).ready(function () {
             const view = new AlumnoView(new AlumnoModel(csrf_token));
             view.listar();

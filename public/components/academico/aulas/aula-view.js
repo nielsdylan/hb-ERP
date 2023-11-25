@@ -220,44 +220,62 @@ class AulaView {
             e.preventDefault();
             let model = this.model;
             let id = $(e.currentTarget).attr('data-id');
-            Swal.fire({
-                title: 'Confirmar',
-                text: "¿Está seguro de confirmar?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Si, confirmar',
-                cancelButtonText: 'No, cancelar',
-                showLoaderOnConfirm: true,
-                preConfirm: (login) => {
-                    return model.confirmarAlumnos(id).then((respuesta) => {
-                        return respuesta;
-                    }).fail((respuesta) => {
-                        // return respuesta;
-                    }).always(() => {
-                        // return respuesta;
-                    });
-                },
-              }).then((result) => {
 
-                if (result.isConfirmed) {
+            model.confirmarAlumnos(id).then((respuesta) => {
+                notif({
+                    msg: '<span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>'+
+                    '<span class="alert-inner--text"><strong> '+respuesta.titulo+'!</strong> '+respuesta.mensaje+'</span>',
+                    type: respuesta.tipo,
+                    width: 480,
+                });
+                $('#tabla-data').DataTable().ajax.reload();
 
-                    Swal.fire({
-                        title: result.value.titulo,
-                        text: result.value.mensaje,
-                        icon: result.value.tipo,
-                        showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Aceptar',
-                        allowOutsideClick: false,
-                    }).then((resultado) => {
-                        if (resultado.isConfirmed) {
-                            // window.location.href = route('hb.academicos.aulas.lista');
-                            $('#tabla-data').DataTable().ajax.reload();
-                        }
-                    })
-                }
+                // return respuesta;
+            }).fail((respuesta) => {
+                // return respuesta;
+            }).always(() => {
+                // return respuesta;
+            });
 
-            })
+
+            // Swal.fire({
+            //     title: 'Confirmar',
+            //     text: "¿Está seguro de confirmar?",
+            //     icon: 'question',
+            //     showCancelButton: true,
+            //     confirmButtonText: 'Si, confirmar',
+            //     cancelButtonText: 'No, cancelar',
+            //     showLoaderOnConfirm: true,
+            //     preConfirm: (login) => {
+                    // return model.confirmarAlumnos(id).then((respuesta) => {
+                    //     return respuesta;
+                    // }).fail((respuesta) => {
+                    //     // return respuesta;
+                    // }).always(() => {
+                    //     // return respuesta;
+                    // });
+            //     },
+            //   }).then((result) => {
+
+            //     // if (result.isConfirmed) {
+
+            //     //     Swal.fire({
+            //     //         title: result.value.titulo,
+            //     //         text: result.value.mensaje,
+            //     //         icon: result.value.tipo,
+            //     //         showCancelButton: false,
+            //     //         confirmButtonColor: '#3085d6',
+            //     //         confirmButtonText: 'Aceptar',
+            //     //         allowOutsideClick: false,
+            //     //     }).then((resultado) => {
+            //     //         if (resultado.isConfirmed) {
+            //     //             // window.location.href = route('hb.academicos.aulas.lista');
+            //     //             $('#tabla-data').DataTable().ajax.reload();
+            //     //         }
+            //     //     })
+            //     // }
+
+            // })
         });
 
         /**

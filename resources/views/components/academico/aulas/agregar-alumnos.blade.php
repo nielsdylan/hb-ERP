@@ -22,7 +22,7 @@ HB GROUP - Agregar Participantes
 
     <!-- ROW-1 -->
     <div class="row justify-content-md-center">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">{{ $aula->nombre }}</h3>
@@ -33,9 +33,9 @@ HB GROUP - Agregar Participantes
                         <input type="hidden" name="aula_id" value="{{ $id }}">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group select2-sm">
+                                <div class="form-group">
                                     <label class="form-label">Lista de usuarios</label>
-                                    <select class="form-control form-control-sm select2 select2-sm" name="usuarios[]" data-placeholder="Seleccione a lso usuarios.." required multiple>
+                                    <select class="form-control select2" name="usuarios[]" data-placeholder="Seleccione a lso usuarios.." required multiple>
                                         @foreach ($alumnos as $value)
                                             {{-- @if ($value->usuario) --}}
                                                 <option value="{{ $value->usuario->id }}">{{ $value->usuario->nro_documento.' - '. $value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres }}</option>
@@ -47,7 +47,7 @@ HB GROUP - Agregar Participantes
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="form-label">Maximo de alumnos</label>
-                                    <input type="text" value="{{ $aula->capacidad }}" class="form-control" disabled>
+                                    <input type="text" value="{{ $aula->capacidad }}" class="form-control form-control-sm" disabled>
                                 </div>
                             </div>
                             <div class="col-md-4 text-end">
@@ -100,7 +100,7 @@ HB GROUP - Agregar Participantes
     <script src="{{asset('template/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
-    
+
     <script src="{{asset('template/plugins/datatable/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script>
@@ -109,7 +109,7 @@ HB GROUP - Agregar Participantes
     <script src="{{asset('components/academico/aulas/aula-view.js')}}"></script>
     <script>
         // Select2
-        
+
         $(document).ready(function () {
             $('.select2').select2();
             const view = new AulaView(new AulaModel(csrf_token));

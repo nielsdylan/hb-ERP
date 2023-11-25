@@ -281,100 +281,73 @@ class AlumnoView {
             let model = this.model;
             let html='';
             let html_tr='';
-            Swal.fire({
-                title: 'Información',
-                text: "¿Está seguro de importar?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Si, guardar',
-                cancelButtonText: 'No, cancelar',
-                showLoaderOnConfirm: true,
-                preConfirm: (login) => {
-                    return model.importarExcel(data).then((respuesta) => {
-                        return respuesta;
-                    }).fail((respuesta) => {
-                        // return respuesta;
-                    }).always(() => {
+
+            model.importarExcel(data).then((respuesta) => {
+                $('#tabla-data').DataTable().ajax.reload();
+                notif({
+                    msg: '<span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>'+
+                    '<span class="alert-inner--text"><strong> '+respuesta.titulo+'!</strong> '+respuesta.mensaje+'</span>',
+                    type: respuesta.tipo,
+                    width: 480,
+                });
+                if (respuesta.incompletos.length>1) {
+
+                    $.each(respuesta.incompletos, function (index, element) {
+                        if (index!=0) {
+                            html_tr += `
+                            <tr>
+                                <td>`+(element[0]==null?'-':element[0])+`</td>
+                                <td>`+(element[1]==null?'-':element[1])+`</td>
+                                <td>`+(element[2]==null?'-':element[2])+`</td>
+                                <td>`+(element[3]==null?'-':element[3])+`</td>
+                                <td>`+(element[4]==null?'-':element[4])+`</td>
+                                <td>`+(element[5]==null?'-':element[5])+`</td>
+                                <td>`+(element[6]==null?'-':element[6])+`</td>
+                                <td>`+(element[7]==null?'-':element[7])+`</td>
+                                <td>`+(element[8]==null?'-':element[8])+`</td>
+                                <td>`+(element[9]==null?'-':element[9])+`</td>
+                                <td>`+(element[10]==null?'-':element[10])+`</td>
+                                <td>`+(element[11]==null?'-':element[11])+`</td>
+                                <td>`+(element[12]==null?'-':element[12])+`</td>
+                                <td>`+(element[13]==null?'-':element[13])+`</td>
+                            </tr>`;
+
+                        }
                     });
-                },
-                // allowOutsideClick: () => !Swal.isLoading()
-              }).then((result) => {
-
-
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        result.value.titulo,
-                        result.value.mensaje,
-                        result.value.tipo,
-                    );
-                    $('#tabla-data').DataTable().ajax.reload();
-                    $('#modal-importar').modal('hide');
-                    // $('#modal-importar').find('.modal-dialog-centered').removeClass('modal-lg');
-                    // $('#modal-importar').find('.modal-dialog-centered').addClass('modal-xl');
-                    if (result.value.incompletos.length > 1) {
-                        $.each(result.value.incompletos, function (index, element) {
-                            if (index!=0) {
-                                html_tr += `
+                    html = `
+                    <div class="table-responsive">
+                    <h6>Lista de Alumnos que no fueron registrados revisar sutilmente los registros </h6>
+                        <table class="table table-bordered text-nowrap border-bottom table-hover" id="table-respuesta" >
+                            <thead>
                                 <tr>
-                                    <td>`+(element[0]==null?'-':element[0])+`</td>
-                                    <td>`+(element[1]==null?'-':element[1])+`</td>
-                                    <td>`+(element[2]==null?'-':element[2])+`</td>
-                                    <td>`+(element[3]==null?'-':element[3])+`</td>
-                                    <td>`+(element[4]==null?'-':element[4])+`</td>
-                                    <td>`+(element[5]==null?'-':element[5])+`</td>
-                                    <td>`+(element[6]==null?'-':element[6])+`</td>
-                                    <td>`+(element[7]==null?'-':element[7])+`</td>
-                                    <td>`+(element[8]==null?'-':element[8])+`</td>
-                                    <td>`+(element[9]==null?'-':element[9])+`</td>
-                                    <td>`+(element[10]==null?'-':element[10])+`</td>
-                                    <td>`+(element[11]==null?'-':element[11])+`</td>
-                                    <td>`+(element[12]==null?'-':element[12])+`</td>
-                                    <td>`+(element[13]==null?'-':element[13])+`</td>
-                                </tr>`;
-
-                            }
-                        });
-                        html = `
-                        <div class="table-responsive">
-                        <h6>Lista de Alumnos con datos incompletos</h6>
-                            <table class="table table-bordered text-nowrap border-bottom table-hover" id="table-respuesta" >
-                                <thead>
-                                    <tr>
-                                        <th style="background-color: #f3ff44;">Tipos de Documentos *</th>
-                                        <th style="background-color: #f3ff44;">N° Documento *</th>
-                                        <th style="background-color: #f3ff44;">Apellido Paterno *</th>
-                                        <th style="background-color: #f3ff44;">Apellido Materno *</th>
-                                        <th style="background-color: #f3ff44;">Nombres *</th>
-                                        <th style="background-color: #888888;">Whatsapp </th>
-                                        <th style="background-color: #888888;">Nacionalidad </th>
-                                        <th style="background-color: #888888;">Cargo </th>
-                                        <th style="background-color: #888888;">Telefono </th>
-                                        <th style="background-color: #f3ff44;">Sexo(M/F) *</th>
-                                        <th style="background-color: #f3ff44;">Empresa *</th>
-                                        <th style="background-color: #f3ff44;">Fecha de Cumpleaños *</th>
-                                        <th style="background-color: #f3ff44;">Fecha de Caducidad de DNI *</th>
-                                        <th style="background-color: #f3ff44;">Email *</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                `+html_tr+`
-                                </tbody>
-                            </table>
-                        </div>
-                        `;
-                        $('[data-table="respuesta"]').html(html);
-
-                        $('#table-respuesta').DataTable({
-                            bLengthChange: false,
-                            searching: false,
-                            responsive: true
-                        });
-                    }
-
+                                    <th style="background-color: #f3ff44;">Tipos de Documentos *</th>
+                                    <th style="background-color: #f3ff44;">N° Documento *</th>
+                                    <th style="background-color: #f3ff44;">Apellido Paterno *</th>
+                                    <th style="background-color: #f3ff44;">Apellido Materno *</th>
+                                    <th style="background-color: #f3ff44;">Nombres *</th>
+                                    <th style="background-color: #888888;">Whatsapp </th>
+                                    <th style="background-color: #888888;">Nacionalidad </th>
+                                    <th style="background-color: #888888;">Cargo </th>
+                                    <th style="background-color: #888888;">Telefono </th>
+                                    <th style="background-color: #f3ff44;">Sexo(M/F) *</th>
+                                    <th style="background-color: #f3ff44;">Empresa *</th>
+                                    <th style="background-color: #f3ff44;">Fecha de Cumpleaños *</th>
+                                    <th style="background-color: #f3ff44;">Fecha de Caducidad de DNI *</th>
+                                    <th style="background-color: #f3ff44;">Email *</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            `+html_tr+`
+                            </tbody>
+                        </table>
+                    </div>
+                    `;
+                    $('[data-table="respuesta"]').html(html);
                 }
-            })
-
-
+            }).fail((respuesta) => {
+                // return respuesta;
+            }).always(() => {
+            });
         });
     }
 }
