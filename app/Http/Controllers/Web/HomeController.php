@@ -72,7 +72,7 @@ class HomeController extends Controller
             'document'=>$certificado->numero_documento,
             'description'=>$descripcion,
             'date_1'=>'Realizado el '.$mesDesc.',',
-            'date_2'=>'con una duración '.$certificado->duracion.' horas efectivas.',
+            'date_2'=>'con una duración de '.$certificado->duracion.' horas efectivas.',
             'name_firm'=>'Helard Bejarano Otazu',
             'cargo_firm'=>'Gerente General',
             'business_firm'=>'HB GROUP PERU S.R.L.',

@@ -221,7 +221,7 @@
 
             <div class="text-center" style="font-family: 'Roboto', normal;">{{$date_1}}</div>
             <div class="text-center" style="font-family: 'Roboto', normal;">{{$date_2}}</div>
-            <div class="text-center" style="font-family: 'Roboto', normal;">{{($fecha_vencimiento?'Valido hasta '.$fecha_vencimiento:'')}} </div>
+            <div class="text-center" style="font-family: 'Roboto', normal;">{{($fecha_vencimiento?'Válido hasta '.$fecha_vencimiento:'')}} </div>
             <div class="text-center" style="font-family: 'Roboto', normal;">{{($comentario?$comentario:'')}}</div>
             <div></div>
             <div class="text-center" style="position: absolute;top: 823px;left: 280px;"><img src="{{public_path().'/web/assets/img/user/'.$img_firm}}" width="150"></div>
