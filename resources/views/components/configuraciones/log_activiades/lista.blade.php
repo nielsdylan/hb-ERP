@@ -30,7 +30,7 @@ HB GROUP - Gestion de Actividades
             <div class="card-body">
                 <div class="row justify-content-md-center">
                     <div class="col-md-12">
-                        <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data" width="100%">
+                        <table class="table table-bordered text-nowrap border-bottom table-hover table-responsive" id="tabla-data" width="100%">
                             <thead>
                                 <tr>
                                     <th class="wd-15p border-bottom-0">#</th>
@@ -62,7 +62,7 @@ HB GROUP - Gestion de Actividades
             <form id="guardar" action="" method="POST">
                 <div class="modal-body">
                     <div class="row">
-                        
+
                         <div class="col-md-4">
                             <div class="form-group ">
                                 <label class="form-label">Fecha :</label>
@@ -83,7 +83,7 @@ HB GROUP - Gestion de Actividades
                         </div>
                     </div>
                     <div class="row">
-                        
+
                         <div class="col-md-4">
                             <div class="form-group ">
                                 <label class="form-label">Formulario :</label>
@@ -179,23 +179,23 @@ HB GROUP - Gestion de Actividades
     {{-- <script src="{{asset('template/js/select2.js')}}"></script> --}}
 
     <script src="{{asset('template/js/menuspy.min.js.js')}} "></script>
-    
+
     <!-- DATA TABLE JS-->
     <script src="{{asset('template/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
-    
+
     <script src="{{asset('template/plugins/datatable/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script>
-    
+
 
     <script src="{{asset('components/configuraciones/log-activiades/log_actividades-model.js')}}"></script>
     <script src="{{asset('components/configuraciones/log-activiades/log_actividades-view.js')}}"></script>
     <script>
         // Select2
-        
+
         $(document).ready(function () {
             const view = new LogActividadView(new LogActividadModel(csrf_token));
             view.listar();

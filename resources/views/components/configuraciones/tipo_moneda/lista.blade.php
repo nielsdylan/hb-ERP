@@ -31,7 +31,7 @@ HB GROUP - Gestion de Tipo de Monedas
             <div class="card-body">
                 <div class="row justify-content-md-center">
                     <div class="col-md-12">
-                        <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data" width="100%">
+                        <table class="table table-bordered text-nowrap border-bottom table-hover table-responsive" id="tabla-data" width="100%">
                             <thead>
                                 <tr>
                                     <th class="wd-15p border-bottom-0">#</th>
@@ -64,7 +64,7 @@ HB GROUP - Gestion de Tipo de Monedas
                 <input type="hidden" name="id" value="0">
                 <div class="modal-body">
                     <div class="row">
-                        
+
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <label class="form-label">Descripción : <span class="text-red">*</span></label>
@@ -95,13 +95,13 @@ HB GROUP - Gestion de Tipo de Monedas
     <!-- INTERNAL SELECT2 JS -->
     <script src="{{asset('template/plugins/select2/select2.full.min.js')}}"></script>
     {{-- <script src="{{asset('template/js/select2.js')}}"></script> --}}
-    
+
     <!-- DATA TABLE JS-->
     <script src="{{asset('template/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
-    
+
     <script src="{{asset('template/plugins/datatable/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script>
@@ -110,7 +110,7 @@ HB GROUP - Gestion de Tipo de Monedas
     <script src="{{asset('components/configuraciones/tipo-monedas/tipo_moneda-view.js')}}"></script>
     <script>
         // Select2
-        
+
         $(document).ready(function () {
             const view = new TipoMonedaView(new TipoMonedaModel(csrf_token));
             view.listar();

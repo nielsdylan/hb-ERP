@@ -34,7 +34,7 @@ HB GROUP - Gestion de Empresas
                 <div class="card-body">
                     <div class="row justify-content-md-center">
                         <div class="col-md-12">
-                            <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data" width="100%">
+                            <table class="table table-bordered text-nowrap border-bottom table-hover table-responsive" id="tabla-data" width="100%">
                                 <thead>
                                     <tr>
                                         <th class="wd-15p border-bottom-0">#</th>
@@ -80,7 +80,7 @@ HB GROUP - Gestion de Empresas
                     <input type="hidden" name="id" value="0">
                     <div class="modal-body">
                         <div class="row">
-                            
+
                             <div class="col-md-4">
                                 <div class="form-group ">
                                     <label class="form-label">Ruc : <span class="text-red">*</span></label>
@@ -107,7 +107,7 @@ HB GROUP - Gestion de Empresas
                                     <input type="text" name="direccion" class="form-control form-control-sm" placeholder="Dirección..." required>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-4">
                                 <div class="form-group ">
                                     <label class="form-label">Celular : <span class="text-red">*</span></label>
@@ -133,13 +133,13 @@ HB GROUP - Gestion de Empresas
     <!-- INTERNAL SELECT2 JS -->
     <script src="{{asset('template/plugins/select2/select2.full.min.js')}}"></script>
     {{-- <script src="{{asset('template/js/select2.js')}}"></script> --}}
-    
+
     <!-- DATA TABLE JS-->
     <script src="{{asset('template/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('template/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
-    
+
     {{-- <script src="{{asset('template/plugins/extension-datatable/autofill/dataTables.autoFill.min.js')}}"></script>
     <script src="{{asset('template/plugins/extension-datatable/autofill/autoFill.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/plugins/extension-datatable/keytable/dataTables.keyTable.min.js')}}"></script> --}}
@@ -158,7 +158,7 @@ HB GROUP - Gestion de Empresas
     <script src="{{asset('components/empresas/empresa-view.js')}}"></script>
     <script>
         // Select2
-        
+
         $(document).ready(function () {
             const view = new EmpresaView(new EmpresaModel(csrf_token));
             view.listar();
