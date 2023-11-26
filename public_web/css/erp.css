@@ -1,0 +1,31 @@
+.modal.fade  span.select2.select2-container.select2-container--default{
+    width: 100% !important;
+}
+
+.ui-datepicker .ui-datepicker-calendar td a:hover{
+    color: #f5f3f7 !important;
+}
+a.ui-state-default.ui-state-highlight.ui-state-hover{
+    color: #f5f3f7 !important;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus{
+    border: 0px solid !important
+}
+.ui-datepicker .ui-datepicker-header .ui-datepicker-next:hover::before, .ui-datepicker .ui-datepicker-header .ui-datepicker-next:focus::before{
+    color: #f5f3f7 !important;
+}
+.ui-datepicker .ui-datepicker-header .ui-datepicker-prev:hover::before, .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:focus::before{
+    color: #f5f3f7 !important;
+}
+/* estilos para el datatable */
+.table th, .text-wrap table th{
+    font-size: 0.75rem !important;
+    text-transform: math-auto !important;
+
+}
+.table tbody tr{
+    font-size: 0.75rem !important;
+}
+div.dataTables_wrapper div.dataTables_info{
+    font-size: 0.75rem !important;
+}
