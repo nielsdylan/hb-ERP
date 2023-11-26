@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('sexo')->nullable();
             $table->string('nacionalidad')->nullable();
             $table->string('cargo')->nullable();
-            $table->integer('telefono')->nullable();
-            $table->integer('whatsapp')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('whatsapp')->nullable();
             $table->text('path_dni')->nullable();
             $table->date('fecha_cumpleaños')->nullable();
             $table->date('fecha_caducidad_dni')->nullable();

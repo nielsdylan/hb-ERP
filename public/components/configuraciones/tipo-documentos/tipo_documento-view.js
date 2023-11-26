@@ -53,7 +53,8 @@ class TipoDocumentoView {
             },
             columns: [
                 {data: 'id', },
-                {data: 'descripcion', className: 'text-center'},
+                {data: 'codigo', className: 'text-center'},
+                {data: 'descripcion'},
                 {data: 'fecha_registro', className: 'text-center'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
             ]
@@ -147,6 +148,7 @@ class TipoDocumentoView {
             this.model.editar(id).then((respuesta) => {
                 form.find('[name="id"]').val(respuesta.id);
                 // form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
+                form.find('[name="codigo"]').val(respuesta.codigo);
                 form.find('[name="descripcion"]').val(respuesta.descripcion);
 
                 $('#modal-documento').find('.modal-title').text('Editar Tipo de Documento')

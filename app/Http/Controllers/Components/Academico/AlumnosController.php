@@ -14,6 +14,7 @@ use App\Models\TipoDocumentos;
 use App\Models\User;
 use App\Models\UsuariosAccesos;
 use App\Models\UsuariosRoles;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -232,118 +233,164 @@ class AlumnosController extends Controller
         return Excel::download(new ModeloImportarAlumnosExport, 'modelo-importar-alumnos.xlsx');
     }
     public function importarAlumnosExport(Request $request) {
-        $collection = Excel::toCollection(new ImportarAlumnosImport, $request->file('importar_excel'));
-        $array_nulos=array();
-        $titulo     = '';
-        $mensaje    = '';
-        $tipo       = '';
-        $success    = true;
 
-        foreach ($collection[0] as $key => $value) {
+        $spreadsheet = IOFactory::load(request()->file('importar_excel'));
 
-            $tipo_documento = TipoDocumentos::where('descripcion', $value[0])->first();
-            $empresa = Empresas::where('razon_social', $value[10])->first();
-            if (
-                $key!=0             &&
-                !empty($value[0])   &&
-                !empty($value[1])   &&
-                !empty($value[2])   &&
-                !empty($value[3])   &&
-                !empty($value[4])   &&
-                !empty($value[9])   &&
-                !empty($value[10])  &&
-                !empty($value[11])  &&
-                !empty($value[12])  &&
-                !empty($value[13])  &&
-                $tipo_documento     &&
-                $empresa
-            ) {
+        $indiceHoja = 0; // indicamos la primera hoja por defecto
 
-                $data = Personas::firstOrNew(['nro_documento' => $value[1]]);
-                $data->tipo_documento_id        = $tipo_documento->id;
-                $data->nro_documento            = $value[1];
-                $data->apellido_paterno         = $value[2];
-                $data->apellido_materno         = $value[3];
-                $data->nombres                  = $value[4];
-                $data->sexo                     = $value[9];
-                $data->nacionalidad             = $value[6];
-                $data->cargo                    = $value[7];
-                $data->telefono                 = $value[8];
-                $data->whatsapp                 = $value[8];
+        $hojaActual = $spreadsheet->getSheet($indiceHoja);
+        # obtener el numero filas
+        $numeroDeFilas = $hojaActual->getHighestRow(); // Numérico
 
-                $data->fecha_cumpleaños         = date("Y-m-d", strtotime($value[11]));
-                $data->fecha_caducidad_dni      = date("Y-m-d", strtotime($value[12]));
+        $arrayExcluidos = array();
 
-                if (!Personas::firstOrNew(['nro_documento' => $value[1]])) {
-                    $data->fecha_registro       = date('Y-m-d H:i:s');
-                    $data->created_at           = date('Y-m-d H:i:s');
-                    $data->created_id           = Auth()->user()->id;
-                    $data->save();
-                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN ALUMNO', $data->getTable(), NULL, $data, 'SE A CREADO UN NUEVO ALUMNO ');
+        for ($indiceFila = 1; $indiceFila <= $numeroDeFilas; $indiceFila++) {
+            if ($indiceFila!=1) {
+                $requeridos = true;
+                $documento = false;
+                $empresa = false;
+                if (!$hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue()) {
+                    $requeridos = false;
                 }else{
-                    $data_old=Personas::firstOrNew(['nro_documento' => $value[1]]);
-                    $data->updated_at   = date('Y-m-d H:i:s');
-                    $data->updated_id   = Auth()->user()->id;
-                    $data->save();
-                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ALUMNO', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN ALUMNO');
+                    $documento = TipoDocumentos::where('codigo',$hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue())->first();
+                }
+                if (!$hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue()) {
+                    $requeridos = false;
+                }
+                if (!$hojaActual->getCellByColumnAndRow(3, $indiceFila)->getFormattedValue()) {
+                    $requeridos = false;
+                }
+                if (!$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue()) {
+                    $requeridos = false;
+                }
+                if (!$hojaActual->getCellByColumnAndRow(5, $indiceFila)->getFormattedValue()) {
+                    $requeridos = false;
                 }
 
-                // registramos como usuario
-                $usuario = User::firstOrNew(['persona_id' => $data->id]);
-                $usuario->nombre_corto      = $data->apellido_paterno.' '.(explode(' ',$data->nombres)[0]);
-                $usuario->email             = $value[13];
-                $usuario->password          = Hash::make($data->nro_documento);
-                $usuario->avatar_initials   = substr($data->apellido_paterno, 0, 1).substr(explode(' ',$data->nombres)[0], 0, 1);
-                $usuario->persona_id        = $data->id;
-                $usuario->empresa_id        = $empresa->id;
-                if (!User::firstOrNew(['persona_id' => $data->id])) {
-                    $usuario->fecha_registro    = date('Y-m-d H:i:s');
-                    $usuario->created_at = date('Y-m-d H:i:s');
-                    $usuario->created_id = Auth()->user()->id;
-                    $usuario->save();
-                    LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO');
+
+                if (!$hojaActual->getCellByColumnAndRow(10, $indiceFila)->getFormattedValue()) {
+                    $requeridos = false;
+                }
+                if (!$hojaActual->getCellByColumnAndRow(11, $indiceFila)->getFormattedValue()) {
+                    $requeridos = false;
                 }else{
-                    $usuario_old=User::where('persona_id',$data->id);
-                    $usuario->updated_at   = date('Y-m-d H:i:s');
-                    $usuario->updated_id   = Auth()->user()->id;
-                    $usuario->save();
-                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
+                    $empresa = Empresas::where('razon_social',$hojaActual->getCellByColumnAndRow(11, $indiceFila)->getFormattedValue())->first();
+                }
+                if (!$hojaActual->getCellByColumnAndRow(12, $indiceFila)->getFormattedValue()) {
+                    $requeridos = false;
+                }
+                if (!$hojaActual->getCellByColumnAndRow(13, $indiceFila)->getFormattedValue()) {
+                    $requeridos = false;
+                }
+                if (!$hojaActual->getCellByColumnAndRow(14, $indiceFila)->getFormattedValue()) {
+                    $requeridos = false;
                 }
 
-                $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id],['rol_id'=>2]);
-                $usuario_rol->usuario_id = $usuario->id;
-                $usuario_rol->rol_id = 2;
-                if (!UsuariosRoles::where('usuario_id' , $usuario->id)->where('rol_id',2)->first()) {
-                    $usuario_rol->created_at = date('Y-m-d H:i:s');
-                    $usuario_rol->created_id = Auth()->user()->id;
-                    $usuario_rol->save();
-                    LogActividades::guardar(Auth()->user()->id, 3, 'SE ASIGNO UN ROL AL USUARIO', $data->getTable(), NULL, $usuario_rol, 'SE ASIGNO ROL A UN USUARIO');
-                }else{
-                    $usuarior_rol_old = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->first();
-                    $usuario_rol->updated_at   = date('Y-m-d H:i:s');
-                    $usuario_rol->updated_id   = Auth()->user()->id;
-                    $usuario_rol->save();
-                    LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
+
+                if (!$documento || !$empresa) {
+                    $requeridos = false;
                 }
-                $titulo     = 'Éxito';
-                $mensaje    = 'Se registro con éxito al alumno';
-                $tipo       = 'success';
-            }else{
-                $success = false;
-                array_push($array_nulos,(object)$value);
+                // return  $hojaActual->getCellByColumnAndRow(20, $indiceFila)->getFormattedValue();
+                if ($requeridos) {
+
+                    // $data = Personas::firstOrNew(['nro_documento' => $value[2]]);
+                    // ---persona---
+                    $data = Personas::firstOrNew(
+                        ['nro_documento' => $hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue()],
+                        ['estado' => 1]
+                    );
+                    $data->tipo_documento_id        = $documento->id;
+                    $data->nro_documento            = $hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue();
+                    $data->apellido_paterno         = $hojaActual->getCellByColumnAndRow(3, $indiceFila)->getFormattedValue();
+                    $data->apellido_materno         = $hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue();
+                    $data->nombres                  = $hojaActual->getCellByColumnAndRow(5, $indiceFila)->getFormattedValue();
+                    $data->sexo                     = $hojaActual->getCellByColumnAndRow(10, $indiceFila)->getFormattedValue();
+                    $data->nacionalidad             = $hojaActual->getCellByColumnAndRow(7, $indiceFila)->getFormattedValue();
+                    $data->cargo                    = $hojaActual->getCellByColumnAndRow(8, $indiceFila)->getFormattedValue();
+                    $data->telefono                 = $hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue();
+                    $data->whatsapp                 = $hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue();
+
+                    $data->fecha_cumpleaños         = Carbon::parse($hojaActual->getCellByColumnAndRow(12, $indiceFila)->getFormattedValue())->format('Y-m-d');
+                    $data->fecha_caducidad_dni      = Carbon::parse($hojaActual->getCellByColumnAndRow(13, $indiceFila)->getFormattedValue())->format('Y-m-d');
+
+                    if (!Personas::firstOrNew(['nro_documento' => $hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue()])) {
+                        $data->fecha_registro       = date('Y-m-d H:i:s');
+                        $data->created_at           = date('Y-m-d H:i:s');
+                        $data->created_id           = Auth()->user()->id;
+                        $data->save();
+                        LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN ALUMNO', $data->getTable(), NULL, $data, 'SE A CREADO UN NUEVO ALUMNO ');
+                    }else{
+                        $data_old=Personas::firstOrNew(['nro_documento' => $hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue()]);
+                        $data->updated_at   = date('Y-m-d H:i:s');
+                        $data->updated_id   = Auth()->user()->id;
+                        $data->save();
+                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ALUMNO', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN ALUMNO');
+                    }
+
+                    // registramos como usuario
+                    $usuario = User::firstOrNew(['persona_id' => $data->id]);
+                    $usuario->nombre_corto      = $data->apellido_paterno.' '.(explode(' ',$data->nombres)[0]);
+                    $usuario->nro_documento     = $data->nro_documento;
+                    $usuario->email             = $hojaActual->getCellByColumnAndRow(14, $indiceFila)->getFormattedValue();
+                    $usuario->password          = Hash::make($data->nro_documento);
+                    $usuario->avatar_initials   = substr($data->apellido_paterno, 0, 1).substr(explode(' ',$data->nombres)[0], 0, 1);
+                    $usuario->persona_id        = $data->id;
+                    $usuario->empresa_id        = $empresa->id;
+                    if (!User::firstOrNew(['persona_id' => $data->id])) {
+                        $usuario->fecha_registro    = date('Y-m-d H:i:s');
+                        $usuario->created_at = date('Y-m-d H:i:s');
+                        $usuario->created_id = Auth()->user()->id;
+                        $usuario->save();
+                        LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO');
+                    }else{
+                        $usuario_old=User::where('persona_id',$data->id);
+                        $usuario->updated_at   = date('Y-m-d H:i:s');
+                        $usuario->updated_id   = Auth()->user()->id;
+                        $usuario->save();
+                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
+                    }
+
+                    // --- roles
+                    $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id],['rol_id'=>2],['estado'=>1]);
+                    $usuario_rol->usuario_id = $usuario->id;
+                    $usuario_rol->rol_id = 2;
+                    if (!UsuariosRoles::where('usuario_id' , $usuario->id)->where('rol_id',2)->where('estado',1)->first()) {
+                        $usuario_rol->created_at = date('Y-m-d H:i:s');
+                        $usuario_rol->created_id = Auth()->user()->id;
+                        $usuario_rol->save();
+                        LogActividades::guardar(Auth()->user()->id, 3, 'SE ASIGNO UN ROL AL USUARIO', $data->getTable(), NULL, $usuario_rol, 'SE ASIGNO ROL A UN USUARIO');
+                    }else{
+                        $usuarior_rol_old = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',2)->where('estado',1)->first();
+                        $usuario_rol->updated_at   = date('Y-m-d H:i:s');
+                        $usuario_rol->updated_id   = Auth()->user()->id;
+                        $usuario_rol->save();
+                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
+                    }
+
+                }else{
+                    array_push($arrayExcluidos,array(
+                        "tipos_documentos"  =>$hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue(),
+                        "n_documento"       =>$hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue(),
+                        "Apellido_Paterno"  =>$hojaActual->getCellByColumnAndRow(3, $indiceFila)->getFormattedValue(),
+                        "Apellido_Materno"  =>$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue(),
+                        "Nombres"         =>$hojaActual->getCellByColumnAndRow(5, $indiceFila)->getFormattedValue(),
+                        "Whatsapp"          =>$hojaActual->getCellByColumnAndRow(6, $indiceFila)->getFormattedValue(),
+                        "Nacionalidad"      =>$hojaActual->getCellByColumnAndRow(7, $indiceFila)->getFormattedValue(),
+                        "Cargo"             =>$hojaActual->getCellByColumnAndRow(8, $indiceFila)->getFormattedValue(),
+                        "Telefono"          =>$hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue(),
+                        "Sexo"              =>$hojaActual->getCellByColumnAndRow(10, $indiceFila)->getFormattedValue(),
+                        "Empresa"           =>$hojaActual->getCellByColumnAndRow(11, $indiceFila)->getFormattedValue(),
+                        "Fecha_Cumpleaños" =>$hojaActual->getCellByColumnAndRow(12, $indiceFila)->getFormattedValue(),
+                        "Fecha_Caducidad_DNI"   =>$hojaActual->getCellByColumnAndRow(13, $indiceFila)->getFormattedValue(),
+                        "Email"                 =>$hojaActual->getCellByColumnAndRow(14, $indiceFila)->getFormattedValue(),
+                    ));
+                }
             }
-
         }
-
-
-        if ($success == false) {
-            $titulo     = 'Warning';
-            $mensaje    = "Se encontro que ".(sizeof($array_nulos)-1)." que no fue registrado.";
-            $tipo       = 'warning';
+        if (sizeof($arrayExcluidos)>0) {
+            return response()->json(["titulo"=>"Alerta", "mensaje"=>"Se encontro que ".sizeof($arrayExcluidos)." registros no tienen los campos requeridos.","tipo"=>"warning","data"=>$arrayExcluidos],200);
         }
-
-        $respuesta = array("titulo"=>$titulo,"mensaje"=>$mensaje,"tipo"=>$tipo,"incompletos"=>$array_nulos);
-        return response()->json($respuesta,200);
+        return response()->json(["titulo"=>"Éxito", "mensaje"=>"Se importo con exito la lista de certificados","tipo"=>"success"],200);
     }
 
 }

@@ -16,21 +16,16 @@ class TipoDocumentoSeeder extends Seeder
         //
         //1
         DB::table('tipo_documentos')->insert([
-            'descripcion'       => 'RUC',
+            'codigo'            => 'RUC',
+            'descripcion'       => 'REGISTRO ÚNICO DE CONTRIBUYENTES',
             'fecha_registro'    => date('Y-m-d'),
             'created_at'    => date('Y-m-d H:i:s'),
             'updated_at'    => date('Y-m-d H:i:s'),
         ]);
         //2
         DB::table('tipo_documentos')->insert([
-            'descripcion'       => 'DNI',
-            'fecha_registro'    => date('Y-m-d'),
-            'created_at'    => date('Y-m-d H:i:s'),
-            'updated_at'    => date('Y-m-d H:i:s'),
-        ]);
-        //3
-        DB::table('tipo_documentos')->insert([
-            'descripcion'       => 'PASAPORTE',
+            'codigo'            => 'DNI',
+            'descripcion'       => 'DOCUMENTO NACIONAL DE IDENTIDAD',
             'fecha_registro'    => date('Y-m-d'),
             'created_at'    => date('Y-m-d H:i:s'),
             'updated_at'    => date('Y-m-d H:i:s'),

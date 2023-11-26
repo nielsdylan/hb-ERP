@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tipo_documentos', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo')->nullable();
             $table->string('descripcion')->nullable();
             $table->dateTime('fecha_registro')->nullable();
             $table->integer('estado')->nullable()->default(1);

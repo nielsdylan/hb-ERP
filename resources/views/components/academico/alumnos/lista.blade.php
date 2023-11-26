@@ -123,7 +123,7 @@ HB GROUP - Gestion de Alumnos
                                     <select name="tipo_documento_id" class="form-control form-select form-select-sm select2" required>
                                         <option value="">Seleccione...</option>
                                         @foreach ($tipos_documentos as $key=>$item)
-                                            <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->codigo . ' - ' . $item->descripcion }}</option>
                                         @endforeach
 
                                     </select>

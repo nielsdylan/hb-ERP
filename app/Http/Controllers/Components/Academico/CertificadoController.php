@@ -167,7 +167,7 @@ class CertificadoController extends Controller
                     if (!$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue()) {
                         $requeridos = false;
                     }else{
-                        $documento = TipoDocumentos::where('descripcion',$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue())->first();
+                        $documento = TipoDocumentos::where('codigo',$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue())->first();
                     }
                     if (!$hojaActual->getCellByColumnAndRow(5, $indiceFila)->getFormattedValue()) {
                         $requeridos = false;

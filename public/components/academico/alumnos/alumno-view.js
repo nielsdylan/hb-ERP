@@ -290,29 +290,29 @@ class AlumnoView {
                     type: respuesta.tipo,
                     width: 480,
                 });
-                if (respuesta.incompletos.length>1) {
+                if (respuesta.tipo == 'warning') {
 
-                    $.each(respuesta.incompletos, function (index, element) {
-                        if (index!=0) {
+                    $.each(respuesta.data, function (index, element) {
+                        // if (index!=0) {
                             html_tr += `
                             <tr>
-                                <td>`+(element[0]==null?'-':element[0])+`</td>
-                                <td>`+(element[1]==null?'-':element[1])+`</td>
-                                <td>`+(element[2]==null?'-':element[2])+`</td>
-                                <td>`+(element[3]==null?'-':element[3])+`</td>
-                                <td>`+(element[4]==null?'-':element[4])+`</td>
-                                <td>`+(element[5]==null?'-':element[5])+`</td>
-                                <td>`+(element[6]==null?'-':element[6])+`</td>
-                                <td>`+(element[7]==null?'-':element[7])+`</td>
-                                <td>`+(element[8]==null?'-':element[8])+`</td>
-                                <td>`+(element[9]==null?'-':element[9])+`</td>
-                                <td>`+(element[10]==null?'-':element[10])+`</td>
-                                <td>`+(element[11]==null?'-':element[11])+`</td>
-                                <td>`+(element[12]==null?'-':element[12])+`</td>
-                                <td>`+(element[13]==null?'-':element[13])+`</td>
+                                <td>`+(element.tipos_documentos==null?'-':element.tipos_documentos)+`</td>
+                                <td>`+(element.n_documento==null?'-':element.n_documento)+`</td>
+                                <td>`+(element.Apellido_Paterno?'-':element.Apellido_Paterno)+`</td>
+                                <td>`+(element.Apellido_Materno==null?'-':element.Apellido_Materno)+`</td>
+                                <td>`+(element.Nombres==null?'-':element.Nombres)+`</td>
+                                <td>`+(element.Whatsapp==null?'-':element.Whatsapp)+`</td>
+                                <td>`+(element.Nacionalidad==null?'-':element.Nacionalidad)+`</td>
+                                <td>`+(element.Cargo==null?'-':element.Cargo)+`</td>
+                                <td>`+(element.Telefono==null?'-':element.Telefono)+`</td>
+                                <td>`+(element.Sexo==null?'-':element.Sexo)+`</td>
+                                <td>`+(element.Empresa==null?'-':element.Empresa)+`</td>
+                                <td>`+(element.Fecha_Cumpleaños==null?'-':element.Fecha_Cumpleaños)+`</td>
+                                <td>`+(element.Fecha_Caducidad_DNI==null?'-':element.Fecha_Caducidad_DNI)+`</td>
+                                <td>`+(element.Email==null?'-':element.Email)+`</td>
                             </tr>`;
 
-                        }
+                        // }
                     });
                     html = `
                     <div class="table-responsive">

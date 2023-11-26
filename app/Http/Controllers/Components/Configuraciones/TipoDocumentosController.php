@@ -28,7 +28,7 @@ class TipoDocumentosController extends Controller
                 <button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
                 </button>
-                
+
             </div>';
         })->rawColumns(['accion'])->make(true);
     }
@@ -36,6 +36,7 @@ class TipoDocumentosController extends Controller
 
         try {
                 $data = TipoDocumentos::firstOrNew(['id' => $request->id]);
+                $data->codigo      = $request->codigo;
                 $data->descripcion      = $request->descripcion;
 
                 if ((int) $request->id == 0) {
@@ -51,10 +52,10 @@ class TipoDocumentosController extends Controller
                     $data->save();
                     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN TIPO DE DOCUMENTO', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN TIPO DE DOCUMENTO');
                 }
-                
 
-                    
-                
+
+
+
             $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");
         } catch (Exception $ex) {
             $respuesta = array("titulo"=>"Error","mensaje"=>"Hubo un problema al registrar. Por favor intente de nuevo, si persiste comunicarse con su area de TI","tipo"=>"error","ex"=>$ex);
