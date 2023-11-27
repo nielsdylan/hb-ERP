@@ -67,10 +67,9 @@ HB GROUP - Gestion de Alumnos
                         </div>
                     </div>
                     <div class="card-body">
-                        {{$_SERVER["HTTP_HOST"]}}
                         <div class="row justify-content-md-center">
                             <div class="col-md-12 table-responsive">
-                                <table class="table table-bordered text-nowrap border-bottom table-hover table-responsive" id="tabla-data" width="100%">
+                                <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data" width="100%">
                                     <thead>
                                         <tr>
                                             <th class="wd-15p border-bottom-0">#</th>

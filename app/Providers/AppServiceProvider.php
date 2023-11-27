@@ -14,9 +14,12 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-        $this->app->bind('path.public',function(){
-            return '/home/hbgroup/public_html';
-        });
+        if ($_SERVER["HTTP_HOST"]=='hbgroup.pe') {
+            $this->app->bind('path.public',function(){
+                return '/home/hbgroup/public_html';
+            });
+        }
+
 
     }
 
