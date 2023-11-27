@@ -1,0 +1,10 @@
+[27-Nov-2023 00:59:11 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[27-Nov-2023 00:59:12 UTC] PHP Warning:  require(/home/hbgroupp/hbERP/vendor/autoload.php): Failed to open stream: No such file or directory in /home/hbgroupp/hbERP/artisan on line 18
+[27-Nov-2023 00:59:12 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/hbgroupp/hbERP/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/hbgroupp/hbERP/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /home/hbgroupp/hbERP/artisan on line 18
+[27-Nov-2023 00:59:23 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[27-Nov-2023 01:03:12 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[27-Nov-2023 01:03:31 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[27-Nov-2023 01:04:04 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
