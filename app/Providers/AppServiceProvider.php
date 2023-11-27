@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('path.public',function(){
             return '/home/hbgroup/public_html';
         });
+
     }
 
     /**
