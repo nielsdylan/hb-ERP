@@ -193,6 +193,11 @@
                                         <div style="background: url('{{asset('web/uploads/business/1620224190.png')}}');background-size: contain;background-position: center;background-repeat: no-repeat;height: 80px;max-width:  170px;"></div>
                                     </a>
                                 </div>
+                                <div class="ficha_carousel_img" align="center">
+                                    <a  class="fancybox" rel="galeria1" href="{{asset('web/uploads/business/dpw.jpg')}}">
+                                        <div style="background: url('{{asset('web/uploads/business/dpw.jpg')}}');background-size: contain;background-position: center;background-repeat: no-repeat;height: 80px;max-width:  170px;"></div>
+                                    </a>
+                                </div>
                             {{-- @endforeach --}}
                         </div>
                         <a href="#" data-carousel="prev" class="owl-prev izquierda_ficha owl-carousel-product-left">

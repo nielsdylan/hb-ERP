@@ -1,52 +1,23 @@
-{{-- <form method="POST" action="">
-    @csrf
-    @if (session('status'))
-        {{ session('status') }}
-    @endif
-    <h1>login</h1>
-    <input type="email" name="email" value="{{ old('email') }}" autofocus required>
-    @error('email')
-        {{ $message }}
-    @enderror
-    <br>
-    <input type="password" name="password" value="{{ old('password') }}" required>
-    @error('password')
-        {{ $message }}
-    @enderror
-    <input type="checkbox" name="remember"> recuerda mi session
-    <button type="submit">Ingresar</button>
-</form> --}}
+
 
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="es" dir="ltr">
 
 <head>
 
-    <!-- META DATA -->
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Login - HB Group">
 
-    <!-- FAVICON -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo/hb_group.png') }}">
 
-    <!-- TITLE -->
     <title>Login - HB Group</title>
 
-    <!-- BOOTSTRAP CSS -->
     <link id="style" href="{{ asset('template/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-
-    <!-- STYLE CSS -->
-     <link href="{{ asset('template/css/style.css') }}" rel="stylesheet">
-
-	<!-- Plugins CSS -->
+    <link href="{{ asset('template/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('template/css/plugins.css') }}" rel="stylesheet">
-
-    <!--- FONT-ICONS CSS -->
     <link href="{{ asset('template/css/icons.css') }}" rel="stylesheet">
-
-    <!-- INTERNAL Switcher css -->
     <link href="{{ asset('template/switcher/css/switcher.css') }}" rel="stylesheet">
     <link href="{{ asset('template/switcher/demo.css') }}" rel="stylesheet">
 
@@ -54,21 +25,13 @@
 
 <body class="app sidebar-mini ltr login-img">
 
-    <!-- BACKGROUND-IMAGE -->
     <div class="">
 
-        <!-- GLOABAL LOADER -->
         <div id="global-loader">
             <img src="{{ asset('template/images/loader.svg') }}"" class="loader-img" alt="Loader">
         </div>
-        <!-- /GLOABAL LOADER -->
-
-        <!-- PAGE -->
         <div class="page">
             <div class="">
-                <!-- Theme-Layout -->
-
-                <!-- CONTAINER OPEN -->
                 <div class="col col-login mx-auto mt-7">
                     <div class="text-center">
                         {{-- <a href="index.html"><img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img" alt=""></a> --}}
@@ -162,40 +125,20 @@
                         </form>
                     </div>
                 </div>
-                <!-- CONTAINER CLOSED -->
             </div>
         </div>
-        <!-- End PAGE -->
 
     </div>
-    <!-- BACKGROUND-IMAGE CLOSED -->
 
-    <!-- JQUERY JS -->
     <script src="{{ asset('template/js/jquery.min.js') }}"></script>
-
-    <!-- BOOTSTRAP JS -->
     <script src="{{ asset('template/plugins/bootstrap/js/popper.min.js') }}"></script>
     <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
-
-    <!-- SHOW PASSWORD JS -->
     <script src="{{ asset('template/js/show-password.min.js') }}"></script>
-
-    <!-- GENERATE OTP JS -->
     <script src="{{ asset('template/js/generate-otp.js') }}"></script>
-
-    <!-- Perfect SCROLLBAR JS-->
     <script src="{{ asset('template/plugins/p-scroll/perfect-scrollbar.js') }}"></script>
-
-    <!-- Color Theme js -->
     <script src="{{ asset('template/js/themeColors.js') }}"></script>
-
-    <!-- CUSTOM JS -->
     <script src="{{ asset('template/js/custom.js') }}"></script>
-
-    <!-- Custom-switcher -->
     <script src="{{ asset('template/js/custom-swicher.js') }}"></script>
-
-    <!-- Switcher js -->
     <script src="{{ asset('template/switcher/js/switcher.js') }}"></script>
 
 </body>
