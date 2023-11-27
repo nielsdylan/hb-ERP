@@ -49,16 +49,16 @@ HB GROUP - Gestion de Alumnos
                                 width="100%">
                                     <thead>
                                         <tr>
-                                            <th class="wd-15p border-bottom-0" width="">#</th>
-                                            <th class="wd-15p border-bottom-0" width="">Código</th>
-                                            <th class="wd-15p border-bottom-0" width="">Curso</th>
-                                            <th class="wd-15p border-bottom-0" width="">N° Documento</th>
-                                            <th class="wd-15p border-bottom-0" width="">Apellidos y Nombres</th>
-                                            <th class="wd-15p border-bottom-0">Empresa</th>
-                                            <th class="wd-15p border-bottom-0">Email</th>
-                                            <th class="wd-15p border-bottom-0">Nota</th>
-                                            <th class="wd-15p border-bottom-0">Estado</th>
-                                            <th class="wd-15p border-bottom-0">-</th>
+                                            <th class="border-bottom-0" width="">#</th>
+                                            <th class="border-bottom-0" width="">Código</th>
+                                            <th class="border-bottom-0" width="">Curso</th>
+                                            <th class="border-bottom-0" width="">N° Documento</th>
+                                            <th class="border-bottom-0" width="">Apellidos y Nombres</th>
+                                            <th class="border-bottom-0">Empresa</th>
+                                            <th class="border-bottom-0">Email</th>
+                                            <th class="border-bottom-0">Nota</th>
+                                            <th class="border-bottom-0">Estado</th>
+                                            <th class="border-bottom-0">-</th>
                                         </tr>
                                     </thead>
                                     <tbody>

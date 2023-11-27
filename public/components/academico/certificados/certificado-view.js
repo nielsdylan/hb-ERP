@@ -59,7 +59,7 @@ class CertificadoView {
                 {data: 'cod_certificado'},
                 {data: 'curso'},
                 {data: 'numero_documento', className: 'text-center'},
-                {data: 'apellidos_nombres', className: 'text-center'},
+                {data: 'apellidos_nombres',},
                 {data: 'empresa'},
                 {data: 'email'},
                 {data: 'nota', className: 'text-center'},
