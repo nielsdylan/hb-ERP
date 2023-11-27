@@ -53,7 +53,7 @@ class PersonaSeeder extends Seeder
         //3
         DB::table('personas')->insert([
             'tipo_documento_id'     => 2,
-            'nro_documento'         => '222222',
+            'nro_documento'         => '75168303',
             'apellido_paterno'      => 'Bejarano',
             'apellido_materno'      => 'Otazu',
             'nombres'               => 'Annie',

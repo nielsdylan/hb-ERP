@@ -48,9 +48,9 @@ class UsuarioSeeder extends Seeder
         //3
         DB::table('usuarios')->insert([
             'nombre_corto'      => 'Annie Bejarano',
-            'nro_documento'         => '22222222',
+            'nro_documento'         => '75168303',
             'email'             => 'comercial@hbgroup.pe',
-            'password'          => Hash::make('password'),
+            'password'          => Hash::make('75168303'),
             // 'avatar_imagen'   => '',
             'avatar_initials'   => 'AB',
             'persona_id'   => 3,
