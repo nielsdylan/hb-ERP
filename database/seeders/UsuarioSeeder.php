@@ -18,7 +18,7 @@ class UsuarioSeeder extends Seeder
         //1
         DB::table('usuarios')->insert([
             'nombre_corto'      => 'INFO',
-            'nro_documento'         => '9999999',
+            'nro_documento'         => '99999999',
             'email'             => 'info@hbgroup.pe',
             'password'          => Hash::make('password'),
             // 'avatar_imagen'   => '',
@@ -33,12 +33,12 @@ class UsuarioSeeder extends Seeder
 
         //2
         DB::table('usuarios')->insert([
-            'nombre_corto'      => 'NIELS QUISPE',
+            'nombre_corto'      => 'ADMINISTRADOR',
             'nro_documento'         => '74250891',
             'email'             => 'niels_dylan@hotmail.com',
-            'password'          => Hash::make('password'),
+            'password'          => Hash::make('74250891'),
             // 'avatar_imagen'   => '',
-            'avatar_initials'   => 'NQ',
+            'avatar_initials'   => 'AD',
             'persona_id'   => 2,
             'empresa_id'   => 1,
             'fecha_registro'    => date('Y-m-d H:i:s'),
@@ -47,12 +47,12 @@ class UsuarioSeeder extends Seeder
         ]);
         //3
         DB::table('usuarios')->insert([
-            'nombre_corto'      => 'COMERCIAL',
-            'nro_documento'         => '222222',
+            'nombre_corto'      => 'Annie Bejarano',
+            'nro_documento'         => '22222222',
             'email'             => 'comercial@hbgroup.pe',
             'password'          => Hash::make('password'),
             // 'avatar_imagen'   => '',
-            'avatar_initials'   => 'CM',
+            'avatar_initials'   => 'AB',
             'persona_id'   => 3,
             'empresa_id'   => 1,
             'fecha_registro'    => date('Y-m-d H:i:s'),
@@ -61,13 +61,28 @@ class UsuarioSeeder extends Seeder
         ]);
         //4
         DB::table('usuarios')->insert([
-            'nombre_corto'      => 'SERVICIOS',
-            'nro_documento'         => '333333',
+            'nombre_corto'      => 'Laura Villavicencio',
+            'nro_documento'         => '75165161',
             'email'             => 'servicio@hbgroup.pe',
-            'password'          => Hash::make('password'),
+            'password'          => Hash::make('75165161'),
             // 'avatar_imagen'   => '',
-            'avatar_initials'   => 'SV',
+            'avatar_initials'   => 'LV',
             'persona_id'   => 4,
+            'empresa_id'   => 1,
+            'fecha_registro'    => date('Y-m-d H:i:s'),
+            'created_at'        => date('Y-m-d H:i:s'),
+            'updated_at'        => date('Y-m-d H:i:s'),
+        ]);
+
+        //5
+        DB::table('usuarios')->insert([
+            'nombre_corto'      => 'HELARD BEJARANO',
+            'nro_documento'         => '46497055',
+            'email'             => 'hbejarano@southernperu.com',
+            'password'          => Hash::make('46497055'),
+            // 'avatar_imagen'   => '',
+            'avatar_initials'   => 'HB',
+            'persona_id'   => 5,
             'empresa_id'   => 1,
             'fecha_registro'    => date('Y-m-d H:i:s'),
             'created_at'        => date('Y-m-d H:i:s'),
