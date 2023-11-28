@@ -16,6 +16,7 @@ class CertificadoView {
             language: idioma,
             serverSide: true,
             processing: true,
+            // buttons: ['copy', 'excel', 'pdf', 'colvis'],
             // pagingType: 'full_numbers',
             initComplete: function (settings, json) {
                 const $filter = $('#tabla-data_filter');
@@ -94,7 +95,7 @@ class CertificadoView {
         /**
          * Nueva aula - información
          */
-        $('#nuevo').click((e) => {
+        $('[data-action="nuevo"]').click((e) => {
             e.preventDefault();
             let id = 0,
                 tipo ="Nuevo Certificado",
@@ -244,7 +245,7 @@ class CertificadoView {
         * funsiones para importar excel de certificados
         *
         */
-        $('#importar').click((e) => {
+        $('[data-action="importar"]').click((e) => {
             e.preventDefault();
             $('#tabla-excluido').addClass('d-none');
             $('#modal-importar').modal('show');
@@ -256,6 +257,11 @@ class CertificadoView {
 
             let data = new FormData($(e.currentTarget)[0]);
             let html = '';
+            let button = $(e.currentTarget).find('button[type="submit"]');
+
+            button.find('i.fe').remove();
+            button.html('<i class="fa fa-spinner fa-spin"></i> Cargando...');
+            button.attr('disabled','true');
 
             this.model.importarCertificadosExcel(data).then((respuesta) => {
 
@@ -289,14 +295,26 @@ class CertificadoView {
                     });
                     $('[data-table="excluidos"]').html(html);
                     $('#tabla-excluido').removeClass('d-none');
+                    
                 }
                 $('#tabla-data').DataTable().ajax.reload();
-
+                button.find('i.fa').remove();
+                button.html('<i class="fe fe-save"></i> Guardar');
+                button.removeAttr('disabled');
 
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
             });
+        });
+
+        /*
+        *
+        * Filtros
+        */
+        $('[data-action="filtros"]').click((e) => {
+            e.preventDefault();
+            $('#modal-filtros').modal('show');
         });
     }
 

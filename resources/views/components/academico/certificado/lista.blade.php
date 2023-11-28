@@ -35,15 +35,25 @@ HB GROUP - Gestion de Alumnos
                             <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="carga-excel" ><i class="fe fe-upload"></i> Carga masiva de Alumnos</a>
                             @endif
                             @if (in_array(2,$array_accesos)) --}}
-                            <a href="{{ route('hb.academicos.certificados.certificado-modelo-excel') }}" class="btn btn-info btn-sm ms-2" id="modelo" ><i class="fe fe-download"></i> Modelo de excel</a>
-                            <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="importar" ><i class="fe fe-upload"></i> Importarción Certificado</a>
-                            <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2" id="nuevo" ><i class="fe fe-plus"></i> Nuevo Certificado</a>
+                            <a href="javascript:void(0)" class="btn btn-default btn-sm ms-2 d-none d-lg-block d-md-block" data-action="filtros"><i class="fe fe-filter"></i> Filtros</a>
+
+                            <a href="{{ route('hb.academicos.certificados.certificado-modelo-excel') }}" class="btn btn-info btn-sm ms-2 d-none d-lg-block d-md-block" data-action="modelo"><i class="fe fe-download"></i> Modelo de excel</a>
+                            <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2 d-none d-lg-block d-md-block" data-action="importar" id="importar" ><i class="fe fe-upload"></i> Importarción Certificado</a>
+                            <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2 d-none d-lg-block d-md-block" data-action="nuevo"><i class="fe fe-plus"></i> Nuevo Certificado</a>
                             {{-- @endif --}}
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="row justify-content-md-center">
+                                <a href="javascript:void(0)" class="btn btn-default btn-sm ms-2 d-block d-md-none mb-2" data-action="filtros"><i class="fe fe-filter"></i> Filtros</a>
+                                <a href="{{ route('hb.academicos.certificados.certificado-modelo-excel') }}" class="btn btn-info btn-sm ms-2 d-block d-md-none mb-2" data-action="modelo"><i class="fe fe-download"></i> Modelo de excel</a>
+                                <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2 d-block d-md-none mb-2" data-action="importar" id="importar" ><i class="fe fe-upload"></i> Importarción Certificado</a>
+                                <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2 d-block d-md-none mb-2" data-action="nuevo"><i class="fe fe-plus"></i> Nuevo Certificado</a>
+
+                                
                             <div class="col-md-12 table-responsive">
+                                
+
                                 <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data"
                                 {{-- style="width: 100%; font-size: x-small" --}}
                                 width="100%">
@@ -145,13 +155,44 @@ HB GROUP - Gestion de Alumnos
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save"></i> Guardar</button>
+                        <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save fe-spin"></i> Guardar</button>
                         <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal"><i class="fe fe-x"></i> Cerrar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <!-- MODAL filtros -->
+    <div class="modal fade effect-super-scaled " id="modal-filtros">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Selección de filtros</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form id="modal-filtros" action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="id" value="0">
+                    <div class="modal-body">
+                        <div class="row justify-content-md-center">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label mt-0">Importar : <span class="text-red">*</span></label>
+                                    <input class="form-control form-control-sm" type="file" accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="certificado" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {{-- <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save fe-spin"></i> Guardar</button> --}}
+                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal"><i class="fe fe-x"></i> Aplicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+     
 
 </div>
 @endsection
