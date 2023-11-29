@@ -22,7 +22,11 @@ class LoginController extends Controller
         // $credenciales = request()->validate();
         $usuario = User::where('nro_documento',$request->email)->first();
         if (!$usuario) {
-            return redirect('login')->with('status','Credenciales incorrectas');
+            $usuario = User::where('email',$request->email)->first();
+            if (!$usuario) {
+                return redirect('login')->with('status','Credenciales incorrectas');
+            }
+
         }
 
         // $remember = request()->filled('remember');

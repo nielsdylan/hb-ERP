@@ -3,7 +3,7 @@
 [Master Stylesheet]
 
 Project        :   sash – Bootstrap 5  Admin & Dashboard Template
-Copyright      :   Spruko Technologies Private Limited 
+Copyright      :   Spruko Technologies Private Limited
 Author         :   Spruko
 Author URL     :   https://themeforest.net/user/spruko
 Support	       :   support@spruko.com
@@ -94,7 +94,7 @@ License        :   Licensed under ThemeForest License
 :root {
     /* --primary-rgb: 108, 95, 252; */
     --primary-rgb: 21, 0, 255;
-    
+
     --primary-bg-color: rgb(var(--primary-rgb));
     --primary-bg-hover: rgb(var(--primary-rgb), 0.9);
     --primary-bg-border: rgb(var(--primary-rgb));
@@ -29207,11 +29207,14 @@ a.text-primary:focus {
 .login-img {
     position: relative;
     background-image: url(../images/landing/backgrounds/2.jpg);
+    /* background-image: url(../../components/auth/operaciones-portuarias.jpg); */
 }
 
 .login-img::before {
     content: "";
     background: linear-gradient(to right, var(--primary06) 0%, #05c3fb91 100%);
+    /* background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ); */
+
     height: 100%;
     width: 100%;
     position: absolute;

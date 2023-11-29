@@ -45,7 +45,6 @@ HB GROUP - Gestion de Alumnos
                         </div>
                     </div>
                     <div class="card-body">
-                        <div id="a-masivo"></div>
                         <div class="row justify-content-md-center">
                                 <a href="javascript:void(0)" class="btn btn-default btn-sm ms-2 d-block d-md-none mb-2" data-action="filtros"><i class="fe fe-filter"></i> Filtros</a>
                                 <a href="{{ route('hb.academicos.certificados.certificado-modelo-excel') }}" class="btn btn-info btn-sm ms-2 d-block d-md-none mb-2" data-action="modelo"><i class="fe fe-download"></i> Modelo de excel</a>
@@ -297,7 +296,7 @@ HB GROUP - Gestion de Alumnos
     <script src="{{asset('components/academico/certificados/certificado-view.js')}}"></script>
     <script>
         // Select2
-        
+
         var filtros = {
             _token:csrf_token,
             curso:'-',
@@ -312,7 +311,7 @@ HB GROUP - Gestion de Alumnos
                 width: '100%',
                 dropdownParent: $('#modal-filtros .modal-body')
             });
-            
+
             const view = new CertificadoView(new CertificadoModel(csrf_token));
             view.listar();
             view.eventos();

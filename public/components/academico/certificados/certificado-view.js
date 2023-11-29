@@ -10,7 +10,7 @@ class CertificadoView {
     // }
     constructor(model) {
         this.model = model;
-        
+
     }
 
     /**
@@ -50,7 +50,7 @@ class CertificadoView {
                 });
                 // const $paginate = $('#tabla-data_paginate');
                 // $paginate.find('ul.pagination').addClass('pagination-sm');
-                
+
             },
             drawCallback: function (settings) {
                 $('#tabla-data_filter input').prop('disabled', false);
@@ -325,37 +325,17 @@ class CertificadoView {
         $('[data-action="pdf-masivo"]').click((e) => {
             e.preventDefault();
             let model = this.model;
-            let html = '';
             model.alumnosCertidicadoMasivo(filtros).then((respuesta) => {
-                $.each(respuesta, function (index, element) { 
-                    // window.open(route('hb.academicos.certificados.exportar-pdf',{'id':element.id}));
-                    html+='<a href="'+route('hb.academicos.certificados.exportar-pdf',{'id':element.id})+'" data-section="certificado">'+element.nombres+'</a><br>';    
-                    
-                             
+                $.each(respuesta, function (index, element) {
+                    window.open(route('hb.academicos.certificados.exportar-pdf',{'id':element.id}));
                 });
-                $('#a-masivo').html(html); 
-                // $('[data-section="certificado-1"]').trigger('click');    
-                // $('[data-section="certificado-1"]').click(); 
-                $.each($('[data-section="certificado"]'), function (index, element) { 
-                    
-                    window.addEventListener('load', function() {
-                        element.click()
-                    });
-                    
-                    // console.log(window.onfocus);
-                    // console.log(element.click());
-                });
-                
-                // $('#a-masivo').html(html);
-                // $.each(respuesta, function (index, element) { 
-                //     $('[data-section="certificado-'+element.id+'"]').trigger('click');
-                // });
+
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
             });
         });
-       
+
     }
 
     filtros = () => {

@@ -159,6 +159,43 @@
         @include('components.layouts.footer')
         <!-- FOOTER END -->
 
+    <!-- MODAL EFFECTS -->
+    <div class="modal fade effect-super-scaled " id="modal-cambio-clave">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Cambiar contraseña</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form id="cambiar-contraseña" action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="id" value="0">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group ">
+                                    <label class="form-label">Nueva contraseña : <span class="text-red">*</span></label>
+                                    <input type="password" name="contrasena" class="form-control form-control-sm" placeholder="Contraseña..." required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group ">
+                                    <label class="form-label">Repita la nueva contraseña : <span class="text-red">*</span></label>
+                                    <input type="password" name="repetir_contrasena" class="form-control form-control-sm" placeholder="Contraseña..." required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save"></i> Cambiar contraseña</button>
+                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal"><i class="fe fe-x"></i> Cerrar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
     <!-- BACK-TO-TOP -->
     <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
     <script src="{{ asset('template/js/jquery.min.js') }}"></script>
@@ -180,8 +217,8 @@
     <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
 
-    {{-- <script src="{{ asset('template/js/custom-swicher.js') }}"></script>
-    <script src="{{ asset('template/switcher/js/switcher.js') }}"></script> --}}
+    <script src="{{ asset('components/app-model.js') }}"></script>
+    <script src="{{ asset('components/app-view.js') }}"></script>
     @routes
     <script>
         const csrf_token = '{{ csrf_token() }}';
@@ -213,7 +250,8 @@
         };
         $(document).ready(function () {
             $.protip();
-
+            const view = new AppView(new AppModel(csrf_token));
+            view.eventos();
         });
 
     </script>

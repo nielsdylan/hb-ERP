@@ -53,7 +53,7 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
     Route::get('logout',[LoginController::class,'logout'])->name('logout');
-    Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard')->middleware('auth');
+    Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 
     Route::name('academicos.')->prefix('academicos')->group(function () {
 
@@ -172,6 +172,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
             Route::get('lista', [UsuariosController::class, 'lista'])->name('lista');
             Route::post('listar', [UsuariosController::class, 'listar'])->name('listar');
+            Route::post('formulario', [UsuariosController::class, 'formulario'])->name('formulario');
             Route::post('guardar', [UsuariosController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [UsuariosController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [UsuariosController::class, 'eliminar'])->name('eliminar');
@@ -180,7 +181,9 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('buscar-sub-menu/{id}', [UsuariosController::class, 'buscarSubMenu'])->name('buscar-sub-menu');
             Route::get('buscar-accesos/{id}/{usuario_id}', [UsuariosController::class, 'buscarAccesos'])->name('buscar-accesos');
             Route::post('guardar-accesos', [UsuariosController::class, 'guardarAccesos'])->name('guardar-accesos');
+            Route::post('buscar-usuario', [UsuariosController::class, 'buscarUsuario'])->name('buscar-usuario');
 
+            Route::post('cambiar-contrasena',[UsuariosController::class,'cambiarContrasena'])->name('cambiar-contrasena');
         });
 
         Route::name('accesos.')->prefix('accesos')->group(function () {
