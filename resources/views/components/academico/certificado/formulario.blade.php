@@ -224,7 +224,7 @@ HB GROUP - Gestion de Alumnos
 
         $(document).ready(function () {
             const view = new CertificadoView(new CertificadoModel(csrf_token));
-            view.listar();
+            // view.listar();
             view.eventos();
         });
 

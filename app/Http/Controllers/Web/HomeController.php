@@ -95,7 +95,7 @@ class HomeController extends Controller
         // $pdf->setPaper('A4', 'landscape');
         // return $pdf->stream();
 
-        return $pdf->download(date("Y-m-d").'-'.strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
+        return $pdf->download(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
     }
     public function exportarCertificadoPDFVista($id){
         $instructor = (object)array(
