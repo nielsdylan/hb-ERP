@@ -50,9 +50,9 @@ HB GROUP - Gestion de Alumnos
                                 <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2 d-block d-md-none mb-2" data-action="importar" id="importar" ><i class="fe fe-upload"></i> Importarción Certificado</a>
                                 <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2 d-block d-md-none mb-2" data-action="nuevo"><i class="fe fe-plus"></i> Nuevo Certificado</a>
 
-                                
+
                             <div class="col-md-12 table-responsive">
-                                
+
 
                                 <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data"
                                 {{-- style="width: 100%; font-size: x-small" --}}
@@ -165,20 +165,98 @@ HB GROUP - Gestion de Alumnos
 
     <!-- MODAL filtros -->
     <div class="modal fade effect-super-scaled " id="modal-filtros">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">Selección de filtros</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h6 class="modal-title">Filtros</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
                 </div>
-                <form id="modal-filtros" action="" method="POST" enctype="multipart/form-data">
+                <form id="form-filtros" action="" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" value="0">
                     <div class="modal-body">
-                        <div class="row justify-content-md-center">
-                            <div class="col-md-6">
+                        <div class="row justify-content-md-center" data-section="curso">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="form-label mt-0">Importar : <span class="text-red">*</span></label>
-                                    <input class="form-control form-control-sm" type="file" accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="certificado" required>
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="checkedcurso" value="curso">
+                                        <span class="custom-control-label">Curso :</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group select2-sm ">
+                                    <select name="curso" class="form-control form-select select2-show-search " data-disabled="cheked" data-placeholder="Seleccione..." disabled>
+                                        <option value="">Seleccione...</option>
+                                        @foreach ($cursos as $key=>$item)
+                                            <option value="{{ $item->curso }}">{{ $item->curso }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center" data-section="empresa">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="checkedempresa" value="empresa">
+                                        <span class="custom-control-label">Empresa :</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group select2-sm ">
+                                    <select name="empresa" class="form-control form-select form-select-sm select2-show-search "  data-disabled="cheked" disabled>
+                                        <option value="vacio" selected>--Vacío--</option>
+                                        @foreach ($empresas as $key=>$item)
+                                            <option value="{{ $item->empresa }}" >{{  $item->empresa }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-md-center" data-section="documento">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="checkednumero_documento" value="numero_documento">
+                                        <span class="custom-control-label">N°Documento :</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group select2-sm ">
+                                    <select name="numero" class="form-control form-select form-select-sm select2-show-search "  data-disabled="cheked" data-placeholder="Seleccione..."disabled>
+                                        <option value="" selected>Seleccione...</option>
+                                        @foreach ($documentos as $key=>$item)
+                                            <option value="{{ $item->numero_documento }}" >{{  $item->numero_documento }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-md-center" data-section="fecha">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="checkedfechas" value="fechas">
+                                        <span class="custom-control-label">Fechas :</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group text-center">
+                                    <input class="form-control form-control-sm text-center" type="date" name="fecha_inicio" disabled data-disabled="cheked">
+                                    <small id="helpId" class="text-muted">Fecha Inicio</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group text-center">
+                                    <input class="form-control form-control-sm text-center" type="date" name="fecha_final" disabled data-disabled="cheked">
+                                    <small id="helpId" class="text-muted">Fecha Final</small>
                                 </div>
                             </div>
                         </div>
@@ -192,7 +270,7 @@ HB GROUP - Gestion de Alumnos
         </div>
     </div>
 
-     
+
 
 </div>
 @endsection
@@ -218,7 +296,15 @@ HB GROUP - Gestion de Alumnos
     <script>
         // Select2
 
+
+
         $(document).ready(function () {
+            $('.select2-show-search').select2({
+                minimumResultsForSearch: '',
+                width: '100%',
+                dropdownParent: $('#modal-filtros .modal-body')
+            });
+
             const view = new CertificadoView(new CertificadoModel(csrf_token));
             view.listar();
             view.eventos();

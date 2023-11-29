@@ -25,6 +25,11 @@ class CertificadoController extends Controller
     public function lista()
     {
 
+        $empresas = Certificado::select('empresa')->where('estado',1)->whereNotNull('empresa')->distinct()->orderBy('empresa', 'asc')->get();
+        $cursos = Certificado::select('curso')->where('estado',1)->whereNotNull('curso')->distinct()->orderBy('empresa', 'asc')->get();
+        $documentos = Certificado::select('numero_documento')->where('estado',1)->whereNotNull('numero_documento')->distinct()->orderBy('empresa', 'asc')->get();
+        // $contador = Certificado::select('empresa')->where('estado',1)->distinct()->orderBy('empresa', 'asc')->count();
+        // return [$empresas];
         LogActividades::guardar(Auth()->user()->id, 1, 'LISTADO DE CERTIFICADOS', null, null, null, 'INGRESO A LA LISTA DE CERTIFICADOS');
         return view('components.academico.certificado.lista', get_defined_vars());
     }

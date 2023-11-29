@@ -2,12 +2,21 @@ class CertificadoView {
 
     constructor(model) {
         this.model = model;
+        this.filtros = {
+            curso:'-',
+            empresa:'-',
+            documento:'-',
+            fecha_inicio:'-',
+            fecha_final:'-',
+        };
     }
 
     /**
      * Listar mediante DataTables
      */
     listar = () => {
+        let data = this.filtros;
+        console.log(data);
         const $tabla = $('#tabla-data').DataTable({
             destroy: true,
             // dom: 'Bfrtip',
@@ -33,10 +42,11 @@ class CertificadoView {
                 });
                 $('#btnBuscar').on('click', (e) => {
                     $tabla.search($input.val()).draw();
+                    console.log(data);
                 });
                 $('#tabla-data_length label').addClass('select2-sm');
                 //______Select2
-                $('.select2').select2({
+                $('[name="tabla-data_length"]').select2({
                     minimumResultsForSearch: Infinity
                 });
                 // const $paginate = $('#tabla-data_paginate');
@@ -53,7 +63,8 @@ class CertificadoView {
             ajax: {
                 url: route('hb.academicos.certificados.listar'),
                 method: 'POST',
-                headers: {'X-CSRF-TOKEN': csrf_token}
+                headers: {'X-CSRF-TOKEN': csrf_token},
+                data: data
             },
             columns: [
                 {data: 'id', className: 'text-center'},
@@ -295,7 +306,7 @@ class CertificadoView {
                     });
                     $('[data-table="excluidos"]').html(html);
                     $('#tabla-excluido').removeClass('d-none');
-                    
+
                 }
                 $('#tabla-data').DataTable().ajax.reload();
                 button.find('i.fa').remove();
@@ -316,6 +327,70 @@ class CertificadoView {
             e.preventDefault();
             $('#modal-filtros').modal('show');
         });
+
+        $('#form-filtros [type="checkbox"]').click((e) => {
+            let objeto = $(e.currentTarget);
+            let model = this.filtros;
+            // $('[data-disabled="cheked"]').attr('disabled','true');
+            if(objeto.prop("checked") == true) {
+                objeto.closest('.row').find('[data-disabled="cheked"]').removeAttr('disabled');
+            }else{
+                objeto.closest('.row').find('[data-disabled="cheked"]').attr('disabled','true');
+            }
+
+            let objeto_row = $(e.currentTarget).closest('.row');
+            let key = objeto_row.attr('data-section');
+
+            dataFiltros(key, objeto_row, model, objeto.prop("checked"));
+        });
+
+        $('#form-filtros [data-disabled="cheked"]').change((e) => {
+            let objeto = $(e.currentTarget).closest('.row');
+            let key = objeto.attr('data-section');
+            let model = this.filtros;
+            let check = objeto.find('[type="checkbox"]').prop("checked");
+
+            dataFiltros(key, objeto, model, check);
+        });
+        function dataFiltros(key, objeto, model, check) {
+            switch (key) {
+                case 'curso':
+                    if (check) {
+                        model.curso = objeto.find('[data-disabled="cheked"][name="curso"]').val();
+                    }else{
+                        model.curso = '-';
+                    }
+
+                break;
+                case 'empresa':
+                    if (check) {
+                        model.empresa = objeto.find('[data-disabled="cheked"][name="empresa"]').val();
+                    }else{
+                        model.empresa = '-';
+                    }
+                break;
+                case 'documento':
+                    if (check) {
+                        model.documento = objeto.find('[data-disabled="cheked"][name="numero"]').val();
+                    }else{
+                        model.documento = '-';
+                    }
+                break;
+                case 'fecha':
+                    if (check) {
+                        model.fecha_inicio = objeto.find('[data-disabled="cheked"][name="fecha_inicio"]').val();
+                        model.fecha_final = objeto.find('[data-disabled="cheked"][name="fecha_final"]').val();
+                    }else{
+                        model.fecha_inicio = '-';
+                        model.fecha_final = '-';
+                    }
+                break;
+            }
+
+        }
+
+
+
     }
 
 }
