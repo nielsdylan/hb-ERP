@@ -63,6 +63,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('listar', [AlumnosController::class, 'listar'])->name('listar');
             // Route::post('formulario', [AlumnosController::class, 'formulario'])->name('formulario');
             Route::post('guardar', [AlumnosController::class, 'guardar'])->name('guardar');
+            Route::post('formulario', [AlumnosController::class, 'formulario'])->name('formulario');
             Route::get('editar/{id}', [AlumnosController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [AlumnosController::class, 'eliminar'])->name('eliminar');
 
@@ -131,6 +132,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('importar-certificados-excel', [CertificadoController::class, 'importarCertificadosExcel'])->name('importar-certificados-excel');
             Route::get('certificado-modelo-excel', [CertificadoController::class, 'certificadoModeloExcel'])->name('certificado-modelo-excel');
             Route::get('exportar-pdf/{id}', [CertificadoController::class, 'exportarPDF'])->name('exportar-pdf');
+            Route::get('exportar-pdf/{id}/{masivo}', [CertificadoController::class, 'exportarPDF'])->name('exportar-pdf-masivo');
             Route::post('alumnos-certidicado-masivo', [CertificadoController::class, 'alumnosCertidicadoMasivo'])->name('alumnos-certidicado-masivo');
             // Route::get('modelo-importar-alumnos-excel', [AlumnosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             // Route::post('importar-alumnos-excel', [AlumnosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');

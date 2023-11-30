@@ -327,7 +327,7 @@ class CertificadoView {
             let model = this.model;
             model.alumnosCertidicadoMasivo(filtros).then((respuesta) => {
                 $.each(respuesta, function (index, element) {
-                    window.open(route('hb.academicos.certificados.exportar-pdf',{'id':element.id}));
+                    window.open(route('hb.academicos.certificados.exportar-pdf-masivo',{'id':element.id, 'masivo':2 }));
                 });
 
             }).fail((respuesta) => {

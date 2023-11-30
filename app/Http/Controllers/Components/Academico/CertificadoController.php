@@ -329,7 +329,7 @@ class CertificadoController extends Controller
     public function certificadoModeloExcel(){
         return Excel::download(new ModeloCertificadoExcelModeloExport, 'modeloCertificado.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
-    public function exportarPDF($id){
+    public function exportarPDF($id, $masivo=1){
         $instructor = (object)array(
             "name"=>"HELARD JOHN",
             "last_name"=>"BEJARANO OTAZU",
@@ -378,8 +378,13 @@ class CertificadoController extends Controller
         // $pdf->setPaper('A4', 'landscape');
         // return $pdf->stream();
 
-        // return $pdf->download(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
-        return $pdf->stream(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
+        if ($masivo==1) {
+            return $pdf->download(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
+        }else{
+            return $pdf->stream(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
+        }
+        
+        
     }
     public function alumnosCertidicadoMasivo(Request $request){
 

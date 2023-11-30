@@ -182,6 +182,35 @@ class AlumnosController extends Controller
         }
         return response()->json($respuesta,200);
     }
+    public function formulario(Request $request)
+    {
+        $id = $request->id;
+        $tipo = $request->tipo;
+
+        $persona = array();
+        $usuario = array();
+        $usuario_rol = array();
+        if ((int)$id>0) {
+            $persona = Personas::find($id);
+            $usuario = User::where('persona_id',$persona->id)->first();
+            $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->get();
+            LogActividades::guardar(Auth()->user()->id, 6, 'TABLA DE ALUMNO ALUMNO', $persona->getTable(), $persona, NULL, 'SELECCIONO UN ALUMNO PARA MODIFICARLO');
+        }else{
+
+        }
+        $tipos_documentos = TipoDocumentos::where('estado',1)->get();
+        $empresas = Empresas::where('estado',1)->get();
+        $array_accesos = array();
+        $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
+        foreach ($usuario_accesos as $key => $value) {
+            array_push($array_accesos,$value->acceso_id);
+        }
+
+        // $aula = Aulas::find($id);
+        LogActividades::guardar(Auth()->user()->id, 2, 'FORMULARIO DE '.$tipo, null, null, null, 'INGRESO AL FORMULARIO DE ALUMNOS');
+        return view('components.academico.alumnos.formulario', get_defined_vars());
+    }
+
     function editar($id) {
 
         $persona = Personas::find($id);
@@ -392,5 +421,7 @@ class AlumnosController extends Controller
         }
         return response()->json(["titulo"=>"Éxito", "mensaje"=>"Se importo con exito la lista de certificados","tipo"=>"success"],200);
     }
+
+    
 
 }
