@@ -4,31 +4,6 @@ HB GROUP - Gestion de Alumnos
 @endsection
 @section('css')
 <style>
-    .btn-pulse-info {
-        -webkit-animation: pulse-black 1.5s linear infinite;
-    }
-    @keyframes  pulse-black{
-        0%{
-            -webkit-transform:scale(1);
-            transform:scale(1);
-            box-shadow:0 0 0 0 #1170e4
-        }
-        70%{
-            -webkit-transform:scale(1);
-            transform:scale(1);
-            box-shadow:0 0 0 10px transparent
-        }
-        100%{
-            -webkit-transform:scale(1);
-            transform:scale(1);
-            box-shadow:0 0 0 0 transparent
-        }
-    }
-    a.list-group-item span.badge {
-        position: absolute;
-        inset-block-start: 18px;
-        inset-inline-end: 20px;
-    }
 </style>
 @endsection
 @section('content')
@@ -58,7 +33,7 @@ HB GROUP - Gestion de Alumnos
                     </div>
                     <form id="guardar" action="" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="id" value="0">
+                        <input type="hidden" name="id" value="{{$id}}">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4">
@@ -67,23 +42,23 @@ HB GROUP - Gestion de Alumnos
                                         <select name="tipo_documento_id" class="form-control form-select form-select-sm select2" required>
                                             <option value="">Seleccione...</option>
                                             @foreach ($tipos_documentos as $key=>$item)
-                                                <option value="{{ $item->id }}">{{ $item->codigo . ' - ' . $item->descripcion }}</option>
+                                                <option value="{{ $item->id }}" {{ ($persona?($persona->tipo_documento_id==$item->id?'selected':''):'') }}>{{ $item->codigo . ' - ' . $item->descripcion }}</option>
                                             @endforeach
-    
+
                                         </select>
                                     </div>
                                 </div>
-    
+
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-label">N° Documento : <span class="text-red">*</span></label>
-                                        <input type="text" name="nro_documento" class="form-control form-control-sm" placeholder="Número de documento..." data-search="numero_documento" required>
+                                        <input type="text" name="nro_documento" class="form-control form-control-sm" placeholder="Número de documento..." data-search="numero_documento" data-tipo="documento" value="{{($persona?$persona->nro_documento:null)}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-label">Apellido Paterno : <span class="text-red">*</span></label>
-                                        <input type="text" name="apellido_paterno" class="form-control form-control-sm" placeholder="Apellido Paterno..." required>
+                                        <input type="text" name="apellido_paterno" class="form-control form-control-sm" placeholder="Apellido Paterno..." value="{{($persona?$persona->apellido_paterno:null)}}" required>
                                     </div>
                                 </div>
                             </div>
@@ -91,40 +66,40 @@ HB GROUP - Gestion de Alumnos
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-label">Apellido Materno : <span class="text-red">*</span></label>
-                                        <input type="text" name="apellido_materno" class="form-control form-control-sm" placeholder="Apellido Materno..." required>
+                                        <input type="text" name="apellido_materno" class="form-control form-control-sm" placeholder="Apellido Materno..." value="{{($persona?$persona->apellido_materno:null)}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-label">Nombres : <span class="text-red">*</span></label>
-                                        <input type="text" name="nombres" class="form-control form-control-sm" placeholder="Nombres..." required>
+                                        <input type="text" name="nombres" class="form-control form-control-sm" value="{{($persona?$persona->nombres:null)}}" placeholder="Nombres..." required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-label">Whatsapp : </label>
-                                        <input type="number" name="whatsapp" class="form-control form-control-sm" placeholder="Whatsapp...">
+                                        <input type="number" name="whatsapp" class="form-control form-control-sm" placeholder="Whatsapp..." value="{{($persona?$persona->whatsapp:null)}}">
                                     </div>
                                 </div>
-    
+
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-label">Nacionalidad : </label>
-                                        <input type="text" name="nacionalidad" class="form-control form-control-sm" placeholder="Nacionalidad...">
+                                        <input type="text" name="nacionalidad" class="form-control form-control-sm" placeholder="Nacionalidad..." value="{{($persona?$persona->nacionalidad:null)}}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-label">Cargo : </label>
-                                        <input type="text" name="cargo" class="form-control form-control-sm" placeholder="Cargo...">
+                                        <input type="text" name="cargo" class="form-control form-control-sm" placeholder="Cargo..." value="{{($persona?$persona->cargo:null)}}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-label">Telefono : </label>
-                                        <input type="number" name="telefono" class="form-control form-control-sm" placeholder="Telefono...">
+                                        <input type="number" name="telefono" class="form-control form-control-sm" placeholder="Telefono..." value="{{($persona?$persona->telefono:null)}}">
                                     </div>
                                 </div>
                             </div>
@@ -134,8 +109,8 @@ HB GROUP - Gestion de Alumnos
                                         <label class="form-label">Sexo : <span class="text-red">*</span></label>
                                         <select name="sexo" class="form-control form-select form-select-sm select2" required>
                                             <option value="">Seleccione...</option>
-                                            <option value="M">Masculino</option>
-                                            <option value="F">Femenino</option>
+                                            <option value="M" {{('M'==$persona->sexo?'selected':'')}}>Masculino</option>
+                                            <option value="F" {{('F'==$persona->sexo?'selected':'')}}>Femenino</option>
                                         </select>
                                     </div>
                                 </div>
@@ -145,41 +120,41 @@ HB GROUP - Gestion de Alumnos
                                         <select name="empresa_id" class="form-control form-select form-select-sm select2" required>
                                             <option value="">Seleccione...</option>
                                             @foreach ($empresas as $key=>$item)
-                                                <option value="{{ $item->id }}">{{ $item->razon_social }}</option>
+                                                <option value="{{ $item->id }}" {{ ($usuario?($usuario->empresa_id==$item->id?'selected':''):'') }}  >{{ $item->razon_social }}</option>
                                             @endforeach
-    
+
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-label">Imagen de DNI : <span class="text-red">*</span></label>
-                                        <input type="file" name="path_dni" class="form-control form-control-sm" placeholder="path_dni..." accept=".jpg,.png" required>
+                                        <input type="file" name="path_dni" class="form-control form-control-sm" placeholder="path_dni..." accept=".jpg,.png">
                                     </div>
                                 </div>
-    
+
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Fecha de Cumpleaños : <span class="text-red">*</span></label>
-                                        <input type="date" name="fecha_cumpleaños" class="form-control form-control-sm text-center"  required>
+                                        <input type="date" name="fecha_cumpleaños" class="form-control form-control-sm text-center" value="{{($persona?$persona->fecha_cumpleaños:null)}}"  required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Fecha de Caducidad de DNI : <span class="text-red">*</span></label>
-                                        <input type="date" name="fecha_caducidad_dni" class="form-control form-control-sm text-center"  required>
+                                        <input type="date" name="fecha_caducidad_dni" class="form-control form-control-sm text-center" value="{{($persona?$persona->fecha_caducidad_dni:null)}}"  required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Email : <span class="text-red">*</span></label>
-                                        <input type="email" name="email" class="form-control form-control-sm text-center" placeholder="email@hotmail.com..."  required>
+                                        <input type="email" name="email" class="form-control form-control-sm text-center" placeholder="email@hotmail.com..." data-search="numero_documento" data-tipo="email" value="{{($usuario?$usuario->email:null)}}" required>
                                     </div>
                                 </div>
-    
-    
+
+
                             </div>
                         </div>
                         <div class="card-footer text-end">
@@ -210,7 +185,7 @@ HB GROUP - Gestion de Alumnos
                 <div class="modal-header">
                     <h6 class="modal-title">Nuevo Alumno</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
                 </div>
-                
+
 
             </div>
         </div>

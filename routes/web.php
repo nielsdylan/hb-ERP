@@ -76,7 +76,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
             Route::get('lista', [DocentesController::class, 'lista'])->name('lista');
             Route::post('listar', [DocentesController::class, 'listar'])->name('listar');
-            // Route::post('formulario', [DocentesController::class, 'formulario'])->name('formulario');
+            Route::post('formulario', [DocentesController::class, 'formulario'])->name('formulario');
             Route::post('guardar', [DocentesController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [DocentesController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [DocentesController::class, 'eliminar'])->name('eliminar');

@@ -137,23 +137,24 @@ class AlumnosController extends Controller
                     $usuario->nombre_corto      = $request->apellido_paterno.' '.(explode(' ',$request->nombres)[0]);
                     $usuario->nro_documento     = $request->nro_documento;
                     $usuario->email             = $request->email;
-                    $usuario->password          = Hash::make($request->nro_documento);
+
                     $usuario->avatar_initials   = substr($request->apellido_paterno, 0, 1).substr(explode(' ',$request->nombres)[0], 0, 1);
                     $usuario->persona_id        = $data->id;
                     $usuario->empresa_id        = $request->empresa_id;
-                    // if ((int) $request->id == 0) {
+                    if ((int) $request->id == 0) {
+                        $usuario->password          = Hash::make($request->nro_documento);
                         $usuario->fecha_registro    = date('Y-m-d H:i:s');
                         $usuario->created_at = date('Y-m-d H:i:s');
                         $usuario->created_id = Auth()->user()->id;
                         $usuario->save();
                         LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO DESDE EL FORMULARIO DE ALUMNO');
-                    // }else{
-                    //     $usuario_old=User::where('persona_id',$data->id);
-                    //     $usuario->updated_at   = date('Y-m-d H:i:s');
-                    //     $usuario->updated_id   = Auth()->user()->id;
-                    //     $usuario->save();
-                    //     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
-                    // }
+                    }else{
+                        $usuario_old=User::where('persona_id',$data->id);
+                        $usuario->updated_at   = date('Y-m-d H:i:s');
+                        $usuario->updated_id   = Auth()->user()->id;
+                        $usuario->save();
+                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO DESDE EL FORMULARIO DE ALUMNOS');
+                    }
 
 
                 // }
@@ -186,7 +187,6 @@ class AlumnosController extends Controller
     {
         $id = $request->id;
         $tipo = $request->tipo;
-
         $persona = array();
         $usuario = array();
         $usuario_rol = array();
@@ -195,9 +195,8 @@ class AlumnosController extends Controller
             $usuario = User::where('persona_id',$persona->id)->first();
             $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->get();
             LogActividades::guardar(Auth()->user()->id, 6, 'TABLA DE ALUMNO ALUMNO', $persona->getTable(), $persona, NULL, 'SELECCIONO UN ALUMNO PARA MODIFICARLO');
-        }else{
-
         }
+        // return $persona;
         $tipos_documentos = TipoDocumentos::where('estado',1)->get();
         $empresas = Empresas::where('estado',1)->get();
         $array_accesos = array();
@@ -247,15 +246,29 @@ class AlumnosController extends Controller
     }
 
     public function buscar(Request $request) {
-        if ((int)$request->id == 0) {
-            $data = Personas::where('nro_documento','=',$request->nro_documento)->where('estado',1)->first();
-            if ($data) {
-                $usuario = User::where('persona_id',$data->id)->first();
-                return response()->json(["success"=>true,"persona"=>$data,"usuario"=>$usuario],200);
-            }
-            return response()->json(["success"=>false],200);
+        $success = false;
+        $data = array();
+        $usuario = array();
+
+        switch ($request->tipo) {
+            case 'documento':
+                $data = Personas::where('nro_documento','=',$request->valor)->where('estado',1)->first();
+                if ($data) {
+                    $usuario = User::where('persona_id',$data->id)->first();
+                    $success = true;
+                }
+            break;
+
+            case 'email':
+                $usuario = User::where('email',$request->valor)->where('estado',1)->first();
+                if ($usuario) {
+                    $data = Personas::find($usuario->persona_id);
+                    $success = true;
+                }
+            break;
         }
-        return response()->json(["success"=>false],200);
+        return response()->json(["success"=>$success,"persona"=>$data,"usuario"=>$usuario],200);
+
     }
     public function modeloImportarAlumnosExport()
     {
@@ -422,6 +435,6 @@ class AlumnosController extends Controller
         return response()->json(["titulo"=>"Éxito", "mensaje"=>"Se importo con exito la lista de certificados","tipo"=>"success"],200);
     }
 
-    
+
 
 }

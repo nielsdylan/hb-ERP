@@ -35,14 +35,14 @@ class AlumnoModel {
             data: {_token:this.token},
         });
     }
-    buscarPersona = (id,nro_documento) => {
+    buscarPersona = (id,valor,tipo) => {
         return $.ajax({
             url: route("hb.academicos.alumnos.buscar"),
             type: "POST",
             dataType: "JSON",
             // processData: false,
             // contentType: false,
-            data: {_token:this.token,id:id,nro_documento:nro_documento},
+            data: {_token:this.token,id:id,valor:valor, tipo:tipo},
         });
     };
     importarExcel = (data) => {

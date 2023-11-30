@@ -92,18 +92,6 @@ class AlumnoView {
          */
         $('#nuevo').click((e) => {
             e.preventDefault();
-            // $('#guardar')[0].reset();
-            // $('#modal-alumno').find('.modal-title').text('Nuevo Alumno')
-            // $('#modal-alumno').modal('show');
-            // $('#guardar').find('[name="id"]').val(0);
-            // $('#guardar').find('[name="tipo_documento_id"]').val("").trigger('change.select2');
-            // $('#guardar').find('[name="empresa_id"]').val("").trigger('change.select2');
-            // $('#guardar').find('[name="sexo"]').val("").trigger('change.select2');
-            
-            // $('[name="empresa_id"]').select2({
-            //     dropdownParent: $('#modal-formulario')
-            // });
-
             let id = 0,
                 tipo ="Nuevo alumno",
                 form = $('<form action="'+route('hb.academicos.alumnos.formulario')+'" method="POST">'+
@@ -149,8 +137,7 @@ class AlumnoView {
                         'Se guardo con éxito!',
                         'success'
                     );
-                    $('#tabla-data').DataTable().ajax.reload();
-                    $('#modal-alumno').modal('hide');
+                    window.location.href = route('hb.academicos.alumnos.lista');
                 }
             })
 
@@ -244,9 +231,10 @@ class AlumnoView {
         */
         $("#guardar").on("change", '[data-search="numero_documento"]', (e) => {
             let id = $('#guardar').find('input[name="id"]').val();
-            let nro_documento = $(e.currentTarget).val();
+            let valor = $(e.currentTarget).val();
+            let tipo = $(e.currentTarget).attr('data-tipo');
             let form = $('#guardar');
-            this.model.buscarPersona(id,nro_documento).then((respuesta) => {
+            this.model.buscarPersona(id,valor, tipo).then((respuesta) => {
                 if (respuesta.success === true) {
                     form.find('[name="id"]').val(respuesta.persona.id);
                     form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
@@ -265,12 +253,6 @@ class AlumnoView {
 
                     form.find('[name="email"]').val(respuesta.usuario.email);
                     form.find('[name="empresa_id"]').val(respuesta.usuario.empresa_id).trigger('change.select2');
-                    // Swal.fire(
-                    //     'Alerta!',
-                    //     'Este número de documento ya se encuentra en uso!',
-                    //     'warning'
-                    // );
-                    // $(e.currentTarget).val('');
                 }else{
                     form.find('[name="id"]').val(0);
                 }
