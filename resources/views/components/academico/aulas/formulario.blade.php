@@ -22,20 +22,46 @@ HB GROUP - Gestion de Aula
 
     <!-- ROW-1 -->
     <div class="row justify-content-md-center">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="card">
-                
+
                 <form id="guardar">
                     @csrf
                     <input type="hidden" name="id" value="{{ $id }}">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nombre" class="form-label">Nombre : <span class="text-red">*</span></label>
                                     <input type="text" name="nombre" class="form-control form-control-sm" id="nombre" placeholder="Nombre...." value="{{ ($aula ? $aula->nombre : null) }}" required>
                                 </div>
                             </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group select2-sm">
+                                    <label for="curso_id" class="form-label">Cursos : <span class="text-red">*</span></label>
+                                    <select class="form-control select2 form-select" name="curso_id" id="curso_id" data-placeholder="Seleccione..">
+                                        @foreach ($cursos as $item)
+                                            <option value="{{ $item->id }}" {{ ( ($aula && $aula->curso_id==$item->id) ? 'selected' : null) }}>{{ $item->descripcion }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group select2-sm">
+                                    <label for="docente_id" class="form-label">Docentes : <span class="text-red">*</span></label>
+                                    <select class="form-control select2 form-select" name="docente_id" id="docente_id" data-placeholder="Seleccione.." required>
+                                        <option value="" >Seleccione...</option>
+                                        @foreach ($docentes as $item)
+                                            <option value="{{ $item->id }}" >{{ $item->usuario->nombre_corto }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="fecha" class="form-label">Fecha : <span class="text-red">*</span></label>
@@ -65,17 +91,10 @@ HB GROUP - Gestion de Aula
                                     <input type="number" name="capacidad" class="form-control form-control-sm" id="capacidad" placeholder="Cantidad...." value="{{ ($aula ? $aula->capacidad : null) }}" required>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group select2-sm">
-                                    <label for="curso_id" class="form-label">Cursos : <span class="text-red">*</span></label>
-                                    <select class="form-control select2-show-search form-select" name="curso_id" id="curso_id" data-placeholder="Seleccione..">
-                                        @foreach ($cursos as $item)
-                                            <option value="{{ $item->id }}" {{ ( ($aula && $aula->curso_id==$item->id) ? 'selected' : null) }}>{{ $item->descripcion }}</option>
-                                        @endforeach
-                                        
-                                    </select>
-                                </div>
-                            </div>
+
+                        </div>
+                        <div class="row">
+
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -91,10 +110,10 @@ HB GROUP - Gestion de Aula
                                 <button class="btn btn-success btn-sm"><i class="fa fa-save"></i> Guardar</button>
                             </div>
                         </div>
-                        
+
                     </div>
                 </form>
-                
+
             </div>
         </div>
     </div>
@@ -108,7 +127,7 @@ HB GROUP - Gestion de Aula
 
     <!-- INTERNAL SELECT2 JS -->
     <script src="{{asset('template/plugins/select2/select2.full.min.js')}}"></script>
-    {{-- <script src="{{asset('template/js/select2.js')}}"></script> --}}
+    <script src="{{asset('template/js/select2.js')}}"></script>
 
     <!-- DATEPICKER JS -->
     <script src="{{asset('template/plugins/date-picker/date-picker.js')}}"></script>
@@ -119,7 +138,7 @@ HB GROUP - Gestion de Aula
     <script src="{{asset('components/academico/aulas/aula-view.js')}}"></script>
     <script>
         // Select2
-        
+
         $(document).ready(function () {
             // DATEPICKER
             $('.fc-datepicker').datepicker({
@@ -129,10 +148,10 @@ HB GROUP - Gestion de Aula
                 dateFormat: "dd-mm-yy"
             });
             // Select2 by showing the search
-            $('.select2-show-search').select2({
-                minimumResultsForSearch: '',
-                width: '100%'
-            });
+            // $('.select2-show-search').select2({
+            //     minimumResultsForSearch: '',
+            //     width: '100%'
+            // });
             const view = new AulaView(new AulaModel(csrf_token));
             view.eventos();
         });

@@ -47,6 +47,8 @@ HB GROUP - Gestion de Alumnos
                     <div class="card-body">
                         <div class="row justify-content-md-center">
                                 <a href="javascript:void(0)" class="btn btn-default btn-sm ms-2 d-block d-md-none mb-2" data-action="filtros"><i class="fe fe-filter"></i> Filtros</a>
+                                <a href="javascript:void(0)" class="btn btn-default btn-sm ms-2 d-block d-md-none mb-2" data-action="pdf-masivo"><i class="fa fa-file-pdf-o"></i> Exportar PDF Masivo</a>
+
                                 <a href="{{ route('hb.academicos.certificados.certificado-modelo-excel') }}" class="btn btn-info btn-sm ms-2 d-block d-md-none mb-2" data-action="modelo"><i class="fe fe-download"></i> Modelo de excel</a>
                                 <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2 d-block d-md-none mb-2" data-action="importar" id="importar" ><i class="fe fe-upload"></i> Importarción Certificado</a>
                                 <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2 d-block d-md-none mb-2" data-action="nuevo"><i class="fe fe-plus"></i> Nuevo Certificado</a>

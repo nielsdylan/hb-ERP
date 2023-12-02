@@ -110,8 +110,8 @@ HB GROUP - Gestion de Usuarios
                                 <label class="form-label">Sexo : <span class="text-red">*</span></label>
                                 <select name="sexo" class="form-control form-select form-select-sm select2" required>
                                     <option value="">Seleccione...</option>
-                                    <option value="M" {{('M'==$persona->sexo?'selected':'')}}>Masculino</option>
-                                    <option value="F" {{('F'==$persona->sexo?'selected':'')}}>Femenino</option>
+                                    <option value="M" {{($persona?('M'==$persona->sexo?'selected':''):'')}}>Masculino</option>
+                                    <option value="F" {{($persona?('F'==$persona->sexo?'selected':''):'')}}>Femenino</option>
                                 </select>
                             </div>
                         </div>

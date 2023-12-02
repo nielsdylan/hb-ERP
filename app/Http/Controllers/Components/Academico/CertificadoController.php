@@ -359,7 +359,7 @@ class CertificadoController extends Controller
             'name_firm'=>'Helard Bejarano Otazu',
             'cargo_firm'=>'Gerente General',
             'business_firm'=>'HB GROUP PERU S.R.L.',
-            'cell'=>'932 777 533',
+            'cell'=>'951 281 025',
             'telephone'=>'053 474 805',
             'email'=>'info@hbgroup.pe',
             'web'=>'www.hbgroup.pe',
@@ -383,8 +383,8 @@ class CertificadoController extends Controller
         }else{
             return $pdf->stream(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
         }
-        
-        
+
+
     }
     public function alumnosCertidicadoMasivo(Request $request){
 

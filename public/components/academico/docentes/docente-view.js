@@ -60,7 +60,7 @@ class DocenteView {
                 {data: 'cargo', className: 'text-center'},
                 {data: 'celular', className: 'text-center'},
                 {data: 'sexo', className: 'text-center'},
-                {data: 'fecha_caducidad', className: 'text-center'},
+                {data: 'fecha_registro', className: 'text-center'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
             ]
         });
@@ -93,17 +93,26 @@ class DocenteView {
          */
         $('#nuevo').click((e) => {
             e.preventDefault();
-            $('#guardar')[0].reset();
-            $('#modal-docente').find('.modal-title').text('Nuevo Docente')
-            $('#modal-docente').modal('show');
-            $('#guardar').find('[name="id"]').val(0);
-            $('#guardar').find('[name="tipo_documento_id"]').val("").trigger('change.select2');
-            $('#guardar').find('[name="empresa_id"]').val("").trigger('change.select2');
-            $('#guardar').find('[name="sexo"]').val("").trigger('change.select2');
+            // $('#guardar')[0].reset();
+            // $('#modal-docente').find('.modal-title').text('Nuevo Docente')
+            // $('#modal-docente').modal('show');
+            // $('#guardar').find('[name="id"]').val(0);
+            // $('#guardar').find('[name="tipo_documento_id"]').val("").trigger('change.select2');
+            // $('#guardar').find('[name="empresa_id"]').val("").trigger('change.select2');
+            // $('#guardar').find('[name="sexo"]').val("").trigger('change.select2');
             // $('[name="empresa_id"]').select2({
             //     dropdownParent: $('#modal-formulario')
             // });
 
+            let id = 0,
+                tipo ="Nuevo Docente",
+                form = $('<form action="'+route('hb.academicos.docentes.formulario')+'" method="POST">'+
+                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                    '<input type="hidden" name="id" value="'+id+'" >'+
+                    '<input type="hidden" name="tipo" value="'+tipo+'" >'+
+                '</form>');
+            $('body').append(form);
+            form.submit();
         });
 
         /**
@@ -134,13 +143,12 @@ class DocenteView {
                 // allowOutsideClick: () => !Swal.isLoading()
               }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Éxito!',
-                        'Se guardo con éxito!',
-                        'success'
-                    );
-                    $('#tabla-data').DataTable().ajax.reload();
-                    $('#modal-docente').modal('hide');
+                    // Swal.fire(
+                    //     'Éxito!',
+                    //     'Se guardo con éxito!',
+                    //     'success'
+                    // );
+                    window.location.href = route('hb.academicos.docentes.lista');
                 }
             })
 
@@ -151,34 +159,15 @@ class DocenteView {
          */
         $("#tabla-data").on("click", "button.editar", (e) => {
             e.preventDefault();
-            let id = $(e.currentTarget).attr('data-id');
-            let form = $('#guardar');
-
-            this.model.editar(id).then((respuesta) => {
-                form.find('[name="id"]').val(respuesta.persona.id);
-                form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
-                form.find('[name="nro_documento"]').val(respuesta.persona.nro_documento);
-                form.find('[name="apellido_paterno"]').val(respuesta.persona.apellido_paterno);
-                form.find('[name="apellido_materno"]').val(respuesta.persona.apellido_materno);
-                form.find('[name="nombres"]').val(respuesta.persona.nombres);
-                form.find('[name="sexo"]').val(respuesta.persona.sexo).trigger('change.select2');
-                form.find('[name="nacionalidad"]').val(respuesta.persona.nacionalidad);
-                form.find('[name="cargo"]').val(respuesta.persona.cargo);
-                form.find('[name="telefono"]').val(respuesta.persona.telefono);
-                form.find('[name="whatsapp"]').val(respuesta.persona.whatsapp);
-                // form.find('[name="path_dni"]').val(respuesta.persona.path_dni);
-                // form.find('[name="fecha_cumpleaños"]').val(respuesta.persona.fecha_cumpleaños);
-                // form.find('[name="fecha_caducidad_dni"]').val(respuesta.persona.fecha_caducidad_dni);
-
-                form.find('[name="email"]').val(respuesta.usuario.email);
-                form.find('[name="empresa_id"]').val(respuesta.usuario.empresa_id).trigger('change.select2');
-
-                // form.find('[name="path_dni"]').removeAttr('required')
-                $('#modal-docente').find('.modal-title').text('Editar Docente')
-                $('#modal-docente').modal('show');
-            }).fail((respuesta) => {
-            }).always(() => {
-            });
+            let id = $(e.currentTarget).attr('data-id'),
+                tipo ="Editar Docente",
+                    form = $('<form action="'+route('hb.academicos.docentes.formulario')+'" method="POST">'+
+                        '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                        '<input type="hidden" name="id" value="'+id+'" >'+
+                        '<input type="hidden" name="tipo" value="'+tipo+'" >'+
+                    '</form>');
+                $('body').append(form);
+            form.submit();
         });
 
         /**

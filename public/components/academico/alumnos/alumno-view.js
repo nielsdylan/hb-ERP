@@ -132,11 +132,11 @@ class AlumnoView {
                 // allowOutsideClick: () => !Swal.isLoading()
               }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Éxito!',
-                        'Se guardo con éxito!',
-                        'success'
-                    );
+                    // Swal.fire(
+                    //     'Éxito!',
+                    //     'Se guardo con éxito!',
+                    //     'success'
+                    // );
                     window.location.href = route('hb.academicos.alumnos.lista');
                 }
             })
@@ -157,35 +157,6 @@ class AlumnoView {
                 '</form>');
             $('body').append(form);
             form.submit();
-
-            // let id = $(e.currentTarget).attr('data-id');
-            // let form = $('#guardar');
-
-            // this.model.editar(id).then((respuesta) => {
-            //     form.find('[name="id"]').val(respuesta.persona.id);
-            //     form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
-            //     form.find('[name="nro_documento"]').val(respuesta.persona.nro_documento);
-            //     form.find('[name="apellido_paterno"]').val(respuesta.persona.apellido_paterno);
-            //     form.find('[name="apellido_materno"]').val(respuesta.persona.apellido_materno);
-            //     form.find('[name="nombres"]').val(respuesta.persona.nombres);
-            //     form.find('[name="sexo"]').val(respuesta.persona.sexo).trigger('change.select2');
-            //     form.find('[name="nacionalidad"]').val(respuesta.persona.nacionalidad);
-            //     form.find('[name="cargo"]').val(respuesta.persona.cargo);
-            //     form.find('[name="telefono"]').val(respuesta.persona.telefono);
-            //     form.find('[name="whatsapp"]').val(respuesta.persona.whatsapp);
-            //     // form.find('[name="path_dni"]').val(respuesta.persona.path_dni);
-            //     form.find('[name="fecha_cumpleaños"]').val(respuesta.persona.fecha_cumpleaños);
-            //     form.find('[name="fecha_caducidad_dni"]').val(respuesta.persona.fecha_caducidad_dni);
-
-            //     form.find('[name="email"]').val(respuesta.usuario.email);
-            //     form.find('[name="empresa_id"]').val(respuesta.usuario.empresa_id).trigger('change.select2');
-
-            //     form.find('[name="path_dni"]').removeAttr('required')
-            //     $('#modal-alumno').find('.modal-title').text('Editar Alumno')
-            //     $('#modal-alumno').modal('show');
-            // }).fail((respuesta) => {
-            // }).always(() => {
-            // });
         });
 
         /**

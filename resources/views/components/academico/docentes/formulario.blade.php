@@ -11,11 +11,11 @@ HB GROUP - Gestion de Alumnos
 
     <!-- PAGE-HEADER -->
     <div class="page-header">
-        <h1 class="page-title">Gestion de Alumnos</h1>
+        <h1 class="page-title">Gestion de Docentes</h1>
         <div>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Academico</a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Gestion de Alumnos</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Gestion de Docentes</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $tipo }}</li>
             </ol>
         </div>
@@ -126,16 +126,16 @@ HB GROUP - Gestion de Alumnos
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                {{-- <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-label">Imagen de DNI : <span class="text-red">*</span></label>
                                         <input type="file" name="path_dni" class="form-control form-control-sm" placeholder="path_dni..." accept=".jpg,.png">
                                     </div>
-                                </div>
+                                </div> --}}
 
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                {{-- <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Fecha de Cumpleaños : <span class="text-red">*</span></label>
                                         <input type="date" name="fecha_cumpleaños" class="form-control form-control-sm text-center" value="{{($persona?$persona->fecha_cumpleaños:null)}}"  required>
@@ -146,7 +146,7 @@ HB GROUP - Gestion de Alumnos
                                         <label class="form-label">Fecha de Caducidad de DNI : <span class="text-red">*</span></label>
                                         <input type="date" name="fecha_caducidad_dni" class="form-control form-control-sm text-center" value="{{($persona?$persona->fecha_caducidad_dni:null)}}"  required>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Email : <span class="text-red">*</span></label>
@@ -159,7 +159,7 @@ HB GROUP - Gestion de Alumnos
                         </div>
                         <div class="card-footer text-end">
                             <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save"></i> Guardar</button>
-                            <a href="{{ route('hb.academicos.alumnos.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> volver</a>
+                            <a href="{{ route('hb.academicos.docentes.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> volver</a>
                         </div>
                     </form>
                 </div>
@@ -200,13 +200,13 @@ HB GROUP - Gestion de Alumnos
     <script src="{{asset('template/js/select2.js')}}"></script>
 
 
-    <script src="{{asset('components/academico/alumnos/alumno-model.js')}}"></script>
-    <script src="{{asset('components/academico/alumnos/alumno-view.js')}}"></script>
+    <script src="{{asset('components/academico/docentes/docente-model.js')}}"></script>
+    <script src="{{asset('components/academico/docentes/docente-view.js')}}"></script>
     <script>
         // Select2
 
         $(document).ready(function () {
-            const view = new AlumnoView(new AlumnoModel(csrf_token));
+            const view = new DocenteView(new DocenteModel(csrf_token));
             // view.listar();
             view.eventos();
         });

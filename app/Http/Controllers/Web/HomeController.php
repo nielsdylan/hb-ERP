@@ -76,7 +76,7 @@ class HomeController extends Controller
             'name_firm'=>'Helard Bejarano Otazu',
             'cargo_firm'=>'Gerente General',
             'business_firm'=>'HB GROUP PERU S.R.L.',
-            'cell'=>'932 777 533',
+            'cell'=>'951 281 025',
             'telephone'=>'053 474 805',
             'email'=>'info@hbgroup.pe',
             'web'=>'www.hbgroup.pe',

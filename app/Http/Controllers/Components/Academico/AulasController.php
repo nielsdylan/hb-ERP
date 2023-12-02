@@ -33,6 +33,8 @@ class AulasController extends Controller
         $tipo = $request->tipo;
         $cursos = Cursos::where('estado',1)->get();
         $aula = Aulas::find($id);
+        $docentes = UsuariosRoles::where('rol_id',3)->where('estado',1)->get();
+        // return $docentes;
         LogActividades::guardar(Auth()->user()->id, 2, 'FORMULARIO DE AULA', null, null, null, 'INGRESO AL FORMULARIO DE AULA');
         return view('components.academico.aulas.formulario', get_defined_vars());
     }
@@ -60,10 +62,10 @@ class AulasController extends Controller
                     $data->save();
                     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN AULA', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN AULA');
                 }
-                
 
-                    
-                
+
+
+
             $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");
         // } catch (Exception $ex) {
         //     $respuesta = array("titulo"=>"Error","mensaje"=>"Hubo un problema al registrar. Por favor intente de nuevo, si persiste comunicarse con su area de TI","tipo"=>"error","ex"=>$ex);
@@ -90,7 +92,7 @@ class AulasController extends Controller
         return view('components.academico.aulas.agregar-alumnos', get_defined_vars());
     }
     public function guardarAlumnos(Request $request) {
-        
+
         $aula = Aulas::find($request->aula_id);
         foreach ($request->usuarios as $key => $value) {
 
@@ -112,28 +114,28 @@ class AulasController extends Controller
                 break;
             }
 
-                
+
         }
-        
-            
-       
-        
+
+
+
+
         return response()->json($respuesta,200);
     }
 
     public function listardarAlumnos(Request $request) {
         $data = AulasDescripcion::where('aula_id', $request->aula_id)->where('estado',1)->get();
         return DataTables::of($data)
-        ->addColumn('numero_documento', function ($data) { 
+        ->addColumn('numero_documento', function ($data) {
             return $data->usuario->persona->nro_documento;
         })
-        ->addColumn('apellidos_nombres', function ($data) { 
+        ->addColumn('apellidos_nombres', function ($data) {
             return $data->usuario->persona->apellido_paterno.' '.$data->usuario->persona->apellido_materno.' '.$data->usuario->persona->nombres;
         })
-        ->addColumn('fecha_registro', function ($data) { 
+        ->addColumn('fecha_registro', function ($data) {
             return date("d/m/Y", strtotime($data->fecha_registro));
         })
-        ->addColumn('reservacion', function ($data) { 
+        ->addColumn('reservacion', function ($data) {
             return '<span class="badge rounded-pill bg-'.($data->reserva==1?'warning':'success').' badge-sm me-1 mb-1 mt-1 protip" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="'.($data->reserva==1?'Reservado':'Confirmado').'">'.($data->reserva==1?'Reservado':'Confirmado').'</span>';
 
             // return '<span class="badge bg-'.($data->reserva==1?'warning':'success').'-transparent rounded-pill text-'.($data->reserva==1?'warning':'success').' p-2 px-3">'.($data->reserva==1?'Reservado':'Confirmado').'</span>';
@@ -143,11 +145,11 @@ class AulasController extends Controller
                 '.($data->reserva==1?'<button type="button" class="confirmar protip btn text-success btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Confirmar" >
                     <i class="fe fe-check-circle fs-14"></i>
                 </button>':'success').'
-                
+
                 <button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
                 </button>
-                
+
             </div>';
         })->rawColumns(['reservacion','accion'])->make(true);
     }
