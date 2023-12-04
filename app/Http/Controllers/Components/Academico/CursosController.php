@@ -19,7 +19,7 @@ class CursosController extends Controller
         foreach ($usuario_accesos as $key => $value) {
             array_push($array_accesos,$value->acceso_id);
         }
-        
+
         LogActividades::guardar(Auth()->user()->id, 1, 'LISTADO DE TIPOS DE DOCUMENTOS', null, null, null, 'INGRESO A LA LISTA DE TIPOS DE DOCUMENTOS');
         return view('components.academico.cursos.lista', get_defined_vars());
     }
@@ -27,7 +27,7 @@ class CursosController extends Controller
     {
         $data = Cursos::where('estado',1)->get();
         return DataTables::of($data)
-        ->addColumn('accion', function ($data) { 
+        ->addColumn('accion', function ($data) {
             $array_accesos = array();
             $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
             foreach ($usuario_accesos as $key => $value) {
@@ -42,7 +42,7 @@ class CursosController extends Controller
                 '.(in_array(15,$array_accesos)?'<button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
                 </button>':'').'
-                
+
             </div>';
         })->rawColumns(['accion'])->make(true);
     }
@@ -50,6 +50,7 @@ class CursosController extends Controller
 
         try {
                 $data = Cursos::firstOrNew(['id' => $request->id]);
+                $data->codigo           = $request->codigo;
                 $data->descripcion      = $request->descripcion;
 
                 if ((int) $request->id == 0) {
@@ -65,10 +66,10 @@ class CursosController extends Controller
                     $data->save();
                     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN TIPO DE DOCUMENTO', $data->getTable(), $data_old, $data, 'SE A MODIFICADO UN TIPO DE DOCUMENTO');
                 }
-                
 
-                    
-                
+
+
+
             $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");
         } catch (Exception $ex) {
             $respuesta = array("titulo"=>"Error","mensaje"=>"Hubo un problema al registrar. Por favor intente de nuevo, si persiste comunicarse con su area de TI","tipo"=>"error","ex"=>$ex);

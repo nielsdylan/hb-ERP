@@ -31,15 +31,16 @@ HB GROUP - Agregar Participantes
                     <form action="" id="guardar-alumno">
                         @csrf
                         <input type="hidden" name="aula_id" value="{{ $id }}">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Lista de usuarios</label>
-                                    <select class="form-control select2" name="usuarios[]" data-placeholder="Seleccione a lso usuarios.." required multiple>
+                        <div class="row ">
+                            <div class="col-md-4">
+                                <div class="form-group select2-sm">
+                                    <label class="form-label">Usuarios</label>
+                                    <select class="form-control select2" name="usuarios" data-placeholder="Seleccione a los alumnos.." required>
+                                        <option value="">Seleccione a los alumnos..</option>
                                         @foreach ($alumnos as $value)
-                                            {{-- @if ($value->usuario) --}}
-                                                <option value="{{ $value->usuario->id }}">{{ $value->usuario->nro_documento.' - '. $value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres }}</option>
-                                            {{-- @endif --}}
+                                                <option value="{{ $value->usuario->id }}">
+                                                    {{ $value->usuario->nro_documento.' - '. $value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres }}
+                                                </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -49,10 +50,6 @@ HB GROUP - Agregar Participantes
                                     <label class="form-label">Maximo de alumnos</label>
                                     <input type="text" value="{{ $aula->capacidad }}" class="form-control form-control-sm" disabled>
                                 </div>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Agregar alumnos</button>
-                                <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                             </div>
                         </div>
                     </form>
@@ -75,6 +72,9 @@ HB GROUP - Agregar Participantes
                         </div>
                     </div>
                 </div>
+                <div class="card-footer text-end">
+                    <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> Volver</a>
+                </div>
             </div>
         </div>
     </div>
@@ -88,7 +88,7 @@ HB GROUP - Agregar Participantes
 
     <!-- INTERNAL SELECT2 JS -->
     <script src="{{asset('template/plugins/select2/select2.full.min.js')}}"></script>
-    {{-- <script src="{{asset('template/js/select2.js')}}"></script> --}}
+    <script src="{{asset('template/js/select2.js')}}"></script>
 
     <!-- DATEPICKER JS -->
     <script src="{{asset('template/plugins/date-picker/date-picker.js')}}"></script>

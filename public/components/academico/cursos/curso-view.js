@@ -54,6 +54,7 @@ class CursoView {
             },
             columns: [
                 {data: 'id', },
+                {data: 'codigo', className: 'text-center'},
                 {data: 'descripcion', className: 'text-center'},
                 {data: 'fecha_registro', className: 'text-center'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
@@ -148,6 +149,7 @@ class CursoView {
             this.model.editar(id).then((respuesta) => {
                 form.find('[name="id"]').val(respuesta.id);
                 // form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
+                form.find('[name="codigo"]').val(respuesta.codigo);
                 form.find('[name="descripcion"]').val(respuesta.descripcion);
 
                 $('#modal-curso').find('.modal-title').text('Editar Curso')

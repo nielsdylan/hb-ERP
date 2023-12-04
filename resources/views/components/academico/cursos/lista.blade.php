@@ -33,11 +33,12 @@ HB GROUP - Gestion de Cursos
                 </div>
                 <div class="card-body">
                     <div class="row justify-content-md-center">
-                        <div class="col-md-6 table-responsive">
+                        <div class="col-md-8 table-responsive">
                             <table class="table table-bordered text-nowrap border-bottom table-hover " id="tabla-data" width="100%">
                                 <thead>
                                     <tr>
                                         <th class="wd-15p border-bottom-0">#</th>
+                                        <th class="wd-15p border-bottom-0">Código</th>
                                         <th class="wd-15p border-bottom-0">Descripción</th>
                                         <th class="wd-20p border-bottom-0">Fecha de Registro</th>
                                         <th class="wd-15p border-bottom-0">-</th>
@@ -75,6 +76,14 @@ HB GROUP - Gestion de Cursos
                     @csrf
                     <input type="hidden" name="id" value="0">
                     <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group ">
+                                    <label class="form-label">Código : <span class="text-red">*</span></label>
+                                    <input type="text" name="codigo" class="form-control form-control-sm" placeholder="Código..." data-search="codigo" required>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
 
                             <div class="col-md-12">

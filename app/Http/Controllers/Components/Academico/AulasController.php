@@ -41,13 +41,14 @@ class AulasController extends Controller
     public function guardar(Request $request) {
         // try {
                 $data = Aulas::firstOrNew(['id' => $request->id]);
-                $data->nombre      = $request->nombre;
-                $data->descripcion      = $request->descripcion;
-                $data->capacidad      = $request->capacidad;
-                $data->fecha      =  date("Y-m-d", strtotime($request->fecha)) ;
-                $data->hora_inicio      = $request->hora_inicio;
-                $data->hora_final      = $request->hora_final;
-                $data->curso_id      = $request->curso_id;
+                $data->nombre       = $request->nombre;
+                $data->descripcion  = $request->descripcion;
+                $data->capacidad    = $request->capacidad;
+                $data->fecha        =  date("Y-m-d", strtotime($request->fecha)) ;
+                $data->hora_inicio  = $request->hora_inicio;
+                $data->hora_final   = $request->hora_final;
+                $data->curso_id     = $request->curso_id;
+                $data->docente_id   = $request->docente_id;
 
                 if ((int) $request->id == 0) {
                     $data->fecha_registro       = date('Y-m-d H:i:s');
@@ -94,15 +95,15 @@ class AulasController extends Controller
     public function guardarAlumnos(Request $request) {
 
         $aula = Aulas::find($request->aula_id);
-        foreach ($request->usuarios as $key => $value) {
+        // foreach ($request->usuarios as $key => $value) {
 
             $alumnos = AulasDescripcion::where('aula_id',$request->aula_id)->where('estado',1)->get();
 
             if (sizeof($alumnos) < $aula->capacidad) {
-                $data = AulasDescripcion::firstOrNew(['alumno_id' => (int) $value,'aula_id'=>$request->aula_id]);
+                $data = AulasDescripcion::firstOrNew(['alumno_id' => (int) $request->usuarios,'aula_id'=>$request->aula_id]);
                 $data->reserva          = true;
                 $data->aula_id          = $request->aula_id;
-                $data->alumno_id        = (int) $value;
+                $data->alumno_id        = (int) $request->usuarios;
                 $data->fecha_registro   = date('Y-m-d H:i:s');
                 $data->created_at       = date('Y-m-d H:i:s');
                 $data->created_id       = Auth()->user()->id;
@@ -111,11 +112,11 @@ class AulasController extends Controller
                 $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");
             }else{
                 $respuesta = array("titulo"=>"Alerta","mensaje"=>"Solo se le permite el registro a ".$aula->capacidad." alumnos","tipo"=>"warning");
-                break;
+                // break;
             }
 
 
-        }
+        // }
 
 
 

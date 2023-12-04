@@ -163,6 +163,53 @@ class AulaView {
         *Guardar a los alumnos
         *
         */
+        $('[name="usuarios"]').on("change", (e) => {
+            let data = $('#guardar-alumno').serialize();
+            let model = this.model;
+            Swal.fire({
+                title: 'Información',
+                text: "¿Está seguro de guardar?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si, guardar',
+                cancelButtonText: 'No, cancelar',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: false,
+                // backdrop: false, allowOutsideClick: false,
+                preConfirm: (login) => {
+                    return model.guardarAlumnos(data).then((respuesta) => {
+                        return respuesta;
+                    }).fail((respuesta) => {
+                        // return respuesta;
+                    }).always(() => {
+                    });
+                },
+                // allowOutsideClick: () => !Swal.isLoading()
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    if (result.isConfirmed) {
+
+                        Swal.fire({
+                            title: result.value.titulo,
+                            text: result.value.mensaje,
+                            icon: result.value.tipo,
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Aceptar',
+                            allowOutsideClick: false,
+                        }).then((resultado) => {
+                            if (resultado.isConfirmed) {
+                                // window.location.href = route('hb.academicos.aulas.lista');
+                                $('#tabla-data').DataTable().ajax.reload();
+                            }
+                        })
+
+
+                    }
+                }
+
+            })
+        });
         $('#guardar-alumno').on("submit", (e) => {
             e.preventDefault();
             let data = $(e.currentTarget).serialize();
@@ -343,6 +390,7 @@ class AulaView {
             initComplete: function (settings, json) {
                 const $filter = $('#tabla-data_filter');
                 const $input = $filter.find('input');
+                const $selct_registro = $('[name="tabla-data_length"]');
                 $filter.append('<button id="btnBuscar" class="btn btn-default btn-sm" type="button" style="border-bottom-left-radius: 0px;border-top-left-radius: 0px;"><i class="fa fa-search"></i></button>');
                 $input.addClass('form-control-sm');
                 $input.attr('style','border-bottom-right-radius: 0px;border-top-right-radius: 0px;padding-top: 3px;');
@@ -358,7 +406,7 @@ class AulaView {
                 });
                 $('#tabla-data_length label').addClass('select2-sm');
                 //______Select2
-                $('.select2').select2({
+                $selct_registro.select2({
                     minimumResultsForSearch: Infinity
                 });
             },

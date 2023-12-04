@@ -54,7 +54,7 @@ HB GROUP - Gestion de Aula
                                     <select class="form-control select2 form-select" name="docente_id" id="docente_id" data-placeholder="Seleccione.." required>
                                         <option value="" >Seleccione...</option>
                                         @foreach ($docentes as $item)
-                                            <option value="{{ $item->id }}" >{{ $item->usuario->nombre_corto }}</option>
+                                            <option value="{{ $item->usuario->id }}" {{ ( ($aula && $aula->docente_id == $item->usuario->id) ? 'selected' : null) }}>{{ $item->usuario->nombre_corto }}</option>
                                         @endforeach
 
                                     </select>
