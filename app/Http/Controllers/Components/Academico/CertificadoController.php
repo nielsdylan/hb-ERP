@@ -417,8 +417,8 @@ class CertificadoController extends Controller
         foreach ($respuesta as $key => $value) {
             echo "<SCRIPT>window.open('".route('exportar-certificado-pdf',['id'=>$value->id])."');</SCRIPT>";
         }
-        return ;
-        // echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
+        // return ;
+        echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
     }
 
 }
