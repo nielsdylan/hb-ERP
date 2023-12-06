@@ -26,7 +26,9 @@ HB GROUP - Gestion de Alumnos
                 <div class="card">
                     {{-- <div class="card-status bg-blue br-te-7 br-ts-7"></div> --}}
                     <div class="card-header">
-                        <h3 class="card-title">Lista de Certificados</h3>
+                        <h3 class="card-title">Lista de Certificados
+                            {{-- <i class="fe fe-help-circle protip text-warning fs-20" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Exportar certificado"></i>  --}}
+                        </h3>
                         <div class="card-options">
                             {{-- @if (in_array(6,$array_accesos))
                                 <a href="{{ route('hb.academicos.alumnos.modelo-importar-alumnos-excel') }}" class="btn btn-info btn-sm" ><i class="fe fe-download"></i> Modelo de excel</a>

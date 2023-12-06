@@ -381,7 +381,9 @@ class CertificadoController extends Controller
         if ($masivo==1) {
             return $pdf->download(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
         }else{
-            return $pdf->stream(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
+            // return array("pdf"=>$pdf,"nombre"=>strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
+            // return $pdf->stream(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
+            echo ($pdf->download(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf'));
         }
 
 
@@ -408,8 +410,15 @@ class CertificadoController extends Controller
             $respuesta = $respuesta->where('fecha_curso','<=',$request->fecha_final);
         }
         $respuesta = $respuesta->get();
-        return response()->json($respuesta,200);
 
+        $controlador = new HomeController();
+
+        $array = array();
+        foreach ($respuesta as $key => $value) {
+            echo "<SCRIPT>window.open('".route('exportar-certificado-pdf',['id'=>$value->id])."');</SCRIPT>";
+        }
+        // return ;
+        echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
     }
 
 }

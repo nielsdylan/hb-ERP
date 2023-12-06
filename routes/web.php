@@ -135,7 +135,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('certificado-modelo-excel', [CertificadoController::class, 'certificadoModeloExcel'])->name('certificado-modelo-excel');
             Route::get('exportar-pdf/{id}', [CertificadoController::class, 'exportarPDF'])->name('exportar-pdf');
             Route::get('exportar-pdf/{id}/{masivo}', [CertificadoController::class, 'exportarPDF'])->name('exportar-pdf-masivo');
-            Route::post('alumnos-certidicado-masivo', [CertificadoController::class, 'alumnosCertidicadoMasivo'])->name('alumnos-certidicado-masivo');
+            Route::get('alumnos-certidicado-masivo', [CertificadoController::class, 'alumnosCertidicadoMasivo'])->name('alumnos-certidicado-masivo');
             // Route::get('modelo-importar-alumnos-excel', [AlumnosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             // Route::post('importar-alumnos-excel', [AlumnosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
         });

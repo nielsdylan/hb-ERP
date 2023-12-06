@@ -325,15 +325,39 @@ class CertificadoView {
         $('[data-action="pdf-masivo"]').click((e) => {
             e.preventDefault();
             let model = this.model;
-            model.alumnosCertidicadoMasivo(filtros).then((respuesta) => {
-                $.each(respuesta, function (index, element) {
-                    window.open(route('hb.academicos.certificados.exportar-pdf-masivo',{'id':element.id, 'masivo':2 }));
-                });
 
-            }).fail((respuesta) => {
-                // return respuesta;
-            }).always(() => {
-            });
+            // var filtros = {
+            //     _token:csrf_token,
+            //     curso:'-',
+            //     empresa:'-',
+            //     documento:'-',
+            //     fecha_inicio:'-',
+            //     fecha_final:'-',
+            // };
+
+            let id = $(e.currentTarget).attr('data-id'),
+                tipo ="Editar Aula",
+                form = $('<form action="'+route('hb.academicos.certificados.alumnos-certidicado-masivo')+'" method="GET" target="_blanck">'+
+                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                    // '<input type="hidden" name="id" value="'+id+'" >'+
+                    '<input type="hidden" name="curso" value="'+filtros.curso+'" >'+
+                    '<input type="hidden" name="empresa" value="'+filtros.empresa+'" >'+
+                    '<input type="hidden" name="documento" value="'+filtros.documento+'" >'+
+                    '<input type="hidden" name="fecha_inicio" value="'+filtros.fecha_inicio+'" >'+
+                    '<input type="hidden" name="fecha_final" value="'+filtros.fecha_final+'" >'+
+                '</form>');
+            $('body').append(form);
+            form.submit();
+
+            // model.alumnosCertidicadoMasivo(filtros).then((respuesta) => {
+            //     $.each(respuesta, function (index, element) {
+            //         window.open(route('hb.academicos.certificados.exportar-pdf-masivo',{'id':element.id, 'masivo':2 }));
+            //     });
+
+            // }).fail((respuesta) => {
+            //     // return respuesta;
+            // }).always(() => {
+            // });
         });
 
     }
