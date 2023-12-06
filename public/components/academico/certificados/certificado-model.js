@@ -56,4 +56,25 @@ class CertificadoModel {
             data: data,
         });
     };
+    exportarPDF = (id) => {
+        return $.ajax({
+            url: route("hb.academicos.certificados.exportar-pdf",{id: id}),
+            type: "GET",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token},
+        });
+    };
+
+    alumnosCertidicadoMasivo = (data) => {
+        return $.ajax({
+            url: route("hb.academicos.certificados.alumnos-certidicado-masivo"),
+            type: "POST",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: data,
+        });
+    };
 }

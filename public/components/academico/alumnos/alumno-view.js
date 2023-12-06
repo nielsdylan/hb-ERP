@@ -92,16 +92,15 @@ class AlumnoView {
          */
         $('#nuevo').click((e) => {
             e.preventDefault();
-            $('#guardar')[0].reset();
-            $('#modal-alumno').find('.modal-title').text('Nuevo Alumno')
-            $('#modal-alumno').modal('show');
-            $('#guardar').find('[name="id"]').val(0);
-            $('#guardar').find('[name="tipo_documento_id"]').val("").trigger('change.select2');
-            $('#guardar').find('[name="empresa_id"]').val("").trigger('change.select2');
-            $('#guardar').find('[name="sexo"]').val("").trigger('change.select2');
-            // $('[name="empresa_id"]').select2({
-            //     dropdownParent: $('#modal-formulario')
-            // });
+            let id = 0,
+                tipo ="Nuevo alumno",
+                form = $('<form action="'+route('hb.academicos.alumnos.formulario')+'" method="POST">'+
+                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                    '<input type="hidden" name="id" value="'+id+'" >'+
+                    '<input type="hidden" name="tipo" value="'+tipo+'" >'+
+                '</form>');
+            $('body').append(form);
+            form.submit();
 
         });
 
@@ -133,13 +132,12 @@ class AlumnoView {
                 // allowOutsideClick: () => !Swal.isLoading()
               }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Éxito!',
-                        'Se guardo con éxito!',
-                        'success'
-                    );
-                    $('#tabla-data').DataTable().ajax.reload();
-                    $('#modal-alumno').modal('hide');
+                    // Swal.fire(
+                    //     'Éxito!',
+                    //     'Se guardo con éxito!',
+                    //     'success'
+                    // );
+                    window.location.href = route('hb.academicos.alumnos.lista');
                 }
             })
 
@@ -150,34 +148,15 @@ class AlumnoView {
          */
         $("#tabla-data").on("click", "button.editar", (e) => {
             e.preventDefault();
-            let id = $(e.currentTarget).attr('data-id');
-            let form = $('#guardar');
-
-            this.model.editar(id).then((respuesta) => {
-                form.find('[name="id"]').val(respuesta.persona.id);
-                form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
-                form.find('[name="nro_documento"]').val(respuesta.persona.nro_documento);
-                form.find('[name="apellido_paterno"]').val(respuesta.persona.apellido_paterno);
-                form.find('[name="apellido_materno"]').val(respuesta.persona.apellido_materno);
-                form.find('[name="nombres"]').val(respuesta.persona.nombres);
-                form.find('[name="sexo"]').val(respuesta.persona.sexo).trigger('change.select2');
-                form.find('[name="nacionalidad"]').val(respuesta.persona.nacionalidad);
-                form.find('[name="cargo"]').val(respuesta.persona.cargo);
-                form.find('[name="telefono"]').val(respuesta.persona.telefono);
-                form.find('[name="whatsapp"]').val(respuesta.persona.whatsapp);
-                // form.find('[name="path_dni"]').val(respuesta.persona.path_dni);
-                form.find('[name="fecha_cumpleaños"]').val(respuesta.persona.fecha_cumpleaños);
-                form.find('[name="fecha_caducidad_dni"]').val(respuesta.persona.fecha_caducidad_dni);
-
-                form.find('[name="email"]').val(respuesta.usuario.email);
-                form.find('[name="empresa_id"]').val(respuesta.usuario.empresa_id).trigger('change.select2');
-
-                form.find('[name="path_dni"]').removeAttr('required')
-                $('#modal-alumno').find('.modal-title').text('Editar Alumno')
-                $('#modal-alumno').modal('show');
-            }).fail((respuesta) => {
-            }).always(() => {
-            });
+            let id = $(e.currentTarget).attr('data-id'),
+                tipo ="Editar alumno",
+                form = $('<form action="'+route('hb.academicos.alumnos.formulario')+'" method="POST">'+
+                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                    '<input type="hidden" name="id" value="'+id+'" >'+
+                    '<input type="hidden" name="tipo" value="'+tipo+'" >'+
+                '</form>');
+            $('body').append(form);
+            form.submit();
         });
 
         /**
@@ -223,9 +202,10 @@ class AlumnoView {
         */
         $("#guardar").on("change", '[data-search="numero_documento"]', (e) => {
             let id = $('#guardar').find('input[name="id"]').val();
-            let nro_documento = $(e.currentTarget).val();
+            let valor = $(e.currentTarget).val();
+            let tipo = $(e.currentTarget).attr('data-tipo');
             let form = $('#guardar');
-            this.model.buscarPersona(id,nro_documento).then((respuesta) => {
+            this.model.buscarPersona(id,valor, tipo).then((respuesta) => {
                 if (respuesta.success === true) {
                     form.find('[name="id"]').val(respuesta.persona.id);
                     form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
@@ -244,12 +224,6 @@ class AlumnoView {
 
                     form.find('[name="email"]').val(respuesta.usuario.email);
                     form.find('[name="empresa_id"]').val(respuesta.usuario.empresa_id).trigger('change.select2');
-                    // Swal.fire(
-                    //     'Alerta!',
-                    //     'Este número de documento ya se encuentra en uso!',
-                    //     'warning'
-                    // );
-                    // $(e.currentTarget).val('');
                 }else{
                     form.find('[name="id"]').val(0);
                 }

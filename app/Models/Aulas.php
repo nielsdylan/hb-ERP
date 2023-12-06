@@ -10,6 +10,6 @@ class Aulas extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'aulas';
-    protected $fillable = ['nombre','descripcion','capacidad','fecha','hora_inicio','hora_final','curso_id','fecha_registro', 'estado','created_id', 'updated_id', 'deleted_id'];
+    protected $fillable = ['nombre','descripcion','capacidad','fecha','hora_inicio','hora_final','curso_id', 'docente_id','fecha_registro', 'estado','created_id', 'updated_id', 'deleted_id'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 }

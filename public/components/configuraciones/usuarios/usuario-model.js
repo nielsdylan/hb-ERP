@@ -44,7 +44,7 @@ class UsuarioModel {
             // processData: false,
             // contentType: false,
             data: {
-                _token:this.token, 
+                _token:this.token,
             },
         });
     };
@@ -70,5 +70,14 @@ class UsuarioModel {
             data: data,
         });
     };
-
+    buscarUsuario = (data) => {
+        return $.ajax({
+            url: route("hb.configuraciones.usuarios.buscar-usuario"),
+            type: "POST",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: data,
+        });
+    };
 }

@@ -22,9 +22,7 @@ class UsuariosController extends Controller
 {
     //
     public function lista() {
-        $tipos_documentos = TipoDocumentos::where('estado',1)->get();
-        $empresas = Empresas::where('estado',1)->get();
-        $roles = Roles::where('estado',1)->get();
+
         LogActividades::guardar(Auth()->user()->id, 1, 'GESTION DE USUARIOS', null, null, null, 'INGRESO A LA LISTA DE USUARIOS');
 
         // return $empresas;exit;
@@ -34,12 +32,15 @@ class UsuariosController extends Controller
     {
         $data = User::where('estado',1)->get();
         return DataTables::of($data)
-        ->addColumn('empresa', function ($data) { 
+        ->addColumn('empresa', function ($data) {
             return ($data->empresa ? $data->empresa->razon_social:null);
         })
         ->addColumn('accion', function ($data) { return
             '<div class="btn-list">
-                <button type="button" class="asignar-accesos protip btn btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Asignar Accesos" >
+                <button type="button" class="cabiar-clave protip text-info btn btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Cambiar contraseña" >
+                    <i class="fa fa-key fs-14"></i>
+                </button>
+                <button type="button" class="asignar-accesos text-dark protip btn btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Asignar Accesos" >
                     <i class="fe fe-shield fs-14"></i>
                 </button>
                 <button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
@@ -48,7 +49,7 @@ class UsuariosController extends Controller
                 <button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
                 </button>
-                
+
             </div>';
         })->rawColumns(['accion'])->make(true);
     }
@@ -102,14 +103,14 @@ class UsuariosController extends Controller
                 $usuario->persona_id        = $data->id;
                 $usuario->empresa_id        = $request->empresa_id;
                 if ((int) $request->id == 0) {
-                
+
                     $usuario->password          = Hash::make($request->nro_documento);
                     $usuario->fecha_registro    = date('Y-m-d H:i:s');
                     $usuario->created_at = date('Y-m-d H:i:s');
                     $usuario->created_id = Auth()->user()->id;
                     $usuario->save();
                     LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO DE LA LISTA DE USUARIOS');
-                    
+
                 }else{
                     $usuario_old=User::where('persona_id',$data->id);
                     $usuario->updated_at   = date('Y-m-d H:i:s');
@@ -138,12 +139,12 @@ class UsuariosController extends Controller
                     $usuario_rol->created_at    = date('Y-m-d H:i:s');
                     $usuario_rol->created_id    = Auth()->user()->id;
                     $usuario_rol->save();
-                    
-                    
+
+
                     LogActividades::guardar(Auth()->user()->id, 3, 'SE ASIGNO UN ROL AL USUARIO', $data->getTable(), NULL, $usuario_rol, 'SE ASIGNO ROL A UN USUARIO');
                 }
-                
-                                
+
+
             $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");
         } catch (Exception $ex) {
             $respuesta = array("titulo"=>"Error","mensaje"=>"Hubo un problema al registrar. Por favor intente de nuevo, si persiste comunicarse con su area de TI","tipo"=>"error","ex"=>$ex);
@@ -219,7 +220,7 @@ class UsuariosController extends Controller
         $usuario_accesos = UsuariosAccesos::where('usuario_id', $usuario_id)->where('menu_id',$id)->get();
         $success = false;
 
-        
+
         if (sizeof($accesos)>0) {
             $success = true;
             foreach ($accesos as $key => $item) {
@@ -255,21 +256,71 @@ class UsuariosController extends Controller
                 }else{
                     $data->created_at = date('Y-m-d H:i:s');
                     $data->created_id = Auth()->user()->id;
-                
+
                 }
             $data->save();
-                
+
         }else{
             UsuariosAccesos::where('usuario_id', $request->usuario_id)
             ->where('menu_id', $request->menu_id)
             ->where('acceso_id',$request->acceso_id)
             ->update([
-                'deleted_at' =>date('Y-m-d H:i:s'), 
+                'deleted_at' =>date('Y-m-d H:i:s'),
                 'deleted_id' =>Auth()->user()->id
             ]);
         }
-    
-            
+
+
         return response()->json(["data"=>$request],200);
+    }
+    public function formulario(Request $request){
+        $id = $request->id;
+        $tipo = $request->tipo;
+        $persona = array();
+        $usuario = array();
+        $roles_id = array();
+        if ((int)$id>0) {
+            $persona = Personas::find($request->id);
+            $usuario = User::where('persona_id',$persona->id)->where('estado',1)->first();
+            $usuario_roles = UsuariosRoles::where('usuario_id',$usuario->id)->where('estado',1)->get();
+            foreach ($usuario_roles as $key => $value) {
+                array_push($roles_id,$value->rol_id);
+            }
+        }
+        // return  $persona;
+        $tipos_documentos = TipoDocumentos::where('estado',1)->get();
+        $empresas = Empresas::where('estado',1)->get();
+        $roles = Roles::where('estado',1)->get();
+        return view('components.configuraciones.usuario.formulario', get_defined_vars());
+    }
+    public function buscarUsuario(Request $request){
+        $data = array();
+        $mensaje = "";
+        switch ($request->tipo) {
+            case "documento":
+                $data = User::where('nro_documento',$request->valor)->first();
+                $mensaje = "número de documento";
+            break;
+
+            case "email":
+                $data = User::where('email',$request->valor)->first();
+                $mensaje = "correo electronico";
+            break;
+        }
+
+        if ($data || ($data->id == $request->id) ) {
+            return response()->json(["titulo"=>"Warning", "mensaje"=>"EL ".$mensaje." se encuentra en uso","tipo"=>"warning"],200);
+        }
+        return response()->json(["tipo"=>"success"],200);
+    }
+    public function cambiarContrasena(Request $request){
+        if ($request->contrasena == $request->repetir_contrasena) {
+
+            $data = User::find($request->id);
+            $data->password = Hash::make($request->contrasena);
+            $data->save();
+            return response()->json(["titulo"=>"Éxito", "mensaje"=>"Su Contraseña fue cambiada con éxito","tipo"=>"success"],200);
+        }
+        return response()->json(["titulo"=>"Error", "mensaje"=>"Sus contraseñas no coinciden.","tipo"=>"error"],200);
     }
 }

@@ -88,14 +88,16 @@ class UsuarioView {
          */
         $('#nuevo').click((e) => {
             e.preventDefault();
-            $('#guardar')[0].reset();
-            $('#modal-usuario').find('.modal-title').text('Nueva Usuario')
-            $('#modal-usuario').modal('show');
-            $('#guardar').find('[name="id"]').val(0);
-            $('#guardar').find('[name="roles[]"]').val(null).trigger('change');
-            // $('[name="empresa_id"]').select2({
-            //     dropdownParent: $('#modal-formulario')
-            // });
+
+            let id = 0,
+                tipo ="Nuevo Usuario",
+                form = $('<form action="'+route('hb.configuraciones.usuarios.formulario')+'" method="POST">'+
+                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                    '<input type="hidden" name="id" value="'+id+'" >'+
+                    '<input type="hidden" name="tipo" value="'+tipo+'" >'+
+                '</form>');
+            $('body').append(form);
+            form.submit();
 
         });
 
@@ -127,24 +129,7 @@ class UsuarioView {
                 // allowOutsideClick: () => !Swal.isLoading()
               }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Éxito!',
-                        'Se guardo con éxito!',
-                        'success'
-                    );
-                    // swal({
-                    //     title: respuesta.titulo,
-                    //     text: respuesta.mensaje,
-                    //     type: respuesta.tipo,
-                    //     showCancelButton: false,
-                    //     // confirmButtonClass: "btn-danger",
-                    //     confirmButtonText: "Aceptar",
-                    //     closeOnConfirm: true
-                    // },
-                    // function(){
-                        $('#tabla-data').DataTable().ajax.reload();
-                        $('#modal-usuario').modal('hide');
-                    // });
+                    location.href = route('hb.configuraciones.usuarios.lista');
                 }
             })
 
@@ -155,46 +140,15 @@ class UsuarioView {
          */
         $("#tabla-data").on("click", "button.editar", (e) => {
             e.preventDefault();
-            let id = $(e.currentTarget).attr('data-id');
-            let form = $('#guardar');
-            let roles_id = [];
-            form.find('[name="roles[]"]').val(null).trigger('change');
-            this.model.editar(id).then((respuesta) => {
-                // form.find('[name="id"]').val(respuesta.id);
-                // form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
-                // form.find('[name="descripcion"]').val(respuesta.descripcion);
-                // form.find('[name="simbolo"]').val(respuesta.simbolo);
-
-                form.find('[name="id"]').val(respuesta.persona.id);
-                form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
-                form.find('[name="nro_documento"]').val(respuesta.persona.nro_documento);
-                form.find('[name="apellido_paterno"]').val(respuesta.persona.apellido_paterno);
-                form.find('[name="apellido_materno"]').val(respuesta.persona.apellido_materno);
-                form.find('[name="nombres"]').val(respuesta.persona.nombres);
-                form.find('[name="sexo"]').val(respuesta.persona.sexo).trigger('change.select2');
-                form.find('[name="nacionalidad"]').val(respuesta.persona.nacionalidad);
-                form.find('[name="cargo"]').val(respuesta.persona.cargo);
-                form.find('[name="telefono"]').val(respuesta.persona.telefono);
-                form.find('[name="whatsapp"]').val(respuesta.persona.whatsapp);
-                // form.find('[name="path_dni"]').val(respuesta.persona.path_dni);
-                form.find('[name="fecha_cumpleaños"]').val(respuesta.persona.fecha_cumpleaños);
-                form.find('[name="fecha_caducidad_dni"]').val(respuesta.persona.fecha_caducidad_dni);
-
-                form.find('[name="email"]').val(respuesta.usuario.email);
-                form.find('[name="empresa_id"]').val(respuesta.usuario.empresa_id).trigger('change.select2');
-
-                form.find('[name="path_dni"]').removeAttr('required')
-
-                $.each(respuesta.usuario_rol, function (index, element) {
-                    roles_id.push(element.rol_id);
-                });
-                form.find('[name="roles[]"]').val(roles_id).trigger('change');
-
-                $('#modal-usuario').find('.modal-title').text('Editar Usuario')
-                $('#modal-usuario').modal('show');
-            }).fail((respuesta) => {
-            }).always(() => {
-            });
+            let id = $(e.currentTarget).attr('data-id'),
+                tipo ="Editar Usuario",
+                form = $('<form action="'+route('hb.configuraciones.usuarios.formulario')+'" method="POST">'+
+                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                    '<input type="hidden" name="id" value="'+id+'" >'+
+                    '<input type="hidden" name="tipo" value="'+tipo+'" >'+
+                '</form>');
+            $('body').append(form);
+            form.submit();
         });
 
         /**
@@ -234,31 +188,37 @@ class UsuarioView {
 
         /*
         *
-        *Buscador de empresa
+        *Buscador de numero de documento
         *
         */
-        $("#guardar").on("change", '[data-search="ruc"]', (e) => {
+        $('[data-search="usuario"]').change( (e) => {
             let id = $('#guardar').find('input[name="id"]').val();
-            let ruc = $(e.currentTarget).val();
-
+            let valor = $(e.currentTarget).val();
+            let tipo = $(e.currentTarget).attr('data-tipo');
+            let curren = $(e.currentTarget);
             let data ={
+                _token:csrf_token,
                 id:id,
-                ruc:ruc
+                valor:valor,
+                tipo:tipo
             }
-            this.model.buscarEmpresa(id,ruc).then((respuesta) => {
-                if (respuesta.success === true) {
-                    Swal.fire(
-                        'Alerta!',
-                        'Este ruc ya se encuentra en uso!',
-                        'warning'
-                    );
-                    $(e.currentTarget).val('');
+            this.model.buscarUsuario(data).then((respuesta) => {
+                console.log(respuesta);
+                if (respuesta.tipo == "warning") {
+                    curren.val('');
+                    notif({
+                        msg: `<span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>
+                        <span class="alert-inner--text"><strong>`+respuesta.titulo+`!</strong> `+respuesta.mensaje+`</span>`,
+                        type: respuesta.tipo
+                    });
                 }
+
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
             });
         });
+
 
 
         /*
@@ -275,6 +235,17 @@ class UsuarioView {
                 '</form>');
             $('body').append(form);
             form.submit();
+        });
+
+        /**
+         * modificar - cambiar la contraseña
+         */
+        $("#tabla-data").on("click", "button.cabiar-clave", (e) => {
+            e.preventDefault();
+            let id = $(e.currentTarget).attr('data-id');
+            $('#modal-cambio-clave').modal('show');
+            $('#cambiar-contraseña').find('[name="id"]').val(id);
+            $('#cambiar-contraseña')[0].reset();
         });
 
     }

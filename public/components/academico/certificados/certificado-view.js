@@ -1,7 +1,16 @@
+
 class CertificadoView {
 
+    // var $filtros = {
+    //     curso:'-',
+    //     empresa:'-',
+    //     documento:'-',
+    //     fecha_inicio:'-',
+    //     fecha_final:'-',
+    // }
     constructor(model) {
         this.model = model;
+
     }
 
     /**
@@ -16,6 +25,7 @@ class CertificadoView {
             language: idioma,
             serverSide: true,
             processing: true,
+            // buttons: ['copy', 'excel', 'pdf', 'colvis'],
             // pagingType: 'full_numbers',
             initComplete: function (settings, json) {
                 const $filter = $('#tabla-data_filter');
@@ -35,11 +45,12 @@ class CertificadoView {
                 });
                 $('#tabla-data_length label').addClass('select2-sm');
                 //______Select2
-                $('.select2').select2({
+                $('[name="tabla-data_length"]').select2({
                     minimumResultsForSearch: Infinity
                 });
                 // const $paginate = $('#tabla-data_paginate');
                 // $paginate.find('ul.pagination').addClass('pagination-sm');
+
             },
             drawCallback: function (settings) {
                 $('#tabla-data_filter input').prop('disabled', false);
@@ -47,12 +58,16 @@ class CertificadoView {
                 $('#tabla-data_filter input').trigger('focus');
                 const $paginate = $('#tabla-data_paginate');
                 $paginate.find('ul.pagination').addClass('pagination-sm');
+
             },
             order: [[0, 'desc']],
             ajax: {
                 url: route('hb.academicos.certificados.listar'),
                 method: 'POST',
-                headers: {'X-CSRF-TOKEN': csrf_token}
+                // headers: {'X-CSRF-TOKEN': csrf_token},
+                dataType: "JSON",
+                // data: JSON.parse(localStorage.getItem('filtros'))
+                data: filtros
             },
             columns: [
                 {data: 'id', className: 'text-center'},
@@ -94,7 +109,7 @@ class CertificadoView {
         /**
          * Nueva aula - información
          */
-        $('#nuevo').click((e) => {
+        $('[data-action="nuevo"]').click((e) => {
             e.preventDefault();
             let id = 0,
                 tipo ="Nuevo Certificado",
@@ -244,7 +259,7 @@ class CertificadoView {
         * funsiones para importar excel de certificados
         *
         */
-        $('#importar').click((e) => {
+        $('[data-action="importar"]').click((e) => {
             e.preventDefault();
             $('#tabla-excluido').addClass('d-none');
             $('#modal-importar').modal('show');
@@ -256,6 +271,11 @@ class CertificadoView {
 
             let data = new FormData($(e.currentTarget)[0]);
             let html = '';
+            let button = $(e.currentTarget).find('button[type="submit"]');
+
+            button.find('i.fe').remove();
+            button.html('<i class="fa fa-spinner fa-spin"></i> Cargando...');
+            button.attr('disabled','true');
 
             this.model.importarCertificadosExcel(data).then((respuesta) => {
 
@@ -289,15 +309,134 @@ class CertificadoView {
                     });
                     $('[data-table="excluidos"]').html(html);
                     $('#tabla-excluido').removeClass('d-none');
+
                 }
                 $('#tabla-data').DataTable().ajax.reload();
-
+                button.find('i.fa').remove();
+                button.html('<i class="fe fe-save"></i> Guardar');
+                button.removeAttr('disabled');
 
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
             });
         });
+
+        $('[data-action="pdf-masivo"]').click((e) => {
+            e.preventDefault();
+            let model = this.model;
+
+            // var filtros = {
+            //     _token:csrf_token,
+            //     curso:'-',
+            //     empresa:'-',
+            //     documento:'-',
+            //     fecha_inicio:'-',
+            //     fecha_final:'-',
+            // };
+
+            let id = $(e.currentTarget).attr('data-id'),
+                tipo ="Editar Aula",
+                form = $('<form action="'+route('hb.academicos.certificados.alumnos-certidicado-masivo')+'" method="GET" target="_blanck">'+
+                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
+                    // '<input type="hidden" name="id" value="'+id+'" >'+
+                    '<input type="hidden" name="curso" value="'+filtros.curso+'" >'+
+                    '<input type="hidden" name="empresa" value="'+filtros.empresa+'" >'+
+                    '<input type="hidden" name="documento" value="'+filtros.documento+'" >'+
+                    '<input type="hidden" name="fecha_inicio" value="'+filtros.fecha_inicio+'" >'+
+                    '<input type="hidden" name="fecha_final" value="'+filtros.fecha_final+'" >'+
+                '</form>');
+            $('body').append(form);
+            form.submit();
+
+            // model.alumnosCertidicadoMasivo(filtros).then((respuesta) => {
+            //     $.each(respuesta, function (index, element) {
+            //         window.open(route('hb.academicos.certificados.exportar-pdf-masivo',{'id':element.id, 'masivo':2 }));
+            //     });
+
+            // }).fail((respuesta) => {
+            //     // return respuesta;
+            // }).always(() => {
+            // });
+        });
+
+    }
+
+    filtros = () => {
+        /*
+        *
+        * Filtros
+        */
+        $('[data-action="filtros"]').click((e) => {
+            e.preventDefault();
+            $('#modal-filtros').modal('show');
+        });
+
+        $('#form-filtros [type="checkbox"]').click((e) => {
+            let objeto = $(e.currentTarget);
+            let model = this.filtros;
+            // $('[data-disabled="cheked"]').attr('disabled','true');
+            if(objeto.prop("checked") == true) {
+                objeto.closest('.row').find('[data-disabled="cheked"]').removeAttr('disabled');
+            }else{
+                objeto.closest('.row').find('[data-disabled="cheked"]').attr('disabled','true');
+            }
+
+            let objeto_row = $(e.currentTarget).closest('.row');
+            let key = objeto_row.attr('data-section');
+
+            dataFiltros(key, objeto_row, objeto.prop("checked"));
+        });
+
+        $('#form-filtros [data-disabled="cheked"]').change((e) => {
+            let objeto = $(e.currentTarget).closest('.row');
+            let key = objeto.attr('data-section');
+            let model = this.filtros;
+            let check = objeto.find('[type="checkbox"]').prop("checked");
+
+            dataFiltros(key, objeto, check);
+        });
+
+
+        function dataFiltros(key, objeto, check) {
+            switch (key) {
+                case 'curso':
+                    if (check) {
+                        filtros.curso = objeto.find('[data-disabled="cheked"][name="curso"]').val();
+                    }else{
+                        filtros.curso = '-';
+                    }
+
+                break;
+                case 'empresa':
+                    if (check) {
+                        filtros.empresa = objeto.find('[data-disabled="cheked"][name="empresa"]').val();
+                    }else{
+                        filtros.empresa = '-';
+                    }
+                break;
+                case 'documento':
+                    if (check) {
+                        filtros.documento = objeto.find('[data-disabled="cheked"][name="numero"]').val();
+                    }else{
+                        filtros.documento = '-';
+                    }
+                break;
+                case 'fecha':
+                    if (check) {
+                        filtros.fecha_inicio = objeto.find('[data-disabled="cheked"][name="fecha_inicio"]').val();
+                        filtros.fecha_final = objeto.find('[data-disabled="cheked"][name="fecha_final"]').val();
+                    }else{
+                        filtros.fecha_inicio = '-';
+                        filtros.fecha_final = '-';
+                    }
+                break;
+            }
+        }
+        $('#aplicar').click((e) => {
+            this.listar();
+        });
+
     }
 
 }

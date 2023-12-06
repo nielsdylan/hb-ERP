@@ -1,4 +1,4 @@
-<div class="app-header header sticky">
+z<div class="app-header header sticky">
     <div class="container-fluid main-container">
         <div class="d-flex">
             <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="javascript:void(0)"></a>
@@ -355,8 +355,8 @@
                                         <i class="dropdown-icon fe fe-mail"></i> Correos
                                         <span class="badge bg-danger rounded-pill float-end">5</span>
                                     </a> --}}
-                                    <a class="dropdown-item" href="lockscreen.html">
-                                        <i class="dropdown-icon fe fe-lock"></i> Desarrollo
+                                    <a class="dropdown-item cambiar-contraseña" href="#" data-id="{{Auth::user()->id}}">
+                                        <i class="dropdown-icon fa fa-key"></i> Cambiar clave
                                     </a>
                                     <a class="dropdown-item" href="{{ route('hb.configuraciones.dashboard') }}">
                                         <i class="dropdown-icon fe fe-settings"></i> Configuraciones

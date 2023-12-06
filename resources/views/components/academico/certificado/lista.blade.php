@@ -26,7 +26,9 @@ HB GROUP - Gestion de Alumnos
                 <div class="card">
                     {{-- <div class="card-status bg-blue br-te-7 br-ts-7"></div> --}}
                     <div class="card-header">
-                        <h3 class="card-title">Lista de Certificados</h3>
+                        <h3 class="card-title">Lista de Certificados
+                            {{-- <i class="fe fe-help-circle protip text-warning fs-20" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Exportar certificado"></i>  --}}
+                        </h3>
                         <div class="card-options">
                             {{-- @if (in_array(6,$array_accesos))
                                 <a href="{{ route('hb.academicos.alumnos.modelo-importar-alumnos-excel') }}" class="btn btn-info btn-sm" ><i class="fe fe-download"></i> Modelo de excel</a>
@@ -35,15 +37,28 @@ HB GROUP - Gestion de Alumnos
                             <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="carga-excel" ><i class="fe fe-upload"></i> Carga masiva de Alumnos</a>
                             @endif
                             @if (in_array(2,$array_accesos)) --}}
-                            <a href="{{ route('hb.academicos.certificados.certificado-modelo-excel') }}" class="btn btn-info btn-sm ms-2" id="modelo" ><i class="fe fe-download"></i> Modelo de excel</a>
-                            <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2" id="importar" ><i class="fe fe-upload"></i> Importarción Certificado</a>
-                            <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2" id="nuevo" ><i class="fe fe-plus"></i> Nuevo Certificado</a>
+                            <a href="javascript:void(0)" class="btn btn-default btn-sm ms-2 d-none d-lg-block d-md-block" data-action="filtros"><i class="fe fe-filter"></i> Filtros</a>
+                            <a href="javascript:void(0)" class="btn btn-default btn-sm ms-2 d-none d-lg-block d-md-block" data-action="pdf-masivo"><i class="fa fa-file-pdf-o"></i> Exportar PDF Masivo</a>
+
+                            <a href="{{ route('hb.academicos.certificados.certificado-modelo-excel') }}" class="btn btn-info btn-sm ms-2 d-none d-lg-block d-md-block" data-action="modelo"><i class="fe fe-download"></i> Modelo de excel</a>
+                            <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2 d-none d-lg-block d-md-block" data-action="importar" id="importar" ><i class="fe fe-upload"></i> Importarción Certificado</a>
+                            <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2 d-none d-lg-block d-md-block" data-action="nuevo"><i class="fe fe-plus"></i> Nuevo Certificado</a>
                             {{-- @endif --}}
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="row justify-content-md-center">
+                                <a href="javascript:void(0)" class="btn btn-default btn-sm ms-2 d-block d-md-none mb-2" data-action="filtros"><i class="fe fe-filter"></i> Filtros</a>
+                                <a href="javascript:void(0)" class="btn btn-default btn-sm ms-2 d-block d-md-none mb-2" data-action="pdf-masivo"><i class="fa fa-file-pdf-o"></i> Exportar PDF Masivo</a>
+
+                                <a href="{{ route('hb.academicos.certificados.certificado-modelo-excel') }}" class="btn btn-info btn-sm ms-2 d-block d-md-none mb-2" data-action="modelo"><i class="fe fe-download"></i> Modelo de excel</a>
+                                <a href="javascript:void(0)" class="btn btn-info btn-sm ms-2 d-block d-md-none mb-2" data-action="importar" id="importar" ><i class="fe fe-upload"></i> Importarción Certificado</a>
+                                <a href="javascript:void(0)" class="btn btn-success btn-sm ms-2 d-block d-md-none mb-2" data-action="nuevo"><i class="fe fe-plus"></i> Nuevo Certificado</a>
+
+
                             <div class="col-md-12 table-responsive">
+
+
                                 <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data"
                                 {{-- style="width: 100%; font-size: x-small" --}}
                                 width="100%">
@@ -145,13 +160,122 @@ HB GROUP - Gestion de Alumnos
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save"></i> Guardar</button>
+                        <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save fe-spin"></i> Guardar</button>
                         <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal"><i class="fe fe-x"></i> Cerrar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <!-- MODAL filtros -->
+    <div class="modal fade effect-super-scaled " id="modal-filtros">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Filtros</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form id="form-filtros" action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row justify-content-md-center" data-section="curso">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="checkedcurso" value="curso">
+                                        <span class="custom-control-label">Curso :</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group select2-sm ">
+                                    <select name="curso" class="form-control form-select select2-show-search " data-disabled="cheked" data-placeholder="Seleccione..." disabled>
+                                        <option value="">Seleccione...</option>
+                                        @foreach ($cursos as $key=>$item)
+                                            <option value="{{ $item->curso }}">{{ $item->curso }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-md-center" data-section="empresa">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="checkedempresa" value="empresa">
+                                        <span class="custom-control-label">Empresa :</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group select2-sm ">
+                                    <select name="empresa" class="form-control form-select form-select-sm select2-show-search "  data-disabled="cheked" disabled>
+                                        <option value="vacio" selected>--Vacío--</option>
+                                        @foreach ($empresas as $key=>$item)
+                                            <option value="{{ $item->empresa }}" >{{  $item->empresa }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-md-center" data-section="documento">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="checkednumero_documento" value="numero_documento">
+                                        <span class="custom-control-label">N°Documento :</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group select2-sm ">
+                                    <select name="numero" class="form-control form-select form-select-sm select2-show-search "  data-disabled="cheked" data-placeholder="Seleccione..."disabled>
+                                        <option value="" selected>Seleccione...</option>
+                                        @foreach ($documentos as $key=>$item)
+                                            <option value="{{ $item->numero_documento }}" >{{  $item->numero_documento }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-md-center" data-section="fecha">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="checkedfechas" value="fechas">
+                                        <span class="custom-control-label">Fechas :</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group text-center">
+                                    <input class="form-control form-control-sm text-center" type="date" name="fecha_inicio" disabled data-disabled="cheked">
+                                    <small id="helpId" class="text-muted">Fecha Inicio</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group text-center">
+                                    <input class="form-control form-control-sm text-center" type="date" name="fecha_final" disabled data-disabled="cheked">
+                                    <small id="helpId" class="text-muted">Fecha Final</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {{-- <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save fe-spin"></i> Guardar</button> --}}
+                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal" id="aplicar"><i class="fe fe-x"></i> Aplicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 
 </div>
 @endsection
@@ -177,10 +301,25 @@ HB GROUP - Gestion de Alumnos
     <script>
         // Select2
 
+        var filtros = {
+            _token:csrf_token,
+            curso:'-',
+            empresa:'-',
+            documento:'-',
+            fecha_inicio:'-',
+            fecha_final:'-',
+        };
         $(document).ready(function () {
+            $('.select2-show-search').select2({
+                minimumResultsForSearch: '',
+                width: '100%',
+                dropdownParent: $('#modal-filtros .modal-body')
+            });
+
             const view = new CertificadoView(new CertificadoModel(csrf_token));
             view.listar();
             view.eventos();
+            view.filtros();
         });
 
 

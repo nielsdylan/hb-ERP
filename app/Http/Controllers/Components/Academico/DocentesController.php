@@ -37,28 +37,28 @@ class DocentesController extends Controller
     {
         $data = UsuariosRoles::where('rol_id',3)->where('estado',1)->get();
         return DataTables::of($data)
-        ->addColumn('documento', function ($data) { 
+        ->addColumn('documento', function ($data) {
             return $data->usuario->persona->nro_documento;
         })
-        ->addColumn('apellidos_nombres', function ($data) { 
+        ->addColumn('apellidos_nombres', function ($data) {
             return $data->usuario->persona->apellido_paterno.' '.$data->usuario->persona->apellido_materno.' '.$data->usuario->persona->nombres;
         })
-        ->addColumn('email', function ($data) { 
+        ->addColumn('email', function ($data) {
             return $data->usuario->email;
         })
-        ->addColumn('cargo', function ($data) { 
+        ->addColumn('cargo', function ($data) {
             return $data->usuario->persona->cargo;
         })
-        ->addColumn('celular', function ($data) { 
+        ->addColumn('celular', function ($data) {
             return $data->usuario->persona->telefono;
         })
-        ->addColumn('sexo', function ($data) { 
+        ->addColumn('sexo', function ($data) {
             return ($data->usuario->persona->sexo=='M'?'MASCULINO':'FEMENINO');
         })
-        ->addColumn('fecha_caducidad', function ($data) { 
-            return date("d/m/Y", strtotime($data->usuario->persona->fecha_caducidad_dni)) ;
+        ->addColumn('fecha_registro', function ($data) {
+            return date("d/m/Y", strtotime($data->usuario->persona->fecha_registro)) ;
         })
-        ->addColumn('accion', function ($data) { 
+        ->addColumn('accion', function ($data) {
             $array_accesos = array();
             $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
             foreach ($usuario_accesos as $key => $value) {
@@ -72,7 +72,7 @@ class DocentesController extends Controller
                 '.(in_array(11,$array_accesos)?'<button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
                 </button>':'').'
-                
+
             </div>';
         })->rawColumns(['accion'])->make(true);
     }
@@ -119,34 +119,35 @@ class DocentesController extends Controller
 
                 $usuario = User::firstOrNew(['persona_id' => $data->id]);
                 // if ((int) $request->id == 0) {
-                
-                    
+
+
                     $usuario->nombre_corto      = $request->apellido_paterno.' '.(explode(' ',$request->nombres)[0]);
                     $usuario->nro_documento     = $request->nro_documento;
                     $usuario->email             = $request->email;
-                    $usuario->password          = Hash::make($request->nro_documento);
+
                     $usuario->avatar_initials   = substr($request->apellido_paterno, 0, 1).substr(explode(' ',$request->nombres)[0], 0, 1);
                     $usuario->persona_id        = $data->id;
                     $usuario->empresa_id        = $request->empresa_id;
-                    // if ((int) $request->id == 0) {
+                    if ((int) $request->id == 0) {
+                        $usuario->password          = Hash::make($request->nro_documento);
                         $usuario->fecha_registro    = date('Y-m-d H:i:s');
                         $usuario->created_at = date('Y-m-d H:i:s');
                         $usuario->created_id = Auth()->user()->id;
                         $usuario->save();
-                        LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO');
-                    // }else{
-                    //     $usuario_old=User::where('persona_id',$data->id);
-                    //     $usuario->updated_at   = date('Y-m-d H:i:s');
-                    //     $usuario->updated_id   = Auth()->user()->id;
-                    //     $usuario->save();
-                    //     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO');
-                    // }
+                        LogActividades::guardar(Auth()->user()->id, 3, 'REGISTRO UN USUARIO', $data->getTable(), NULL, $usuario, 'SE A CREADO UN USUARIO EN EL FORMULARIO DE DOCENTES');
+                    }else{
+                        $usuario_old=User::where('persona_id',$data->id);
+                        $usuario->updated_at   = date('Y-m-d H:i:s');
+                        $usuario->updated_id   = Auth()->user()->id;
+                        $usuario->save();
+                        LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN USUARIO', $data->getTable(), $usuario_old, $usuario, 'SE A MODIFICADO UN USUARIO EN EL FORMULARIO DE DOCENTES');
+                    }
 
-                    
+
                 // }
 
                 $usuario_rol = UsuariosRoles::firstOrNew(['usuario_id' => $usuario->id,'rol_id'=>3]);
-                
+
                 if (!UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',3)->first()) {
                     $usuario_rol->usuario_id = $usuario->id;
                     $usuario_rol->rol_id = 3;
@@ -162,13 +163,33 @@ class DocentesController extends Controller
                 //     $usuario_rol->save();
                 //     LogActividades::guardar(Auth()->user()->id, 4, 'MODIFICO UN ROL', $data->getTable(), $usuarior_rol_old, $usuario_rol, 'SE A MODIFICADO UN ROL DEL USUARIO');
                 // }
-                    
-                
+
+
             $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");
         // } catch (Exception $ex) {
         //     $respuesta = array("titulo"=>"Error","mensaje"=>"Hubo un problema al registrar. Por favor intente de nuevo, si persiste comunicarse con su area de TI","tipo"=>"error","ex"=>$ex);
         // }
         return response()->json($respuesta,200);
+    }
+    public function formulario(Request $request){
+
+        $id = $request->id;
+        $tipo = $request->tipo;
+
+        $persona = array();
+        $usuario = array();
+
+        if ((int) $request->id >0) {
+            $persona = Personas::find($id);
+            $usuario = User::where('persona_id',$persona->id)->first();
+        }
+
+        // $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->get();
+        $tipos_documentos = TipoDocumentos::where('estado',1)->get();
+        $empresas = Empresas::where('estado',1)->get();
+        $array_accesos = array();
+
+        return view('components.academico.docentes.formulario', get_defined_vars());
     }
     function editar($id) {
         $persona = Personas::find($id);
@@ -197,7 +218,7 @@ class DocentesController extends Controller
         $usuario_rol = UsuariosRoles::where('usuario_id',$usuario->id)->where('rol_id',3)->where('estado',1)->first();
         $usuario_rol->deleted_id   = Auth()->user()->id;
         $usuario_rol->save();
-        
+
         LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN DOCENTE', $persona->getTable(), $persona, NULL, 'ELIMINO UN REGISTRO DE LA LISTA DE DOCENTE');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
         return response()->json($respuesta,200);

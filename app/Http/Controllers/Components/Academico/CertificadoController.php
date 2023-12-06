@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Components\Academico;
 
 use App\Exports\ModeloCertificadoExcelModeloExport;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Web\HomeController;
 use App\Imports\CertificadosImport;
 use App\Models\Certificado;
 use App\Models\LogActividades;
@@ -18,6 +19,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Xls;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use SebastianBergmann\Type\TrueType;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CertificadoController extends Controller
 {
@@ -25,12 +27,39 @@ class CertificadoController extends Controller
     public function lista()
     {
 
+        $empresas = Certificado::select('empresa')->where('estado',1)->whereNotNull('empresa')->distinct()->orderBy('empresa', 'asc')->get();
+        $cursos = Certificado::select('curso')->where('estado',1)->whereNotNull('curso')->distinct()->orderBy('empresa', 'asc')->get();
+        $documentos = Certificado::select('numero_documento')->where('estado',1)->whereNotNull('numero_documento')->distinct()->orderBy('empresa', 'asc')->get();
+        // $contador = Certificado::select('empresa')->where('estado',1)->distinct()->orderBy('empresa', 'asc')->count();
+        // return [$empresas];
         LogActividades::guardar(Auth()->user()->id, 1, 'LISTADO DE CERTIFICADOS', null, null, null, 'INGRESO A LA LISTA DE CERTIFICADOS');
         return view('components.academico.certificado.lista', get_defined_vars());
     }
-    public function listar()
+    public function listar(Request $request)
     {
-        $data = Certificado::where('estado',1)->get();
+        $respuesta = Certificado::where('estado',1);
+
+        if ($request->curso !=='-') {
+            $respuesta = $respuesta->where('curso','like','%'.$request->curso.'%');
+        }
+
+        if ($request->empresa =='vacio') {
+            $respuesta = $respuesta->whereNull('empresa');
+        }else if($request->empresa !=='-'){
+            $respuesta = $respuesta->where('empresa','like','%'.$request->empresa.'%');
+        }
+        if ($request->documento !=='-') {
+            $respuesta = $respuesta->where('numero_documento','like','%'.$request->documento.'%');
+        }
+        if ($request->fecha_inicio !=='-') {
+            $respuesta = $respuesta->where('fecha_curso','>=',$request->fecha_inicio);
+        }
+        if ($request->fecha_final !=='-') {
+            $respuesta = $respuesta->where('fecha_curso','<=',$request->fecha_final);
+        }
+        $respuesta = $respuesta->get();
+
+        $data = $respuesta;
         return DataTables::of($data)
         ->addColumn('vigencia', function ($data) {
             $resuesta = Certificado::vigencia($data->id);
@@ -48,12 +77,17 @@ class CertificadoController extends Controller
             return
             '<div class="btn-list">
 
+                <a href="'.route('hb.academicos.certificados.exportar-pdf',['id'=>$data->id]).'" class="btn text-info btn-sm protip" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Exportar certificado">
+                    <i class="fa fa-file-pdf-o fs-14"></i>
+                </a>
+
                 <button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
                     <i class="fe fe-edit fs-14"></i>
                 </button>
                 <button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
                     <i class="fe fe-trash-2 fs-14"></i>
                 </button>
+
 
             </div>';
         })->rawColumns(['accion','vigencia'])->make(true);
@@ -220,7 +254,7 @@ class CertificadoController extends Controller
                             $data->apellido_paterno         = $hojaActual->getCellByColumnAndRow(6, $indiceFila)->getFormattedValue();
                             $data->apellido_materno         = $hojaActual->getCellByColumnAndRow(7, $indiceFila)->getFormattedValue();
                             $data->nombres                  = $hojaActual->getCellByColumnAndRow(8, $indiceFila)->getFormattedValue();
-                            $data->empresa                  = $hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue();
+                            $data->empresa                  = ($hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue()?$hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue():null);
                             $data->cargo                    = $hojaActual->getCellByColumnAndRow(10, $indiceFila)->getFormattedValue();
                             $data->email                    = $hojaActual->getCellByColumnAndRow(11, $indiceFila)->getFormattedValue();
                             $data->supervisor_responsable   = $hojaActual->getCellByColumnAndRow(12, $indiceFila)->getFormattedValue();
@@ -295,4 +329,96 @@ class CertificadoController extends Controller
     public function certificadoModeloExcel(){
         return Excel::download(new ModeloCertificadoExcelModeloExport, 'modeloCertificado.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
+    public function exportarPDF($id, $masivo=1){
+        $instructor = (object)array(
+            "name"=>"HELARD JOHN",
+            "last_name"=>"BEJARANO OTAZU",
+            "description"=>"Gerente General",
+            "img_firm"=>"1638456633.png",
+            "cip"=>0,
+        );
+
+        $certificado = Certificado::where('id',$id)->where('estado',1)->first();
+
+        setlocale(LC_TIME, "spanish"); // cambiamos el idioma de la fecha
+        $fecha_oficial = $certificado->fecha_curso;
+        $fecha = str_replace("/", "-", $fecha_oficial);
+        $newDate = date("d-m-Y", strtotime($fecha));
+        $mesDesc = strftime("%d de %B del %Y", strtotime($newDate)); //se obtiene el mes
+        // $year = strftime("%Y", strtotime($newDate));
+        $cip = '---';
+
+        $descripcion = ($certificado->curso?$certificado->curso:'-');
+        $json = array(
+            'name'=>strtoupper($certificado->nombres),
+            'last_name'=>strtoupper($certificado->apellido_paterno).' '.strtoupper($certificado->apellido_materno),
+            'document'=>$certificado->numero_documento,
+            'description'=>$descripcion,
+            'date_1'=>'Realizado el '.$mesDesc.',',
+            'date_2'=>'con una duración de '.$certificado->duracion.' horas efectivas.',
+            'name_firm'=>'Helard Bejarano Otazu',
+            'cargo_firm'=>'Gerente General',
+            'business_firm'=>'HB GROUP PERU S.R.L.',
+            'cell'=>'951 281 025',
+            'telephone'=>'053 474 805',
+            'email'=>'info@hbgroup.pe',
+            'web'=>'www.hbgroup.pe',
+            'name_business'=>'HB GROUP PERU S.R.L',
+            // 'number'=>''.$year.' - 00'.$certificado->certificado_id,
+            'number'=>$certificado->cod_certificado,
+            'cip'=>$cip,
+            'img_firm'=>'1638635074.png',
+            'business_curso'=>$certificado->empresa,
+            'comentario'=>$certificado->comentario,
+            'fecha_vencimiento'=>date("d/m/Y", strtotime($certificado->fecha_vencimiento)) ,
+        );
+        // return $json;
+        // $pdf = FacadePdf::loadView('web.docs.certificado', compact('json'));
+        $pdf = Pdf::loadView('web.docs.certificado', $json);
+        // $pdf->setPaper('A4', 'landscape');
+        // return $pdf->stream();
+
+        if ($masivo==1) {
+            return $pdf->download(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
+        }else{
+            // return array("pdf"=>$pdf,"nombre"=>strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
+            // return $pdf->stream(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf');
+            echo ($pdf->download(strtoupper($certificado->apellido_paterno).'-'.strtoupper($certificado->apellido_materno).'-'. str_replace(' ', '-', strtoupper($certificado->nombres)).'-'.$certificado->cod_certificado.'.pdf'));
+        }
+
+
+    }
+    public function alumnosCertidicadoMasivo(Request $request){
+
+        $respuesta = Certificado::where('estado',1);
+
+        if ($request->curso !=='-') {
+            $respuesta = $respuesta->where('curso','like','%'.$request->curso.'%');
+        }
+        if ($request->empresa =='vacio') {
+            $respuesta = $respuesta->whereNull('empresa');
+        }else if($request->empresa !=='-'){
+            $respuesta = $respuesta->where('empresa','like','%'.$request->empresa.'%');
+        }
+        if ($request->documento !=='-') {
+            $respuesta = $respuesta->where('numero_documento','like','%'.$request->documento.'%');
+        }
+        if ($request->fecha_inicio !=='-') {
+            $respuesta = $respuesta->where('fecha_curso','>=',$request->fecha_inicio);
+        }
+        if ($request->fecha_final !=='-') {
+            $respuesta = $respuesta->where('fecha_curso','<=',$request->fecha_final);
+        }
+        $respuesta = $respuesta->get();
+
+        $controlador = new HomeController();
+
+        $array = array();
+        foreach ($respuesta as $key => $value) {
+            echo "<SCRIPT>window.open('".route('exportar-certificado-pdf',['id'=>$value->id])."');</SCRIPT>";
+        }
+        // return ;
+        echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
+    }
+
 }

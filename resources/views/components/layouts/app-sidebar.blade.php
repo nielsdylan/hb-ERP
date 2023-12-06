@@ -4,8 +4,7 @@
         <div class="side-header">
             <a class="header-brand1" href="index.html">
                 <img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img desktop-logo" alt="logo" style=" width: 60px;background-color: #ffff;border-radius: 30px; ">
-                <img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img toggle-logo"
-                    alt="logo">
+                <img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img toggle-logo" style="background-color: #ffff;border-radius: 30px;" alt="logo">
                 <img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img light-logo" alt="logo">
                 <img src="{{ asset('images/logo/hb_group.png') }}" class="header-brand-img light-logo1"
                     alt="logo" style=" width: 60px;background-color: #ffff;border-radius: 30px; ">

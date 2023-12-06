@@ -53,7 +53,7 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
     Route::get('logout',[LoginController::class,'logout'])->name('logout');
-    Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard')->middleware('auth');
+    Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 
     Route::name('academicos.')->prefix('academicos')->group(function () {
 
@@ -61,8 +61,8 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
             Route::get('lista', [AlumnosController::class, 'lista'])->name('lista');
             Route::post('listar', [AlumnosController::class, 'listar'])->name('listar');
-            // Route::post('formulario', [AlumnosController::class, 'formulario'])->name('formulario');
             Route::post('guardar', [AlumnosController::class, 'guardar'])->name('guardar');
+            Route::post('formulario', [AlumnosController::class, 'formulario'])->name('formulario');
             Route::get('editar/{id}', [AlumnosController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [AlumnosController::class, 'eliminar'])->name('eliminar');
 
@@ -75,7 +75,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
             Route::get('lista', [DocentesController::class, 'lista'])->name('lista');
             Route::post('listar', [DocentesController::class, 'listar'])->name('listar');
-            // Route::post('formulario', [DocentesController::class, 'formulario'])->name('formulario');
+            Route::post('formulario', [DocentesController::class, 'formulario'])->name('formulario');
             Route::post('guardar', [DocentesController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [DocentesController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [DocentesController::class, 'eliminar'])->name('eliminar');
@@ -114,6 +114,9 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('listar-alumnos', [AulasController::class, 'listardarAlumnos'])->name('listar-alumnos');
             Route::put('eliminar-alumno/{id}', [AulasController::class, 'eliminarAlumno'])->name('eliminar-alumno');
             Route::get('confirmar-alumno/{id}', [AulasController::class, 'confirmarAlumno'])->name('confirmar-alumno');
+
+            Route::post('asistencia', [AulasController::class, 'asistencia'])->name('asistencia');
+            Route::post('listar-asistencia', [AulasController::class, 'listarAsistencia'])->name('listar-asistencia');
             // Route::post('buscar', [CursosController::class, 'buscar'])->name('buscar');
             // Route::get('modelo-importar-alumnos-excel', [CursosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             // Route::post('importar-alumnos-excel', [CursosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
@@ -130,6 +133,9 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('buscar-codigo', [CertificadoController::class, 'buscarCodigo'])->name('buscar-codigo');
             Route::post('importar-certificados-excel', [CertificadoController::class, 'importarCertificadosExcel'])->name('importar-certificados-excel');
             Route::get('certificado-modelo-excel', [CertificadoController::class, 'certificadoModeloExcel'])->name('certificado-modelo-excel');
+            Route::get('exportar-pdf/{id}', [CertificadoController::class, 'exportarPDF'])->name('exportar-pdf');
+            Route::get('exportar-pdf/{id}/{masivo}', [CertificadoController::class, 'exportarPDF'])->name('exportar-pdf-masivo');
+            Route::get('alumnos-certidicado-masivo', [CertificadoController::class, 'alumnosCertidicadoMasivo'])->name('alumnos-certidicado-masivo');
             // Route::get('modelo-importar-alumnos-excel', [AlumnosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             // Route::post('importar-alumnos-excel', [AlumnosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
         });
@@ -170,6 +176,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
             Route::get('lista', [UsuariosController::class, 'lista'])->name('lista');
             Route::post('listar', [UsuariosController::class, 'listar'])->name('listar');
+            Route::post('formulario', [UsuariosController::class, 'formulario'])->name('formulario');
             Route::post('guardar', [UsuariosController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [UsuariosController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [UsuariosController::class, 'eliminar'])->name('eliminar');
@@ -178,7 +185,9 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('buscar-sub-menu/{id}', [UsuariosController::class, 'buscarSubMenu'])->name('buscar-sub-menu');
             Route::get('buscar-accesos/{id}/{usuario_id}', [UsuariosController::class, 'buscarAccesos'])->name('buscar-accesos');
             Route::post('guardar-accesos', [UsuariosController::class, 'guardarAccesos'])->name('guardar-accesos');
+            Route::post('buscar-usuario', [UsuariosController::class, 'buscarUsuario'])->name('buscar-usuario');
 
+            Route::post('cambiar-contrasena',[UsuariosController::class,'cambiarContrasena'])->name('cambiar-contrasena');
         });
 
         Route::name('accesos.')->prefix('accesos')->group(function () {
