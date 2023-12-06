@@ -114,6 +114,9 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('listar-alumnos', [AulasController::class, 'listardarAlumnos'])->name('listar-alumnos');
             Route::put('eliminar-alumno/{id}', [AulasController::class, 'eliminarAlumno'])->name('eliminar-alumno');
             Route::get('confirmar-alumno/{id}', [AulasController::class, 'confirmarAlumno'])->name('confirmar-alumno');
+
+            Route::post('asistencia', [AulasController::class, 'asistencia'])->name('asistencia');
+            Route::post('listar-asistencia', [AulasController::class, 'listarAsistencia'])->name('listar-asistencia');
             // Route::post('buscar', [CursosController::class, 'buscar'])->name('buscar');
             // Route::get('modelo-importar-alumnos-excel', [CursosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             // Route::post('importar-alumnos-excel', [CursosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');

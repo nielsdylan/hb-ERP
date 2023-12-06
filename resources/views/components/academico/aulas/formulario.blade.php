@@ -9,7 +9,7 @@ HB GROUP - Gestion de Aula
 
     <!-- PAGE-HEADER -->
     <div class="page-header">
-        <h1 class="page-title">{{ $tipo }}</h1>
+        <h1 class="page-title">Gestion de Aulas</h1>
         <div>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Academico</a></li>
@@ -24,18 +24,20 @@ HB GROUP - Gestion de Aula
     <div class="row justify-content-md-center">
         <div class="col-md-12">
             <div class="card">
-
+                <div class="card-header">
+                    <h3 class="card-title">{{ $tipo }}</h3>{{ ($aula ? ' : '.$aula->codigo : null) }}
+                </div>
                 <form id="guardar">
                     @csrf
                     <input type="hidden" name="id" value="{{ $id }}">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="nombre" class="form-label">Nombre : <span class="text-red">*</span></label>
-                                    <input type="text" name="nombre" class="form-control form-control-sm" id="nombre" placeholder="Nombre...." value="{{ ($aula ? $aula->nombre : null) }}" required>
+                                    <label for="codigo" class="form-label">Código : <span class="text-red">*</span></label>
+                                    <input type="text" name="codigo" class="form-control form-control-sm" id="codigo" placeholder="Código...." value="{{ $codigo }}" disabled required>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-4">
                                 <div class="form-group select2-sm">
@@ -60,8 +62,6 @@ HB GROUP - Gestion de Aula
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="fecha" class="form-label">Fecha : <span class="text-red">*</span></label>
@@ -69,26 +69,29 @@ HB GROUP - Gestion de Aula
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
-                                        <input class="form-control form-control-sm fc-datepicker" placeholder="MM/DD/YYYY" type="text" name="fecha" id="fecha" value="{{ ($aula ?date("d-m-Y", strtotime($aula->fecha)) : date('d-m-Y'))  }}" required>
+                                        <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" name="fecha" id="fecha" value="{{ ($aula ?date("d-m-Y", strtotime($aula->fecha)) : date('d-m-Y'))  }}" required>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="hora_inicio" class="form-label">Hora Inicio : <span class="text-red">*</span></label>
-                                    <input type="time" name="hora_inicio" class="form-control form-control-sm" id="hora_inicio" placeholder="Nombre...." value="{{ ($aula ? $aula->hora_inicio : null) }}" required>
+                                    <input type="time" name="hora_inicio" class="form-control form-control-sm text-center" id="hora_inicio" placeholder="Nombre...." value="{{ ($aula ? $aula->hora_inicio : null) }}" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group">
+                                <div class="form-group ">
                                     <label for="hora_final" class="form-label">Hora Final : <span class="text-red">*</span></label>
-                                    <input type="time" name="hora_final" class="form-control form-control-sm" id="hora_final" placeholder="Nombre...." value="{{ ($aula ? $aula->hora_final : null) }}"  required>
+                                    <input type="time" name="hora_final" class="form-control form-control-sm text-center" id="hora_final" placeholder="Nombre...." value="{{ ($aula ? $aula->hora_final : null) }}"  required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="capacidad" class="form-label">Cantidad : <span class="text-red">*</span></label>
-                                    <input type="number" name="capacidad" class="form-control form-control-sm" id="capacidad" placeholder="Cantidad...." value="{{ ($aula ? $aula->capacidad : null) }}" required>
+                                    <input type="text" name="capacidad" class="form-control form-control-sm text-center" id="capacidad" placeholder="Cantidad...." value="{{ ($aula ? $aula->capacidad : null) }}" pattern = "[1-9]" title="Solo puede ingresar Números mallores a cero(0)" required>
                                 </div>
                             </div>
 

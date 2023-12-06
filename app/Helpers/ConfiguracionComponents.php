@@ -3,11 +3,9 @@
 namespace App\Helpers;
 
 use App\Models\Aulas;
-use App\Models\Comercial\Cliente;
-use App\Models\Logistica\Proveedor;
 use Carbon\Carbon;
 
-class Configuracion
+class ConfiguracionComponents
 {
 	/*
 	 * Función para generar el correlativo de los documentos y/o códigos para identificar un registro
@@ -23,24 +21,24 @@ class Configuracion
 	 */
     public static function generarCodigo($serie = '', $separador = '', $cantidad = 0, $modulo, $periodo = 'NO', $valorPeriodo = 0, $tipo = 1, $id_empresa = 0, $id_grupo = 0)
     {
-		$numero = Configuracion::contadorModular($modulo);
-        $correlativo = Configuracion::leftZero($cantidad, $numero);
+		$numero = ConfiguracionComponents::contadorModular($modulo);
+        $correlativo = ConfiguracionComponents::leftZero($cantidad, $numero);
 		$inicial = '';
 		switch ($tipo) {
 			case 1:
 				$inicial = $serie;
 			break;
 			// case 2:
-			// 	$inicial = Configuracion::codigoEmpresa($id_empresa);
+			// 	$inicial = ConfiguracionComponents::codigoEmpresa($id_empresa);
 			// break;
 			// case 3:
-			// 	$inicial = Configuracion::codigoGrupo($id_grupo);
+			// 	$inicial = ConfiguracionComponents::codigoGrupo($id_grupo);
 			// break;
 			// case 4:
-			// 	$inicial = $serie.Configuracion::codigoGrupo($id_grupo);
+			// 	$inicial = $serie.ConfiguracionComponents::codigoGrupo($id_grupo);
 			// break;
 		}
-		$anio = ($periodo == 'NO') ? '' : Configuracion::generarCodigoAnual($valorPeriodo);
+		$anio = ($periodo == 'NO') ? '' : ConfiguracionComponents::generarCodigoAnual($valorPeriodo);
         return $inicial.$anio.$separador.$correlativo;
     }
 
@@ -63,7 +61,7 @@ class Configuracion
 	{
 		$correlativo = 0;
 		switch ($modulo) {
-            case 'aula':
+            case 'aulas':
 				$correlativo = Aulas::count() + 1; //El contador inicia en 1
 			break;
 		}

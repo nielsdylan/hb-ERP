@@ -9,12 +9,12 @@ HB GROUP - Agregar Participantes
 
     <!-- PAGE-HEADER -->
     <div class="page-header">
-        <h1 class="page-title">Agregar Alumnos</h1>
+        <h1 class="page-title">Agregar Participantes</h1>
         <div>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Academico</a></li>
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Gestion de Aulas</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Agregar Alumnos</li>
+                <li class="breadcrumb-item active" aria-current="page">Asistencia de alumnos</li>
             </ol>
         </div>
     </div>
@@ -31,27 +31,7 @@ HB GROUP - Agregar Participantes
                     <form action="" id="guardar-alumno">
                         @csrf
                         <input type="hidden" name="aula_id" value="{{ $id }}">
-                        <div class="row ">
-                            <div class="col-md-4">
-                                <div class="form-group select2-sm">
-                                    <label class="form-label">Usuarios</label>
-                                    <select class="form-control select2" name="usuarios" data-placeholder="Seleccione a los alumnos.." required>
-                                        <option value="">Seleccione a los alumnos..</option>
-                                        @foreach ($alumnos as $value)
-                                                <option value="{{ $value->usuario->id }}">
-                                                    {{ $value->usuario->nro_documento.' - '. $value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres }}
-                                                </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="form-label">Maximo de alumnos</label>
-                                    <input type="text" value="{{ $aula->capacidad }}" class="form-control form-control-sm" disabled>
-                                </div>
-                            </div>
-                        </div>
+
                     </form>
                     <div class="row justify-content-md-center">
                         <div class="col-md-10">
@@ -62,7 +42,7 @@ HB GROUP - Agregar Participantes
                                         <th class="wd-15p border-bottom-0">N° DE DOCUMENTO</th>
                                         <th class="wd-15p border-bottom-0">Apellidos y Nombres</th>
                                         <th class="wd-20p border-bottom-0">Fecha Registro</th>
-                                        <th class="wd-20p border-bottom-0">Reservación</th>
+                                        <th class="wd-20p border-bottom-0">Asistencia</th>
                                         <th class="wd-15p border-bottom-0">-</th>
                                     </tr>
                                 </thead>
@@ -91,9 +71,9 @@ HB GROUP - Agregar Participantes
     <script src="{{asset('template/js/select2.js')}}"></script>
 
     <!-- DATEPICKER JS -->
-    <script src="{{asset('template/plugins/date-picker/date-picker.js')}}"></script>
+    {{-- <script src="{{asset('template/plugins/date-picker/date-picker.js')}}"></script>
     <script src="{{asset('template/plugins/date-picker/jquery-ui.js')}}"></script>
-    <script src="{{asset('template/plugins/input-mask/jquery.maskedinput.js')}}"></script>
+    <script src="{{asset('template/plugins/input-mask/jquery.maskedinput.js')}}"></script> --}}
 
     <!-- DATA TABLE JS-->
     <script src="{{asset('template/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
@@ -111,10 +91,10 @@ HB GROUP - Agregar Participantes
         // Select2
 
         $(document).ready(function () {
-            $('.select2').select2();
+            // $('.select2').select2();
             const view = new AulaView(new AulaModel(csrf_token));
-            view.alumnos();
-            view.listarAlumno();
+            // view.alumnos();
+            view.listarAsistenciaAlumnos();
         });
 
 
