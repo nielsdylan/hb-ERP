@@ -54,9 +54,9 @@ class WebView {
                     '<div class="alert alert-warning" role="alert">'+
                         '<p>'+
                             'Si no encuentra su certificado comuniquese con el area de soporte academico, marcando al numero telefonico'+
-                            '<a href="tel:+51 932 777 533" class="email-contact" >(+51) 932 777 533</a>'+
+                            '<a href="tel:+51 951 281 025" class="email-contact" >+51 951 281 025 </a>'+
                             'o enviando un correo electronico a'+
-                            '<a href="mailto:comercial@hbgroup.pe?Subject=Consulta%20de%20su%20servicio&body=Con%20urgencia" class="email-contact">&nbsp;comercial@hbgroup.pe</a>.'+
+                            '<a href="mailto:servicios@hbgroup.pe ?Subject=Consulta%20de%20su%20servicio&body=Con%20urgencia" class="email-contact">&nbsp;servicios@hbgroup.pe </a>.'+
                             ' Gracias por su comprensión.'+
                         '</p>'+
                     '</div>';
