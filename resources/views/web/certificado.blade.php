@@ -47,7 +47,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="dni">Ingrese su número de documento:</label>
-                                            <input class="form-control" type="text" name="dni" required>
+                                            <input class="form-control" type="text" name="dni" minlength="8" required>
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-center">
@@ -69,7 +69,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="dni">Ingrese su número de documento:</label>
-                                            <input class="form-control" type="text" name="dni" required>
+                                            <input class="form-control" type="text" name="dni" minlength="8" required>
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-center">
