@@ -77,4 +77,15 @@ class CertificadoModel {
             data: data,
         });
     };
+
+    ver = (id) => {
+        return $.ajax({
+            url: route("hb.academicos.certificados.ver",{id: id}),
+            type: "GET",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token},
+        });
+    };
 }

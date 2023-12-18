@@ -77,6 +77,10 @@ class CertificadoController extends Controller
             return
             '<div class="btn-list">
 
+                <button type="button" class="ver protip btn text-info btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Ver" >
+                    <i class="fe fe-eye fs-14"></i>
+                </button>
+
                 <a href="'.route('hb.academicos.certificados.exportar-pdf',['id'=>$data->id]).'" class="btn text-info btn-sm protip" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Exportar certificado">
                     <i class="fa fa-file-pdf-o fs-14"></i>
                 </a>
@@ -234,10 +238,11 @@ class CertificadoController extends Controller
                         $requeridos = false;
                     }
 
+
                     if (!$documento) {
                         $requeridos = false;
                     }
-                    // return  $hojaActual->getCellByColumnAndRow(20, $indiceFila)->getFormattedValue();
+
                     if ($requeridos) {
 
 
@@ -265,7 +270,16 @@ class CertificadoController extends Controller
                             $data->cod_certificado          = $hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue();
                         // $data->descripcion_larga        = $request->descripcion_larga;
                         // $data->descripcion_corta        = $request->descripcion_corta;
-                            $data->fecha_vencimiento        = Carbon::parse($hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue())->format('Y-m-d');
+                            // $data->fecha_vencimiento        = Carbon::parse($hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue())->format('Y-m-d');
+
+                            if (!$hojaActual->getCellByColumnAndRow(25, $indiceFila)->getFormattedValue()) {
+                                $fecha_curso = Carbon::parse($hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue())->format('Y-m-d');
+
+                                $data->fecha_vencimiento        = date("Y-m-d",strtotime($fecha_curso."+ ".$hojaActual->getCellByColumnAndRow(25, $indiceFila)->getFormattedValue()." year"));
+                            }else{
+                                $data->fecha_vencimiento        = Carbon::parse($hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue())->format('Y-m-d');
+                            }
+
                             $data->duracion                 = $hojaActual->getCellByColumnAndRow(22, $indiceFila)->getFormattedValue();
                             $data->nota                     = (float) $hojaActual->getCellByColumnAndRow(20, $indiceFila)->getFormattedValue();
                             $data->aprobado                 = 1;
@@ -419,6 +433,10 @@ class CertificadoController extends Controller
         }
         // return ;
         echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
+    }
+    public function ver($id){
+        $data = Certificado::find($id);
+        return response()->json(["data"=>$data],200);
     }
 
 }

@@ -275,6 +275,130 @@ HB GROUP - Gestion de Alumnos
         </div>
     </div>
 
+     <!-- MODAL ver  -->
+     <div class="modal fade effect-super-scaled " id="modal-ver">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Ver</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Codigo Certificado :</label> <label id="cod_certificado">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Fecha de curso :</label> <label id="fecha_curso">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="my-input">Duracion :</label> <label id="duracion">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="my-input">Nota :</label> <label id="nota">sss</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Tipo de Curso :</label> <label id="tipo_curso">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Curso :</label> <label id="curso">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Fecha de Vencimiento :</label> <label id="fecha_vencimiento">sss</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Tipos de Documentos :</label> <label id="tipo_documento_id">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Número de Documento :</label> <label id="numero_documento">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Empresa :</label> <label id="empresa">sss</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Apellido Paterno :</label> <label id="apellido_paterno">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Apellido Materno :</label> <label id="apellido_materno">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Nombres :</label> <label id="nombres">sss</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Cargo  :</label> <label id="cargo">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Email  :</label> <label id="email">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="my-input">Supervisor Responsable :</label> <label id="supervisor_responsable">sss</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="my-input">Observaciones :</label> <label id="observaciones">sss</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="my-input">Comentario :</label> <label id="comentario">sss</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{-- <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save fe-spin"></i> Guardar</button> --}}
+                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal" id="aplicar"><i class="fe fe-x"></i> Aplicar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 </div>
