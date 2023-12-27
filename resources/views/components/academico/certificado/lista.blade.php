@@ -70,9 +70,9 @@ HB GROUP - Gestion de Alumnos
                                             <th class="border-bottom-0" width="">N° Documento</th>
                                             <th class="border-bottom-0" width="">Apellidos y Nombres</th>
                                             <th class="border-bottom-0">Empresa</th>
-                                            <th class="border-bottom-0">Email</th>
-                                            <th class="border-bottom-0">Nota</th>
                                             <th class="border-bottom-0">Estado</th>
+                                            <th class="border-bottom-0">Nota</th>
+                                            <th class="border-bottom-0">Email</th>
                                             <th class="border-bottom-0">-</th>
                                         </tr>
                                     </thead>
@@ -289,25 +289,26 @@ HB GROUP - Gestion de Alumnos
                     </button>
                 </div>
                 <div class="modal-body">
+
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Codigo Certificado :</label> <label id="cod_certificado">sss</label>
+                                <p for="my-input"class="fw-bold">Codigo Certificado :</p> <label id="cod_certificado">sss</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Fecha de curso :</label> <label id="fecha_curso">sss</label>
+                                <p for="my-input"class="fw-bold">Fecha de curso :</p> <label id="fecha_curso">sss</label>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="my-input">Duracion :</label> <label id="duracion">sss</label>
+                                <p for="my-input"class="fw-bold">Duracion :</p> <label id="duracion">sss</label>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="my-input">Nota :</label> <label id="nota">sss</label>
+                                <p for="my-input"class="fw-bold">Nota :</p> <label id="nota">sss</label>
                             </div>
                         </div>
                     </div>
@@ -315,35 +316,17 @@ HB GROUP - Gestion de Alumnos
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Tipo de Curso :</label> <label id="tipo_curso">sss</label>
+                                <p for="my-input"class="fw-bold">Tipo de Curso :</p> <label id="tipo_curso">sss</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Curso :</label> <label id="curso">sss</label>
+                                <p for="my-input"class="fw-bold">Curso :</p> <label id="curso">sss</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Fecha de Vencimiento :</label> <label id="fecha_vencimiento">sss</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="my-input">Tipos de Documentos :</label> <label id="tipo_documento_id">sss</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="my-input">Número de Documento :</label> <label id="numero_documento">sss</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="my-input">Empresa :</label> <label id="empresa">sss</label>
+                                <p for="my-input"class="fw-bold">Fecha de Vencimiento :</p> <label id="fecha_vencimiento">sss</label>
                             </div>
                         </div>
                     </div>
@@ -351,48 +334,66 @@ HB GROUP - Gestion de Alumnos
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Apellido Paterno :</label> <label id="apellido_paterno">sss</label>
+                                <p for="my-input"class="fw-bold">Tipos de Documentos :</p> <label id="tipo_documento_id">sss</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Apellido Materno :</label> <label id="apellido_materno">sss</label>
+                                <p for="my-input"class="fw-bold">Número de Documento :</p> <label id="numero_documento">sss</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Nombres :</label> <label id="nombres">sss</label>
+                                <p for="my-input"class="fw-bold">Empresa :</p> <label id="empresa">sss</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <p for="my-input"class="fw-bold">Apellido Paterno :</p> <label id="apellido_paterno">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <p for="my-input"class="fw-bold">Apellido Materno :</p> <label id="apellido_materno">sss</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <p for="my-input"class="fw-bold">Nombres :</p> <label id="nombres">sss</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Cargo  :</label> <label id="cargo">sss</label>
+                                <p for="my-input"class="fw-bold">Cargo  :</p> <label id="cargo">sss</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Email  :</label> <label id="email">sss</label>
+                                <p for="my-input"class="fw-bold">Email  :</p> <label id="email">sss</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="my-input">Supervisor Responsable :</label> <label id="supervisor_responsable">sss</label>
+                                <p for="my-input"class="fw-bold">Supervisor Responsable :</p> <label id="supervisor_responsable">sss</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="my-input">Observaciones :</label> <label id="observaciones">sss</label>
+                                <p for="my-input"class="fw-bold">Observaciones :</p> <label id="observaciones">sss</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="my-input">Comentario :</label> <label id="comentario">sss</label>
+                                <p for="my-input"class="fw-bold">Comentario :</p> <label id="comentario">sss</label>
                             </div>
                         </div>
                     </div>

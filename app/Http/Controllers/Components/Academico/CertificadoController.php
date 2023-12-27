@@ -245,6 +245,9 @@ class CertificadoController extends Controller
 
                     if ($requeridos) {
 
+                        // $fecha_curso = Carbon::parse($hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue())->format('Y-m-d');
+
+                        // return date("Y-m-d",strtotime($fecha_curso."+ ".$hojaActual->getCellByColumnAndRow(25, $indiceFila)->getFormattedValue()." year"));
 
                         $data = Certificado::firstOrNew(
                             ['cod_certificado' => $hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue()],
@@ -272,12 +275,12 @@ class CertificadoController extends Controller
                         // $data->descripcion_corta        = $request->descripcion_corta;
                             // $data->fecha_vencimiento        = Carbon::parse($hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue())->format('Y-m-d');
 
-                            if (!$hojaActual->getCellByColumnAndRow(25, $indiceFila)->getFormattedValue()) {
+                            if ((int) $hojaActual->getCellByColumnAndRow(25, $indiceFila)->getFormattedValue() > 0) {
                                 $fecha_curso = Carbon::parse($hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue())->format('Y-m-d');
 
-                                $data->fecha_vencimiento        = date("Y-m-d",strtotime($fecha_curso."+ ".$hojaActual->getCellByColumnAndRow(25, $indiceFila)->getFormattedValue()." year"));
+                                $data->fecha_vencimiento = date("Y-m-d",strtotime($fecha_curso."+ ".$hojaActual->getCellByColumnAndRow(25, $indiceFila)->getFormattedValue()." year"));
                             }else{
-                                $data->fecha_vencimiento        = Carbon::parse($hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue())->format('Y-m-d');
+                                $data->fecha_vencimiento = Carbon::parse($hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue())->format('Y-m-d');
                             }
 
                             $data->duracion                 = $hojaActual->getCellByColumnAndRow(22, $indiceFila)->getFormattedValue();

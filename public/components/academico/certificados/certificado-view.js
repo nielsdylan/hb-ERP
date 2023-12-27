@@ -76,9 +76,10 @@ class CertificadoView {
                 {data: 'numero_documento', className: 'text-center'},
                 {data: 'apellidos_nombres',},
                 {data: 'empresa'},
-                {data: 'email'},
-                {data: 'nota', className: 'text-center'},
                 {data: 'vigencia', className: 'text-center'},
+
+                {data: 'nota', className: 'text-center'},
+                {data: 'email'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
             ]
         });
@@ -369,6 +370,7 @@ class CertificadoView {
             e.preventDefault();
             $('#modal-ver').modal('show');
             let id = $(e.currentTarget).attr('data-id');
+
             this.model.ver(id).then((respuesta) => {
                 $('#modal-ver').find('#cod_certificado').text(respuesta.data.cod_certificado);
                 $('#modal-ver').find('#fecha_curso').text(respuesta.data.fecha_curso);
@@ -377,7 +379,19 @@ class CertificadoView {
                 $('#modal-ver').find('#tipo_curso').text(respuesta.data.tipo_curso);
                 $('#modal-ver').find('#curso').text(respuesta.data.curso);
                 $('#modal-ver').find('#fecha_vencimiento').text(respuesta.data.fecha_vencimiento);
-                console.log(respuesta);
+
+                $('#modal-ver').find('#tipo_documento_id').text(respuesta.data.tipo_documento_id);
+                $('#modal-ver').find('#numero_documento').text(respuesta.data.numero_documento);
+                $('#modal-ver').find('#empresa').text(respuesta.data.empresa);
+                $('#modal-ver').find('#apellido_paterno').text(respuesta.data.apellido_paterno);
+                $('#modal-ver').find('#apellido_materno').text(respuesta.data.apellido_materno);
+                $('#modal-ver').find('#nombres').text(respuesta.data.nombres);
+                $('#modal-ver').find('#cargo').text(respuesta.data.cargo);
+                $('#modal-ver').find('#email').text(respuesta.data.email);
+                $('#modal-ver').find('#supervisor_responsable').text(respuesta.data.supervisor_responsable);
+                $('#modal-ver').find('#observaciones').text(respuesta.data.observaciones);
+                $('#modal-ver').find('#comentario').text(respuesta.data.comentario);
+
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
