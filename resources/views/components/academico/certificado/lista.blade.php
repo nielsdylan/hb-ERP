@@ -268,7 +268,7 @@ HB GROUP - Gestion de Alumnos
                     </div>
                     <div class="modal-footer">
                         {{-- <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save fe-spin"></i> Guardar</button> --}}
-                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal" id="aplicar"><i class="fe fe-x"></i> Aplicar</button>
+                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal" id="aplicar"><i class="fe fe-thumbs-up"></i> Aplicar</button>
                     </div>
                 </form>
             </div>
@@ -280,7 +280,13 @@ HB GROUP - Gestion de Alumnos
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">Ver</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h6 class="modal-title">
+                        <i class="fa fa-search"></i>
+                    </h6>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+                        <span aria-hidden="true">
+                        &times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -393,7 +399,7 @@ HB GROUP - Gestion de Alumnos
                 </div>
                 <div class="modal-footer">
                     {{-- <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save fe-spin"></i> Guardar</button> --}}
-                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal" id="aplicar"><i class="fe fe-x"></i> Aplicar</button>
+                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal"><i class="fe fe-x"></i> Cerrar</button>
                 </div>
             </div>
         </div>

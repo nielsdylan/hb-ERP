@@ -370,13 +370,13 @@ class CertificadoView {
             $('#modal-ver').modal('show');
             let id = $(e.currentTarget).attr('data-id');
             this.model.ver(id).then((respuesta) => {
-                $('#modal-ver').find('#cod_certificado').text(respuesta.cod_certificado);
-                $('#modal-ver').find('#fecha_curso').text(respuesta.fecha_curso);
-                $('#modal-ver').find('#duracion').text(respuesta.duracion);
-                $('#modal-ver').find('#nota').text(respuesta.nota);
-                $('#modal-ver').find('#tipo_curso').text(respuesta.tipo_curso);
-                $('#modal-ver').find('#curso').text(respuesta.curso);
-                $('#modal-ver').find('#fecha_vencimiento').text(respuesta.fecha_vencimiento);
+                $('#modal-ver').find('#cod_certificado').text(respuesta.data.cod_certificado);
+                $('#modal-ver').find('#fecha_curso').text(respuesta.data.fecha_curso);
+                $('#modal-ver').find('#duracion').text(respuesta.data.duracion);
+                $('#modal-ver').find('#nota').text(respuesta.data.nota);
+                $('#modal-ver').find('#tipo_curso').text(respuesta.data.tipo_curso);
+                $('#modal-ver').find('#curso').text(respuesta.data.curso);
+                $('#modal-ver').find('#fecha_vencimiento').text(respuesta.data.fecha_vencimiento);
                 console.log(respuesta);
             }).fail((respuesta) => {
                 // return respuesta;

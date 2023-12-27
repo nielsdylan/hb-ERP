@@ -61,7 +61,7 @@ HB GROUP - Gestion de Alumnos
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="duracion">Duracion<span class="text-danger">*</span> :</label>
-                                        <input id="curso" class="form-control form-control-sm" type="number" name="duracion" step="0.01" required value="{{ ($data ? $data->duracion :'') }}">
+                                        <input id="duracion" class="form-control form-control-sm" type="number" name="duracion" step="0.01" required value="{{ ($data ? $data->duracion :'') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
