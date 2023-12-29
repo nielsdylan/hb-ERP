@@ -42,7 +42,8 @@
                                         <ul class="sidemenu-list">
                                             <li class="side-menu-label1"><a href="javascript:void(0)">Apps</a></li>
                                             <li><a href="{{ route('hb.academicos.alumnos.lista') }}" class="slide-item"> Alumnos</a></li>
-                                            <li><a href="{{ route('hb.academicos.docentes.lista') }}" class="slide-item"> Docente</a></li>
+                                            <li><a href="{{ route('hb.academicos.docentes.lista') }}" class="slide-item"> Docentes</a></li>
+                                            <li><a href="{{ route('hb.academicos.asignaturas.lista') }}" class="slide-item"> Asignaturas</a></li>
                                             <li><a href="{{ route('hb.academicos.cursos.lista') }}" class="slide-item"> Cursos</a></li>
                                             <li><a href="{{ route('hb.academicos.aulas.lista') }}" class="slide-item"> Aulas</a></li>
                                             <li><a href="{{ route('hb.academicos.certificados.lista') }}" class="slide-item"> Certificados </a></li>

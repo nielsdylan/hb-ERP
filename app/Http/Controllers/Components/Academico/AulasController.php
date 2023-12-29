@@ -48,6 +48,7 @@ class AulasController extends Controller
         // try {
                 $data = Aulas::firstOrNew(['id' => $request->id]);
 
+                $data->codigo  = $request->codigo;
                 $data->descripcion  = $request->descripcion;
                 $data->capacidad    = $request->capacidad;
                 $data->fecha        =  date("Y-m-d", strtotime($request->fecha)) ;
@@ -55,9 +56,9 @@ class AulasController extends Controller
                 $data->hora_final   = $request->hora_final;
                 $data->curso_id     = $request->curso_id;
                 $data->docente_id   = $request->docente_id;
+                $data->abierto  = ($request->abierto?$request->abierto:0);
 
                 if ((int) $request->id == 0) {
-                    $data->codigo               = ConfiguracionComponents::generarCodigo('AL','-',3,'aulas');
                     $data->fecha_registro       = date('Y-m-d H:i:s');
                     $data->created_at           = date('Y-m-d H:i:s');
                     $data->created_id           = Auth()->user()->id;
@@ -217,5 +218,15 @@ class AulasController extends Controller
             return
             '<div class="btn-list">'.$button.'</div>';
         })->rawColumns(['asistencia','accion'])->make(true);
+    }
+
+    public function buscarCodigoAula(Request $request){
+
+        $data = Aulas::where('codigo', $request->codigo)->first();
+
+        if($data && ((int)$request->id!==$data->id)){
+            return response()->json(["tipo"=>true],200); // si encontro una concidencia
+        }
+        return response()->json(["tipo"=>false],200); // que esta disponible
     }
 }

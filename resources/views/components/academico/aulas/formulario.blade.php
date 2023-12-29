@@ -32,12 +32,12 @@ HB GROUP - Gestion de Aula
                     <input type="hidden" name="id" value="{{ $id }}">
                     <div class="card-body">
                         <div class="row">
-                            {{-- <div class="col-md-4">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="codigo" class="form-label">Código : <span class="text-red">*</span></label>
-                                    <input type="text" name="codigo" class="form-control form-control-sm" id="codigo" placeholder="Código...." value="{{ $codigo }}" disabled required>
+                                    <input type="text" name="codigo" class="form-control form-control-sm" id="codigo" placeholder="Código...." value="{{ ($aula?$aula->codigo:'') }}" required>
                                 </div>
-                            </div> --}}
+                            </div>
 
                             <div class="col-md-4">
                                 <div class="form-group select2-sm">
@@ -62,6 +62,9 @@ HB GROUP - Gestion de Aula
                                     </select>
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="fecha" class="form-label">Fecha : <span class="text-red">*</span></label>
@@ -73,9 +76,6 @@ HB GROUP - Gestion de Aula
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="hora_inicio" class="form-label">Hora Inicio : <span class="text-red">*</span></label>
@@ -91,13 +91,18 @@ HB GROUP - Gestion de Aula
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="capacidad" class="form-label">Cantidad : <span class="text-red">*</span></label>
-                                    <input type="text" name="capacidad" class="form-control form-control-sm text-center" id="capacidad" placeholder="Cantidad...." value="{{ ($aula ? $aula->capacidad : null) }}" pattern = "[1-9]" title="Solo puede ingresar Números mallores a cero(0)" required>
+                                    <input type="number" name="capacidad" class="form-control form-control-sm text-center" id="capacidad" placeholder="Cantidad...." value="{{ ($aula ? $aula->capacidad : null) }}" title="Solo puede ingresar Números mallores a cero(0)" min="1" required>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-
+                            <div class="col-md-2">
+                                <div class="form-group mt-6">
+                                    <label class="custom-switch form-switch mb-0">
+                                        <input type="checkbox" name="abierto" class="custom-switch-input" value="1" {{ ($aula ? ($aula->abierto==1?'checked':'') : null) }}>
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Abierto</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">

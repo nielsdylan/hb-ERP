@@ -65,5 +65,15 @@ class AulaModel {
             data: {_token:this.token},
         });
     };
+    buscarCodigoAula = (codigo, id) => {
+        return $.ajax({
+            url: route("hb.academicos.aulas.buscar-codigo-aula"),
+            type: "POST",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token, codigo:codigo, id:id},
+        });
+    };
 
 }

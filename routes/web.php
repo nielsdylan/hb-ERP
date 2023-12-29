@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Components\Academico\AlumnosController;
+use App\Http\Controllers\Components\Academico\AsignaturaController;
 use App\Http\Controllers\Components\Academico\AulasController;
 use App\Http\Controllers\Components\Academico\CertificadoController;
 use App\Http\Controllers\Components\Academico\CursosController;
@@ -85,6 +86,18 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             // Route::post('importar-alumnos-excel', [DocentesController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
         });
 
+        Route::name('asignaturas.')->prefix('asignaturas')->group(function () {
+
+            Route::get('lista', [AsignaturaController::class, 'lista'])->name('lista');
+            Route::post('listar', [AsignaturaController::class, 'listar'])->name('listar');
+            Route::post('formulario', [AsignaturaController::class, 'formulario'])->name('formulario');
+            Route::post('guardar', [AsignaturaController::class, 'guardar'])->name('guardar');
+            Route::get('editar/{id}', [AsignaturaController::class, 'editar'])->name('editar');
+            Route::put('eliminar/{id}', [AsignaturaController::class, 'eliminar'])->name('eliminar');
+
+            Route::post('buscar', [AsignaturaController::class, 'buscar'])->name('buscar');
+        });
+
         Route::name('cursos.')->prefix('cursos')->group(function () {
 
             Route::get('lista', [CursosController::class, 'lista'])->name('lista');
@@ -117,7 +130,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
             Route::post('asistencia', [AulasController::class, 'asistencia'])->name('asistencia');
             Route::post('listar-asistencia', [AulasController::class, 'listarAsistencia'])->name('listar-asistencia');
-            // Route::post('buscar', [CursosController::class, 'buscar'])->name('buscar');
+            Route::post('buscar-codigo-aula', [AulasController::class, 'buscarCodigoAula'])->name('buscar-codigo-aula');
             // Route::get('modelo-importar-alumnos-excel', [CursosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             // Route::post('importar-alumnos-excel', [CursosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
         });

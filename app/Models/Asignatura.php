@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Aulas extends Model
+class Asignatura extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'aulas';
-    protected $fillable = ['nombre','descripcion','capacidad','fecha','hora_inicio','hora_final','curso_id', 'docente_id','fecha_registro', 'estado', 'abierto','created_id', 'updated_id', 'deleted_id'];
+    protected $table = 'asignaturas';
+    protected $fillable = ['codigo','nombre', 'fecha_registro', 'estado','created_id', 'updated_id', 'deleted_id'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 }

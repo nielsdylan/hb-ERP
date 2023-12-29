@@ -24,3 +24,19 @@ CREATE TABLE `asistencias` (
   CONSTRAINT `asistencias_alumno_id_foreign` FOREIGN KEY (`alumno_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `asistencias_aula_id_foreign` FOREIGN KEY (`aula_id`) REFERENCES `aulas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+-- sql 29-12-2023
+CREATE TABLE `asignaturas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(255) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `fecha_registro` datetime DEFAULT NULL,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+ALTER TABLE `aulas` ADD `abierto` int(11) DEFAULT 0 AFTER `estado`;

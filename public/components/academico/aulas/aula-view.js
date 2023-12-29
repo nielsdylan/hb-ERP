@@ -172,6 +172,28 @@ class AulaView {
             $('body').append(form);
             form.submit();
         });
+
+        /*
+        *
+        * Buscar codigo del aula
+        *
+        */
+        $('#guardar [name="codigo"]').change((e) => {
+            e.preventDefault();
+            let codigo = $(e.currentTarget).val();
+            let id = $('#guardar [name="id"]').val();
+            let current = $(e.currentTarget);
+            this.model.buscarCodigoAula(codigo, id).then((respuesta) => {
+                if (respuesta.tipo == true) {
+                    current.val('');
+                    Swal.fire('Información','El codigo de Aula se encuentra en uso.','info');
+                }
+            }).fail((respuesta) => {
+                // return respuesta;
+            }).always(() => {
+            });
+
+        });
     }
 
     alumnos = () => {
@@ -220,8 +242,6 @@ class AulaView {
                                 $('#tabla-data').DataTable().ajax.reload();
                             }
                         })
-
-
                     }
                 }
 
