@@ -60,4 +60,8 @@ class Certificado extends Model
         }
 
     }
+    public function documentos(): BelongsTo
+    {
+        return $this->belongsTo(TipoDocumentos::class, 'tipo_documento_id');
+    }
 }

@@ -161,6 +161,8 @@ class CertificadoController extends Controller
             $data = Certificado::find($id);
             $data->estado = 0;
             $data->save();
+
+            LogActividades::guardar(Auth()->user()->id, 5, 'LISTA DE CERTIFICADOS', $data->getTable(), $data, NULL, 'SE A ELIMINADO UN CERTIFICADO DESDE LA LISTA DE CERTIFICADOS');
             return response()->json(["titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success"],200);
         } catch (\Throwable $th) {
             return response()->json(["titulo"=>"Error","mensaje"=>"Ocurrior un error comuniquese con el area de TI","tipo"=>"error"],200);
@@ -344,9 +346,11 @@ class CertificadoController extends Controller
 
     }
     public function certificadoModeloExcel(){
+        LogActividades::guardar(Auth()->user()->id, 7, 'LISTA DE CERTIFICADOS',NULL, NULL, NULL, 'SE DESCARGO UN MODELO DE EXCEL QUE ES PARA LA IMPORTACIÓN DE CERTIFICADOS DE LA LSITA DE CERTIFICADOS');
         return Excel::download(new ModeloCertificadoExcelModeloExport, 'modeloCertificado.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
     public function exportarPDF($id, $masivo=1){
+
         $instructor = (object)array(
             "name"=>"HELARD JOHN",
             "last_name"=>"BEJARANO OTAZU",
@@ -389,6 +393,7 @@ class CertificadoController extends Controller
             'comentario'=>$certificado->comentario,
             'fecha_vencimiento'=>date("d/m/Y", strtotime($certificado->fecha_vencimiento)) ,
         );
+        LogActividades::guardar(Auth()->user()->id, 7, 'LISTADO DE CERTIFICADOS', $certificado->getTable(), $certificado, NULL, 'SE PROCEDIO A DESCARGAR CERTIFICADO');
         // return $json;
         // $pdf = FacadePdf::loadView('web.docs.certificado', compact('json'));
         $pdf = Pdf::loadView('web.docs.certificado', $json);
@@ -431,6 +436,7 @@ class CertificadoController extends Controller
         $controlador = new HomeController();
 
         $array = array();
+        LogActividades::guardar(Auth()->user()->id, 7, 'LISTADO DE CERTIFICADOS', $respuesta->getTable(), $request->all(), NULL, 'SE PROCEDIO A DESCARGAR CERTIFICADOs MASIVOS');
         foreach ($respuesta as $key => $value) {
             echo "<SCRIPT>window.open('".route('exportar-certificado-pdf',['id'=>$value->id])."');</SCRIPT>";
         }
@@ -439,7 +445,8 @@ class CertificadoController extends Controller
     }
     public function ver($id){
         $data = Certificado::find($id);
-        return response()->json(["data"=>$data],200);
+        LogActividades::guardar(Auth()->user()->id, 6, 'LISTADO DE CERTIFICADOS', $data->getTable(), $data, NULL, 'SE PROCEDIO A VER LA INFORMACION DE UN REGISTRO');
+        return response()->json(["data"=>$data,"ejemplo"=>$data->documentos],200);
     }
 
 }

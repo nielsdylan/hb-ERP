@@ -380,7 +380,7 @@ class CertificadoView {
                 $('#modal-ver').find('#curso').text(respuesta.data.curso);
                 $('#modal-ver').find('#fecha_vencimiento').text(respuesta.data.fecha_vencimiento);
 
-                $('#modal-ver').find('#tipo_documento_id').text(respuesta.data.tipo_documento_id);
+                $('#modal-ver').find('#tipo_documento_id').text(respuesta.data.documentos.descripcion);
                 $('#modal-ver').find('#numero_documento').text(respuesta.data.numero_documento);
                 $('#modal-ver').find('#empresa').text(respuesta.data.empresa);
                 $('#modal-ver').find('#apellido_paterno').text(respuesta.data.apellido_paterno);
