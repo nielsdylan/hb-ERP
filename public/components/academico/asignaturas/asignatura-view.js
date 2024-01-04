@@ -46,7 +46,7 @@ class AsignaturaView {
                 const $paginate = $('#tabla-data_paginate');
                 $paginate.find('ul.pagination').addClass('pagination-sm');
             },
-            order: [[0, 'asc']],
+            // order: [[0, 'asc']],
             ajax: {
                 url: route('hb.academicos.asignaturas.listar'),
                 method: 'POST',
@@ -56,7 +56,7 @@ class AsignaturaView {
                 }
             },
             columns: [
-                {data: 'id' },
+                // {data: 'id' },
                 {data: 'codigo', className: 'text-center'},
                 {data: 'nombre', className: 'text-center'},
                 {data: 'fecha_registro', className: 'text-center'},
@@ -107,11 +107,12 @@ class AsignaturaView {
         /**
          * Editar aula - información
          */
-        $('.editar').click((e) => {
+        // $('.editar').click((e) => {
+        $("#tabla-data").on("click", "button.editar", (e) => {
             e.preventDefault();
             let id = $(e.currentTarget).attr('data-id'),
-                tipo ="Editar Aula",
-                form = $('<form action="'+route('hb.academicos.aulas.formulario')+'" method="POST">'+
+                tipo ="Editar Asignatura",
+                form = $('<form action="'+route('hb.academicos.asignaturas.formulario')+'" method="POST">'+
                     '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
                     '<input type="hidden" name="id" value="'+id+'" >'+
                     '<input type="hidden" name="tipo" value="'+tipo+'" >'+
@@ -160,8 +161,9 @@ class AsignaturaView {
                         confirmButtonText: 'Aceptar',
                         allowOutsideClick: false,
                     }).then((resultado) => {
+
                         if (resultado.isConfirmed) {
-                            window.location.href = route('hb.academicos.aulas.lista');
+                            window.location.href = route('hb.academicos.asignaturas.lista');
                         }
                     })
 
@@ -174,7 +176,8 @@ class AsignaturaView {
         /**
          * Eliminar - Eliminar registro por ID
          */
-        $('.eliminar').click((e) => {
+        // $('.eliminar').click((e) => {
+        $("#tabla-data").on("click", "button.eliminar", (e) => {
             let model = this.model;
             let id = $(e.currentTarget).attr('data-id');
             Swal.fire({
@@ -207,7 +210,7 @@ class AsignaturaView {
                         allowOutsideClick: false,
                     }).then((resultado) => {
                         if (resultado.isConfirmed) {
-                            window.location.href = route('hb.academicos.aulas.lista');
+                            $('#tabla-data').DataTable().ajax.reload();
                         }
                     })
                 }
@@ -215,62 +218,6 @@ class AsignaturaView {
             })
         });
 
-        /*
-        *
-        *Agregar alumnos - ingreso
-        *
-        */
-        $('.agregar-participantes').click((e) => {
-            e.preventDefault();
-            let id = $(e.currentTarget).attr('data-id'),
-                tipo ="Nueva Aula",
-                form = $('<form action="'+route('hb.academicos.aulas.agregar-alumnos')+'" method="POST">'+
-                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
-                    '<input type="hidden" name="id" value="'+id+'" >'+
-                    // '<input type="hidden" name="tipo" value="'+tipo+'" >'+
-                '</form>');
-            $('body').append(form);
-            form.submit();
-        });
-        /*
-        *
-        *Asistencia de alumnos
-        *
-        */
-        $('.asistencia').click((e) => {
-            e.preventDefault();
-            let id = $(e.currentTarget).attr('data-id'),
-                tipo ="Asistencia de alumnos",
-                form = $('<form action="'+route('hb.academicos.aulas.asistencia')+'" method="POST">'+
-                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
-                    '<input type="hidden" name="id" value="'+id+'" >'+
-                    // '<input type="hidden" name="tipo" value="'+tipo+'" >'+
-                '</form>');
-            $('body').append(form);
-            form.submit();
-        });
-
-        /*
-        *
-        * Buscar codigo del aula
-        *
-        */
-        $('#guardar [name="codigo"]').change((e) => {
-            e.preventDefault();
-            let codigo = $(e.currentTarget).val();
-            let id = $('#guardar [name="id"]').val();
-            let current = $(e.currentTarget);
-            this.model.buscarCodigoAula(codigo, id).then((respuesta) => {
-                if (respuesta.tipo == true) {
-                    current.val('');
-                    Swal.fire('Información','El codigo de Aula se encuentra en uso.','info');
-                }
-            }).fail((respuesta) => {
-                // return respuesta;
-            }).always(() => {
-            });
-
-        });
     }
 
 

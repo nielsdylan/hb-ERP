@@ -37,7 +37,7 @@ HB GROUP - Gestion de Cursos
                             <table class="table table-bordered text-nowrap border-bottom table-hover " id="tabla-data" width="100%">
                                 <thead>
                                     <tr>
-                                        <th class="wd-15p border-bottom-0">#</th>
+                                        {{-- <th class="wd-15p border-bottom-0">#</th> --}}
                                         <th class="wd-15p border-bottom-0">Código</th>
                                         <th class="wd-15p border-bottom-0">Descripción</th>
                                         <th class="wd-20p border-bottom-0">Fecha de Registro</th>

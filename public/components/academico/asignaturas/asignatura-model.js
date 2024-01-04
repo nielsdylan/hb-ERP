@@ -6,7 +6,7 @@ class AsignaturaModel {
 
     guardar = (data) => {
         return $.ajax({
-            url: route("hb.academicos.aulas.guardar"),
+            url: route("hb.academicos.asignaturas.guardar"),
             type: "POST",
             dataType: "JSON",
             // processData: false,
@@ -16,7 +16,7 @@ class AsignaturaModel {
     };
     editar = (id) => {
         return $.ajax({
-            url: route("hb.academicos.aulas.editar",{id:id}),
+            url: route("hb.academicos.asignaturas.editar",{id:id}),
             type: "GET",
             dataType: "JSON",
             // processData: false,
@@ -27,7 +27,7 @@ class AsignaturaModel {
 
     eliminar = (id) => {
         return $.ajax({
-            url: route("hb.academicos.aulas.eliminar",{id: id}),
+            url: route("hb.academicos.asignaturas.eliminar",{id: id}),
             type: "PUT",
             dataType: "JSON",
             // processData: false,

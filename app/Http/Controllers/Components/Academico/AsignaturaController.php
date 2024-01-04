@@ -49,14 +49,19 @@ class AsignaturaController extends Controller
     public function formulario(Request $request){
         $tipo = $request->tipo;
         $id = $request->id;
+
+        $data = array();
+        if ( (int)$id > 0 ) {
+            $data = Asignatura::find($id);
+        }
         return view('components.academico.asignaturas.formulario', get_defined_vars());
     }
     public function guardar(Request $request) {
 
         try {
                 $data = Asignatura::firstOrNew(['id' => $request->id]);
-                $data->codigo           = $request->codigo;
-                $data->descripcion      = $request->descripcion;
+                $data->codigo   = ($request->codigo?$request->codigo:'-');
+                $data->nombre   = $request->nombre;
 
                 if ((int) $request->id == 0) {
                     $data->fecha_registro       = date('Y-m-d H:i:s');

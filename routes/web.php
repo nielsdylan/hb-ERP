@@ -102,7 +102,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
             Route::get('lista', [CursosController::class, 'lista'])->name('lista');
             Route::post('listar', [CursosController::class, 'listar'])->name('listar');
-            // Route::post('formulario', [AlumnosController::class, 'formulario'])->name('formulario');
+            Route::post('formulario', [CursosController::class, 'formulario'])->name('formulario');
             Route::post('guardar', [CursosController::class, 'guardar'])->name('guardar');
             Route::get('editar/{id}', [CursosController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [CursosController::class, 'eliminar'])->name('eliminar');

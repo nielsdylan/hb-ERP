@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Components\Academico;
 
 use App\Http\Controllers\Controller;
+use App\Models\Asignatura;
 use App\Models\Cursos;
 use App\Models\LogActividades;
 use App\Models\UsuariosAccesos;
@@ -45,6 +46,16 @@ class CursosController extends Controller
 
             </div>';
         })->rawColumns(['accion'])->make(true);
+    }
+    public function formulario(Request $request){
+        $tipo = $request->tipo;
+        $id = $request->id;
+        $asignaturas = Asignatura::where('estado',1)->get();
+        $data = array();
+        if ( (int)$id > 0 ) {
+            $data = Cursos::find($id);
+        }
+        return view('components.academico.cursos.formulario', get_defined_vars());
     }
     public function guardar(Request $request) {
 

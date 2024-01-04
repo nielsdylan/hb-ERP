@@ -40,3 +40,5 @@ CREATE TABLE `asignaturas` (
   PRIMARY KEY (`id`)
 );
 ALTER TABLE `aulas` ADD `abierto` int(11) DEFAULT 0 AFTER `estado`;
+ALTER TABLE `cursos` ADD `asignatura_id` bigint(20) unsigned AFTER `estado`;
+ALTER TABLE `cursos` ADD constraint fk_cursos_asignaturas FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas`(`id`);

@@ -37,23 +37,37 @@ HB GROUP - Gestion de Cursos
                     <input type="hidden" name="id" value="{{$id}}">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="codigo">Codigo</label>
                                     <input id="codigo" class="form-control form-control-sm" type="text" name="codigo" value="{{($data?$data->codigo:'')}}">
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nombre">Nombre</label>
-                                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" value="{{($data?$data->nombre:'')}}" required>
+                            <div class="col-md-3">
+                                <div class="form-group select2-sm">
+                                    <label for="asignatura_id">Asignatura:</label>
+                                    <select name="asignatura_id" class="form-control form-select form-select-sm select2" data-bs-placeholder="Seleccione una Asignatura." required>
+                                        <option value="">Seleccione..</option>
+                                        @foreach ($asignaturas as $value)
+                                        <option value="{{$value->id}}">{{$value->nombre}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="descripcion">Descripción</label>
+                                    <textarea class="form-control mb-4 form-control-sm" placeholder="Textarea" rows="3" name="descripcion">{{($data?$data->descripcion:'')}}</textarea>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                     <div class="card-footer text-end">
                         <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save"></i> Guardar</button>
-                        <a href="{{ route('hb.academicos.asignaturas.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> volver</a>
+                        <a href="{{ route('hb.academicos.cursos.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> volver</a>
                     </div>
                 </div>
             </div>
@@ -90,13 +104,13 @@ HB GROUP - Gestion de Cursos
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script>
 
-    <script src="{{asset('components/academico/asignaturas/asignatura-model.js')}}"></script>
-    <script src="{{asset('components/academico/asignaturas/asignatura-view.js')}}"></script>
+    <script src="{{asset('components/academico/cursos/curso-model.js')}}"></script>
+    <script src="{{asset('components/academico/cursos/curso-view.js')}}"></script>
     <script>
         // Select2
 
         $(document).ready(function () {
-            const view = new AsignaturaView(new AsignaturaModel(csrf_token));
+            const view = new CursoView(new CursoModel(csrf_token));
             // view.listar();
             view.eventos();
         });
