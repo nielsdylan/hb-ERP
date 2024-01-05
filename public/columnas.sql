@@ -40,5 +40,17 @@ CREATE TABLE `asignaturas` (
   PRIMARY KEY (`id`)
 );
 ALTER TABLE `aulas` ADD `abierto` int(11) DEFAULT 0 AFTER `estado`;
+
+
+-- cambiar de nombre a la columna descripcion por nombre
+ALTER TABLE `cursos` CHANGE `descripcion` `nombre` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL AFTER `codigo`;
+-- agregar el campo descripcion a la tabla curso
+ALTER TABLE `cursos` ADD `descripcion` VARCHAR(255) DEFAULT NULL AFTER `nombre`;
+-- agregamos el campo foraneo de asignatura
 ALTER TABLE `cursos` ADD `asignatura_id` bigint(20) unsigned AFTER `estado`;
+-- crear la llave foranea
 ALTER TABLE `cursos` ADD constraint fk_cursos_asignaturas FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas`(`id`);
+-- creamos el campo de asignatura en el aula
+ALTER TABLE `aulas` ADD `asignatura_id` bigint(20) unsigned AFTER `docente_id`;
+-- crear la llave foranea en la tablade aulas
+ALTER TABLE `aulas` ADD constraint fk_aulas_asignaturas FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas`(`id`);

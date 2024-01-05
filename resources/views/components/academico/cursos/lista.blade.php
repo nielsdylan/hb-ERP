@@ -39,7 +39,8 @@ HB GROUP - Gestion de Cursos
                                     <tr>
                                         <th class="wd-15p border-bottom-0">#</th>
                                         <th class="wd-15p border-bottom-0">Código</th>
-                                        <th class="wd-15p border-bottom-0">Descripción</th>
+                                        <th class="wd-15p border-bottom-0">Nombre</th>
+                                        <th class="wd-15p border-bottom-0">Asignatura</th>
                                         <th class="wd-20p border-bottom-0">Fecha de Registro</th>
                                         <th class="wd-15p border-bottom-0">-</th>
                                     </tr>

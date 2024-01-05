@@ -62,6 +62,7 @@ HB GROUP - Agregar Participantes
                                         <th class="wd-15p border-bottom-0">N° DE DOCUMENTO</th>
                                         <th class="wd-15p border-bottom-0">Apellidos y Nombres</th>
                                         <th class="wd-20p border-bottom-0">Fecha Registro</th>
+                                        <th class="wd-20p border-bottom-0">Documento</th>
                                         <th class="wd-20p border-bottom-0">Reservación</th>
                                         <th class="wd-15p border-bottom-0">-</th>
                                     </tr>
@@ -106,13 +107,13 @@ HB GROUP - Agregar Participantes
     <script src="{{asset('template/js/table-data.js')}}"></script>
 
     <script src="{{asset('components/academico/aulas/aula-model.js')}}"></script>
-    <script src="{{asset('components/academico/aulas/aula-view.js')}}"></script>
+    <script src="{{asset('components/academico/aulas/alumnos-view.js')}}"></script>
     <script>
         // Select2
 
         $(document).ready(function () {
             $('.select2').select2();
-            const view = new AulaView(new AulaModel(csrf_token));
+            const view = new AlumnosView(new AulaModel(csrf_token));
             view.alumnos();
             view.listarAlumno();
         });

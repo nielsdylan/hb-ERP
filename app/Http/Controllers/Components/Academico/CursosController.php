@@ -28,6 +28,9 @@ class CursosController extends Controller
     {
         $data = Cursos::where('estado',1)->get();
         return DataTables::of($data)
+        ->addColumn('asignatura', function ($data) {
+            return ($data->asignatura?$data->asignatura->nombre:'-');
+        })
         ->addColumn('accion', function ($data) {
             $array_accesos = array();
             $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->get();
@@ -59,10 +62,13 @@ class CursosController extends Controller
     }
     public function guardar(Request $request) {
 
-        try {
+        // return $request;exit;
+        // try {
                 $data = Cursos::firstOrNew(['id' => $request->id]);
                 $data->codigo           = $request->codigo;
+                $data->nombre           = $request->nombre;
                 $data->descripcion      = $request->descripcion;
+                $data->asignatura_id    = $request->asignatura_id;
 
                 if ((int) $request->id == 0) {
                     $data->fecha_registro       = date('Y-m-d H:i:s');
@@ -82,9 +88,9 @@ class CursosController extends Controller
 
 
             $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se guardo con éxito","tipo"=>"success");
-        } catch (Exception $ex) {
-            $respuesta = array("titulo"=>"Error","mensaje"=>"Hubo un problema al registrar. Por favor intente de nuevo, si persiste comunicarse con su area de TI","tipo"=>"error","ex"=>$ex);
-        }
+        // } catch (Exception $ex) {
+        //     $respuesta = array("titulo"=>"Error","mensaje"=>"Hubo un problema al registrar. Por favor intente de nuevo, si persiste comunicarse con su area de TI","tipo"=>"error","ex"=>$ex);
+        // }
         return response()->json($respuesta,200);
     }
     function editar($id) {
@@ -100,5 +106,9 @@ class CursosController extends Controller
         LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINO UN TIPO DE DOCUMENTO', $data->getTable(), $data, NULL, 'ELIMINO UN TIPO DE DOCUMENTO DE LA LISTA DE GESTION DE TIPOS DE DOCUMENTOS');
         $respuesta = array("titulo"=>"Éxito","mensaje"=>"Se elimino con éxito","tipo"=>"success");
         return response()->json($respuesta,200);
+    }
+    public function listarCursos($asignatura_id){
+        $data = Cursos::where('estado',1)->where('asignatura_id',$asignatura_id)->get();
+        return response()->json($data,200);
     }
 }

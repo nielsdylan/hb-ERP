@@ -110,6 +110,8 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('buscar', [CursosController::class, 'buscar'])->name('buscar');
             Route::get('modelo-importar-alumnos-excel', [CursosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             Route::post('importar-alumnos-excel', [CursosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
+
+            Route::get('listar-cursos/{asignatura_id}', [CursosController::class, 'listarCursos'])->name('listar-cursos');
         });
 
         Route::name('aulas.')->prefix('aulas')->group(function () {
@@ -128,11 +130,14 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::put('eliminar-alumno/{id}', [AulasController::class, 'eliminarAlumno'])->name('eliminar-alumno');
             Route::get('confirmar-alumno/{id}', [AulasController::class, 'confirmarAlumno'])->name('confirmar-alumno');
 
-            Route::post('asistencia', [AulasController::class, 'asistencia'])->name('asistencia');
             Route::post('listar-asistencia', [AulasController::class, 'listarAsistencia'])->name('listar-asistencia');
             Route::post('buscar-codigo-aula', [AulasController::class, 'buscarCodigoAula'])->name('buscar-codigo-aula');
             // Route::get('modelo-importar-alumnos-excel', [CursosController::class, 'modeloImportarAlumnosExport'])->name('modelo-importar-alumnos-excel');
             // Route::post('importar-alumnos-excel', [CursosController::class, 'importarAlumnosExport'])->name('importar-alumnos-excel');
+            Route::post('asistencia', [AulasController::class, 'asistencia'])->name('asistencia');
+            Route::get('ingreso-confirmar/{id}', [AulasController::class, 'ingresoConfirmar'])->name('ingreso-confirmar');
+            Route::get('abandono-confirmar/{id}', [AulasController::class, 'abandonoConfirmar'])->name('abandono-confirmar');
+
         });
         Route::name('certificados.')->prefix('certificados')->group(function () {
 

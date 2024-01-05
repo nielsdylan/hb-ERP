@@ -76,4 +76,35 @@ class AulaModel {
         });
     };
 
+    listarCursos = (asignatura_id) => {
+        return $.ajax({
+            url: route("hb.academicos.cursos.listar-cursos",{asignatura_id:asignatura_id}),
+            type: "GET",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token},
+        });
+    };
+
+    ingresoConfirmar = (id) => {
+        return $.ajax({
+            url: route("hb.academicos.aulas.ingreso-confirmar",{id:id}),
+            type: "GET",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token},
+        });
+    };
+    abandonoConfirmar = (id) => {
+        return $.ajax({
+            url: route("hb.academicos.aulas.abandono-confirmar",{id:id}),
+            type: "GET",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token},
+        });
+    };
 }

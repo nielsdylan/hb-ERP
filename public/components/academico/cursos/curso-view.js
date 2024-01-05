@@ -55,7 +55,8 @@ class CursoView {
             columns: [
                 {data: 'id', },
                 {data: 'codigo', className: 'text-center'},
-                {data: 'descripcion', className: 'text-center'},
+                {data: 'nombre', className: 'text-center'},
+                {data: 'asignatura', className: 'text-center'},
                 {data: 'fecha_registro', className: 'text-center'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
             ]
@@ -133,11 +134,12 @@ class CursoView {
                 },
                 // allowOutsideClick: () => !Swal.isLoading()
               }).then((result) => {
+                console.log(result);
                 if (result.isConfirmed) {
                     Swal.fire(
-                        'Éxito!',
-                        'Se guardo con éxito!',
-                        'success'
+                        result.value.titulo,
+                        result.value.mensaje,
+                        result.value.tipo,
                     );
                     window.location.href = route('hb.academicos.cursos.lista');
                 }

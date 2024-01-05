@@ -37,21 +37,29 @@ HB GROUP - Gestion de Cursos
                     <input type="hidden" name="id" value="{{$id}}">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="codigo">Codigo</label>
                                     <input id="codigo" class="form-control form-control-sm" type="text" name="codigo" value="{{($data?$data->codigo:'')}}">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group select2-sm">
                                     <label for="asignatura_id">Asignatura:</label>
                                     <select name="asignatura_id" class="form-control form-select form-select-sm select2" data-bs-placeholder="Seleccione una Asignatura." required>
                                         <option value="">Seleccione..</option>
                                         @foreach ($asignaturas as $value)
-                                        <option value="{{$value->id}}">{{$value->nombre}}</option>
+                                        <option value="{{$value->id}}"
+                                            {{ ( $data ? ($data->asignatura_id==$value->id?'selected':'') : '' )}}
+                                            >{{$value->nombre}}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre:</label>
+                                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" value="{{($data?$data->nombre:'')}}">
                                 </div>
                             </div>
                         </div>

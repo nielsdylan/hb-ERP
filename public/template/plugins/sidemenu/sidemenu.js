@@ -363,7 +363,7 @@ function ActiveSubmenu() {
 
     // var position = window.location.pathname.split('/');
     var position = window.location.href;
-    // position = position[position.length - 1];
+    // position = position[position.length - 1];ss
     $(".app-sidebar li a").each(function () {
         var $this = $(this);
         var pageUrl = $this.attr("href");

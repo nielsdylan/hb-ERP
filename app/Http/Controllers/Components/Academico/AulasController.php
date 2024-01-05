@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Components\Academico;
 
 use App\Helpers\ConfiguracionComponents;
 use App\Http\Controllers\Controller;
+use App\Models\Asignatura;
 use App\Models\Asistencia;
 use App\Models\Aulas;
 use App\Models\AulasDescripcion;
@@ -20,7 +21,7 @@ class AulasController extends Controller
     //
     public function lista()
     {
-        $aulas = Aulas::orderBy('id', 'desc')->paginate(4);
+        $aulas = Aulas::orderBy('id', 'desc')->paginate(12);
         $array_accesos = array();
         $usuario_accesos = UsuariosAccesos::where('usuario_id',Auth()->user()->id)->where('estado',1)->get();
         foreach ($usuario_accesos as $key => $value) {
@@ -33,14 +34,15 @@ class AulasController extends Controller
     {
         $id = $request->id;
         $tipo = $request->tipo;
-        $cursos = Cursos::where('estado',1)->get();
+
+        $asignatura = Asignatura::where('estado',1)->get();
+        $cursos = array();
         $aula = Aulas::find($id);
+        if ($aula) {
+            $cursos = Cursos::where('estado',1)->get();
+        }
         $docentes = UsuariosRoles::where('rol_id',3)->where('estado',1)->get();
-        // $codigo = ConfiguracionComponents::generarCodigo('AL','-',3,'aulas');
-        // if ((int)$request->id>0) {
-        //     $codigo = $aula->codigo;
-        // }
-        // return $docentes;
+
         LogActividades::guardar(Auth()->user()->id, 2, 'FORMULARIO DE AULA', null, null, null, 'INGRESO AL FORMULARIO DE AULA');
         return view('components.academico.aulas.formulario', get_defined_vars());
     }
@@ -54,6 +56,7 @@ class AulasController extends Controller
                 $data->fecha        =  date("Y-m-d", strtotime($request->fecha)) ;
                 $data->hora_inicio  = $request->hora_inicio;
                 $data->hora_final   = $request->hora_final;
+                $data->asignatura_id = $request->asignatura_id;
                 $data->curso_id     = $request->curso_id;
                 $data->docente_id   = $request->docente_id;
                 $data->abierto  = ($request->abierto?$request->abierto:0);
@@ -107,11 +110,14 @@ class AulasController extends Controller
 
             $alumnos = Asistencia::where('aula_id',$request->aula_id)->where('estado',1)->get();
 
-            if (sizeof($alumnos) < $aula->capacidad) {
+            if ((int) sizeof($alumnos) < (int)$aula->capacidad) {
+
                 $data = Asistencia::firstOrNew(['alumno_id' => (int) $request->usuarios,'aula_id'=>$request->aula_id]);
                 $data->reserva          = true;
                 $data->aula_id          = $request->aula_id;
                 $data->alumno_id        = (int) $request->usuarios;
+                $data->estado           = 1;
+                $data->deleted_id        = null;
                 $data->fecha_registro   = date('Y-m-d H:i:s');
                 $data->created_at       = date('Y-m-d H:i:s');
                 $data->created_id       = Auth()->user()->id;
@@ -135,6 +141,13 @@ class AulasController extends Controller
     public function listardarAlumnos(Request $request) {
         $data = Asistencia::where('aula_id', $request->aula_id)->where('estado',1)->get();
         return DataTables::of($data)
+        ->addColumn('documento', function ($data) {
+            $valor = ($data->usuario->persona->path_dni ? true : false );
+
+            $span = '<span class="badge rounded-pill bg-'.($valor==false?'danger':'success').' badge-sm me-1 mb-1 mt-1 protip" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="'.($valor==false?'Falta la imagen de su documento de identidad':'Completo').'">'.($valor==false?'Incompleto':'Completo').'</span>';
+
+            return $span;
+        })
         ->addColumn('numero_documento', function ($data) {
             return $data->usuario->persona->nro_documento;
         })
@@ -160,11 +173,12 @@ class AulasController extends Controller
                 </button>
 
             </div>';
-        })->rawColumns(['reservacion','accion'])->make(true);
+        })->rawColumns(['documento', 'reservacion','accion'])->make(true);
     }
     public function eliminarAlumno($id) {
         $data = Asistencia::find($id);
         $data->deleted_id   = Auth()->user()->id;
+        $data->ingreso   = 0;
         $data->estado   = 0;
         $data->save();
         LogActividades::guardar(Auth()->user()->id, 5, 'ELIMINACION DE ALUMNO', $data->getTable(), $data, NULL, 'ELIMINO UN ALUMNO');
@@ -228,5 +242,17 @@ class AulasController extends Controller
             return response()->json(["tipo"=>true],200); // si encontro una concidencia
         }
         return response()->json(["tipo"=>false],200); // que esta disponible
+    }
+    public function ingresoConfirmar($id){
+        $data = Asistencia::find($id);
+        $data->ingreso = 1;
+        $data->save();
+        return response()->json(["titulo"=>"Éxito","mensaje"=>"Se confirmo su ingreso al aula","tipo"=>"success"],200);
+    }
+    public function abandonoConfirmar($id){
+        $data = Asistencia::find($id);
+        $data->ingreso = 0;
+        $data->save();
+        return response()->json(["titulo"=>"Éxito","mensaje"=>"Se confirmo el abandono del aula","tipo"=>"success"],200);
     }
 }

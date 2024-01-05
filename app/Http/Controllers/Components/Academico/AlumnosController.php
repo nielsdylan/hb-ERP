@@ -46,7 +46,9 @@ class AlumnosController extends Controller
         $data = UsuariosRoles::where('rol_id',2)->where('estado',1)->get();
         return DataTables::of($data)
         ->addColumn('documento', function ($data) {
-            return $data->usuario->persona->nro_documento;
+            $respuesta = $data->usuario->persona->semaforoDocumentacion($data->usuario->persona->id);
+            $icono = '<i class="protip fa fa-circle text-'.$respuesta['color'].'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="'.$respuesta['mensaje'].'"></i>';
+            return $icono.' '.$data->usuario->persona->nro_documento;
         })
         ->addColumn('apellidos_nombres', function ($data) {
             return $data->usuario->persona->apellido_paterno.' '.$data->usuario->persona->apellido_materno.' '.$data->usuario->persona->nombres;
@@ -72,12 +74,14 @@ class AlumnosController extends Controller
             foreach ($usuario_accesos as $key => $value) {
                 array_push($array_accesos,$value->acceso_id);
             }
+
+            // '.((empty($data->usuario->persona->fecha_caducidad_dni) || empty($data->usuario->persona->path_dni)) ? '<button type="button" class="protip btn text-info btn-sm btn-pulse-info" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Falta validar su registro de Imagen de Dni/Fecha de caducación" >
+            //     <i class="fe fe-alert-triangle fs-14"></i> </button>' : '' ).'
             return
             '<div class="btn-list">
                 '.(in_array(7,$array_accesos)?'<button type="button" class="protip btn text-dark btn-sm" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Ver Perfil" > <i class="fe fe-user fs-14"></i> </button>':'').'
 
-                '.((empty($data->usuario->persona->fecha_caducidad_dni) || empty($data->usuario->persona->path_dni)) ? '<button type="button" class="protip btn text-info btn-sm btn-pulse-info" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Falta validar su registro de Imagen de Dni/Fecha de caducación" >
-                <i class="fe fe-alert-triangle fs-14"></i> </button>' : '' ).'
+
 
                 '.(in_array(3,$array_accesos)?'<button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->usuario->persona->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
                     <i class="fe fe-edit fs-14"></i>
@@ -87,7 +91,7 @@ class AlumnosController extends Controller
                 </button>' : '' ).'
 
             </div>';
-        })->rawColumns(['accion'])->make(true);
+        })->rawColumns(['documento','accion'])->make(true);
     }
     public function guardar(Request $request) {
 

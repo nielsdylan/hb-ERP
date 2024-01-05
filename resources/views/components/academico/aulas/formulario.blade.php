@@ -32,25 +32,43 @@ HB GROUP - Gestion de Aula
                     <input type="hidden" name="id" value="{{ $id }}">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="codigo" class="form-label">Código : <span class="text-red">*</span></label>
                                     <input type="text" name="codigo" class="form-control form-control-sm" id="codigo" placeholder="Código...." value="{{ ($aula?$aula->codigo:'') }}" required>
                                 </div>
                             </div>
-
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group select2-sm">
-                                    <label for="curso_id" class="form-label">Cursos : <span class="text-red">*</span></label>
-                                    <select class="form-control select2 form-select" name="curso_id" id="curso_id" data-placeholder="Seleccione..">
-                                        @foreach ($cursos as $item)
-                                            <option value="{{ $item->id }}" {{ ( ($aula && $aula->curso_id==$item->id) ? 'selected' : null) }}>{{ $item->descripcion }}</option>
+                                    <label for="asignatura_id" class="form-label">Asignatura : <span class="text-red">*</span></label>
+                                    <select class="form-control select2 form-select" name="asignatura_id" id="asignatura_id" data-placeholder="Seleccione..." required>
+                                        <option value="">Seleccione...</option>
+                                        @foreach ($asignatura as $item)
+                                            <option value="{{ $item->id }}"
+                                                {{ ( ($aula && $aula->asignatura_id==$item->id) ? 'selected' : null) }}
+                                                >{{ $item->nombre }}</option>
                                         @endforeach
 
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group select2-sm">
+                                    <label for="curso_id" class="form-label">Cursos : <span class="text-red">*</span></label>
+                                    <select class="form-control select2 form-select" name="curso_id" id="curso_id" data-placeholder="Seleccionee.." required>
+                                        @if ($aula)
+                                            @foreach ($cursos as $item)
+                                                <option value="{{ $item->id }}" {{ ( ($aula->curso_id==$item->id) ? 'selected' : null) }}>{{ $item->nombre }}</option>
+                                            @endforeach
+                                        @endif
+                                        {{-- @foreach ($cursos as $item)
+                                            <option value="{{ $item->id }}" {{ ( ($aula && $aula->curso_id==$item->id) ? 'selected' : null) }}>{{ $item->nombre }}</option>
+                                        @endforeach --}}
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group select2-sm">
                                     <label for="docente_id" class="form-label">Docentes : <span class="text-red">*</span></label>
                                     <select class="form-control select2 form-select" name="docente_id" id="docente_id" data-placeholder="Seleccione.." required>

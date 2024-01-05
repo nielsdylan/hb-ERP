@@ -9,12 +9,12 @@ HB GROUP - Agregar Participantes
 
     <!-- PAGE-HEADER -->
     <div class="page-header">
-        <h1 class="page-title">Agregar Participantes</h1>
+        <h1 class="page-title">{{$tipo}}</h1>
         <div>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Academico</a></li>
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Gestion de Aulas</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Asistencia de alumnos</li>
+                <li class="breadcrumb-item active" aria-current="page">{{$tipo}}</li>
             </ol>
         </div>
     </div>
@@ -86,15 +86,15 @@ HB GROUP - Agregar Participantes
     <script src="{{asset('template/js/table-data.js')}}"></script>
 
     <script src="{{asset('components/academico/aulas/aula-model.js')}}"></script>
-    <script src="{{asset('components/academico/aulas/aula-view.js')}}"></script>
+    <script src="{{asset('components/academico/aulas/asistencia-view.js')}}"></script>
     <script>
         // Select2
 
         $(document).ready(function () {
             // $('.select2').select2();
-            const view = new AulaView(new AulaModel(csrf_token));
-            // view.alumnos();
-            view.listarAsistenciaAlumnos();
+            const view = new AsistenciaView(new AulaModel(csrf_token));
+            view.eventos();
+            view.listar();
         });
 
 
