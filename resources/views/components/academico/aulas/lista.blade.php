@@ -90,7 +90,7 @@ HB GROUP - Gestion de Aulas
                         @if (in_array(21,$array_accesos))
                         <button class="btn btn-sm btn-pill btn-warning-light agregar-participantes" data-id="{{ $item->id }}">Agregar alumnos</button>
                         @endif
-                        <button class="btn btn-sm btn-pill btn-defaul-light alumnado" data-id="{{ $item->id }}">Alumnado</button>
+                        {{-- <a href="{{ route('routeName', ['id'=>$item->id]) }}" class="btn btn-sm btn-pill btn-defaul-light"">Perfil</a> --}}
                     </div>
 
                 </div>

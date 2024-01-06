@@ -255,4 +255,8 @@ class AulasController extends Controller
         $data->save();
         return response()->json(["titulo"=>"Éxito","mensaje"=>"Se confirmo el abandono del aula","tipo"=>"success"],200);
     }
+    public function perfil($id){
+        $aula = Aulas::find($id);
+        return view('components.academico.aulas.asistencia', get_defined_vars());
+    }
 }

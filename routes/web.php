@@ -121,8 +121,12 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('formulario', [AulasController::class, 'formulario'])->name('formulario');
 
             Route::post('guardar', [AulasController::class, 'guardar'])->name('guardar');
-            Route::get('editar/{id}', [AulasController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [AulasController::class, 'eliminar'])->name('eliminar');
+
+            Route::get('perfil/{id}', [AulasController::class, 'perfil'])->name('perfil');
+            Route::name('asistencia.')->prefix('asistencia')->group(function () {
+
+            });
 
             Route::post('agregar-alumnos', [AulasController::class, 'agregarAlumnos'])->name('agregar-alumnos');
             Route::post('guardar-alumnos', [AulasController::class, 'guardarAlumnos'])->name('guardar-alumnos');
