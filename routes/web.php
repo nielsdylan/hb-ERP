@@ -124,8 +124,8 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::put('eliminar/{id}', [AulasController::class, 'eliminar'])->name('eliminar');
 
             Route::get('perfil/{id}', [AulasController::class, 'perfil'])->name('perfil');
-            Route::name('asistencia.')->prefix('asistencia')->group(function () {
-
+            Route::name('portafolio.')->prefix('portafolio')->group(function () {
+                
             });
 
             Route::post('agregar-alumnos', [AulasController::class, 'agregarAlumnos'])->name('agregar-alumnos');

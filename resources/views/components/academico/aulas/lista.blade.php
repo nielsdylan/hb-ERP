@@ -83,14 +83,14 @@ HB GROUP - Gestion de Aulas
                     {{-- <h2 class="mb-2  number-font">{{ $item->capacidad }}</h2> --}}
                     {{-- <p class="text-muted">{{ $item->descripcion }}</p> --}}
                     <div class="d-grid gap-2">
-                        <button class="btn btn-sm btn-pill btn-success-light unirse-sala" data-id="{{ $item->id }}">Unirse a la sala</button>
+                        <button class="btn btn-sm btn-pill btn-success-light unirse-sala" data-id="{{ $item->id }}">Aula virtual</button>
                         @if (in_array(20,$array_accesos))
                         <button class="btn btn-sm btn-pill btn-info-light asistencia" data-id="{{ $item->id }}">Asistencia</button>
                         @endif
                         @if (in_array(21,$array_accesos))
                         <button class="btn btn-sm btn-pill btn-warning-light agregar-participantes" data-id="{{ $item->id }}">Agregar alumnos</button>
                         @endif
-                        {{-- <a href="{{ route('routeName', ['id'=>$item->id]) }}" class="btn btn-sm btn-pill btn-defaul-light"">Perfil</a> --}}
+                        <a href="#" class="btn btn-sm btn-pill btn-defaul-light"">Ingresar</a>
                     </div>
 
                 </div>
