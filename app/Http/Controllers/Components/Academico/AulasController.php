@@ -272,7 +272,10 @@ class AulasController extends Controller
             '<body>';
                 foreach ($data as $key => $value) {
                     // $html.='<div style="margin: 25px !important;"><img src="'.public_path().'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
-                    $html.='<div style="margin: 25px !important;"><img src="'.asset('').'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
+                    if (!$value->usuario->persona->path_dni) {
+                        $html.='<div style="margin: 25px !important;"><img src="'.asset('').'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
+                    }
+                    
                 }
             '</body>'.
         '</html>';
