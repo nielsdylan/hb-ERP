@@ -29,6 +29,7 @@
         <th style="text-align:center; font-weight: 700;background-color: #fbff00; border: 2px solid #000 ;" width="20"> DURACION </th>
         <th style="text-align:center; font-weight: 700;background-color: #fbff00; border: 2px solid #000 ;" width="20"> FECHA VENCIMIENTO </th>
         <th style="text-align:center; font-weight: 700;background-color: #9e9b9b; border: 2px solid #000 ;" width="20"> COMENTARIO </th>
+        <th style="text-align:center; font-weight: 700;background-color: #9e9b9b; border: 2px solid #000 ;" width="20"> Tiempo por vencer(años) </th>
 
     </tr>
     </thead>

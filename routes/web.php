@@ -6,6 +6,7 @@ use App\Http\Controllers\Components\Academico\AulasController;
 use App\Http\Controllers\Components\Academico\CertificadoController;
 use App\Http\Controllers\Components\Academico\CursosController;
 use App\Http\Controllers\Components\Academico\DocentesController;
+use App\Http\Controllers\Components\Academico\PortafolioController;
 use App\Http\Controllers\Components\Auth\LoginController;
 use App\Http\Controllers\Components\Configuraciones\AccesosController;
 use App\Http\Controllers\Components\Configuraciones\AccionesController;
@@ -121,9 +122,9 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('formulario', [AulasController::class, 'formulario'])->name('formulario');
 
             Route::post('guardar', [AulasController::class, 'guardar'])->name('guardar');
-            Route::get('editar/{id}', [AulasController::class, 'editar'])->name('editar');
             Route::put('eliminar/{id}', [AulasController::class, 'eliminar'])->name('eliminar');
 
+            Route::get('portafolio/{id}', [AulasController::class, 'portafolio'])->name('portafolio');
             Route::post('agregar-alumnos', [AulasController::class, 'agregarAlumnos'])->name('agregar-alumnos');
             Route::post('guardar-alumnos', [AulasController::class, 'guardarAlumnos'])->name('guardar-alumnos');
             Route::post('listar-alumnos', [AulasController::class, 'listardarAlumnos'])->name('listar-alumnos');
@@ -138,6 +139,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('ingreso-confirmar/{id}', [AulasController::class, 'ingresoConfirmar'])->name('ingreso-confirmar');
             Route::get('abandono-confirmar/{id}', [AulasController::class, 'abandonoConfirmar'])->name('abandono-confirmar');
 
+            Route::get('descargar-asistencia/{id}', [AulasController::class, 'descargarAsistencia'])->name('descargar-asistencia');
         });
         Route::name('certificados.')->prefix('certificados')->group(function () {
 

@@ -12,6 +12,7 @@ use App\Models\Cursos;
 use App\Models\LogActividades;
 use App\Models\UsuariosAccesos;
 use App\Models\UsuariosRoles;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -165,11 +166,11 @@ class AulasController extends Controller
         ->addColumn('accion', function ($data) { return
             '<div class="btn-list">
                 '.($data->reserva==1?'<button type="button" class="confirmar protip btn text-success btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Confirmar" >
-                    <i class="fe fe-check-circle fs-14"></i>
+                    <i class="fe fe-check-circle fs-14 text-success"></i>
                 </button>':'success').'
 
                 <button type="button" class="btn text-danger btn-sm eliminar protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Eliminar">
-                    <i class="fe fe-trash-2 fs-14"></i>
+                    <i class="fe fe-trash-2 fs-14 text-danger"></i>
                 </button>
 
             </div>';
@@ -223,11 +224,11 @@ class AulasController extends Controller
             // return '<span class="badge bg-'.($data->reserva==1?'warning':'success').'-transparent rounded-pill text-'.($data->reserva==1?'warning':'success').' p-2 px-3">'.($data->reserva==1?'Reservado':'Confirmado').'</span>';
         })
         ->addColumn('accion', function ($data) {
-            $button = '<button type="button" class="btn text-danger btn-sm abandono protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Abandono del curso"> <i class="fe fe-user-x fs-14"></i></button>';
+            $button = '<button type="button" class="btn text-danger btn-sm abandono protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Abandono del curso"> <i class="fe fe-user-x fs-14 text-danger"></i></button>';
             if ($data->ingreso==0) {
                 $button = '<button type="button" class="btn text-success btn-sm ingreso protip" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Se confirme el ingreso al curso.">
-                <i class="fe fe-user-check fs-14"></i>
-            </button>';
+                    <i class="fe fe-user-check fs-14 text-success"></i>
+                </button>';
             }
             return
             '<div class="btn-list">'.$button.'</div>';
@@ -255,4 +256,33 @@ class AulasController extends Controller
         $data->save();
         return response()->json(["titulo"=>"Éxito","mensaje"=>"Se confirmo el abandono del aula","tipo"=>"success"],200);
     }
+    public function portafolio($id){
+        $aula = Aulas::find($id);
+        $alumnos = UsuariosRoles::where('rol_id',2)->where('estado',1)->get();
+        return view('components.academico.aulas.portafolio', get_defined_vars());
+    }
+    public function descargarAsistencia($id){
+        $data = Asistencia::where('aula_id', $id)->where('estado',1)->where('ingreso',1)->get();
+        $aula = Aulas::find($id);
+
+        $html = '<html lang="en">'.
+            '<head>'.
+            '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
+            '</head>'.
+            '<body>';
+                foreach ($data as $key => $value) {
+                    // $html.='<div style="margin: 25px !important;"><img src="'.public_path().'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
+                    if ($value->usuario->persona->path_dni) {
+                        $html.='<div style="margin: 25px !important;"><img src="'.asset('').'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
+                    }
+                    
+                }
+            '</body>'.
+        '</html>';
+
+        $pdf = PDF::loadHTML($html);
+        $pdf->stream();
+        return $pdf->download($aula->codigo.'-asistencia.pdf');
+    }
+    
 }
