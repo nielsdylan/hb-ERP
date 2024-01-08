@@ -266,9 +266,13 @@ class AulasController extends Controller
         $aula = Aulas::find($id);
 
         $html = '<html lang="en">'.
+            '<head>'.
+            '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
+            '</head>'.
             '<body>';
                 foreach ($data as $key => $value) {
-                    $html.='<div style="margin: 25px !important;"><img src="'.public_path().'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
+                    // $html.='<div style="margin: 25px !important;"><img src="'.public_path().'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
+                    $html.='<div style="margin: 25px !important;"><img src="'.asset('').'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
                 }
             '</body>'.
         '</html>';
