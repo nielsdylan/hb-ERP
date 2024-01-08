@@ -8,8 +8,6 @@
     <title>Document</title>
 </head>
 <body>
-    @foreach ( $json as $value)
-        <h1>{{ $value }}</h1>
-    @endforeach
+        <h1>{{ $test }}</h1>
 </body>
 </html>

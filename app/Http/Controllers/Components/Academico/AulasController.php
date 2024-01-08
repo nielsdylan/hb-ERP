@@ -263,18 +263,19 @@ class AulasController extends Controller
     }
     public function descargarAsistencia($id){
         $data = Asistencia::where('aula_id', $id)->where('estado',1)->where('ingreso',1)->get();
+        $aula = Aulas::find($id);
 
-        $json = array();
+        $html = '<html lang="en">'.
+            '<body>';
+                foreach ($data as $key => $value) {
+                    $html.='<div style="margin: 25px !important;"><img src="'.public_path().'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
+                }
+            '</body>'.
+        '</html>';
 
-        foreach ($data as $key => $value) {
-            array_push($json, array(
-                "path"=>$value->usuario->persona->path_dni,
-            ));
-        }
-        // return $json;
-        $pdf = Pdf::loadView('components.academico.aulas.report.asistencia', compact('json'));
-        return $pdf->download('Asistencia-curso-01.pdf');
-        // return response()->json(["data"=>$data],200);
+        $pdf = PDF::loadHTML($html);
+        $pdf->stream();
+        return $pdf->download($aula->codigo.'-asistencia.pdf');
     }
     
 }
