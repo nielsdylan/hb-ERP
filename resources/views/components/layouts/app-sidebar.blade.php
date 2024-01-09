@@ -46,6 +46,7 @@
                                             <li><a href="{{ route('hb.academicos.asignaturas.lista') }}" class="slide-item"> Asignaturas</a></li>
                                             <li><a href="{{ route('hb.academicos.cursos.lista') }}" class="slide-item"> Cursos</a></li>
                                             <li><a href="{{ route('hb.academicos.aulas.lista') }}" class="slide-item"> Aulas</a></li>
+                                            <li><a href="{{ route('hb.academicos.cuestionario.lista') }}" class="slide-item"> Cuestionario</a></li>
                                             <li><a href="{{ route('hb.academicos.certificados.lista') }}" class="slide-item"> Certificados </a></li>
                                         </ul>
                                     </div>

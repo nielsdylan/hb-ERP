@@ -4,8 +4,10 @@ use App\Http\Controllers\Components\Academico\AlumnosController;
 use App\Http\Controllers\Components\Academico\AsignaturaController;
 use App\Http\Controllers\Components\Academico\AulasController;
 use App\Http\Controllers\Components\Academico\CertificadoController;
+use App\Http\Controllers\Components\Academico\CuestionarioController;
 use App\Http\Controllers\Components\Academico\CursosController;
 use App\Http\Controllers\Components\Academico\DocentesController;
+use App\Http\Controllers\Components\Academico\ExamenController;
 use App\Http\Controllers\Components\Academico\PortafolioController;
 use App\Http\Controllers\Components\Auth\LoginController;
 use App\Http\Controllers\Components\Configuraciones\AccesosController;
@@ -140,6 +142,12 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('abandono-confirmar/{id}', [AulasController::class, 'abandonoConfirmar'])->name('abandono-confirmar');
 
             Route::get('descargar-asistencia/{id}', [AulasController::class, 'descargarAsistencia'])->name('descargar-asistencia');
+        });
+        Route::name('cuestionario.')->prefix('cuestionario')->group(function () {
+            Route::get('lista',[CuestionarioController::class,'lista'])->name('lista');
+            Route::post('listar',[CuestionarioController::class,'listar'])->name('listar');
+            Route::get('formulario',[CuestionarioController::class,'formulario'])->name('formulario');
+            Route::get('formulario/{id}',[CuestionarioController::class,'formulario'])->name('formulario-editar');
         });
         Route::name('certificados.')->prefix('certificados')->group(function () {
 

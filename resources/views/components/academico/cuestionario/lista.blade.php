@@ -1,48 +1,48 @@
 @extends('components.layouts.app')
 @section('titulo')
-HB GROUP - Agregar Participantes
+HB GROUP - Gestion de Cuestionario
 @endsection
 @section('css')
+<style>
+</style>
 @endsection
 @section('content')
 <div class="main-container container-fluid">
 
     <!-- PAGE-HEADER -->
     <div class="page-header">
-        <h1 class="page-title">{{$tipo}}</h1>
+        <h1 class="page-title">Gestion de Cuestionario</h1>
         <div>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Academico</a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Gestion de Aulas</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{$tipo}}</li>
+                <li class="breadcrumb-item active" aria-current="page">Gestion de Cuestionario</li>
             </ol>
         </div>
     </div>
     <!-- PAGE-HEADER END -->
 
     <!-- ROW-1 -->
-    <div class="row justify-content-md-center">
+    <div class="row">
         <div class="col-md-12">
             <div class="card">
+                {{-- <div class="card-status bg-blue br-te-7 br-ts-7"></div> --}}
                 <div class="card-header">
-                    <h3 class="card-title">{{ $aula->codigo }}</h3>
+                    <h3 class="card-title">Lista de Cuestionario</h3>
+                    <div class="card-options">
+                        <a href="{{ route('hb.academicos.cuestionario.formulario') }}" class="btn btn-success btn-sm ms-2" id="nuevo" ><i class="fe fe-plus"></i> Nuevo Cuestionario</a>
+
+                    </div>
                 </div>
                 <div class="card-body">
-                    <form action="" id="guardar-alumno">
-                        @csrf
-                        <input type="hidden" name="aula_id" value="{{ $id }}">
-
-                    </form>
                     <div class="row justify-content-md-center">
-                        <div class="col-md-10">
+                        <div class="col-md-12 table-responsive">
                             <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data" width="100%">
                                 <thead>
                                     <tr>
                                         <th class="wd-15p border-bottom-0">#</th>
-                                        <th class="wd-15p border-bottom-0">N° DE DOCUMENTO</th>
-                                        <th class="wd-15p border-bottom-0">Apellidos y Nombres</th>
-                                        <th class="wd-20p border-bottom-0">Fecha Registro</th>
-                                        <th class="wd-20p border-bottom-0">Asistencia</th>
+                                        <th class="wd-15p border-bottom-0">Código</th>
+                                        <th class="wd-15p border-bottom-0">Nombre</th>
+                                        <th class="wd-20p border-bottom-0">Fecha de registro</th>
                                         <th class="wd-15p border-bottom-0">-</th>
                                     </tr>
                                 </thead>
@@ -52,15 +52,11 @@ HB GROUP - Agregar Participantes
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-end">
-                    <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> Volver</a>
-                </div>
             </div>
         </div>
     </div>
+
     <!-- ROW-1 END -->
-
-
 </div>
 @endsection
 
@@ -68,12 +64,7 @@ HB GROUP - Agregar Participantes
 
     <!-- INTERNAL SELECT2 JS -->
     <script src="{{asset('template/plugins/select2/select2.full.min.js')}}"></script>
-    <script src="{{asset('template/js/select2.js')}}"></script>
-
-    <!-- DATEPICKER JS -->
-    {{-- <script src="{{asset('template/plugins/date-picker/date-picker.js')}}"></script>
-    <script src="{{asset('template/plugins/date-picker/jquery-ui.js')}}"></script>
-    <script src="{{asset('template/plugins/input-mask/jquery.maskedinput.js')}}"></script> --}}
+    {{-- <script src="{{asset('template/js/select2.js')}}"></script> --}}
 
     <!-- DATA TABLE JS-->
     <script src="{{asset('template/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
@@ -85,16 +76,15 @@ HB GROUP - Agregar Participantes
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script>
 
-    <script src="{{asset('components/academico/aulas/aula-model.js')}}"></script>
-    <script src="{{asset('components/academico/aulas/asistencia-view.js')}}"></script>
+    <script src="{{asset('components/academico/cuestionarios/cuestionario-model.js')}}"></script>
+    <script src="{{asset('components/academico/cuestionarios/cuestionario-view.js')}}"></script>
     <script>
         // Select2
 
         $(document).ready(function () {
-            // $('.select2').select2();
-            const view = new AsistenciaView(new AulaModel(csrf_token));
-            view.eventos();
+            const view = new CuestionarioView(new CuestionarioModel(csrf_token));
             view.listar();
+            view.eventos();
         });
 
 

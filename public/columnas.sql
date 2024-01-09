@@ -54,3 +54,67 @@ ALTER TABLE `cursos` ADD constraint fk_cursos_asignaturas FOREIGN KEY (`asignatu
 ALTER TABLE `aulas` ADD `asignatura_id` bigint(20) unsigned AFTER `docente_id`;
 -- crear la llave foranea en la tablade aulas
 ALTER TABLE `aulas` ADD constraint fk_aulas_asignaturas FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas`(`id`);
+--- sql 8-01-2024 para examenes / cuestionario ejecutarlo
+CREATE TABLE `cuestionarios` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(255) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `fecha_registro` datetime DEFAULT NULL,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+-- tipo de preguntas
+CREATE TABLE `tipo_preguntas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `fecha_registro` datetime DEFAULT NULL,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+-- tabla donde se enlasan las preguntas con el cuestionario
+CREATE TABLE `cuestionario_preguntas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `pregunta` text DEFAULT NULL,
+  `puntaje` int(11) DEFAULT NULL,
+  `fecha_registro` datetime DEFAULT NULL,
+  `cuestionario_id` bigint(20) unsigned NOT NULL,
+  `tipo_pregunta_id` bigint(20) unsigned NOT NULL,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+--- tabla donde se generan las respuestas
+CREATE TABLE `cuestionario_respuestas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `descripcion` text DEFAULT NULL,
+  `verdadero` int(11) DEFAULT 0,
+  `fecha_registro` datetime DEFAULT NULL,
+	`pregunta_id` bigint(20) unsigned NOT NULL,
+	`cuestionario_id` bigint(20) unsigned NOT NULL,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
