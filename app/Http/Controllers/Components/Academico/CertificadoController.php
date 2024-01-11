@@ -436,7 +436,7 @@ class CertificadoController extends Controller
         $controlador = new HomeController();
 
         $array = array();
-        LogActividades::guardar(Auth()->user()->id, 7, 'LISTADO DE CERTIFICADOS', $respuesta->getTable(), $request->all(), NULL, 'SE PROCEDIO A DESCARGAR CERTIFICADOs MASIVOS');
+        // LogActividades::guardar(Auth()->user()->id, 7, 'LISTADO DE CERTIFICADOS', $respuesta->getTable(), $request->all(), NULL, 'SE PROCEDIO A DESCARGAR CERTIFICADOs MASIVOS');
         foreach ($respuesta as $key => $value) {
             echo "<SCRIPT>window.open('".route('exportar-certificado-pdf',['id'=>$value->id])."');</SCRIPT>";
         }
