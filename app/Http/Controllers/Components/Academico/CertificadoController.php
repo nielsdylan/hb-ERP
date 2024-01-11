@@ -20,6 +20,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use SebastianBergmann\Type\TrueType;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf;
+use DateTime;
 
 class CertificadoController extends Controller
 {
@@ -249,13 +250,18 @@ class CertificadoController extends Controller
 
                         // $fecha_curso = Carbon::parse($hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue())->format('Y-m-d');
 
-                        // return date("Y-m-d",strtotime($fecha_curso."+ ".$hojaActual->getCellByColumnAndRow(25, $indiceFila)->getFormattedValue()." year"));
+
+
+                        // return $this->formatoFechaExcel($hojaActual->getCellByColumnAndRow(1, $indiceFila)->getValue());
+                        // return $timestamp;
+                        // return $hojaActual->getCellByColumnAndRow(1, $indiceFila)->getValue();
+                        // return $hojaActual->getCellByColumnAndRow(1, $indiceFila)->getCalculatedValue();
 
                         $data = Certificado::firstOrNew(
                             ['cod_certificado' => $hojaActual->getCellByColumnAndRow(21, $indiceFila)->getFormattedValue()],
                             ['estado' => 1]
                         );
-                            $data->fecha_curso              = Carbon::parse($hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue())->format('Y-m-d') ;
+                            $data->fecha_curso              = $this->formatoFechaExcel($hojaActual->getCellByColumnAndRow(1, $indiceFila)->getValue()) ;
                         // $data->codigo_curso             = $request->codigo_curso;
                             $data->curso                    = $hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue();
                             $data->tipo_curso               = $hojaActual->getCellByColumnAndRow(3, $indiceFila)->getFormattedValue();
@@ -278,11 +284,11 @@ class CertificadoController extends Controller
                             // $data->fecha_vencimiento        = Carbon::parse($hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue())->format('Y-m-d');
 
                             if ((int) $hojaActual->getCellByColumnAndRow(25, $indiceFila)->getFormattedValue() > 0) {
-                                $fecha_curso = Carbon::parse($hojaActual->getCellByColumnAndRow(1, $indiceFila)->getFormattedValue())->format('Y-m-d');
+                                $fecha_curso = $this->formatoFechaExcel($hojaActual->getCellByColumnAndRow(1, $indiceFila)->getValue());
 
                                 $data->fecha_vencimiento = date("Y-m-d",strtotime($fecha_curso."+ ".$hojaActual->getCellByColumnAndRow(25, $indiceFila)->getFormattedValue()." year"));
                             }else{
-                                $data->fecha_vencimiento = Carbon::parse($hojaActual->getCellByColumnAndRow(23, $indiceFila)->getFormattedValue())->format('Y-m-d');
+                                $data->fecha_vencimiento = $this->formatoFechaExcel($hojaActual->getCellByColumnAndRow(23, $indiceFila)->getValue());
                             }
 
                             $data->duracion                 = $hojaActual->getCellByColumnAndRow(22, $indiceFila)->getFormattedValue();
@@ -447,6 +453,9 @@ class CertificadoController extends Controller
         $data = Certificado::find($id);
         LogActividades::guardar(Auth()->user()->id, 6, 'LISTADO DE CERTIFICADOS', $data->getTable(), $data, NULL, 'SE PROCEDIO A VER LA INFORMACION DE UN REGISTRO');
         return response()->json(["data"=>$data,"ejemplo"=>$data->documentos],200);
+    }
+    public function formatoFechaExcel($numero){
+        return gmdate("Y-m-d", (((int)$numero - 25569) * 86400));
     }
 
 }
