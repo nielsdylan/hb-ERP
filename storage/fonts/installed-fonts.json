@@ -4,5 +4,13 @@
     },
     "roboto": {
         "normal": "roboto_normal_7bc701b343c10631f60048716b96e4f7"
+    },
+    "open sans": {
+        "normal": "open_sans_normal_8cf690faa7ed8366e598e5c4c2a650ef",
+        "300": "C:\\xampp\\htdocs\\academicoErp\\storage\\fonts\/open_sans_300_8cf690faa7ed8366e598e5c4c2a650ef"
+    },
+    "open-sans regular": {
+        "normal": "C:\\xampp\\htdocs\\academicoErp\\storage\\fonts\/open_sans_regular_normal_8cf690faa7ed8366e598e5c4c2a650ef",
+        "300": "open_sans_regular_300_8cf690faa7ed8366e598e5c4c2a650ef"
     }
 }

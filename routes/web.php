@@ -142,6 +142,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('abandono-confirmar/{id}', [AulasController::class, 'abandonoConfirmar'])->name('abandono-confirmar');
 
             Route::get('descargar-asistencia/{id}', [AulasController::class, 'descargarAsistencia'])->name('descargar-asistencia');
+            Route::get('reporte-asistencia/{id}', [AulasController::class, 'reporteAsistencia'])->name('reporte-asistencia');
         });
         Route::name('cuestionario.')->prefix('cuestionario')->group(function () {
             Route::get('lista',[CuestionarioController::class,'lista'])->name('lista');

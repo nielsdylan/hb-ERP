@@ -275,7 +275,7 @@ class AulasController extends Controller
                     if ($value->usuario->persona->path_dni) {
                         $html.='<div style="margin: 25px !important;"><img src="'.asset('').'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
                     }
-                    
+
                 }
             '</body>'.
         '</html>';
@@ -284,5 +284,37 @@ class AulasController extends Controller
         $pdf->stream();
         return $pdf->download($aula->codigo.'-asistencia.pdf');
     }
-    
+    public function reporteAsistencia($id){
+        $aula = Aulas::find($id);
+        $data = Asistencia::where('aula_id', $id)->where('estado',1)->get();
+        $alumnos = array();
+
+        foreach ($data as $key => $value) {
+            array_push($alumnos,array(
+                "documento"=>$value->usuario->persona->nro_documento,
+                "nombres"=>$value->usuario->persona->nombres,
+                "apellido_paterno"=>$value->usuario->persona->apellido_paterno,
+                "apellido_materno"=>$value->usuario->persona->apellido_materno,
+                "asistencia"=>($value->ingreso==1?true:false),
+                "comentarios"=>'-',
+            ));
+        }
+        $cabecera = array(
+            "organisacion"=>'HB GROUP PERU S.R.L.',
+            "curso"=>$aula->curso->nombre,
+            "fecha"=>$aula->fecha,
+            "instructor"=>$aula->usuario->persona->apellido_paterno.' '.$aula->usuario->persona->apellido_materno.' '.$aula->usuario->persona->nombres,
+            "lugar_dictado"=>'www.hbgroup.pe',
+            "id_sistema_apn"=>$aula->codigo,
+            "modalidad"=>'virtual',
+            "horario"=>$aula->hora_inicio.' - '.$aula->hora_final,
+            "registro_instructor"=>'-',
+            "firma_instructor"=>'-',
+        );
+        $valores = array("cabecera"=>json_encode($cabecera),"alumnos"=>json_encode($alumnos),"nombre"=>'niels');
+        $pdf = PDF::loadView('components/academico/aulas/report/asistencia_reporte', $valores);
+        return $pdf->stream('historia_clinica.pdf');
+        // return response()->json(["cabecera"=>$cabecera,"alumnos"=>$alumnos],200);
+    }
+
 }

@@ -28,6 +28,16 @@ class AsistenciaView {
                     action: function (e, dt, node, config) {
                         window.open(route('hb.academicos.aulas.descargar-asistencia',{ id: $('[name="aula_id"]').val() }), "Reporte")
                     }
+                },
+                {
+                    text: '<span class="fa fa-file-pdf-o text-default"></span> Reporte de Asistencia',
+                    className:'btn btn-default btn-sm',
+                    init: function(api, node, config) {
+                        $(node).removeClass('btn-primary')
+                    },
+                    action: function (e, dt, node, config) {
+                        window.open(route('hb.academicos.aulas.reporte-asistencia',{ id: $('[name="aula_id"]').val() }), "Reporte")
+                    }
                 }
             ],
             initComplete: function (settings, json) {
