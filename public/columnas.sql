@@ -54,6 +54,7 @@ ALTER TABLE `cursos` ADD constraint fk_cursos_asignaturas FOREIGN KEY (`asignatu
 ALTER TABLE `aulas` ADD `asignatura_id` bigint(20) unsigned AFTER `docente_id`;
 -- crear la llave foranea en la tablade aulas
 ALTER TABLE `aulas` ADD constraint fk_aulas_asignaturas FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas`(`id`);
+-----------------------------------------------------------------------------------------------------------------------
 --- sql 8-01-2024 para examenes / cuestionario ejecutarlo
 CREATE TABLE `cuestionarios` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -107,8 +108,8 @@ CREATE TABLE `cuestionario_respuestas` (
   `descripcion` text DEFAULT NULL,
   `verdadero` int(11) DEFAULT 0,
   `fecha_registro` datetime DEFAULT NULL,
-	`pregunta_id` bigint(20) unsigned NOT NULL,
-	`cuestionario_id` bigint(20) unsigned NOT NULL,
+  `pregunta_id` bigint(20) unsigned NOT NULL,
+  `cuestionario_id` bigint(20) unsigned NOT NULL,
   `estado` int(11) DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -118,3 +119,8 @@ CREATE TABLE `cuestionario_respuestas` (
   `deleted_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
+-- relaciones de las tablas para el cuestionario
+ALTER TABLE `cuestionario_preguntas` ADD constraint fk_cuestionario_preguntas_tipo_preguntas FOREIGN KEY (`tipo_pregunta_id`) REFERENCES `tipo_preguntas`(`id`);
+ALTER TABLE `cuestionario_preguntas` ADD constraint fk_cuestionario_preguntas_cuestionarios FOREIGN KEY (`cuestionario_id`) REFERENCES `cuestionarios`(`id`);
+ALTER TABLE `cuestionario_respuestas` ADD constraint fk_cuestionario_respuestas_cuestionario_preguntas FOREIGN KEY (`pregunta_id`) REFERENCES `cuestionario_preguntas`(`id`);
+ALTER TABLE `cuestionario_respuestas` ADD constraint fk_cuestionario_respuestas_cuestionarios FOREIGN KEY (`cuestionario_id`) REFERENCES `cuestionarios`(`id`);
