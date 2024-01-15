@@ -41,21 +41,37 @@ HB GROUP - Gestion de Cuestionario
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="codigo">Código</label>
-                                    <input id="codigo" class="form-control form-control-sm" type="text" name="codigo">
+                                    <input id="codigo" class="form-control form-control-sm" type="text" name="codigo" placeholder="Ingrese el codigo del cuestionario">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nombre">Nombre</label>
-                                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre">
+                                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" placeholder="Ingrese el nombre del cuestionario">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12" id="preguntas"></div>
-                            <div class="col-md-12" >
+                            <div class="col-md-12 text-center" >
                                 <button type="button" class="btn btn-success nueva-pregunta"><i class="fe fe-plus"></i> Nueva pregunta</button>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                {{-- <div class="form-group m-0">
+                                    <div class="form-label">Checkboxes</div>
+                                    <div class="custom-controls-stacked">
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1" checked>
+                                            <span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="codigo"></span>
+                                        </label>
+                                    </div>
+                                </div> --}}
+                            </div>
+                        </div>
+
+                        <div id="preguntas">
+                            
                         </div>
                     </div>
                 </form>
@@ -90,7 +106,6 @@ HB GROUP - Gestion de Cuestionario
 
         $(document).ready(function () {
             const view = new CuestionarioView(new CuestionarioModel(csrf_token));
-            view.eventos();
             view.cuestionario();
         });
 

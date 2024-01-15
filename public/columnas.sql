@@ -102,7 +102,7 @@ CREATE TABLE `cuestionario_preguntas` (
   `deleted_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
---- tabla donde se generan las respuestas
+-- tabla donde se generan las respuestas
 CREATE TABLE `cuestionario_respuestas` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `descripcion` text DEFAULT NULL,

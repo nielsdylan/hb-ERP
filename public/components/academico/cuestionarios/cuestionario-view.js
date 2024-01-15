@@ -191,140 +191,118 @@ class CuestionarioView {
                 }
             })
         });
-        /*
-        *
-        *Buscador de alumnos por numero de documento
-        *
-        */
-        $("#guardar").on("change", '[data-search="numero_documento"]', (e) => {
-            let id = $('#guardar').find('input[name="id"]').val();
-            let valor = $(e.currentTarget).val();
-            let tipo = $(e.currentTarget).attr('data-tipo');
-            let form = $('#guardar');
-            this.model.buscarPersona(id,valor, tipo).then((respuesta) => {
-                if (respuesta.success === true) {
-                    form.find('[name="id"]').val(respuesta.persona.id);
-                    form.find('[name="tipo_documento_id"]').val(respuesta.persona.tipo_documento_id).trigger('change.select2');
-                    form.find('[name="nro_documento"]').val(respuesta.persona.nro_documento);
-                    form.find('[name="apellido_paterno"]').val(respuesta.persona.apellido_paterno);
-                    form.find('[name="apellido_materno"]').val(respuesta.persona.apellido_materno);
-                    form.find('[name="nombres"]').val(respuesta.persona.nombres);
-                    form.find('[name="sexo"]').val(respuesta.persona.sexo).trigger('change.select2');
-                    form.find('[name="nacionalidad"]').val(respuesta.persona.nacionalidad);
-                    form.find('[name="cargo"]').val(respuesta.persona.cargo);
-                    form.find('[name="telefono"]').val(respuesta.persona.telefono);
-                    form.find('[name="whatsapp"]').val(respuesta.persona.whatsapp);
-                    // form.find('[name="path_dni"]').val(respuesta.persona.path_dni);
-                    form.find('[name="fecha_cumpleaños"]').val(respuesta.persona.fecha_cumpleaños);
-                    form.find('[name="fecha_caducidad_dni"]').val(respuesta.persona.fecha_caducidad_dni);
-
-                    form.find('[name="email"]').val(respuesta.usuario.email);
-                    form.find('[name="empresa_id"]').val(respuesta.usuario.empresa_id).trigger('change.select2');
-                }else{
-                    form.find('[name="id"]').val(0);
-                }
-
-            }).fail((respuesta) => {
-                // return respuesta;
-            }).always(() => {
-            });
-        });
-        /*
-        *
-        *Modal de Importar alumnos
-        *
-        */
-        $('#carga-excel').click((e) => {
-            e.preventDefault();
-            $('#form-importar')[0].reset();
-            $('#modal-importar').modal('show');
-            $('[data-table="respuesta"]').find('.table-responsive').remove();
-        });
-
-        /*
-        *Guardar de Importar alumnos modo masivo
-        *
-        */
-        $('#form-importar').on("submit", (e) => {
-            e.preventDefault();
-            var data =new FormData($(e.currentTarget)[0]);
-            let model = this.model;
-            let html='';
-            let html_tr='';
-
-            model.importarExcel(data).then((respuesta) => {
-                $('#tabla-data').DataTable().ajax.reload();
-                notif({
-                    msg: '<span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>'+
-                    '<span class="alert-inner--text"><strong> '+respuesta.titulo+'!</strong> '+respuesta.mensaje+'</span>',
-                    type: respuesta.tipo,
-                    width: 480,
-                });
-                if (respuesta.tipo == 'warning') {
-
-                    $.each(respuesta.data, function (index, element) {
-                        // if (index!=0) {
-                            html_tr += `
-                            <tr>
-                                <td>`+(element.tipos_documentos==null?'-':element.tipos_documentos)+`</td>
-                                <td>`+(element.n_documento==null?'-':element.n_documento)+`</td>
-                                <td>`+(element.Apellido_Paterno?'-':element.Apellido_Paterno)+`</td>
-                                <td>`+(element.Apellido_Materno==null?'-':element.Apellido_Materno)+`</td>
-                                <td>`+(element.Nombres==null?'-':element.Nombres)+`</td>
-                                <td>`+(element.Whatsapp==null?'-':element.Whatsapp)+`</td>
-                                <td>`+(element.Nacionalidad==null?'-':element.Nacionalidad)+`</td>
-                                <td>`+(element.Cargo==null?'-':element.Cargo)+`</td>
-                                <td>`+(element.Telefono==null?'-':element.Telefono)+`</td>
-                                <td>`+(element.Sexo==null?'-':element.Sexo)+`</td>
-                                <td>`+(element.Empresa==null?'-':element.Empresa)+`</td>
-                                <td>`+(element.Fecha_Cumpleaños==null?'-':element.Fecha_Cumpleaños)+`</td>
-                                <td>`+(element.Fecha_Caducidad_DNI==null?'-':element.Fecha_Caducidad_DNI)+`</td>
-                                <td>`+(element.Email==null?'-':element.Email)+`</td>
-                            </tr>`;
-
-                        // }
-                    });
-                    html = `
-                    <div class="table-responsive">
-                    <h6>Lista de Alumnos que no fueron registrados revisar sutilmente los registros </h6>
-                        <table class="table table-bordered text-nowrap border-bottom table-hover" id="table-respuesta" >
-                            <thead>
-                                <tr>
-                                    <th style="background-color: #f3ff44;">Tipos de Documentos *</th>
-                                    <th style="background-color: #f3ff44;">N° Documento *</th>
-                                    <th style="background-color: #f3ff44;">Apellido Paterno *</th>
-                                    <th style="background-color: #f3ff44;">Apellido Materno *</th>
-                                    <th style="background-color: #f3ff44;">Nombres *</th>
-                                    <th style="background-color: #888888;">Whatsapp </th>
-                                    <th style="background-color: #888888;">Nacionalidad </th>
-                                    <th style="background-color: #888888;">Cargo </th>
-                                    <th style="background-color: #888888;">Telefono </th>
-                                    <th style="background-color: #f3ff44;">Sexo(M/F) *</th>
-                                    <th style="background-color: #f3ff44;">Empresa *</th>
-                                    <th style="background-color: #f3ff44;">Fecha de Cumpleaños *</th>
-                                    <th style="background-color: #f3ff44;">Fecha de Caducidad de DNI *</th>
-                                    <th style="background-color: #f3ff44;">Email *</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            `+html_tr+`
-                            </tbody>
-                        </table>
-                    </div>
-                    `;
-                    $('[data-table="respuesta"]').html(html);
-                }
-            }).fail((respuesta) => {
-                // return respuesta;
-            }).always(() => {
-            });
-        });
     }
 
     cuestionario = () => {
+        /*
+        *   agregamos la pregunta
+        */
         $('.nueva-pregunta').click((e) => {
             e.preventDefault();
-            console.log('click');
+            let preguntas = $('#preguntas');
+            let numero_random = Math.random();
+            let html = ''+
+            '<div class="row mt-3" key="'+numero_random+'">'+
+                '<div class="col-md-12">'+
+                    '<div class="input-group">'+
+                        '<input type="text" class="form-control form-control-sm" placeholder="Ingrese su pregunta">'+
+                        '<button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>'+
+                        '<ul class="dropdown-menu">'+
+                            '<li><a class="dropdown-item agregar-respuesta" href="#" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="1"> Una sola alternativa</a></li>'+
+                            '<li><a class="dropdown-item agregar-respuesta" href="#" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="2"> Multi alternativas</a></li>'+
+                            '<li><a class="dropdown-item agregar-respuesta" href="#" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="3"> Escritura</a></li>'+
+                        '</ul>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="row mt-3" key="'+numero_random+'" data-seccion="respuestas-'+numero_random+'">'+
+            '</div>';
+            preguntas.append(html);
+        });
+        /*
+        *   agregamos las respuestas dec ada pregunta
+        */
+        $('#preguntas').on("click", ".agregar-respuesta", (e) => {
+            e.preventDefault();
+            let tipo_pregunta_id = $(e.currentTarget).attr('data-tipo-pregunta');
+            let key = $(e.currentTarget).attr('data-key');
+            let this_respuestas = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]');            
+            let html = '';
+            
+            if ( tipo_pregunta_id == '1' || tipo_pregunta_id == '2' ) {
+
+                let control = this_respuestas.find('.custom-controls-stacked');
+
+                if (control.length>0) {
+
+                    // transformamos las respuesta segun se seleccione
+                    if (tipo_pregunta_id == '1') {
+
+                        control.find('.custom-control').removeClass('custom-checkbox'); 
+                        control.find('.custom-control').addClass('custom-radio');
+                        control.find('.custom-control-input').removeAttr('type');
+                        control.find('.custom-control-input').attr('type','radio');
+                        
+                    }
+
+                    if (tipo_pregunta_id == '2') {
+
+                        control.find('.custom-control').removeClass('custom-radio');
+                        control.find('.custom-control').addClass('custom-checkbox');
+                        control.find('.custom-control-input').removeAttr('type');
+                        control.find('.custom-control-input').attr('type','checkbox');
+
+                    }
+                    this_respuestas.find('button.nueva-alternativa').attr('data-tipo-pregunta',tipo_pregunta_id);
+                }else{
+                    let componente = 'checkbox';
+                    if (tipo_pregunta_id=='1') {
+                        componente = 'radio';
+                    }
+
+                    html=''+
+                    '<div class="col-md-4">'+
+                        '<div class="form-group">'+
+                            '<div class="custom-controls-stacked" data-key-respuestas="'+key+'">'+
+                                '<label class="custom-control custom-'+componente+'">'+
+                                    '<input type="'+componente+'" class="custom-control-input" name="example-radios" value="option1">'+
+                                    '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="codigo" placeholder="Ingrese su alternativa"></span>'+
+                                '</label>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="col-md-4 mt-auto">'+
+                        '<button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'
+                    '</div>';
+                    this_respuestas.html(html);
+
+                }
+
+            }
+
+            
+        });
+
+        /*
+        *   agregamos una nueva respuesta
+        */ 
+        $('#preguntas').on("click", ".nueva-alternativa", (e) => {
+            e.preventDefault();
+            let key = $(e.currentTarget).attr('data-key');
+            let tipo_pregunta_id = $(e.currentTarget).attr('data-tipo-pregunta');
+            let this_preguntas = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]');
+
+            let componente = 'checkbox';
+            if (tipo_pregunta_id=='1') {
+                componente = 'radio';
+            }
+            let html = ''+
+            '<label class="custom-control custom-'+componente+'">'+
+                '<input type="'+componente+'" class="custom-control-input" name="example-radios" value="option1">'+
+                '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="codigo" placeholder="Ingrese su alternativa"></span>'+
+            '</label>';
+            this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html);
+            console.log(componente);
         });
     }
 }
