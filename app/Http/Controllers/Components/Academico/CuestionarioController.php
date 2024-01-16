@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Components\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cuestionario;
+use App\Models\CuestionarioPregunta;
 use App\Models\LogActividades;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -44,5 +45,28 @@ class CuestionarioController extends Controller
         // return $tipo;
         LogActividades::guardar(Auth()->user()->id, 1, $tipo, null, null, null, 'INGRESO AL FORMULARIO DE CUESTIONARIO');
         return view('components.academico.cuestionario.formulario', get_defined_vars());
+    }
+    public function guardar(Request $request){
+
+        return response()->json($request,200);
+
+        $cuestionario = Cuestionario::firstOrNew(['id' => $request->id]);
+        $cuestionario->codigo = $request->codigo;
+        $cuestionario->nombre = $request->nombre;
+        if ((int)$request->id>0) {
+            $cuestionario->updated_at   = date('Y-m-d H:i:s');
+            $cuestionario->updated_id   = Auth()->user()->id;
+        }else{
+            $cuestionario->created_at   = date('Y-m-d H:i:s');
+            $cuestionario->created_id   = Auth()->user()->id;
+        }
+        $cuestionario->save();
+
+        foreach ($request->cuestionario as $key_pregunta => $value_pregunta) {
+            $pregunta = new CuestionarioPregunta();
+            $pregunta->save();
+            // return $value_pregunta;
+        }
+        return response()->json($request,200);
     }
 }

@@ -9,8 +9,8 @@ class CuestionarioModel {
             url: route("hb.academicos.cuestionario.guardar"),
             type: "POST",
             dataType: "JSON",
-            processData: false,
-            contentType: false,
+            // processData: false,
+            // contentType: false,
             data: data,
         });
     };

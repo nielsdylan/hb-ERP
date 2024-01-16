@@ -203,15 +203,27 @@ class CuestionarioView {
             let numero_random = Math.random();
             let html = ''+
             '<div class="row mt-3" key="'+numero_random+'">'+
-                '<div class="col-md-12">'+
-                    '<div class="input-group">'+
-                        '<input type="text" class="form-control form-control-sm" placeholder="Ingrese su pregunta">'+
-                        '<button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>'+
-                        '<ul class="dropdown-menu">'+
-                            '<li><a class="dropdown-item agregar-respuesta" href="#" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="1"> Una sola alternativa</a></li>'+
-                            '<li><a class="dropdown-item agregar-respuesta" href="#" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="2"> Multi alternativas</a></li>'+
-                            '<li><a class="dropdown-item agregar-respuesta" href="#" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="3"> Escritura</a></li>'+
-                        '</ul>'+
+
+                '<div class="col-md-8">'+
+                    '<input type="hidden" name="cuestionario['+numero_random+'][tipo_pregunta_id]" value=""></input>'+
+                    '<input type="text" class="form-control form-control-sm" placeholder="Ingrese su pregunta" name="cuestionario['+numero_random+'][pregunta]">'+
+                '</div>'+
+                '<div class="col-md-2">'+
+                    '<input type="number" class="form-control form-control-sm" placeholder="Ingrese el puntaje" name="cuestionario['+numero_random+'][puntaje]">'+
+                '</div>'+
+
+                '<div class="col-md-2">'+
+                    '<div class="btn-group">'+
+                        '<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown">'+
+                                'Tipo de alternativas <span class="caret"></span>'+
+                            '</button>'+
+                        '<ul class="dropdown-menu" role="menu">'+
+                            '<li><a class="agregar-respuesta" href="javascript:void(0)" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="1"> Una sola alternativa</a></li>'+
+                            '<li><a class="agregar-respuesta" href="javascript:void(0)" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="2"> Multi alternativas</a></li>'+
+                            '<li><a class="agregar-respuesta" href="javascript:void(0)" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="3"> Escritura</a></li>'+
+                            '<li class="divider"></li>'+
+                            '<li><a href="javascript:void(0)">Separated link</a></li>'+
+                       ' </ul>'+
                     '</div>'+
                 '</div>'+
             '</div>'+
@@ -226,9 +238,11 @@ class CuestionarioView {
             e.preventDefault();
             let tipo_pregunta_id = $(e.currentTarget).attr('data-tipo-pregunta');
             let key = $(e.currentTarget).attr('data-key');
-            let this_respuestas = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]');            
+            let this_respuestas = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]');
             let html = '';
-            
+            let id = Math.floor(Math.random() * 999999);
+
+            $('#preguntas').find('[key="'+key+'"]').find('[type="hidden"][name="cuestionario['+key+'][tipo_pregunta_id]"]').val(tipo_pregunta_id);
             if ( tipo_pregunta_id == '1' || tipo_pregunta_id == '2' ) {
 
                 let control = this_respuestas.find('.custom-controls-stacked');
@@ -238,11 +252,11 @@ class CuestionarioView {
                     // transformamos las respuesta segun se seleccione
                     if (tipo_pregunta_id == '1') {
 
-                        control.find('.custom-control').removeClass('custom-checkbox'); 
+                        control.find('.custom-control').removeClass('custom-checkbox');
                         control.find('.custom-control').addClass('custom-radio');
                         control.find('.custom-control-input').removeAttr('type');
                         control.find('.custom-control-input').attr('type','radio');
-                        
+
                     }
 
                     if (tipo_pregunta_id == '2') {
@@ -265,8 +279,8 @@ class CuestionarioView {
                         '<div class="form-group">'+
                             '<div class="custom-controls-stacked" data-key-respuestas="'+key+'">'+
                                 '<label class="custom-control custom-'+componente+'">'+
-                                    '<input type="'+componente+'" class="custom-control-input" name="example-radios" value="option1">'+
-                                    '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="codigo" placeholder="Ingrese su alternativa"></span>'+
+                                    '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'">'+
+                                    '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][texto]['+id+']" placeholder="Ingrese su alternativa"></span>'+
                                 '</label>'+
                             '</div>'+
                         '</div>'+
@@ -280,29 +294,69 @@ class CuestionarioView {
 
             }
 
-            
+
         });
 
         /*
         *   agregamos una nueva respuesta
-        */ 
+        */
         $('#preguntas').on("click", ".nueva-alternativa", (e) => {
             e.preventDefault();
             let key = $(e.currentTarget).attr('data-key');
             let tipo_pregunta_id = $(e.currentTarget).attr('data-tipo-pregunta');
             let this_preguntas = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]');
-
+            let id = Math.floor(Math.random() * 999999);
             let componente = 'checkbox';
             if (tipo_pregunta_id=='1') {
                 componente = 'radio';
             }
             let html = ''+
             '<label class="custom-control custom-'+componente+'">'+
-                '<input type="'+componente+'" class="custom-control-input" name="example-radios" value="option1">'+
-                '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="codigo" placeholder="Ingrese su alternativa"></span>'+
+                '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'">'+
+                '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][texto]['+id+']" placeholder="Ingrese su alternativa"></span>'+
             '</label>';
             this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html);
             console.log(componente);
+        });
+
+        /*
+            Se procedera a guardar la data del cuestionario
+        */
+        $('#guardar').on("submit", (e) => {
+            e.preventDefault();
+            var data = $(e.currentTarget).serialize();
+            let model = this.model;
+
+            Swal.fire({
+                title: 'Información',
+                text: "¿Está seguro de guardar?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si, guardar',
+                cancelButtonText: 'No, cancelar',
+                showLoaderOnConfirm: true,
+                preConfirm: (login) => {
+                    return model.guardar(data).then((respuesta) => {
+                        return respuesta;
+                    }).fail((respuesta) => {
+                        // return respuesta;
+                    }).always(() => {
+                    });
+                },
+                // allowOutsideClick: () => !Swal.isLoading()
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Éxito!',
+                        'Se guardo con éxito!',
+                        'success'
+                    );
+                    // window.location.href = route('hb.academicos.cuestionario.lista');
+                    console.log(result);
+                }
+            })
+
+
         });
     }
 }

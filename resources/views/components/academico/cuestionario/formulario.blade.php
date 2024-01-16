@@ -34,7 +34,9 @@ HB GROUP - Gestion de Cuestionario
 
                     </div> --}}
                 </div>
-                <form action="">
+                <form id="guardar" action="POST">
+                    @csrf
+                    <input type="hidden" name="id" value="{{$id}}">
                     <div class="card-body">
 
                         <div class="row">
@@ -47,15 +49,15 @@ HB GROUP - Gestion de Cuestionario
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nombre">Nombre</label>
-                                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" placeholder="Ingrese el nombre del cuestionario">
+                                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" placeholder="Ingrese el nombre del cuestionario" required>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-12 text-center" >
                                 <button type="button" class="btn btn-success nueva-pregunta"><i class="fe fe-plus"></i> Nueva pregunta</button>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row">
                             <div class="col-md-4">
                                 {{-- <div class="form-group m-0">
@@ -71,8 +73,16 @@ HB GROUP - Gestion de Cuestionario
                         </div>
 
                         <div id="preguntas">
-                            
+
                         </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center" >
+                                <button type="button" class="btn btn-success btn-sm nueva-pregunta"><i class="fe fe-plus"></i> Nueva pregunta</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <button type="submit" class="btn btn-success btn-sm" ><i class="fe fe-save"></i> Guardar</button>
                     </div>
                 </form>
             </div>
