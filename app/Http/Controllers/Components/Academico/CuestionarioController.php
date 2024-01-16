@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Components\Academico;
 use App\Http\Controllers\Controller;
 use App\Models\Cuestionario;
 use App\Models\CuestionarioPregunta;
+use App\Models\CuestionarioRespuesta;
 use App\Models\LogActividades;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -48,7 +49,7 @@ class CuestionarioController extends Controller
     }
     public function guardar(Request $request){
 
-        return response()->json($request,200);
+        // return response()->json($request,200);
 
         $cuestionario = Cuestionario::firstOrNew(['id' => $request->id]);
         $cuestionario->codigo = $request->codigo;
@@ -62,11 +63,66 @@ class CuestionarioController extends Controller
         }
         $cuestionario->save();
 
+        CuestionarioPregunta::where('cuestionario_id',$request->id)->delete();
         foreach ($request->cuestionario as $key_pregunta => $value_pregunta) {
             $pregunta = new CuestionarioPregunta();
+            $pregunta->pregunta         = $value_pregunta['pregunta'];
+            $pregunta->puntaje          = $value_pregunta['puntaje'];
+            $pregunta->fecha_registro   = date('Y-m-d H:i:s');
+            $pregunta->cuestionario_id  = $cuestionario->id;
+            $pregunta->tipo_pregunta_id = (int) $value_pregunta['tipo_pregunta_id'];
+            $pregunta->created_at       = date('Y-m-d H:i:s');
+            $pregunta->created_id       = Auth()->user()->id;
             $pregunta->save();
-            // return $value_pregunta;
+
+            CuestionarioRespuesta::where('cuestionario_id',$request->id)->where('pregunta_id',$pregunta->id)->delete();
+            foreach ($value_pregunta['alternativas'] as $key_alternativas => $value_alternativas) {
+                $respuestas                     = new CuestionarioRespuesta();
+                $respuestas->descripcion        = $value_alternativas;
+
+                foreach ($value_pregunta['respuesta'] as $key_respuesta => $value_respuesta) {
+                    if ($value_respuesta==($key_alternativas."")) {
+                        $respuestas->verdadero  = 1;
+                    }
+                }
+                $respuestas->fecha_registro     = date('Y-m-d H:i:s');
+                $respuestas->pregunta_id        = $pregunta->id;
+                $respuestas->cuestionario_id    = $cuestionario->id;
+                $respuestas->created_at         = date('Y-m-d H:i:s');
+                $respuestas->created_id         = Auth()->user()->id;
+                $respuestas->save();
+            }
         }
         return response()->json($request,200);
+    }
+    public function eliminar($id){
+        $cuestionario = Cuestionario::find($id);
+        $cuestionario->deleted_at   = date('Y-m-d H:i:s');
+        $cuestionario->deleted_id   = Auth()->user()->id;
+        $cuestionario->save();
+
+        $preguntas = CuestionarioPregunta::where('cuestionario_id', $id)
+        ->update(
+            [
+                'deleted_at' => date('Y-m-d H:i:s'),
+                'deleted_id' => Auth()->user()->id
+            ]
+        );
+        $respuestas = CuestionarioRespuesta::where('cuestionario_id', $id)
+        ->update(
+            [
+                'deleted_at' => date('Y-m-d H:i:s'),
+                'deleted_id' => Auth()->user()->id
+            ]
+        );
+        return response()->json(["tipo"=>true],200);
+    }
+    public function obtenerCuestionario($id) {
+        $cuestionario   = Cuestionario::find($id);
+        $cuestionario->preguntas      = CuestionarioPregunta::where('cuestionario_id',$id)->get();
+        foreach ($cuestionario->preguntas as $key => $value) {
+            $value->respuestas = CuestionarioRespuesta::where('cuestionario_id',$id)->where('pregunta_id',$value->id)->get();
+        }
+        return response()->json(["cuestionario"=>$cuestionario],200);
     }
 }

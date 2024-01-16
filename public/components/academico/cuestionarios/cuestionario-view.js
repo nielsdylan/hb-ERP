@@ -144,15 +144,8 @@ class CuestionarioView {
          */
         $("#tabla-data").on("click", "button.editar", (e) => {
             e.preventDefault();
-            let id = $(e.currentTarget).attr('data-id'),
-                tipo ="Editar alumno",
-                form = $('<form action="'+route('hb.academicos.cuestionario.formulario')+'" method="POST">'+
-                    '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
-                    '<input type="hidden" name="id" value="'+id+'" >'+
-                    '<input type="hidden" name="tipo" value="'+tipo+'" >'+
-                '</form>');
-            $('body').append(form);
-            form.submit();
+            let id = $(e.currentTarget).attr('data-id');
+            window.location.href = route('hb.academicos.cuestionario.formulario-editar',{id: id});
         });
 
         /**
@@ -187,7 +180,6 @@ class CuestionarioView {
                         'success'
                     );
                     $('#tabla-data').DataTable().ajax.reload();
-                    $('#modal-alumno').modal('hide');
                 }
             })
         });
@@ -280,7 +272,7 @@ class CuestionarioView {
                             '<div class="custom-controls-stacked" data-key-respuestas="'+key+'">'+
                                 '<label class="custom-control custom-'+componente+'">'+
                                     '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'">'+
-                                    '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][texto]['+id+']" placeholder="Ingrese su alternativa"></span>'+
+                                    '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][alternativas]['+id+']" placeholder="Ingrese su alternativa"></span>'+
                                 '</label>'+
                             '</div>'+
                         '</div>'+
@@ -313,7 +305,7 @@ class CuestionarioView {
             let html = ''+
             '<label class="custom-control custom-'+componente+'">'+
                 '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'">'+
-                '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][texto]['+id+']" placeholder="Ingrese su alternativa"></span>'+
+                '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][alternativas]['+id+']" placeholder="Ingrese su alternativa"></span>'+
             '</label>';
             this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html);
             console.log(componente);
@@ -358,6 +350,78 @@ class CuestionarioView {
 
 
         });
+    }
+
+    obtenerPreguntas = () => {
+        let id = $('#guardar').find('[name="id"]').val();
+        if (parseInt(id)>0) {
+            this.model.obtenerCuestionario(id).then((respuesta) => {
+                renderizarCuestionario(respuesta.cuestionario)
+            }).fail((respuesta) => {
+                // return respuesta;
+            }).always(() => {
+            });
+        }
+        function renderizarCuestionario(data) {
+            console.log(data);
+
+
+            $.each(data.preguntas, function (index_pregunta, element_pregunta) {
+                let preguntas = $('#preguntas');
+                let numero_random = Math.random();
+                let html = ''+
+                '<div class="row mt-3" key="'+numero_random+'">'+
+                    '<div class="col-md-8">'+
+                        '<input type="hidden" name="cuestionario['+numero_random+'][tipo_pregunta_id]" value=""></input>'+
+                        '<input type="text" class="form-control form-control-sm" placeholder="Ingrese su pregunta" name="cuestionario['+numero_random+'][pregunta]">'+
+                    '</div>'+
+                    '<div class="col-md-2">'+
+                        '<input type="number" class="form-control form-control-sm" placeholder="Ingrese el puntaje" name="cuestionario['+numero_random+'][puntaje]">'+
+                    '</div>'+
+
+                    '<div class="col-md-2">'+
+                        '<div class="btn-group">'+
+                            '<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown">'+
+                                    'Tipo de alternativas <span class="caret"></span>'+
+                                '</button>'+
+                            '<ul class="dropdown-menu" role="menu">'+
+                                '<li><a class="agregar-respuesta" href="javascript:void(0)" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="1"> Una sola alternativa</a></li>'+
+                                '<li><a class="agregar-respuesta" href="javascript:void(0)" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="2"> Multi alternativas</a></li>'+
+                                '<li><a class="agregar-respuesta" href="javascript:void(0)" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="3"> Escritura</a></li>'+
+                                '<li class="divider"></li>'+
+                                '<li><a href="javascript:void(0)">Separated link</a></li>'+
+                        ' </ul>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+                '<div class="row mt-3" key="'+numero_random+'" data-seccion="respuestas-'+numero_random+'">'+
+                '</div>';
+                preguntas.append(html);
+                console.log(element_pregunta);
+                $.each(element_pregunta.respuestas, function (index_respuesta, element_respuesta) {
+
+                    let key = numero_random;
+                    let tipo_pregunta_id = element_pregunta.tipo_pregunta_id;
+                    let this_preguntas = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]');
+                    let id = Math.floor(Math.random() * 999999);
+                    let componente = 'checkbox';
+                    if (tipo_pregunta_id=='1') {
+                        componente = 'radio';
+                    }
+                    let html = ''+
+                    '<label class="custom-control custom-'+componente+'">'+
+                        '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'">'+
+                        '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][alternativas]['+id+']" value="'+element_respuesta.descripcion+'" placeholder="Ingrese su alternativa"></span>'+
+                    '</label>';
+                    this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html);
+
+
+
+                });
+
+
+            });
+        }
     }
 }
 

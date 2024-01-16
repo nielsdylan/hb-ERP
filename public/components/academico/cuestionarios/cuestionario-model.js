@@ -35,4 +35,14 @@ class CuestionarioModel {
             data: {_token:this.token},
         });
     }
+    obtenerCuestionario = (id) => {
+        return $.ajax({
+            url: route("hb.academicos.cuestionario.obtener-cuestionario",{id:id}),
+            type: "GET",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token},
+        });
+    };
 }

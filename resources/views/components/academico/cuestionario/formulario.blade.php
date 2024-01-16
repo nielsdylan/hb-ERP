@@ -43,13 +43,13 @@ HB GROUP - Gestion de Cuestionario
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="codigo">Código</label>
-                                    <input id="codigo" class="form-control form-control-sm" type="text" name="codigo" placeholder="Ingrese el codigo del cuestionario">
+                                    <input id="codigo" class="form-control form-control-sm" type="text" name="codigo" value="{{($data?$data->codigo:'')}}" placeholder="Ingrese el codigo del cuestionario">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nombre">Nombre</label>
-                                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" placeholder="Ingrese el nombre del cuestionario" required>
+                                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" value="{{($data?$data->nombre:'')}}" placeholder="Ingrese el nombre del cuestionario" required>
                                 </div>
                             </div>
                         </div>
@@ -99,16 +99,6 @@ HB GROUP - Gestion de Cuestionario
     <script src="{{asset('template/plugins/select2/select2.full.min.js')}}"></script>
     <script src="{{asset('template/js/select2.js')}}"></script>
 
-    <!-- DATA TABLE JS-->
-    {{-- <script src="{{asset('template/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('template/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
-    <script src="{{asset('template/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{asset('template/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
-
-    <script src="{{asset('template/plugins/datatable/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
-    <script src="{{asset('template/js/table-data.js')}}"></script> --}}
-
     <script src="{{asset('components/academico/cuestionarios/cuestionario-model.js')}}"></script>
     <script src="{{asset('components/academico/cuestionarios/cuestionario-view.js')}}"></script>
     <script>
@@ -117,6 +107,7 @@ HB GROUP - Gestion de Cuestionario
         $(document).ready(function () {
             const view = new CuestionarioView(new CuestionarioModel(csrf_token));
             view.cuestionario();
+            view.obtenerPreguntas();
         });
 
 

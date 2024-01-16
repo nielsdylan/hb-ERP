@@ -150,6 +150,8 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('formulario',[CuestionarioController::class,'formulario'])->name('formulario');
             Route::get('formulario/{id}',[CuestionarioController::class,'formulario'])->name('formulario-editar');
             Route::post('guardar',[CuestionarioController::class,'guardar'])->name('guardar');
+            Route::put('eliminar/{id}',[CuestionarioController::class,'eliminar'])->name('eliminar');
+            Route::get('obtener-cuestionario/{id}',[CuestionarioController::class,'obtenerCuestionario'])->name('obtener-cuestionario');
         });
         Route::name('certificados.')->prefix('certificados')->group(function () {
 
