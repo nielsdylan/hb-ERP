@@ -81,7 +81,7 @@ class CuestionarioController extends Controller
                 $respuestas->descripcion        = $value_alternativas;
 
                 foreach ($value_pregunta['respuesta'] as $key_respuesta => $value_respuesta) {
-                    if ($value_respuesta==($key_alternativas."")) {
+                    if ($value_respuesta==$key_alternativas) {
                         $respuestas->verdadero  = 1;
                     }
                 }

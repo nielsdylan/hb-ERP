@@ -83,6 +83,7 @@ HB GROUP - Gestion de Cuestionario
                     </div>
                     <div class="card-footer text-end">
                         <button type="submit" class="btn btn-success btn-sm" ><i class="fe fe-save"></i> Guardar</button>
+                        <a href="{{ route('hb.academicos.cuestionario.lista') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                     </div>
                 </form>
             </div>

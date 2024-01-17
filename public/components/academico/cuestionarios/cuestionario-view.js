@@ -214,7 +214,7 @@ class CuestionarioView {
                             '<li><a class="agregar-respuesta" href="javascript:void(0)" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="2"> Multi alternativas</a></li>'+
                             '<li><a class="agregar-respuesta" href="javascript:void(0)" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="3"> Escritura</a></li>'+
                             '<li class="divider"></li>'+
-                            '<li><a href="javascript:void(0)">Separated link</a></li>'+
+                            '<li><a class="eliminar-pregunta" href="javascript:void(0)" data-key="'+numero_random+'">Eliminar</a></li>'+
                        ' </ul>'+
                     '</div>'+
                 '</div>'+
@@ -285,6 +285,10 @@ class CuestionarioView {
                 }
 
             }
+            // alternaviva donde va el text area
+            if ( tipo_pregunta_id == '3' ) {
+
+            }
 
 
         });
@@ -343,12 +347,36 @@ class CuestionarioView {
                         'Se guardo con éxito!',
                         'success'
                     );
+
+                    Swal.fire({
+                        title: "Éxito!",
+                        text: "Se guardo con éxito!",
+                        icon: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "Entendido!"
+                      }).then((resultado) => {
+                        if (resultado.isConfirmed) {
+                            window.location.href = route('hb.academicos.cuestionario.lista');
+                        }
+                    });
+
+
                     // window.location.href = route('hb.academicos.cuestionario.lista');
                     console.log(result);
                 }
             })
 
 
+        });
+        /*
+            Se procedera a eliminar una pregunta co sus alternativas
+        */
+        $('#preguntas').on("click", ".eliminar-pregunta", (e) => {
+            e.preventDefault();
+            let key = $(e.currentTarget).attr('data-key');
+            $('.row[key="'+key+'"]').remove();
+            console.log(key);
         });
     }
 
@@ -363,20 +391,21 @@ class CuestionarioView {
             });
         }
         function renderizarCuestionario(data) {
-            console.log(data);
 
+            let preguntas = $('#preguntas');
+            let numero_random = 0;
 
             $.each(data.preguntas, function (index_pregunta, element_pregunta) {
-                let preguntas = $('#preguntas');
-                let numero_random = Math.random();
+                // numero_random = Math.random();
+                numero_random = element_pregunta.id;
                 let html = ''+
                 '<div class="row mt-3" key="'+numero_random+'">'+
                     '<div class="col-md-8">'+
-                        '<input type="hidden" name="cuestionario['+numero_random+'][tipo_pregunta_id]" value=""></input>'+
-                        '<input type="text" class="form-control form-control-sm" placeholder="Ingrese su pregunta" name="cuestionario['+numero_random+'][pregunta]">'+
+                        '<input type="hidden" name="cuestionario['+numero_random+'][tipo_pregunta_id]" value="'+element_pregunta.tipo_pregunta_id+'"></input>'+
+                        '<input type="text" class="form-control form-control-sm" placeholder="Ingrese su pregunta" name="cuestionario['+numero_random+'][pregunta]" value="'+element_pregunta.pregunta+'">'+
                     '</div>'+
                     '<div class="col-md-2">'+
-                        '<input type="number" class="form-control form-control-sm" placeholder="Ingrese el puntaje" name="cuestionario['+numero_random+'][puntaje]">'+
+                        '<input type="number" class="form-control form-control-sm" placeholder="Ingrese el puntaje" name="cuestionario['+numero_random+'][puntaje]" value="'+element_pregunta.puntaje+'">'+
                     '</div>'+
 
                     '<div class="col-md-2">'+
@@ -389,7 +418,7 @@ class CuestionarioView {
                                 '<li><a class="agregar-respuesta" href="javascript:void(0)" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="2"> Multi alternativas</a></li>'+
                                 '<li><a class="agregar-respuesta" href="javascript:void(0)" data-action="agregar-respuesta" data-key="'+numero_random+'" data-tipo-pregunta="3"> Escritura</a></li>'+
                                 '<li class="divider"></li>'+
-                                '<li><a href="javascript:void(0)">Separated link</a></li>'+
+                                '<li><a class="eliminar-pregunta" href="javascript:void(0)" data-key="'+numero_random+'">Eliminar</a></li>'+
                         ' </ul>'+
                         '</div>'+
                     '</div>'+
@@ -397,29 +426,40 @@ class CuestionarioView {
                 '<div class="row mt-3" key="'+numero_random+'" data-seccion="respuestas-'+numero_random+'">'+
                 '</div>';
                 preguntas.append(html);
-                console.log(element_pregunta);
-                $.each(element_pregunta.respuestas, function (index_respuesta, element_respuesta) {
 
+                $.each(element_pregunta.respuestas, function (index_respuesta, element_respuesta) {
+                    console.log(element_respuesta);
                     let key = numero_random;
                     let tipo_pregunta_id = element_pregunta.tipo_pregunta_id;
                     let this_preguntas = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]');
-                    let id = Math.floor(Math.random() * 999999);
+                    // let id = Math.floor(Math.random() * 999999);
+                    let id = element_respuesta.id;
                     let componente = 'checkbox';
                     if (tipo_pregunta_id=='1') {
                         componente = 'radio';
                     }
-                    let html = ''+
+                    let html_respuestas = ''+
                     '<label class="custom-control custom-'+componente+'">'+
-                        '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'">'+
+                        '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'" '+(element_respuesta.verdadero==1?'checked':'')+'>'+
                         '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][alternativas]['+id+']" value="'+element_respuesta.descripcion+'" placeholder="Ingrese su alternativa"></span>'+
                     '</label>';
-                    this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html);
-
-
-
+                    let control = this_preguntas.find('.custom-controls-stacked');
+                    if (control.length>0) {
+                        this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html_respuestas);
+                    }else{
+                        html_respuestas=''+
+                        '<div class="col-md-4">'+
+                            '<div class="form-group">'+
+                                '<div class="custom-controls-stacked" data-key-respuestas="'+key+'">'+html_respuestas+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="col-md-4 mt-auto">'+
+                            '<button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'
+                        '</div>';
+                        this_preguntas.html(html_respuestas);
+                    }
                 });
-
-
             });
         }
     }
