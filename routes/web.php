@@ -48,8 +48,8 @@ Route::post('buscar-certificado',[HomeController::class,'buscarCertificado'])->n
 Route::get('exportar-certificado-pdf/{id}',[HomeController::class,'exportarCertificadoPDF'])->name('exportar-certificado-pdf');
 Route::get('exportar-certificado-pdf-vista/{id}',[HomeController::class,'exportarCertificadoPDFVista'])->name('exportar-certificado-pdf-vista');
 
-Route::name('academicos.')->prefix('academicos')->group(function () {
-
+Route::name('link.')->prefix('link')->group(function () {
+    Route::get('cuestionario/{codigo}',[HomeController::class,'cuestionario'])->name('cuestionario');
 });
 /*
 * rutas para el erp educativo de hb group peru
@@ -156,6 +156,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::post('guardar',[CuestionarioController::class,'guardar'])->name('guardar');
             Route::put('eliminar/{id}',[CuestionarioController::class,'eliminar'])->name('eliminar');
             Route::get('obtener-cuestionario/{id}',[CuestionarioController::class,'obtenerCuestionario'])->name('obtener-cuestionario');
+            Route::get('link/{id}',[CuestionarioController::class,'link'])->name('link');
         });
         Route::name('certificados.')->prefix('certificados')->group(function () {
 

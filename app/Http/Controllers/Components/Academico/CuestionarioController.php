@@ -8,6 +8,7 @@ use App\Models\CuestionarioPregunta;
 use App\Models\CuestionarioRespuesta;
 use App\Models\LogActividades;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
 class CuestionarioController extends Controller
@@ -137,5 +138,11 @@ class CuestionarioController extends Controller
             $value->respuestas = CuestionarioRespuesta::where('cuestionario_id',$id)->where('pregunta_id',$value->id)->get();
         }
         return response()->json(["cuestionario"=>$cuestionario],200);
+    }
+    public function link($id) {
+
+        $data = Hash::make($id)."";
+        $data = route('link.cuestionario',["codigo"=>$id]);
+        return response()->json(["data"=>$data],200);
     }
 }

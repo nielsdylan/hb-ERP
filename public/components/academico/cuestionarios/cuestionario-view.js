@@ -168,7 +168,7 @@ class CuestionarioView {
         $("#tabla-data").on("click", "button.generar-link", (e) => {
             let id = $(e.currentTarget).attr('data-id');
 
-            this.model.linkCuestionario(id).then((respuesta) => {
+            this.model.link(id).then((respuesta) => {
                 console.log(respuesta);
             }).fail((respuesta) => {
                 // return respuesta;

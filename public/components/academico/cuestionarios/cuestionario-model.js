@@ -46,14 +46,14 @@ class CuestionarioModel {
         });
     };
 
-    guardar = (data) => {
+    link = (id) => {
         return $.ajax({
-            url: route("hb.academicos.cuestionario.link-cuestionario"),
-            type: "POST",
+            url: route("hb.academicos.cuestionario.link",{id:id}),
+            type: "GET",
             dataType: "JSON",
             // processData: false,
             // contentType: false,
-            data: data,
+            data: {_token:this.token},
         });
     };
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Certificado;
+use App\Models\Cuestionario;
 // use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -142,5 +143,14 @@ class HomeController extends Controller
             'fecha_vencimiento'=>date("d/m/Y", strtotime($certificado->fecha_vencimiento)) ,
         );
         return view('web.docs.certificado-vista', get_defined_vars());
+    }
+    public function cuestionario($codigo) {
+        $cuestionario = Cuestionario::where('encuesta',1)->where('id',$codigo)->first();
+        if (!$cuestionario) {
+            return response()->json(["mensaje"=>"cuestionario no existe"],200);exit;
+        }
+        $id = $cuestionario->id;
+        return view('web.links.cuestionario', get_defined_vars());
+        // return response()->json(["data"=>$cuestionario],200);
     }
 }
