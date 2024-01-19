@@ -47,8 +47,12 @@ Route::get('calendario',[HomeController::class,'calendario'])->name('calendario'
 Route::post('buscar-certificado',[HomeController::class,'buscarCertificado'])->name('buscar-certificado');
 Route::get('exportar-certificado-pdf/{id}',[HomeController::class,'exportarCertificadoPDF'])->name('exportar-certificado-pdf');
 Route::get('exportar-certificado-pdf-vista/{id}',[HomeController::class,'exportarCertificadoPDFVista'])->name('exportar-certificado-pdf-vista');
+
+Route::name('academicos.')->prefix('academicos')->group(function () {
+
+});
 /*
-* rutas para el erp educativop de hb group peru
+* rutas para el erp educativo de hb group peru
 */
 Route::middleware(['guest'])->group(function () {
     Route::get('login',[LoginController::class,'viewLogin'])->name('login');

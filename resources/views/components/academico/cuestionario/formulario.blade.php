@@ -40,16 +40,26 @@ HB GROUP - Gestion de Cuestionario
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="codigo">Código</label>
                                     <input id="codigo" class="form-control form-control-sm" type="text" name="codigo" value="{{($data?$data->codigo:'')}}" placeholder="Ingrese el codigo del cuestionario">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nombre">Nombre</label>
                                     <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" value="{{($data?$data->nombre:'')}}" placeholder="Ingrese el nombre del cuestionario" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="custom-controls-stacked">
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" name="encuesta" value="1" {{ ($data?($data->encuesta==1?'checked':''):'') }}>
+                                            <span class="custom-control-label">Encuesta</span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>

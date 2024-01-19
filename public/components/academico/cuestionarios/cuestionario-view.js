@@ -82,24 +82,6 @@ class CuestionarioView {
 
     eventos = () => {
 
-
-        /**
-         * Nuevo - alumno
-         */
-        // $('#nuevo').click((e) => {
-        //     e.preventDefault();
-        //     let id = 0,
-        //         tipo ="Nuevo alumno",
-        //         form = $('<form action="'+route('hb.academicos.cuestionario.formulario')+'" method="POST">'+
-        //             '<input type="hidden" name="_token" value="'+csrf_token+'" >'+
-        //             '<input type="hidden" name="id" value="'+id+'" >'+
-        //             '<input type="hidden" name="tipo" value="'+tipo+'" >'+
-        //         '</form>');
-        //     $('body').append(form);
-        //     form.submit();
-
-        // });
-
         /**
          * Guardar - editar - Cargar información por ID y llenar en el formulario
          */
@@ -183,6 +165,17 @@ class CuestionarioView {
                 }
             })
         });
+        $("#tabla-data").on("click", "button.generar-link", (e) => {
+            let id = $(e.currentTarget).attr('data-id');
+
+            this.model.linkCuestionario(id).then((respuesta) => {
+                console.log(respuesta);
+            }).fail((respuesta) => {
+                // return respuesta;
+            }).always(() => {
+            });
+        });
+
     }
 
     cuestionario = () => {
@@ -201,7 +194,7 @@ class CuestionarioView {
                     '<input type="text" class="form-control form-control-sm" placeholder="Ingrese su pregunta" name="cuestionario['+numero_random+'][pregunta]">'+
                 '</div>'+
                 '<div class="col-md-2">'+
-                    '<input type="number" class="form-control form-control-sm" placeholder="Ingrese el puntaje" name="cuestionario['+numero_random+'][puntaje]">'+
+                    '<input type="number" class="form-control form-control-sm" placeholder="Ingrese el puntaje" name="cuestionario['+numero_random+'][puntaje]" value="1">'+
                 '</div>'+
 
                 '<div class="col-md-2">'+
@@ -240,7 +233,6 @@ class CuestionarioView {
                 let control = this_respuestas.find('.custom-controls-stacked');
 
                 if (control.length>0) {
-
                     // transformamos las respuesta segun se seleccione
                     if (tipo_pregunta_id == '1') {
 
@@ -283,14 +275,16 @@ class CuestionarioView {
                     this_respuestas.html(html);
 
                 }
-
             }
             // alternaviva donde va el text area
             if ( tipo_pregunta_id == '3' ) {
-
+                html = ''+
+                '<div class="col-md-12">'+
+                    '<textarea class="form-control form-control-sm mb-4" placeholder="Escriba su respuesta..." rows="2" name="cuestionario['+key+'][alternativas]['+id+']"></textarea>'+
+                '</div>'+
+                '';
+                this_respuestas.html(html);
             }
-
-
         });
 
         /*
@@ -360,10 +354,6 @@ class CuestionarioView {
                             window.location.href = route('hb.academicos.cuestionario.lista');
                         }
                     });
-
-
-                    // window.location.href = route('hb.academicos.cuestionario.lista');
-                    console.log(result);
                 }
             })
 
@@ -428,35 +418,48 @@ class CuestionarioView {
                 preguntas.append(html);
 
                 $.each(element_pregunta.respuestas, function (index_respuesta, element_respuesta) {
-                    console.log(element_respuesta);
+
                     let key = numero_random;
                     let tipo_pregunta_id = element_pregunta.tipo_pregunta_id;
                     let this_preguntas = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]');
                     // let id = Math.floor(Math.random() * 999999);
                     let id = element_respuesta.id;
-                    let componente = 'checkbox';
-                    if (tipo_pregunta_id=='1') {
-                        componente = 'radio';
-                    }
-                    let html_respuestas = ''+
-                    '<label class="custom-control custom-'+componente+'">'+
-                        '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'" '+(element_respuesta.verdadero==1?'checked':'')+'>'+
-                        '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][alternativas]['+id+']" value="'+element_respuesta.descripcion+'" placeholder="Ingrese su alternativa"></span>'+
-                    '</label>';
-                    let control = this_preguntas.find('.custom-controls-stacked');
-                    if (control.length>0) {
-                        this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html_respuestas);
-                    }else{
-                        html_respuestas=''+
-                        '<div class="col-md-4">'+
-                            '<div class="form-group">'+
-                                '<div class="custom-controls-stacked" data-key-respuestas="'+key+'">'+html_respuestas+
+
+                    if ( tipo_pregunta_id == '1' || tipo_pregunta_id == '2' ) {
+
+                        let componente = 'checkbox';
+                        if (tipo_pregunta_id=='1') {
+                            componente = 'radio';
+                        }
+                        let html_respuestas = ''+
+                        '<label class="custom-control custom-'+componente+'">'+
+                            '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'" '+(element_respuesta.verdadero==1?'checked':'')+'>'+
+                            '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][alternativas]['+id+']" value="'+element_respuesta.descripcion+'" placeholder="Ingrese su alternativa"></span>'+
+                        '</label>';
+                        let control = this_preguntas.find('.custom-controls-stacked');
+                        if (control.length>0) {
+                            this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html_respuestas);
+                        }else{
+                            html_respuestas=''+
+                            '<div class="col-md-4">'+
+                                '<div class="form-group">'+
+                                    '<div class="custom-controls-stacked" data-key-respuestas="'+key+'">'+html_respuestas+
+                                    '</div>'+
                                 '</div>'+
                             '</div>'+
+                            '<div class="col-md-4 mt-auto">'+
+                                '<button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'
+                            '</div>';
+                            this_preguntas.html(html_respuestas);
+                        }
+                    }
+
+                    if (tipo_pregunta_id == '3') {
+                        let html_respuestas = ''+
+                        '<div class="col-md-12">'+
+                            '<textarea class="form-control form-control-sm mb-4" placeholder="Escriba su respuesta..." rows="2" name="cuestionario['+key+'][alternativas]['+id+']">'+element_respuesta.descripcion+'</textarea>'+
                         '</div>'+
-                        '<div class="col-md-4 mt-auto">'+
-                            '<button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'
-                        '</div>';
+                        '';
                         this_preguntas.html(html_respuestas);
                     }
                 });

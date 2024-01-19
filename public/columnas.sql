@@ -124,3 +124,5 @@ ALTER TABLE `cuestionario_preguntas` ADD constraint fk_cuestionario_preguntas_ti
 ALTER TABLE `cuestionario_preguntas` ADD constraint fk_cuestionario_preguntas_cuestionarios FOREIGN KEY (`cuestionario_id`) REFERENCES `cuestionarios`(`id`);
 ALTER TABLE `cuestionario_respuestas` ADD constraint fk_cuestionario_respuestas_cuestionario_preguntas FOREIGN KEY (`pregunta_id`) REFERENCES `cuestionario_preguntas`(`id`);
 ALTER TABLE `cuestionario_respuestas` ADD constraint fk_cuestionario_respuestas_cuestionarios FOREIGN KEY (`cuestionario_id`) REFERENCES `cuestionarios`(`id`);
+-- 19 / 01 / 2024 agregar este campo para determinar si es o no un encuesta
+ALTER TABLE `cuestionarios` ADD `encuesta` INT(11) DEFAULT 0 AFTER `fecha_registro`;

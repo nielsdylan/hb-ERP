@@ -25,6 +25,9 @@ class CuestionarioController extends Controller
         ->addColumn('accion', function ($data) {
             return
             '<div class="btn-list">
+                <button type="button" class="btn text-info btn-sm link protip generar-link" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Generar link">
+                    <i class="fe fe-link fs-14"></i>
+                </button>
                 <button type="button" class="editar protip btn text-warning btn-sm" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Editar" >
                     <i class="fe fe-edit fs-14"></i>
                 </button>
@@ -54,46 +57,56 @@ class CuestionarioController extends Controller
         $cuestionario = Cuestionario::firstOrNew(['id' => $request->id]);
         $cuestionario->codigo = $request->codigo;
         $cuestionario->nombre = $request->nombre;
+        $cuestionario->encuesta = ($request->encuesta?$request->encuesta:0);
         if ((int)$request->id>0) {
             $cuestionario->updated_at   = date('Y-m-d H:i:s');
             $cuestionario->updated_id   = Auth()->user()->id;
         }else{
+            $cuestionario->fecha_registro   = date('Y-m-d H:i:s');
             $cuestionario->created_at   = date('Y-m-d H:i:s');
             $cuestionario->created_id   = Auth()->user()->id;
         }
         $cuestionario->save();
 
         CuestionarioPregunta::where('cuestionario_id',$request->id)->delete();
-        foreach ($request->cuestionario as $key_pregunta => $value_pregunta) {
-            $pregunta = new CuestionarioPregunta();
-            $pregunta->pregunta         = $value_pregunta['pregunta'];
-            $pregunta->puntaje          = $value_pregunta['puntaje'];
-            $pregunta->fecha_registro   = date('Y-m-d H:i:s');
-            $pregunta->cuestionario_id  = $cuestionario->id;
-            $pregunta->tipo_pregunta_id = (int) $value_pregunta['tipo_pregunta_id'];
-            $pregunta->created_at       = date('Y-m-d H:i:s');
-            $pregunta->created_id       = Auth()->user()->id;
-            $pregunta->save();
+        if (sizeof($request->cuestionario)>0) {
+            foreach ($request->cuestionario as $key_pregunta => $value_pregunta) {
+                $pregunta = new CuestionarioPregunta();
+                $pregunta->pregunta         = $value_pregunta['pregunta'];
+                $pregunta->puntaje          = $value_pregunta['puntaje'];
+                $pregunta->fecha_registro   = date('Y-m-d H:i:s');
+                $pregunta->cuestionario_id  = $cuestionario->id;
+                $pregunta->tipo_pregunta_id = (int) $value_pregunta['tipo_pregunta_id'];
+                $pregunta->created_at       = date('Y-m-d H:i:s');
+                $pregunta->created_id       = Auth()->user()->id;
+                $pregunta->save();
 
-            CuestionarioRespuesta::where('cuestionario_id',$request->id)->where('pregunta_id',$pregunta->id)->delete();
-            foreach ($value_pregunta['alternativas'] as $key_alternativas => $value_alternativas) {
-                $respuestas                     = new CuestionarioRespuesta();
-                $respuestas->descripcion        = $value_alternativas;
+                CuestionarioRespuesta::where('cuestionario_id',$request->id)->where('pregunta_id',$pregunta->id)->delete();
+                foreach ($value_pregunta['alternativas'] as $key_alternativas => $value_alternativas) {
+                    $respuestas                     = new CuestionarioRespuesta();
+                    $respuestas->descripcion        = $value_alternativas;
 
-                foreach ($value_pregunta['respuesta'] as $key_respuesta => $value_respuesta) {
-                    if ($value_respuesta==$key_alternativas) {
-                        $respuestas->verdadero  = 1;
+                    if ( isset($value_pregunta['respuesta']) && sizeof($value_pregunta['respuesta'])>0) {
+                        foreach ($value_pregunta['respuesta'] as $key_respuesta => $value_respuesta) {
+                            if ($value_respuesta==$key_alternativas) {
+                                $respuestas->verdadero  = 1;
+                            }
+                        }
                     }
+
+                    $respuestas->fecha_registro     = date('Y-m-d H:i:s');
+                    $respuestas->pregunta_id        = $pregunta->id;
+                    $respuestas->cuestionario_id    = $cuestionario->id;
+                    $respuestas->created_at         = date('Y-m-d H:i:s');
+                    $respuestas->created_id         = Auth()->user()->id;
+                    $respuestas->save();
                 }
-                $respuestas->fecha_registro     = date('Y-m-d H:i:s');
-                $respuestas->pregunta_id        = $pregunta->id;
-                $respuestas->cuestionario_id    = $cuestionario->id;
-                $respuestas->created_at         = date('Y-m-d H:i:s');
-                $respuestas->created_id         = Auth()->user()->id;
-                $respuestas->save();
             }
+            return response()->json(array("titulo"=>"Éxito", "mensaje"=>"Se guardo con éxito","tipo"=>"success"),200);
+        }else{
+            return response()->json(array("titulo"=>"Información", "mensaje"=>"No registro ninguna pregunta para el cuestionario.","tipo"=>"info"),200);
         }
-        return response()->json($request,200);
+
     }
     public function eliminar($id){
         $cuestionario = Cuestionario::find($id);
