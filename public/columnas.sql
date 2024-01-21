@@ -126,3 +126,68 @@ ALTER TABLE `cuestionario_respuestas` ADD constraint fk_cuestionario_respuestas_
 ALTER TABLE `cuestionario_respuestas` ADD constraint fk_cuestionario_respuestas_cuestionarios FOREIGN KEY (`cuestionario_id`) REFERENCES `cuestionarios`(`id`);
 -- 19 / 01 / 2024 agregar este campo para determinar si es o no un encuesta
 ALTER TABLE `cuestionarios` ADD `encuesta` INT(11) DEFAULT 0 AFTER `fecha_registro`;
+
+-- 20 / 01 / 2024 tablas de respuesta
+CREATE TABLE `formularios` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(255) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `fecha_registro` datetime DEFAULT NULL,
+  `encuesta` int(11) DEFAULT 0,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+CREATE TABLE `formulario_preguntas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `pregunta` text DEFAULT NULL,
+  `puntaje` int(11) DEFAULT NULL,
+  `fecha_registro` datetime DEFAULT NULL,
+  `formulario_id` bigint(20) unsigned NOT NULL,
+  `tipo_pregunta_id` bigint(20) unsigned NOT NULL,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+CREATE TABLE `formulario_respuestas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `descripcion` text DEFAULT NULL,
+  `verdadero` int(11) DEFAULT 0,
+  `fecha_registro` datetime DEFAULT NULL,
+  `formulario_pregunta_id` bigint(20) unsigned NOT NULL,
+  `formulario_id` bigint(20) unsigned NOT NULL,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+-- relaciones de las tablas para el formulario
+ALTER TABLE `formulario_preguntas` ADD constraint fk_formulario_preguntas_tipo_preguntas FOREIGN KEY (`tipo_pregunta_id`) REFERENCES `tipo_preguntas`(`id`);
+ALTER TABLE `formulario_preguntas` ADD constraint fk_formulario_preguntas_formularios FOREIGN KEY (`formulario_id`) REFERENCES `formularios`(`id`);
+ALTER TABLE `formulario_respuestas` ADD constraint fk_formulario_respuestas_formulario_preguntas FOREIGN KEY (`formulario_pregunta_id`) REFERENCES `formulario_preguntas`(`id`);
+ALTER TABLE `formulario_respuestas` ADD constraint fk_formulario_respuestas_formularios FOREIGN KEY (`formulario_id`) REFERENCES `formularios`(`id`);
+
+-- agregar el campo descripcion a la tabla formulario
+ALTER TABLE `formularios` ADD `apellido_paterno` VARCHAR(255) DEFAULT NULL AFTER `fecha_registro`;
+ALTER TABLE `formularios` ADD `apellido_materno` VARCHAR(255) DEFAULT NULL AFTER `apellido_paterno`;
+ALTER TABLE `formularios` ADD `nombres` VARCHAR(255) DEFAULT NULL AFTER `apellido_materno`;
+ALTER TABLE `formularios` ADD `numero_documento` VARCHAR(255) DEFAULT NULL AFTER `fecha_registro`;
+ALTER TABLE `formularios` ADD `cuestionario_id` bigint(20) unsigned AFTER `estado`;
+-- cambiar de nombre a la columna nombre de la tabla formulario por nombre
+ALTER TABLE `formularios` CHANGE `nombre` `titulo` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL ;
+-- se agregara un campo mas para ver que es lo que marco el usuario
+ALTER TABLE `formulario_respuestas` ADD `seleccion` int(11) DEFAULT 0 AFTER `verdadero`;

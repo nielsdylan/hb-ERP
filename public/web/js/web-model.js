@@ -14,9 +14,9 @@ class WebModel {
             data: data,
         });
     };
-    editar = (id) => {
+    obtenerCuestionario = (id) => {
         return $.ajax({
-            url: route("hb.empresas.editar",{id:id}),
+            url: route("link.obtener-cuestionario",{id:id}),
             type: "GET",
             dataType: "JSON",
             // processData: false,
@@ -24,26 +24,14 @@ class WebModel {
             data: {_token:this.token},
         });
     };
-
-    eliminar = (id) => {
+    guardarCuestionario = (data) => {
         return $.ajax({
-            url: route("hb.empresas.eliminar",{id: id}),
-            type: "PUT",
-            dataType: "JSON",
-            // processData: false,
-            // contentType: false,
-            data: {_token:this.token},
-        });
-    }
-
-    buscarEmpresa = (id,ruc) => {
-        return $.ajax({
-            url: route("hb.empresas.buscar"),
+            url: route("link.guardar-cuestionario"),
             type: "POST",
             dataType: "JSON",
             // processData: false,
             // contentType: false,
-            data: {_token:this.token,id:id,ruc:ruc},
+            data: data,
         });
     };
 }

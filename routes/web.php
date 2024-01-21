@@ -50,6 +50,8 @@ Route::get('exportar-certificado-pdf-vista/{id}',[HomeController::class,'exporta
 
 Route::name('link.')->prefix('link')->group(function () {
     Route::get('cuestionario/{codigo}',[HomeController::class,'cuestionario'])->name('cuestionario');
+    Route::get('obtener-cuestionario/{id}',[HomeController::class,'obtenerCuestionario'])->name('obtener-cuestionario');
+    Route::post('guardar-cuestionario',[HomeController::class,'guardarCuestionario'])->name('guardar-cuestionario');
 });
 /*
 * rutas para el erp educativo de hb group peru
