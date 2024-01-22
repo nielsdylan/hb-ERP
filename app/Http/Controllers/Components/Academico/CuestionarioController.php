@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Cuestionario;
 use App\Models\CuestionarioPregunta;
 use App\Models\CuestionarioRespuesta;
+use App\Models\Formulario;
+use App\Models\FormularioPregunta;
+use App\Models\FormularioRespuesta;
 use App\Models\LogActividades;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -26,6 +29,9 @@ class CuestionarioController extends Controller
         ->addColumn('accion', function ($data) {
             return
             '<div class="btn-list">
+                <button type="button" class="btn btn-sm link protip ver-resultados" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Ver resultados de la encuesta">
+                    <i class="fe fe-clipboard fs-14"></i>
+                </button>
                 <button type="button" class="btn text-info btn-sm link protip generar-link" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Generar link">
                     <i class="fe fe-link fs-14"></i>
                 </button>
@@ -57,7 +63,7 @@ class CuestionarioController extends Controller
 
         $cuestionario = Cuestionario::firstOrNew(['id' => $request->id]);
         $cuestionario->codigo = $request->codigo;
-        $cuestionario->nombre = $request->nombre;
+        $cuestionario->titulo = $request->nombre;
         $cuestionario->encuesta = ($request->encuesta?$request->encuesta:0);
         if ((int)$request->id>0) {
             $cuestionario->updated_at   = date('Y-m-d H:i:s');
@@ -144,5 +150,32 @@ class CuestionarioController extends Controller
         $data = Hash::make($id)."";
         $data = route('link.cuestionario',["codigo"=>$id]);
         return response()->json(["data"=>$data],200);
+    }
+    public function resultados($id){
+        $cuestionario = Cuestionario::find($id);
+        return view('components.academico.cuestionario.resultados', get_defined_vars());
+    }
+    public function resultadosListar(Request $request){
+        $data = Formulario::where('estado',1)->where('cuestionario_id',$request->id)->get();
+        return DataTables::of($data)
+        ->addColumn('apellidos_nombres', function ($data) {
+            return $data->apellido_paterno.' '.$data->apellido_materno.' '.$data->nombres;
+        })
+        ->addColumn('accion', function ($data) {
+            return
+            '<div class="btn-list">
+                <button type="button" class="btn text-info btn-sm link protip ver" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Ver respuestas.">
+                    <i class="fe fe-eye fs-14"></i>
+                </button>
+            </div>';
+        })->rawColumns(['accion'])->make(true);
+    }
+    public function resultadosVer($id){
+        $formulario   = Formulario::find($id);
+        $formulario->preguntas      = FormularioPregunta::where('formulario_id',$id)->get();
+        foreach ($formulario->preguntas as $key => $value) {
+            $value->respuestas = FormularioRespuesta::where('formulario_id',$id)->where('formulario_pregunta_id',$value->id)->get();
+        }
+        return response()->json(["cuestionario"=>$formulario],200);
     }
 }

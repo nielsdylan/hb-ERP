@@ -159,6 +159,10 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::put('eliminar/{id}',[CuestionarioController::class,'eliminar'])->name('eliminar');
             Route::get('obtener-cuestionario/{id}',[CuestionarioController::class,'obtenerCuestionario'])->name('obtener-cuestionario');
             Route::get('link/{id}',[CuestionarioController::class,'link'])->name('link');
+
+            Route::get('resultados/{id}',[CuestionarioController::class,'resultados'])->name('resultados');
+            Route::post('resultados-listar',[CuestionarioController::class,'resultadosListar'])->name('resultados-listar');
+            Route::get('resultados-ver/{id}',[CuestionarioController::class,'resultadosVer'])->name('resultados-ver');
         });
         Route::name('certificados.')->prefix('certificados')->group(function () {
 

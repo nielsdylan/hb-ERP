@@ -56,4 +56,15 @@ class CuestionarioModel {
             data: {_token:this.token},
         });
     };
+
+    resultadosVer = (id) => {
+        return $.ajax({
+            url: route("hb.academicos.cuestionario.resultados-ver",{id:id}),
+            type: "GET",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token},
+        });
+    }
 }

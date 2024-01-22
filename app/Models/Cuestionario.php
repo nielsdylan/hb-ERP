@@ -10,6 +10,6 @@ class Cuestionario extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'cuestionarios';
-    protected $fillable = ['codigo', 'nombre', 'fecha_registro', 'estado','created_id', 'updated_id', 'deleted_id'];
+    protected $fillable = ['codigo', 'titulo', 'fecha_registro', 'estado','created_id', 'updated_id', 'deleted_id'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 }

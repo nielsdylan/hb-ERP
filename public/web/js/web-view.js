@@ -151,9 +151,12 @@ class WebView {
     }
 
     cuestionario = () => {
+
         let id = $('#guardar').find('[name="id"]').val();
+
         if (parseInt(id)>0) {
             this.model.obtenerCuestionario(id).then((respuesta) => {
+
                 renderizarCuestionario(respuesta.cuestionario)
             }).fail((respuesta) => {
                 // return respuesta;
@@ -234,7 +237,13 @@ class WebView {
             e.preventDefault();
             var data = $(e.currentTarget).serialize();
             let model = this.model;
+
+            let formulario = $('#guardar');
+            formulario.find('button[type="submit"]').find('i.fa').removeClass('fa-paper-plane');
+            formulario.find('button[type="submit"]').find('i.fa').addClass('fa-spinner fa-spin');
             this.model.guardarCuestionario(data).then((respuesta) => {
+                formulario.find('button[type="submit"]').find('i.fa').removeClass('fa-spinner fa-spin');
+                formulario.find('button[type="submit"]').find('i.fa').addClass('fa-paper-plane');
                 console.log(respuesta);;
             }).fail((respuesta) => {
                 // return respuesta;

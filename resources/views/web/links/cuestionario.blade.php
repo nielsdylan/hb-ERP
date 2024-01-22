@@ -11,7 +11,7 @@
                     @csrf
                     <input type="hidden" name="id" value="{{ $id }}">
                     <input type="hidden" name="cuestionario_codigo" value="{{ $cuestionario->codigo }}">
-                    <input type="hidden" name="cuestionario_nombre" value="{{ $cuestionario->nombre }}">
+                    <input type="hidden" name="cuestionario_nombre" value="{{ $cuestionario->titulo }}">
                     <div class="card-body">
                         <h5 class="card-title">{{$cuestionario->nombre}}</h5>
                         <div class="row">

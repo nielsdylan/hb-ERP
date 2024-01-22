@@ -170,7 +170,7 @@ class HomeController extends Controller
         // return response()->json($request->all(),200);
         $cuestionario = Cuestionario::find($request->id);
 
-        $formulario = Formulario::firstOrNew(['numero_documento' => $request->numero_documento]);
+        $formulario = Formulario::firstOrNew(['numero_documento' => $request->numero_documento,'cuestionario_id' => $request->id]);
         $formulario->codigo         = $request->cuestionario_codigo;
         $formulario->titulo         = $request->cuestionario_nombre;
         $formulario->encuesta       = 1;

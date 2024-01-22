@@ -54,7 +54,7 @@ class CuestionarioView {
             columns: [
                 {data: 'id', },
                 {data: 'codigo', className: 'text-center'},
-                {data: 'nombre', className: 'text-center'},
+                {data: 'titulo', className: 'text-center'},
                 {data: 'fecha_registro', className: 'text-center'},
                 {data: 'accion', orderable: false, searchable: false, className: 'text-center'}
             ]
@@ -169,11 +169,34 @@ class CuestionarioView {
             let id = $(e.currentTarget).attr('data-id');
 
             this.model.link(id).then((respuesta) => {
-                console.log(respuesta);
+                navigator.clipboard.writeText(respuesta.data)
+                .then(() => {
+                    Swal.fire(
+                        'Éxito!',
+                        'Se a copiado el link al portapapeles!',
+                        'success'
+                    );
+                })
+                .catch(err => {
+                    Swal.fire(
+                        'Alerta!',
+                        'Ocurrio un error al generar el link.!',
+                        'warning'
+                    );
+                })
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
             });
+        });
+
+        /**
+         * VER RESULTADOS DEL CUESTIONARIO
+         */
+        $("#tabla-data").on("click", "button.ver-resultados", (e) => {
+            e.preventDefault();
+            let id = $(e.currentTarget).attr('data-id');
+            window.location.href = route('hb.academicos.cuestionario.resultados',{id: id});
         });
 
     }
