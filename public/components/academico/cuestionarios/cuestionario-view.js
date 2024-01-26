@@ -292,7 +292,7 @@ class CuestionarioView {
                             '</div>'+
                         '</div>'+
                     '</div>'+
-                    '<div class="col-md-4 mt-auto">'+
+                    '<div class="col-md-4 mt-auto" section-button="acciones" >'+
                         '<button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'
                     '</div>';
                     this_respuestas.html(html);
@@ -323,13 +323,21 @@ class CuestionarioView {
             if (tipo_pregunta_id=='1') {
                 componente = 'radio';
             }
+
             let html = ''+
             '<label class="custom-control custom-'+componente+'">'+
                 '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'">'+
                 '<span class="custom-control-label"><input class="form-control form-control-sm" type="text" name="cuestionario['+key+'][alternativas]['+id+']" placeholder="Ingrese su alternativa"></span>'+
             '</label>';
             this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html);
-            console.log(componente);
+
+            let html_buttons = ''+
+                '<button type="button" class="btn btn-danger btn-sm eliminar-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'+
+                '<button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'+
+            '';
+            this_preguntas.find('[section-button="acciones"]').html(html_buttons);
+            console.log(key);
+            console.log(tipo_pregunta_id);
         });
 
         /*
@@ -470,7 +478,7 @@ class CuestionarioView {
                                     '</div>'+
                                 '</div>'+
                             '</div>'+
-                            '<div class="col-md-4 mt-auto">'+
+                            '<div class="col-md-4 mt-auto" section-button="acciones">'+
                                 '<button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'
                             '</div>';
                             this_preguntas.html(html_respuestas);
