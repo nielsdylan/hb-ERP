@@ -173,10 +173,10 @@ class WebView {
                 numero_random = element_pregunta.id;
                 let html = ''+
                 '<div class="row mt-3" key="'+numero_random+'">'+
-                    '<div class="col-md-8">'+
+                    '<div class="col-md-12">'+
                         '<input type="hidden" name="cuestionario['+numero_random+'][tipo_pregunta_id]" value="'+element_pregunta.tipo_pregunta_id+'"></input>'+
                         '<input type="hidden" name="cuestionario['+numero_random+'][pregunta]" value="'+element_pregunta.pregunta+'">'+
-                        ''+element_pregunta.pregunta+''+
+                        ''+(index_pregunta+1)+' '+element_pregunta.pregunta+''+
                     '</div>'+
 
                 '</div>'+
@@ -209,7 +209,7 @@ class WebView {
                             this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html_respuestas);
                         }else{
                             html_respuestas=''+
-                            '<div class="col-md-4">'+
+                            '<div class="col-md-12">'+
                                 '<div class="form-group">'+
                                     '<div class="custom-controls-stacked" data-key-respuestas="'+key+'">'+html_respuestas+
                                     '</div>'+
@@ -237,6 +237,7 @@ class WebView {
             e.preventDefault();
             var data = $(e.currentTarget).serialize();
             let model = this.model;
+            let html_respuesta = '';
 
             let formulario = $('#guardar');
             formulario.find('button[type="submit"]').find('i.fa').removeClass('fa-paper-plane');
@@ -244,34 +245,21 @@ class WebView {
             this.model.guardarCuestionario(data).then((respuesta) => {
                 formulario.find('button[type="submit"]').find('i.fa').removeClass('fa-spinner fa-spin');
                 formulario.find('button[type="submit"]').find('i.fa').addClass('fa-paper-plane');
-                console.log(respuesta);;
+
+                html_respuesta = '<div class="alert alert-'+respuesta.tipo+'" role="alert">'+
+                    '<i class="fa fa-thumbs-up"></i> '+
+                    '<strong> '+respuesta.titulo+'</strong> '+
+                    respuesta.mensaje+
+                '</div>';
+                $('#respuesta').html(html_respuesta);
+
+                if (respuesta.tipo == 'success') {
+                    $('#guardar').trigger("reset")
+                }
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
             });
-
-            // Swal.fire({
-            //     title: 'Información',
-            //     text: "¿Está seguro de guardar?",
-            //     icon: 'warning',
-            //     showCancelButton: true,
-            //     confirmButtonText: 'Si, guardar',
-            //     cancelButtonText: 'No, cancelar',
-            //     showLoaderOnConfirm: true,
-            //     // backdrop: false, allowOutsideClick: false,
-            //     preConfirm: (login) => {
-            //         return model.guardarCuestionario(data).then((respuesta) => {
-            //             return respuesta;
-            //         }).fail((respuesta) => {
-            //             // return respuesta;
-            //         }).always(() => {
-            //         });
-            //     },
-            //     // allowOutsideClick: () => !Swal.isLoading()
-            //   }).then((result) => {
-            //     console.log(result);
-            // })
-
 
         });
     }

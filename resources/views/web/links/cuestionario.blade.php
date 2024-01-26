@@ -13,7 +13,13 @@
                     <input type="hidden" name="cuestionario_codigo" value="{{ $cuestionario->codigo }}">
                     <input type="hidden" name="cuestionario_nombre" value="{{ $cuestionario->titulo }}">
                     <div class="card-body">
-                        <h5 class="card-title">{{$cuestionario->nombre}}</h5>
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h5 class="card-title">{{$cuestionario->titulo}}</h5>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -41,6 +47,11 @@
                             </div>
                         </div>
                         <div id="preguntas"></div>
+
+                        <div class="row">
+                            <div class="col-md-12" id="respuesta">
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-paper-plane"></i> Enviar cuestionario</button>

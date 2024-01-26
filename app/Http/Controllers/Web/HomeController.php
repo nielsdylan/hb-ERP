@@ -168,58 +168,63 @@ class HomeController extends Controller
     }
     public function guardarCuestionario(Request $request){
         // return response()->json($request->all(),200);
-        $cuestionario = Cuestionario::find($request->id);
 
-        $formulario = Formulario::firstOrNew(['numero_documento' => $request->numero_documento,'cuestionario_id' => $request->id]);
-        $formulario->codigo         = $request->cuestionario_codigo;
-        $formulario->titulo         = $request->cuestionario_nombre;
-        $formulario->encuesta       = 1;
-        $formulario->numero_documento   = $request->numero_documento;
-        $formulario->apellido_paterno   = $request->apellido_paterno;
-        $formulario->apellido_materno   = $request->apellido_materno;
-        $formulario->nombres            = $request->nombres;
-        $formulario->cuestionario_id    = $request->id;
-        $formulario->fecha_registro = date('Y-m-d H:i:s');
-        $formulario->created_at     = date('Y-m-d H:i:s');
-        $formulario->save();
+        try {
 
-        FormularioPregunta::where('formulario_id',$formulario->id)->delete();
-        if (sizeof($request->cuestionario)>0) {
-            foreach ($request->cuestionario as $key_pregunta => $value_pregunta) {
-                $pregunta = new FormularioPregunta();
-                $pregunta->pregunta         = $value_pregunta['pregunta'];
-                // $pregunta->puntaje          = $value_pregunta['puntaje'];
-                $pregunta->fecha_registro   = date('Y-m-d H:i:s');
-                $pregunta->formulario_id    = $formulario->id;
-                $pregunta->tipo_pregunta_id = (int) $value_pregunta['tipo_pregunta_id'];
-                $pregunta->created_at       = date('Y-m-d H:i:s');
-                $pregunta->save();
+            $cuestionario = Cuestionario::find($request->id);
 
-                FormularioRespuesta::where('formulario_id',$formulario->id)->where('formulario_pregunta_id',$pregunta->id)->delete();
-                foreach ($value_pregunta['alternativas'] as $key_alternativas => $value_alternativas) {
-                    $respuestas                     = new FormularioRespuesta();
-                    $respuestas->descripcion        = $value_alternativas;
+            $formulario = Formulario::firstOrNew(['numero_documento' => $request->numero_documento,'cuestionario_id' => $request->id]);
+            $formulario->codigo         = $request->cuestionario_codigo;
+            $formulario->titulo         = $request->cuestionario_nombre;
+            $formulario->encuesta       = 1;
+            $formulario->numero_documento   = $request->numero_documento;
+            $formulario->apellido_paterno   = $request->apellido_paterno;
+            $formulario->apellido_materno   = $request->apellido_materno;
+            $formulario->nombres            = $request->nombres;
+            $formulario->cuestionario_id    = $request->id;
+            $formulario->fecha_registro = date('Y-m-d H:i:s');
+            $formulario->created_at     = date('Y-m-d H:i:s');
+            $formulario->save();
 
-                    if ( isset($value_pregunta['respuesta']) && sizeof($value_pregunta['respuesta'])>0) {
-                        foreach ($value_pregunta['respuesta'] as $key_respuesta => $value_respuesta) {
-                            if ($value_respuesta==$key_alternativas) {
-                                $respuestas->seleccion  = 1;
+            FormularioPregunta::where('formulario_id',$formulario->id)->delete();
+            if (sizeof($request->cuestionario)>0) {
+                foreach ($request->cuestionario as $key_pregunta => $value_pregunta) {
+                    $pregunta = new FormularioPregunta();
+                    $pregunta->pregunta         = $value_pregunta['pregunta'];
+                    // $pregunta->puntaje          = $value_pregunta['puntaje'];
+                    $pregunta->fecha_registro   = date('Y-m-d H:i:s');
+                    $pregunta->formulario_id    = $formulario->id;
+                    $pregunta->tipo_pregunta_id = (int) $value_pregunta['tipo_pregunta_id'];
+                    $pregunta->created_at       = date('Y-m-d H:i:s');
+                    $pregunta->save();
+
+                    FormularioRespuesta::where('formulario_id',$formulario->id)->where('formulario_pregunta_id',$pregunta->id)->delete();
+                    foreach ($value_pregunta['alternativas'] as $key_alternativas => $value_alternativas) {
+                        $respuestas                     = new FormularioRespuesta();
+                        $respuestas->descripcion        = $value_alternativas;
+
+                        if ( isset($value_pregunta['respuesta']) && sizeof($value_pregunta['respuesta'])>0) {
+                            foreach ($value_pregunta['respuesta'] as $key_respuesta => $value_respuesta) {
+                                if ($value_respuesta==$key_alternativas) {
+                                    $respuestas->seleccion  = 1;
+                                }
                             }
                         }
-                    }
 
-                    $respuestas->fecha_registro         = date('Y-m-d H:i:s');
-                    $respuestas->formulario_pregunta_id = $pregunta->id;
-                    $respuestas->formulario_id          = $formulario->id;
-                    $respuestas->created_at             = date('Y-m-d H:i:s');
-                    $respuestas->save();
+                        $respuestas->fecha_registro         = date('Y-m-d H:i:s');
+                        $respuestas->formulario_pregunta_id = $pregunta->id;
+                        $respuestas->formulario_id          = $formulario->id;
+                        $respuestas->created_at             = date('Y-m-d H:i:s');
+                        $respuestas->save();
+                    }
                 }
+
             }
-            return response()->json(array("titulo"=>"Éxito", "mensaje"=>"Se guardo con éxito","tipo"=>"success"),200);
-        }else{
-            return response()->json(array("titulo"=>"Información", "mensaje"=>"No registro ninguna pregunta para el cuestionario.","tipo"=>"info"),200);
+            return response()->json(array("titulo"=>"Éxito.", "mensaje"=>"Se envío el cuestionario.","tipo"=>"success"),200);
+        } catch (\Throwable $th) {
+            return response()->json(array("titulo"=>"Warning", "mensaje"=>"Comuniquese con soporte academico","tipo"=>"warning"),200);
         }
 
-        return response()->json($request->all(),200);
+
     }
 }

@@ -82,7 +82,6 @@ class ResultadosView {
             let id = $(e.currentTarget).attr('data-id');
 
             this.model.resultadosVer(id).then((respuesta) => {
-                console.log(respuesta);
                 $('#preguntas').html('');
                 renderizarRespuestas(respuesta.cuestionario);
                 $('#modal-ver-respuestas').modal('show');
@@ -137,7 +136,7 @@ class ResultadosView {
                             this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html_respuestas);
                         }else{
                             html_respuestas=''+
-                            '<div class="col-md-4">'+
+                            '<div class="col-md-12">'+
                                 '<div class="form-group">'+
                                     '<div class="custom-controls-stacked" data-key-respuestas="'+key+'">'+html_respuestas+
                                     '</div>'+
