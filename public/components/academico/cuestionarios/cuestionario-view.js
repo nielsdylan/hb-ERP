@@ -293,7 +293,9 @@ class CuestionarioView {
                         '</div>'+
                     '</div>'+
                     '<div class="col-md-4 mt-auto" section-button="acciones" >'+
-                        '<button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'
+                        '<div><button type="button" class="btn btn-danger btn-sm eliminar-alternativa mb-1" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'" data-input="'+id+'"><i class="fe fe-trash-2"></i></button></div>'+
+
+                        '<div><button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'" data-input="'+id+'"><i class="fe fe-plus"></i></button></div>'
                     '</div>';
                     this_respuestas.html(html);
 
@@ -331,13 +333,35 @@ class CuestionarioView {
             '</label>';
             this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html);
 
-            let html_buttons = ''+
-                '<button type="button" class="btn btn-danger btn-sm eliminar-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'+
-                '<button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'+
-            '';
-            this_preguntas.find('[section-button="acciones"]').html(html_buttons);
-            console.log(key);
-            console.log(tipo_pregunta_id);
+            let button_section = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]').find('div[section-button="acciones"]').find('div');
+
+            if (button_section.length >= 2) {
+                // last
+                button_section.last().before('<div><button type="button" class="btn btn-danger btn-sm eliminar-alternativa mb-1" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'" data-input="'+id+'"><i class="fe fe-trash-2"></i></button></div>');
+            }
+            if (button_section.length == 1) {
+                button_section.first().before('<div><button type="button" class="btn btn-danger btn-sm eliminar-alternativa mb-1" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'" data-input="'+id+'"><i class="fe fe-trash-2"></i></button></div>');
+            }
+            console.log(button_section.first());
+            console.log(button_section);
+        });
+
+        // eliminar la alternativa
+
+        $('#preguntas').on("click", ".eliminar-alternativa", (e) => {
+            e.preventDefault();
+            let id = $(e.currentTarget).attr('data-input');
+            let key = $(e.currentTarget).attr('data-key');
+            let this_preguntas = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]');
+            let input = this_preguntas.find('[value="'+id+'"]')
+            let tipo_pregunta_id = $(e.currentTarget).attr('data-tipo-pregunta');
+            let componente = 'checkbox';
+            if (tipo_pregunta_id=='1') {
+                componente = 'radio';
+            }
+            input.closest('.custom-control.custom-'+componente).remove();
+            $(e.currentTarget).closest('div').remove();
+            console.log(id);
         });
 
         /*
@@ -470,6 +494,10 @@ class CuestionarioView {
                         let control = this_preguntas.find('.custom-controls-stacked');
                         if (control.length>0) {
                             this_preguntas.find('[data-key-respuestas="'+key+'"]').append(html_respuestas);
+
+                            let button_section = $('#preguntas').find('[data-seccion="respuestas-'+key+'"]').find('div[section-button="acciones"]').find('div');
+
+                            button_section.last().before('<div><button type="button" class="btn btn-danger btn-sm eliminar-alternativa mb-1" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'" data-input="'+id+'"><i class="fe fe-trash-2"></i></button></div>');
                         }else{
                             html_respuestas=''+
                             '<div class="col-md-4">'+
@@ -479,7 +507,9 @@ class CuestionarioView {
                                 '</div>'+
                             '</div>'+
                             '<div class="col-md-4 mt-auto" section-button="acciones">'+
-                                '<button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button>'
+                                '<div><button type="button" class="btn btn-danger btn-sm eliminar-alternativa mb-1" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'" data-input="'+id+'"><i class="fe fe-trash-2"></i></button></div>'+
+
+                                '<div><button type="button" class="btn btn-info btn-sm nueva-alternativa mb-4" data-key="'+key+'" data-tipo-pregunta="'+tipo_pregunta_id+'"><i class="fe fe-plus"></i></button></div>'
                             '</div>';
                             this_preguntas.html(html_respuestas);
                         }
