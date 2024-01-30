@@ -43,9 +43,9 @@ HB GROUP - Alumnado
                                             </div>
                                         </div>
                                         <div class="btn-profile">
-                                            <button class="btn btn-info mt-1 mb-1"> <i class="fe fe-cast"></i> <span>Ingresar al aula</span></button>
+                                            <button class="btn btn-info btn-sm mt-1 mb-1"> <i class="fe fe-cast"></i> <span>Ingresar al aula</span></button>
                                             {{-- <button class="btn btn-secondary mt-1 mb-1"> <i class="fa fa-envelope"></i> <span>Volver</span></button> --}}
-                                            <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger mt-1 mb-1"><i class="fa fa-arrow-circle-left"></i> Volver</a>
+                                            <a href="{{ route('hb.academicos.aulas.lista') }}" class="btn btn-danger btn-sm mt-1 mb-1"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                                         </div>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@ HB GROUP - Alumnado
             </div>
         </div>
     </div>
-    
+
     <div class="row justify-content-md-center">
         <div class="col-md-12">
             <div class="card">
@@ -177,7 +177,7 @@ HB GROUP - Alumnado
         </div>
     </div>
 
-    
+
     <!-- ROW-1 END -->
 
 
@@ -205,7 +205,7 @@ HB GROUP - Alumnado
     <script src="{{asset('template/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
     <script src="{{asset('template/js/table-data.js')}}"></script>
 
-    <script src="{{asset('components/academico/aulas/aula-model.js')}}"></script> {{-- estas son las rutas --}} 
+    <script src="{{asset('components/academico/aulas/aula-model.js')}}"></script> {{-- estas son las rutas --}}
 
     <script src="{{asset('components/academico/aulas/alumnos-view.js')}}"></script>
     <script src="{{asset('components/academico/aulas/asistencia-view.js')}}"></script>

@@ -265,23 +265,12 @@ class AulasController extends Controller
         $data = Asistencia::where('aula_id', $id)->where('estado',1)->where('ingreso',1)->get();
         $aula = Aulas::find($id);
 
-        $html = '<html lang="en">'.
-            '<head>'.
-            '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
-            '</head>'.
-            '<body>';
-                foreach ($data as $key => $value) {
-                    // $html.='<div style="margin: 25px !important;"><img src="'.public_path().'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
-                    if ($value->usuario->persona->path_dni) {
-                        $html.='<div style="margin: 25px !important;"><img src="'.asset('').'/'.$value->usuario->persona->path_dni.'" width="100%" ></div>';
-                    }
-
-                }
-            '</body>'.
-        '</html>';
-
-        $pdf = PDF::loadHTML($html);
-        $pdf->stream();
+        foreach ($data as $key => $value) {
+            $value->path_dni = ($value->usuario->persona->path_dni?$value->usuario->persona->path_dni:'');
+        }
+        $valores = array("data"=>json_encode($data));
+        $pdf = PDF::loadView('components.academico.aulas.report.asistencia', $valores);
+        // return $pdf->stream('-asistencia.pdf');
         return $pdf->download($aula->codigo.'-asistencia.pdf');
     }
     public function reporteAsistencia($id){
@@ -317,7 +306,8 @@ class AulasController extends Controller
         $valores = array("cabecera"=>json_encode($cabecera),"alumnos"=>json_encode($alumnos),"nombre"=>'niels');
         // $pdf = PDF::loadView('components/academico/aulas/report/asistencia_reporte', $valores);
         $pdf = PDF::loadView('components.academico.aulas.report.asistencia_reporte', $valores);
-        return $pdf->stream('Reporte-asistencia.pdf');
+        // return $pdf->stream('Reporte-asistencia.pdf');
+        return $pdf->download($aula->codigo.'-Reporte-asistencia.pdf');
         // return response()->json(["cabecera"=>$cabecera,"alumnos"=>$alumnos],200);
     }
 
