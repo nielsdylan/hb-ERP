@@ -310,10 +310,14 @@ class AulasController extends Controller
             "horario"=>$aula->hora_inicio.' - '.$aula->hora_final,
             "registro_instructor"=>'-',
             "firma_instructor"=>'-',
+
+            "logo"=>'web/images/logo/hb_group.png',
+            "codigo-asistencia"=>'F-004 Rv 03',
         );
         $valores = array("cabecera"=>json_encode($cabecera),"alumnos"=>json_encode($alumnos),"nombre"=>'niels');
-        $pdf = PDF::loadView('components/academico/aulas/report/asistencia_reporte', $valores);
-        return $pdf->stream('historia_clinica.pdf');
+        // $pdf = PDF::loadView('components/academico/aulas/report/asistencia_reporte', $valores);
+        $pdf = PDF::loadView('components.academico.aulas.report.asistencia_reporte', $valores);
+        return $pdf->stream('Reporte-asistencia.pdf');
         // return response()->json(["cabecera"=>$cabecera,"alumnos"=>$alumnos],200);
     }
 
