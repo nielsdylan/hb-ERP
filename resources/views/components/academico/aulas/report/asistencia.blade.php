@@ -13,7 +13,8 @@
     @endphp
     @foreach ($imagenes as $value)
         @if ($value->path_dni)
-            <div style="margin: 25px !important;"><img src="{{public_path().'/'.$value->path_dni}}" width="100%" ></div>
+            {{-- <div style="margin: 25px !important;"><img src="{{public_path().'/'.$value->path_dni}}" width="100%" ></div> --}}
+            <div style="margin: 25px !important;"><img src="{{{{ asset(''.$value->path_dni) }}}}" width="100%" ></div>
         @endif
     @endforeach
 </body>
