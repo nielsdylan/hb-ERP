@@ -28,8 +28,6 @@
         src: url('URL::asset("template/iconfonts/open-sans/OpenSans-ExtraBold.ttf")');
     }
 
-    body{
-    }
     .table-bordered, .text-wrap table, .table-bordered th, .text-wrap table th, .table-bordered td, .text-wrap table td{
         /* border: 0.5px solid black; */
         border-left: 0.5px solid black;
@@ -130,10 +128,44 @@
         /* width: 100% */
     }
 
-    @page { margin: 180px 50px; }
-    #header { position: fixed; left: 0px; top: -100px; right: 0px; height: 150px; text-align: center; }
-    #footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 150px; }
+    @page { margin: 90px 50px 150px 50px; }
+    #header {
+        position: fixed;
+        left: 0px;
+        top: -80px;
+        /* right: 0px;
+        height: 150px; */
+        width: 100%;
+        text-align: center;
+    }
+    #footer {
+        position: fixed;
+        left: 0px;
+        bottom: -100px;
+        /* right: 0px; */
+        /* height: 150px; */
+        width: 100%;
+    }
+
     /* #footer .page:after { content: counter(page, upper-roman); } */
+
+    .linea-instructor{
+        border: 0.5px solid black;
+        width: 80%;
+    }
+    .linea-representante{
+        border: 0.5px solid black;
+        width: 80%;
+    }
+    .fz-7{
+        font-size: 7px;
+    }
+    .fz-9{
+        font-size: 9px;
+    }
+    .fz-5{
+        font-size: 6px;
+    }
 </style>
 <body>
     @php
@@ -168,93 +200,87 @@
             </thead>
         </table>
     </div>
-
-    <div id="content">
-        <table class="table-bordered-asistencia" width="100%">
+    <div id="footer" >
+        <table class="" width="100%">
             <thead>
                 <tr>
-                    <th class="text-start font-cabecera bg-cabecera p-5" width="17.8%" colspan="2" >ORGANIZACIÓN</th>
-                    <th class="text-start font-cabecera " width="28.7%">&nbsp; {{$cabecera_th->organisacion}} </th>
-                    <th class="text-start font-cabecera bg-cabecera p-5" width="28.7%">ID SISTEMA APN</th>
-                    <th class="text-center font-cabecera" width="" colspan="4"> {{$cabecera_th->id_sistema_apn}} </th>
-                </tr>
-                <tr>
-                    <th class="text-start font-cabecera bg-cabecera p-5" colspan="2">CURSO</th>
-                    <th class="text-start font-cabecera" >&nbsp; {{$cabecera_th->curso}} </th>
-                    <th class="text-start font-cabecera bg-cabecera p-5">MODALIDAD</th>
-                    <th class="text-center font-cabecera" colspan="4"> {{$cabecera_th->modalidad}} </th>
-                </tr>
-                <tr>
-                    <th class="text-start font-cabecera bg-cabecera p-5" colspan="2">FECHA</th>
-                    <th class="text-start font-cabecera" >&nbsp; {{$cabecera_th->fecha}} </th>
-                    <th class="text-start font-cabecera bg-cabecera p-5">HORARIO</th>
-                    <th class="text-center font-cabecera" colspan="4"> {{$cabecera_th->horario}} </th>
-                </tr>
-                <tr>
-                    <th class="text-start font-cabecera bg-cabecera p-5" colspan="2">INSTRUCTOR</th>
-                    <th class="text-start font-cabecera" >&nbsp; {{$cabecera_th->instructor}} </th>
-                    <th class="text-start font-cabecera bg-cabecera p-5">REGISTRO INSTRUCTOR</th>
-                    <th class="text-center font-cabecera" colspan="4"> {{$cabecera_th->registro_instructor}} </th>
-                </tr>
-                <tr>
-                    <th class="text-start font-cabecera bg-cabecera p-5" colspan="2">LUGAR DE DICTADO</th>
-                    <th class="text-start font-cabecera" >&nbsp; {{$cabecera_th->lugar_dictado}} </th>
-                    <th class="text-start font-cabecera bg-cabecera p-5">FIRMA DEL INSTRUCTOR</th>
-                    <th class="text-center font-cabecera" colspan="4"> {{$cabecera_th->firma_instructor}} </th>
-                </tr>
-
-
-                <tr>
-                    <th class="text-center font-thead pt-10 pb-10 pe-5 ps-5"rowspan="2" >N°</th>
-                    <th class="text-center font-thead p-10 " rowspan="2">DOCUMENTO DE<br>IDENTIDAD NRO</th>
-                    <th class="text-center font-thead p-10 " rowspan="2">NOMBRES</th>
-                    <th class="text-center font-thead p-10 " rowspan="2">APELLIDOS PATERNO</th>
-                    <th class="text-center font-thead p-10 " rowspan="2">APELLIDOS MATERNO</th>
-                    <th class="text-center font-thead p-10 " colspan="2">CONTROL DE ASISTENCIA</th>
-                    <th class="text-center font-thead p-10 " rowspan="2">COMENTARIOS</th>
-                </tr>
-                <tr>
-                    <td  class="text-center font-thead" >PRESENTE</td>
-                    <td  class="text-center font-thead" >AUSENTE</td>
+                    <th class="text-center font-cabecera" width="40%" >
+                        <hr class="linea-instructor">
+                        <div class="fz-7">FIRMA DIGITAL DEL INSTRUCTOR</div>
+                        <div class="fz-9">SANTIAGO ENRICO DONDERO ORTI</div>
+                        <div class="fz-9">DNI: 41126033</div>
+                    </th>
+                    <th class="text-center font-cabecera" width="" >
+                        <hr class="linea-representante">
+                        <div class="fz-7">FIRMA DIGITAL DEL REPRESENTANTE OCP</div>
+                        <div class="fz-9">ANNIE BEJARANO</div><br>
+                    </th>
                 </tr>
             </thead>
-            <tbody>
-                @for ($i = 0 ; $i<24 ; $i++)
-                    {{-- @if ($i!=22) --}}
-                        <tr>
-                            <td  class="text-center font-alumnos p-5">{{ $i+1 }}</td>
-                            <td  class="text-center font-alumnos p-5"></td>
-                            <td  class="text-center font-alumnos p-5"></td>
-                            <td  class="text-center font-alumnos p-5"></td>
-                            <td  class="text-center font-alumnos p-5"></td>
-                            <td  class="text-center font-alumnos p-5"></td>
-                            <td  class="text-center font-alumnos p-5"></td>
-                            <td  class="text-center font-alumnos p-5"></td>
-                        </tr>
-                    {{-- @endif --}}
-
-                @endfor
-                {{-- @foreach ($lista_alumnos as $key=>$value)
-                <tr>
-                    <td  class="text-center font-alumnos p-5">{{ $key+1 }}</td>
-                    <td  class="text-center font-alumnos p-5">{{ $value->documento }}</td>
-                    <td  class="text-center font-alumnos p-5">{{ $value->nombres }}</td>
-                    <td  class="text-center font-alumnos p-5">{{ $value->apellido_paterno }}</td>
-                    <td  class="text-center font-alumnos p-5">{{ $value->apellido_materno }}</td>
-                    <td  class="text-center font-alumnos p-5">{{ ($value->asistencia==true?'X':'-') }}</td>
-                    <td  class="text-center font-alumnos p-5">{{ ($value->asistencia==false?'X':'-') }}</td>
-                    <td  class="text-center font-alumnos p-5">{{ $value->comentarios }}</td>
-                </tr>
-                @endforeach --}}
-
-            </tbody>
         </table>
-
     </div>
+    <table class="table-bordered-asistencia contenido" width="100%">
+        <thead>
+            <tr>
+                <th class="text-start font-cabecera bg-cabecera p-5" width="17.8%" colspan="2" >ORGANIZACIÓN</th>
+                <th class="text-start font-cabecera " width="28.7%" colspan="2">&nbsp; {{$cabecera_th->organisacion}} </th>
+                <th class="text-start font-cabecera bg-cabecera p-5" width="20%">ID SISTEMA APN</th>
+                <th class="text-center font-cabecera" width="" colspan="4"> {{$cabecera_th->id_sistema_apn}} </th>
+            </tr>
+            <tr>
+                <th class="text-start font-cabecera bg-cabecera p-5" colspan="2">CURSO</th>
+                <th class="text-start font-cabecera"colspan="2" >&nbsp; {{$cabecera_th->curso}} </th>
+                <th class="text-start font-cabecera bg-cabecera p-5">MODALIDAD</th>
+                <th class="text-center font-cabecera" colspan="4"> {{$cabecera_th->modalidad}} </th>
+            </tr>
+            <tr>
+                <th class="text-start font-cabecera bg-cabecera p-5" colspan="2">FECHA</th>
+                <th class="text-start font-cabecera" colspan="2">&nbsp; {{$cabecera_th->fecha}} </th>
+                <th class="text-start font-cabecera bg-cabecera p-5">HORARIO</th>
+                <th class="text-center font-cabecera" colspan="4"> {{$cabecera_th->horario}} </th>
+            </tr>
+            <tr>
+                <th class="text-start font-cabecera bg-cabecera p-5" colspan="2">INSTRUCTOR</th>
+                <th class="text-start font-cabecera" colspan="2">&nbsp; {{$cabecera_th->instructor}} </th>
+                <th class="text-start font-cabecera bg-cabecera p-5">REGISTRO INSTRUCTOR</th>
+                <th class="text-center font-cabecera" colspan="4"> {{$cabecera_th->registro_instructor}} </th>
+            </tr>
+            <tr>
+                <th class="text-start font-cabecera bg-cabecera p-5" colspan="2">LUGAR DE DICTADO</th>
+                <th class="text-start font-cabecera" colspan="2">&nbsp; {{$cabecera_th->lugar_dictado}} </th>
+                <th class="text-start font-cabecera bg-cabecera p-5">FIRMA DEL INSTRUCTOR</th>
+                <th class="text-center font-cabecera" colspan="4"> {{$cabecera_th->firma_instructor}} </th>
+            </tr>
 
 
-    <div id="footer">
-        <p class="page">pagina </p>
-    </div>
+            <tr>
+                <th class="text-center font-thead pt-10 pb-10 pe-5 ps-5 fz-5"rowspan="2" >N°</th>
+                <th class="text-center font-thead pe-5 ps-5 fz-5" rowspan="2">DOCUMENTO DE<br>IDENTIDAD NRO</th>
+                <th class="text-center font-thead  fz-5" rowspan="2" width="15%">NOMBRES</th>
+                <th class="text-center font-thead  fz-5" rowspan="2" width="15%">APELLIDOS PATERNO</th>
+                <th class="text-center font-thead  fz-5" rowspan="2" width="15%">APELLIDOS MATERNO</th>
+                <th class="text-center font-thead  fz-5" colspan="2">CONTROL DE ASISTENCIA</th>
+                <th class="text-center font-thead  fz-5" rowspan="2" colspan="2">COMENTARIOS</th>
+            </tr>
+            <tr>
+                <td  class="text-center font-thead fz-5" >PRESENTE</td>
+                <td  class="text-center font-thead fz-5" >AUSENTE</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($lista_alumnos as $key=>$value)
+            <tr>
+                <td  class="text-center font-alumnos p-5">{{ $key+1 }}</td>
+                <td  class="text-center font-alumnos p-5">{{ $value->documento }}</td>
+                <td  class="text-center font-alumnos p-5">{{ $value->nombres }}</td>
+                <td  class="text-center font-alumnos p-5">{{ $value->apellido_paterno }}</td>
+                <td  class="text-center font-alumnos p-5">{{ $value->apellido_materno }}</td>
+                <td  class="text-center font-alumnos p-5">{{ ($value->asistencia==true?'X':'-') }}</td>
+                <td  class="text-center font-alumnos p-5">{{ ($value->asistencia==false?'X':'-') }}</td>
+                <td  class="text-center font-alumnos p-5"colspan="2">{{ $value->comentarios }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </body>
 </html>
