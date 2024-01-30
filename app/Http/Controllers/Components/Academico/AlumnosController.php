@@ -356,8 +356,10 @@ class AlumnosController extends Controller
                     $data->telefono                 = $hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue();
                     $data->whatsapp                 = $hojaActual->getCellByColumnAndRow(9, $indiceFila)->getFormattedValue();
 
-                    $data->fecha_cumpleaños         = Carbon::parse($hojaActual->getCellByColumnAndRow(12, $indiceFila)->getFormattedValue())->format('Y-m-d');
-                    $data->fecha_caducidad_dni      = Carbon::parse($hojaActual->getCellByColumnAndRow(13, $indiceFila)->getFormattedValue())->format('Y-m-d');
+                    $data->fecha_cumpleaños         = $this->formatoFechaExcel($hojaActual->getCellByColumnAndRow(12, $indiceFila)->getValue());
+                    //  Carbon::parse($hojaActual->getCellByColumnAndRow(12, $indiceFila)->getFormattedValue())->format('Y-m-d');
+                    $data->fecha_caducidad_dni      = $this->formatoFechaExcel($hojaActual->getCellByColumnAndRow(13, $indiceFila)->getValue());
+                    // Carbon::parse($hojaActual->getCellByColumnAndRow(13, $indiceFila)->getFormattedValue())->format('Y-m-d');
 
                     if (!Personas::firstOrNew(['nro_documento' => $hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue()])) {
                         $data->fecha_registro       = date('Y-m-d H:i:s');
@@ -440,5 +442,7 @@ class AlumnosController extends Controller
     }
 
 
-
+    public function formatoFechaExcel($numero){
+        return gmdate("Y-m-d", (((int)$numero - 25569) * 86400));
+    }
 }
