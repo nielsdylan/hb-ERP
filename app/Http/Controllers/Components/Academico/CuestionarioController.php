@@ -188,6 +188,50 @@ class CuestionarioController extends Controller
         foreach ($cuestionario->preguntas as $key => $value) {
             $value->respuestas = CuestionarioRespuesta::where('cuestionario_id',$id)->where('pregunta_id',$value->id)->get();
         }
+
+        // clonar el cuestionario
+
+        $cuestionario_clon = new Cuestionario();
+        // $cuestionario_clon->codigo = $cuestionario->codigo;
+        $cuestionario_clon->titulo = $cuestionario->titulo;
+        $cuestionario_clon->encuesta = $cuestionario->encuesta;
+        $cuestionario_clon->fecha_registro   = date('Y-m-d H:i:s');
+        $cuestionario_clon->created_at   = date('Y-m-d H:i:s');
+        $cuestionario_clon->created_id   = Auth()->user()->id;
+        $cuestionario_clon->save();
+
+
+
+        if (sizeof($cuestionario->preguntas)>0) {
+            foreach ($cuestionario->preguntas as $key_pregunta => $value_pregunta) {
+                $pregunta = new CuestionarioPregunta();
+                $pregunta->pregunta         = $value_pregunta->pregunta;
+                $pregunta->puntaje          = $value_pregunta->puntaje;
+                $pregunta->fecha_registro   = date('Y-m-d H:i:s');
+                $pregunta->cuestionario_id  = $cuestionario_clon->id;
+                $pregunta->tipo_pregunta_id = (int) $value_pregunta->tipo_pregunta_id;
+                $pregunta->created_at       = date('Y-m-d H:i:s');
+                $pregunta->created_id       = Auth()->user()->id;
+                $pregunta->save();
+
+                foreach ($value_pregunta->respuestas as $key_alternativas => $value_alternativas) {
+                    $respuestas                     = new CuestionarioRespuesta();
+                    $respuestas->descripcion        = ($value_alternativas->descripcion!='null' || $value_alternativas->descripcion?$value_alternativas->descripcion:null);
+
+                    $respuestas->verdadero          = $value_alternativas->verdadero;
+
+                    $respuestas->fecha_registro     = date('Y-m-d H:i:s');
+                    $respuestas->pregunta_id        = $pregunta->id;
+                    $respuestas->cuestionario_id    = $cuestionario_clon->id;
+                    $respuestas->created_at         = date('Y-m-d H:i:s');
+                    $respuestas->created_id         = Auth()->user()->id;
+                    $respuestas->save();
+                }
+            }
+            return response()->json(array("titulo"=>"Éxito", "mensaje"=>"Se clono con éxito","tipo"=>"success"),200);
+        }else{
+            return response()->json(array("titulo"=>"Información", "mensaje"=>"No registro ninguna pregunta para el cuestionario.","tipo"=>"info"),200);
+        }
         return response()->json([
             "data"=>$cuestionario,
             "titulo"=>"Éxito",

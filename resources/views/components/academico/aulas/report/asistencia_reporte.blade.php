@@ -207,8 +207,8 @@
                     <th class="text-center font-cabecera" width="40%" >
                         <hr class="linea-instructor">
                         <div class="fz-7">FIRMA DIGITAL DEL INSTRUCTOR</div>
-                        <div class="fz-9">SANTIAGO ENRICO DONDERO ORTI</div>
-                        <div class="fz-9">DNI: 41126033</div>
+                        <div class="fz-9">{{$cabecera_th->instructor}}</div>
+                        <div class="fz-9">DNI: {{$cabecera_th->numero_documento}}</div>
                     </th>
                     <th class="text-center font-cabecera" width="" >
                         <hr class="linea-representante">
@@ -275,8 +275,8 @@
                 <td  class="text-center font-alumnos p-5">{{ $value->nombres }}</td>
                 <td  class="text-center font-alumnos p-5">{{ $value->apellido_paterno }}</td>
                 <td  class="text-center font-alumnos p-5">{{ $value->apellido_materno }}</td>
-                <td  class="text-center font-alumnos p-5">{{ ($value->asistencia==true?'X':'-') }}</td>
-                <td  class="text-center font-alumnos p-5">{{ ($value->asistencia==false?'X':'-') }}</td>
+                <td  class="text-center font-alumnos p-5">{{ ($value->asistencia==true?'PRESENTE':'-') }}</td>
+                <td  class="text-center font-alumnos p-5">{{ ($value->asistencia==false?'AUSENTE':'-') }}</td>
                 <td  class="text-center font-alumnos p-5"colspan="2">{{ $value->comentarios }}</td>
             </tr>
             @endforeach

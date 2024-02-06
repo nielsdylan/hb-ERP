@@ -92,8 +92,8 @@ HB GROUP - Gestion de Alumnos
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group ">
-                                        <label class="form-label">Cargo : </label>
-                                        <input type="text" name="cargo" class="form-control form-control-sm" placeholder="Cargo..." value="{{($persona?$persona->cargo:null)}}">
+                                        <label class="form-label">Cargo : <span class="text-red">*</span></label>
+                                        <input type="text" name="cargo" class="form-control form-control-sm" placeholder="Cargo..." value="{{($persona?$persona->cargo:null)}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">

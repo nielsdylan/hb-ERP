@@ -193,3 +193,5 @@ ALTER TABLE `formularios` CHANGE `nombre` `titulo` VARCHAR(255) CHARACTER SET ut
 ALTER TABLE `formulario_respuestas` ADD `seleccion` int(11) DEFAULT 0 AFTER `verdadero`;
 -- cambiar el campo de nombre  a titulo en la tabla cuestionario
 ALTER TABLE `cuestionarios` CHANGE `nombre` `titulo` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL ;
+-- 6 / 2 / 2024
+ALTER TABLE `aulas` ADD `registro_instructor` VARCHAR(255) DEFAULT NULL AFTER `hora_final`;

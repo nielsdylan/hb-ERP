@@ -61,10 +61,6 @@ HB GROUP - Gestion de Aula
                                                 <option value="{{ $item->id }}" {{ ( ($aula->curso_id==$item->id) ? 'selected' : null) }}>{{ $item->nombre }}</option>
                                             @endforeach
                                         @endif
-                                        {{-- @foreach ($cursos as $item)
-                                            <option value="{{ $item->id }}" {{ ( ($aula && $aula->curso_id==$item->id) ? 'selected' : null) }}>{{ $item->nombre }}</option>
-                                        @endforeach --}}
-
                                     </select>
                                 </div>
                             </div>
@@ -119,6 +115,12 @@ HB GROUP - Gestion de Aula
                                         <span class="custom-switch-indicator"></span>
                                         <span class="custom-switch-description">Abierto</span>
                                     </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="registro_instructor" class="form-label">Registro instructor : <span class="text-red">*</span></label>
+                                    <input type="text" name="registro_instructor" class="form-control form-control-sm text-center" id="registro_instructor" placeholder="Registro instructor...." value="{{($aula ? $aula->registro_instructor : null)}}" required>
                                 </div>
                             </div>
                         </div>

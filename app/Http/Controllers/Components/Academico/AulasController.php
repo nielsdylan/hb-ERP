@@ -61,6 +61,7 @@ class AulasController extends Controller
                 $data->curso_id     = $request->curso_id;
                 $data->docente_id   = $request->docente_id;
                 $data->abierto  = ($request->abierto?$request->abierto:0);
+                $data->registro_instructor  = ($request->registro_instructor?$request->registro_instructor:null);
 
                 if ((int) $request->id == 0) {
                     $data->fecha_registro       = date('Y-m-d H:i:s');
@@ -285,7 +286,7 @@ class AulasController extends Controller
                 "apellido_paterno"=>$value->usuario->persona->apellido_paterno,
                 "apellido_materno"=>$value->usuario->persona->apellido_materno,
                 "asistencia"=>($value->ingreso==1?true:false),
-                "comentarios"=>'-',
+                "comentarios"=>$value->usuario->persona->cargo.' - '.$value->usuario->empresa->razon_social,
             ));
         }
         $cabecera = array(
@@ -293,12 +294,13 @@ class AulasController extends Controller
             "curso"=>$aula->curso->nombre,
             "fecha"=>$aula->fecha,
             "instructor"=>$aula->usuario->persona->apellido_paterno.' '.$aula->usuario->persona->apellido_materno.' '.$aula->usuario->persona->nombres,
+            "numero_documento"=>$aula->usuario->persona->nro_documento,
             "lugar_dictado"=>'www.hbgroup.pe',
             "id_sistema_apn"=>$aula->codigo,
             "modalidad"=>'virtual',
             "horario"=>$aula->hora_inicio.' - '.$aula->hora_final,
-            "registro_instructor"=>'-',
-            "firma_instructor"=>'-',
+            "registro_instructor"=>($aula->registro_instructor?$aula->registro_instructor:'-'),
+            "firma_instructor"=>'',
 
             "logo"=>'web/images/logo/hb_group.png',
             "codigo-asistencia"=>'F-004 Rv 03',
