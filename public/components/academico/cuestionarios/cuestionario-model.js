@@ -67,4 +67,14 @@ class CuestionarioModel {
             data: {_token:this.token},
         });
     }
+    clonar = (id) => {
+        return $.ajax({
+            url: route("hb.academicos.cuestionario.clonar",{id:id}),
+            type: "GET",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token},
+        });
+    };
 }

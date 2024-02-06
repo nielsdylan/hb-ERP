@@ -199,6 +199,20 @@ class CuestionarioView {
             window.location.href = route('hb.academicos.cuestionario.resultados',{id: id});
         });
 
+        $("#tabla-data").on("click", "button.clonar", (e) => {
+            e.preventDefault();
+            let id = $(e.currentTarget).attr('data-id');
+
+            this.model.clonar(id).then((respuesta) => {
+                console.log(respuesta);
+            }).fail((respuesta) => {
+                // return respuesta;
+            }).always(() => {
+            });
+
+            console.log(id);
+        });
+
     }
 
     cuestionario = () => {

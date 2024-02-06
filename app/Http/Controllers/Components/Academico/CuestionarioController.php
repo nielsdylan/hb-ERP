@@ -29,7 +29,11 @@ class CuestionarioController extends Controller
         ->addColumn('accion', function ($data) {
             return
             '<div class="btn-list">
-                <button type="button" class="btn btn-sm link protip ver-resultados" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Ver resultados de la encuesta">
+                <button type="button" class="btn text-dark btn-sm link protip clonar" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Clonar cuestionario">
+                    <i class="fe fe-copy fs-14"></i>
+                </button>
+
+                <button type="button" class="btn text-dark btn-sm link protip ver-resultados" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Ver resultados de la encuesta">
                     <i class="fe fe-clipboard fs-14"></i>
                 </button>
                 <button type="button" class="btn text-info btn-sm link protip generar-link" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Generar link">
@@ -177,5 +181,18 @@ class CuestionarioController extends Controller
             $value->respuestas = FormularioRespuesta::where('formulario_id',$id)->where('formulario_pregunta_id',$value->id)->get();
         }
         return response()->json(["cuestionario"=>$formulario],200);
+    }
+    public function clonar($id){
+        $cuestionario   = Cuestionario::find($id);
+        $cuestionario->preguntas      = CuestionarioPregunta::where('cuestionario_id',$id)->get();
+        foreach ($cuestionario->preguntas as $key => $value) {
+            $value->respuestas = CuestionarioRespuesta::where('cuestionario_id',$id)->where('pregunta_id',$value->id)->get();
+        }
+        return response()->json([
+            "data"=>$cuestionario,
+            "titulo"=>"Éxito",
+            "mensaje"=>"Se clono con éxito.",
+            "tipo"=>"success"
+        ],200);
     }
 }

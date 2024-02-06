@@ -163,6 +163,8 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('resultados/{id}',[CuestionarioController::class,'resultados'])->name('resultados');
             Route::post('resultados-listar',[CuestionarioController::class,'resultadosListar'])->name('resultados-listar');
             Route::get('resultados-ver/{id}',[CuestionarioController::class,'resultadosVer'])->name('resultados-ver');
+
+            Route::get('clonar/{id}',[CuestionarioController::class,'clonar'])->name('clonar');
         });
         Route::name('certificados.')->prefix('certificados')->group(function () {
 
