@@ -149,6 +149,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
             Route::get('descargar-asistencia/{id}', [AulasController::class, 'descargarAsistencia'])->name('descargar-asistencia');
             Route::get('reporte-asistencia/{id}', [AulasController::class, 'reporteAsistencia'])->name('reporte-asistencia');
+            Route::get('reporte-asistencia-excel/{id}', [AulasController::class, 'reporteAsistenciaExcel'])->name('reporte-asistencia-excel');
         });
         Route::name('cuestionario.')->prefix('cuestionario')->group(function () {
             Route::get('lista',[CuestionarioController::class,'lista'])->name('lista');

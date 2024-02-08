@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Components\Academico;
 
+use App\Exports\AsistenciaReporteExport;
 use App\Helpers\ConfiguracionComponents;
 use App\Http\Controllers\Controller;
 use App\Models\Asignatura;
@@ -15,6 +16,7 @@ use App\Models\UsuariosRoles;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class AulasController extends Controller
@@ -313,4 +315,40 @@ class AulasController extends Controller
         // return response()->json(["cabecera"=>$cabecera,"alumnos"=>$alumnos],200);
     }
 
+    public function reporteAsistenciaExcel($id){
+        $aula = Aulas::find($id);
+        $data = Asistencia::where('aula_id', $id)->where('estado',1)->get();
+        $alumnos = array();
+
+        foreach ($data as $key => $value) {
+            array_push($alumnos,array(
+                "documento"=>$value->usuario->persona->nro_documento,
+                "nombres"=>$value->usuario->persona->nombres,
+                "apellido_paterno"=>$value->usuario->persona->apellido_paterno,
+                "apellido_materno"=>$value->usuario->persona->apellido_materno,
+                "asistencia"=>($value->ingreso==1?true:false),
+                "comentarios"=>$value->usuario->persona->cargo.' - '.$value->usuario->empresa->razon_social,
+            ));
+        }
+        $cabecera = array(
+            "organisacion"=>'HB GROUP PERU S.R.L.',
+            "curso"=>$aula->curso->nombre,
+            "fecha"=>$aula->fecha,
+            "instructor"=>$aula->usuario->persona->apellido_paterno.' '.$aula->usuario->persona->apellido_materno.' '.$aula->usuario->persona->nombres,
+            "numero_documento"=>$aula->usuario->persona->nro_documento,
+            "lugar_dictado"=>'www.hbgroup.pe',
+            "id_sistema_apn"=>$aula->codigo,
+            "modalidad"=>'virtual',
+            "horario"=>$aula->hora_inicio.' - '.$aula->hora_final,
+            "registro_instructor"=>($aula->registro_instructor?$aula->registro_instructor:'-'),
+            "firma_instructor"=>'',
+
+            "logo"=>'web/images/logo/hb_group.png',
+            "codigo-asistencia"=>'F-004 Rv 03',
+        );
+        $valores = json_encode(array("cabecera"=>$cabecera,"alumnos"=>$alumnos,"nombre"=>'niels'));
+        return Excel::download(new AsistenciaReporteExport($valores), 'reporte-asistencia.xlsx');
+
+        return $valores;
+    }
 }

@@ -38,6 +38,16 @@ class AsistenciaView {
                     action: function (e, dt, node, config) {
                         window.open(route('hb.academicos.aulas.reporte-asistencia',{ id: $('[name="aula_id"]').val() }), "Reporte")
                     }
+                },
+                {
+                    text: '<span class="fa fa-file-excel-o text-default"></span> Excel de Asistencia ',
+                    className:'btn btn-default btn-sm',
+                    init: function(api, node, config) {
+                        $(node).removeClass('btn-primary')
+                    },
+                    action: function (e, dt, node, config) {
+                        window.open(route('hb.academicos.aulas.reporte-asistencia-excel',{ id: $('[name="aula_id"]').val() }), "Reporte")
+                    }
                 }
             ],
             initComplete: function (settings, json) {
