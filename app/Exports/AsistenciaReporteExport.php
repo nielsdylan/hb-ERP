@@ -15,12 +15,14 @@ class AsistenciaReporteExport implements FromView, WithStyles
 
     public $data;
     public $cantidad_alumnos;
+    public $cel_firma;
 
     public function __construct(string $json)
     {
         $this->data = json_decode($json);
 
-        $this->cantidad_alumnos = sizeof($this->data->alumnos)+10;
+        $this->cantidad_alumnos = sizeof($this->data->alumnos)+12;
+        $this->cel_firma = $this->cantidad_alumnos+3;
 
 
     }
@@ -28,62 +30,75 @@ class AsistenciaReporteExport implements FromView, WithStyles
     public function view(): View
     {
         // dd($this->data);
-        // dd($this->cantidad_alumnos);
+        // dd($this->cel_firma);
         return view('components.academico.aulas.report.asistencia_reporte_excel', ['data' => $this->data] );
     }
 
     public function styles(Worksheet $sheet)
     {
-        // $sheet->mergeCells('C3:D3');
+        $sheet->mergeCells('C2:D3');
+        $sheet->mergeCells('E2:F3');
+        $sheet->mergeCells('G2:H3');
+        //firmas
+        $sheet->mergeCells('B'.$this->cel_firma.':C'.($this->cel_firma+2));
+        $sheet->mergeCells('E'.$this->cel_firma.':F'.($this->cel_firma+2));
         return [
             // 'A1' => ['font' => ['italic' => true]],
-            'A8:H9' =>[
+            'A5:D9' =>[
+                'font' => ['size' => 8],
+                'alignment' => [
+                'wrapText' => true,
+                'vertical' => Alignment::VERTICAL_CENTER,
+            ]],
+            'E5:E9' =>[
+                'font' => ['size' => 8],
+                'alignment' => [
+
+                'wrapText' => true,
+            ]],
+            'A12:H'.$this->cantidad_alumnos.'' =>[
                 'font' => ['size' => 8],
                 'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
                 'vertical' => Alignment::VERTICAL_CENTER,
                 'wrapText' => true,
             ]],
-            'A10:H'.$this->cantidad_alumnos.'' =>[
-                'font' => ['size' => 8],
-                'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-                'vertical' => Alignment::VERTICAL_CENTER,
-                // 'wrapText' => true,
-            ]],
-            'A3:C7' =>[
-                'font' => ['size' => 8]
-            ],
-            'E3:E7' =>[
-                'font' => ['size' => 8]
-            ],
-            'F3:F7' =>[
+            'F5:H9' =>[
                 'font' => ['size' => 8],
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_CENTER,
                     'vertical' => Alignment::VERTICAL_CENTER,
-                    // 'wrapText' => true,
+                    'wrapText' => true,
                 ]
             ],
-
-            'C2:D2' =>[
+            'A10:H11' =>[
                 'font' => ['size' => 8],
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_CENTER,
                     'vertical' => Alignment::VERTICAL_CENTER,
-                    // 'wrapText' => true,
+                    'wrapText' => true,
                 ]
             ],
-            'C1' =>[
-                'font' => ['size' => 10],
+            'C2' =>[
+                'font' => ['size' => 8],
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_CENTER,
                     'vertical' => Alignment::VERTICAL_CENTER,
-                    // 'wrapText' => true,
-                ]
+                    'wrapText' => true,
+                ],
+                'quotePrefix'    => true
             ],
             'C3' =>[
-                'font' => ['size' => 8, 'width'     => 50,],
+                'font' => ['size' => 8],
+                'alignment' => [
+                    'horizontal' => Alignment::HORIZONTAL_CENTER,
+                    'vertical' => Alignment::VERTICAL_CENTER,
+                    'wrapText' => true,
+                ],
+                'quotePrefix'    => true
+            ],
+            'C3' =>[
+                'font' => ['size' => 8, ],
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_CENTER,
                     'vertical' => Alignment::VERTICAL_CENTER,
@@ -92,10 +107,38 @@ class AsistenciaReporteExport implements FromView, WithStyles
                 'quotePrefix'    => true
             ],
 
-            // 'C'  => ['font' => ['size' => 16]],
-            // 'C'  => ['font' => ['size' => 16]],
-            // 'C'  => ['font' => ['size' => 16]],
-
+            'D2:E3' =>[
+                'font' => ['size' => 8],
+                'alignment' => [
+                    'horizontal' => Alignment::HORIZONTAL_CENTER,
+                    'vertical' => Alignment::VERTICAL_CENTER,
+                    'wrapText' => true,
+                ],
+                'quotePrefix'    => true
+            ],
+            'F2:G2'=>[
+                'font' => ['size' => 8],
+                'alignment' => [
+                    'horizontal' => Alignment::HORIZONTAL_CENTER,
+                    'vertical' => Alignment::VERTICAL_CENTER,
+                    'wrapText' => true,
+                ],
+                'quotePrefix'    => true
+            ],
+            'E'.$this->cel_firma.':F'.($this->cel_firma+2).'' =>[
+                'font' => ['size' => 8],
+                'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ]],
+            'B'.$this->cel_firma.':C'.($this->cel_firma+2).'' =>[
+                'font' => ['size' => 8],
+                'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ]],
         ];
     }
 }
