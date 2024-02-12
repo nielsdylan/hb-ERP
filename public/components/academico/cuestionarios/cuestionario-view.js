@@ -45,7 +45,7 @@ class CuestionarioView {
                 const $paginate = $('#tabla-data_paginate');
                 $paginate.find('ul.pagination').addClass('pagination-sm');
             },
-            order: [[0, 'asc']],
+            order: [[0, 'desc']],
             ajax: {
                 url: route('hb.academicos.cuestionario.listar'),
                 method: 'POST',
@@ -204,7 +204,13 @@ class CuestionarioView {
             let id = $(e.currentTarget).attr('data-id');
 
             this.model.clonar(id).then((respuesta) => {
-                console.log(respuesta);
+                notif({
+                    msg: '<span class="alert-inner--icon"><i class="'+respuesta.icono+' "></i></span>'+
+                    '<span class="alert-inner--text"><strong> '+respuesta.titulo+'!</strong> '+respuesta.mensaje+'</span>',
+                    type: respuesta.tipo,
+                    width: 480,
+                });
+                $('#tabla-data').DataTable().ajax.reload();
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {

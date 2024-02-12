@@ -228,15 +228,9 @@ class CuestionarioController extends Controller
                     $respuestas->save();
                 }
             }
-            return response()->json(array("titulo"=>"Éxito", "mensaje"=>"Se clono con éxito","tipo"=>"success"),200);
+            return response()->json(array("icono"=>"fe fe-thumbs-up","titulo"=>"Éxito", "mensaje"=>"Se clono con éxito","tipo"=>"success"),200);
         }else{
             return response()->json(array("titulo"=>"Información", "mensaje"=>"No registro ninguna pregunta para el cuestionario.","tipo"=>"info"),200);
         }
-        return response()->json([
-            "data"=>$cuestionario,
-            "titulo"=>"Éxito",
-            "mensaje"=>"Se clono con éxito.",
-            "tipo"=>"success"
-        ],200);
     }
 }
