@@ -15,6 +15,7 @@ use App\Models\UsuariosAccesos;
 use App\Models\UsuariosRoles;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
+use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -267,14 +268,26 @@ class AulasController extends Controller
     public function descargarAsistencia($id){
         $data = Asistencia::where('aula_id', $id)->where('estado',1)->where('ingreso',1)->get();
         $aula = Aulas::find($id);
+        $alumnos = array();
 
         foreach ($data as $key => $value) {
+            array_push($alumnos,array(
+                "apellidos"=>$value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres,
+                "path_dni"=>($value->usuario->persona->path_dni?$value->usuario->persona->path_dni:'')
+            ));
+
             $value->path_dni = ($value->usuario->persona->path_dni?$value->usuario->persona->path_dni:'');
         }
-        $valores = array("data"=>json_encode($data));
+
+        $alumnos = new ArrayObject($alumnos);
+        $alumnos->asort();
+
+        
+        $valores = array("data"=>json_encode($alumnos));
+        // return $alumnos;
         $pdf = PDF::loadView('components.academico.aulas.report.asistencia', $valores);
-        // return $pdf->stream('-asistencia.pdf');
-        return $pdf->download($aula->codigo.'-asistencia.pdf');
+        return $pdf->stream('-asistencia.pdf');
+        // return $pdf->download($aula->codigo.'-asistencia.pdf');
     }
     public function reporteAsistencia($id){
         $aula = Aulas::find($id);
