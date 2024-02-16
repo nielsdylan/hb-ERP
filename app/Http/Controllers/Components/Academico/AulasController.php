@@ -303,8 +303,8 @@ class AulasController extends Controller
         $valores = array("data"=>json_encode($ordenados));
         // return $ordenados;
         $pdf = PDF::loadView('components.academico.aulas.report.asistencia', $valores);
-        return $pdf->stream('-asistencia.pdf');
-        // return $pdf->download($aula->codigo.'-asistencia.pdf');
+        // return $pdf->stream('-asistencia.pdf');
+        return $pdf->download($aula->codigo.'-asistencia.pdf');
     }
     public function reporteAsistencia($id){
         $aula = Aulas::find($id);
