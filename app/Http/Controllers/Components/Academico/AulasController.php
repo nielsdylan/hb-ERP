@@ -269,41 +269,85 @@ class AulasController extends Controller
         $data = Asistencia::where('aula_id', $id)->where('estado',1)->where('ingreso',1)->get();
         $aula = Aulas::find($id);
         $alumnos = array();
+        $alumnos_nombres = array();
+        $ordenados = array();
 
         foreach ($data as $key => $value) {
             array_push($alumnos,array(
                 "apellidos"=>$value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres,
                 "path_dni"=>($value->usuario->persona->path_dni?$value->usuario->persona->path_dni:'')
             ));
+            array_push($alumnos_nombres,array(
+                "apellidos"=>$value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres,
+            ));
 
             $value->path_dni = ($value->usuario->persona->path_dni?$value->usuario->persona->path_dni:'');
         }
+        sort($alumnos_nombres);
+        foreach($alumnos_nombres as $key => $value){
+            foreach($alumnos as $key_alumno => $value_alumno){
+                if( $value['apellidos'] == $value_alumno['apellidos'] ){
 
-        $alumnos = new ArrayObject($alumnos);
-        $alumnos->asort();
+                    array_push($ordenados,array(
+                        "apellidos"=>$value_alumno['apellidos'],
+                        "path_dni"=>$value_alumno['path_dni']
+                    ));
+                }
+            }
 
-        
-        $valores = array("data"=>json_encode($alumnos));
-        // return $alumnos;
+        }
+
+
+        $valores = array("data"=>json_encode($ordenados));
+        // return $ordenados;
         $pdf = PDF::loadView('components.academico.aulas.report.asistencia', $valores);
-        return $pdf->stream('-asistencia.pdf');
-        // return $pdf->download($aula->codigo.'-asistencia.pdf');
+        // return $pdf->stream('-asistencia.pdf');
+        return $pdf->download($aula->codigo.'-asistencia.pdf');
     }
     public function reporteAsistencia($id){
         $aula = Aulas::find($id);
         $data = Asistencia::where('aula_id', $id)->where('estado',1)->get();
         $alumnos = array();
-
+        $alumnos_nombres = array();
+        $ordenados = array();
         foreach ($data as $key => $value) {
             array_push($alumnos,array(
                 "documento"=>$value->usuario->persona->nro_documento,
-                "nombres"=>$value->usuario->persona->nombres,
                 "apellido_paterno"=>$value->usuario->persona->apellido_paterno,
                 "apellido_materno"=>$value->usuario->persona->apellido_materno,
+                "nombres"=>$value->usuario->persona->nombres,
                 "asistencia"=>($value->ingreso==1?true:false),
                 "comentarios"=>$value->usuario->persona->cargo.' - '.$value->usuario->empresa->razon_social,
+
+                "nombre_completo"=>$value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres
+            ));
+
+            array_push($alumnos_nombres,array(
+                "nombre_completo"=>$value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres,
             ));
         }
+
+        sort($alumnos_nombres);
+
+        foreach($alumnos_nombres as $key => $value){
+            foreach($alumnos as $key_alumno => $value_alumno){
+                // return [$value['nombre_completo'], $value_alumno['nombre_completo']];
+                if( $value['nombre_completo'] == $value_alumno['nombre_completo'] ){
+
+                    array_push($ordenados,array(
+                        "documento"         =>$value_alumno['documento'],
+                        "apellido_paterno"  =>$value_alumno['apellido_paterno'],
+                        "apellido_materno"  =>$value_alumno['apellido_materno'],
+                        "nombres"           =>$value_alumno['nombres'],
+                        "asistencia"        =>$value_alumno['asistencia'],
+                        "comentarios"       =>$value_alumno['comentarios'],
+                    ));
+                }
+            }
+
+        }
+
+        // return $ordenados;exit;
         $cabecera = array(
             "organisacion"=>'HB GROUP PERU S.R.L.',
             "curso"=>$aula->curso->nombre,
@@ -320,7 +364,7 @@ class AulasController extends Controller
             "logo"=>'web/images/logo/hb_group.png',
             "codigo-asistencia"=>'F-004 Rv 03',
         );
-        $valores = array("cabecera"=>json_encode($cabecera),"alumnos"=>json_encode($alumnos),"nombre"=>'niels');
+        $valores = array("cabecera"=>json_encode($cabecera),"alumnos"=>json_encode($ordenados),"nombre"=>'niels');
         // $pdf = PDF::loadView('components/academico/aulas/report/asistencia_reporte', $valores);
         $pdf = PDF::loadView('components.academico.aulas.report.asistencia_reporte', $valores);
         // return $pdf->stream('Reporte-asistencia.pdf');
@@ -332,7 +376,8 @@ class AulasController extends Controller
         $aula = Aulas::find($id);
         $data = Asistencia::where('aula_id', $id)->where('estado',1)->get();
         $alumnos = array();
-
+        $alumnos_nombres = array();
+        $ordenados = array();
         foreach ($data as $key => $value) {
             array_push($alumnos,array(
                 "documento"=>$value->usuario->persona->nro_documento,
@@ -341,8 +386,35 @@ class AulasController extends Controller
                 "apellido_materno"=>$value->usuario->persona->apellido_materno,
                 "asistencia"=>($value->ingreso==1?true:false),
                 "comentarios"=>$value->usuario->persona->cargo.' - '.$value->usuario->empresa->razon_social,
+                "nombre_completo"=>$value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres
+            ));
+
+            array_push($alumnos_nombres,array(
+                "nombre_completo"=>$value->usuario->persona->apellido_paterno.' '.$value->usuario->persona->apellido_materno.' '.$value->usuario->persona->nombres,
             ));
         }
+
+        sort($alumnos_nombres);
+
+        foreach($alumnos_nombres as $key => $value){
+            foreach($alumnos as $key_alumno => $value_alumno){
+                // return [$value['nombre_completo'], $value_alumno['nombre_completo']];
+                if( $value['nombre_completo'] == $value_alumno['nombre_completo'] ){
+
+                    array_push($ordenados,array(
+                        "documento"         =>$value_alumno['documento'],
+                        "apellido_paterno"  =>$value_alumno['apellido_paterno'],
+                        "apellido_materno"  =>$value_alumno['apellido_materno'],
+                        "nombres"           =>$value_alumno['nombres'],
+                        "asistencia"        =>$value_alumno['asistencia'],
+                        "comentarios"       =>$value_alumno['comentarios'],
+                    ));
+                }
+            }
+
+        }
+
+        // return $ordenados;
         $cabecera = array(
             "organisacion"=>'HB GROUP PERU S.R.L.',
             "curso"=>$aula->curso->nombre,
@@ -359,7 +431,7 @@ class AulasController extends Controller
             "logo"=>'web/images/logo/hb_group.png',
             "codigo-asistencia"=>'F-004 Rv 03',
         );
-        $valores = json_encode(array("cabecera"=>$cabecera,"alumnos"=>$alumnos,"nombre"=>'niels'));
+        $valores = json_encode(array("cabecera"=>$cabecera,"alumnos"=>$ordenados,"nombre"=>'niels'));
         return Excel::download(new AsistenciaReporteExport($valores), 'reporte-asistencia.xlsx');
 
         return $valores;
