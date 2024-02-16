@@ -17,7 +17,7 @@
         {{-- <p>{{$value->path_dni}}</p>
         <p>{{url("")}}</p>--}}
         {{-- {{ public_path($value->path_dni) }} --}}
-            <div style="margin: 25px !important;"><img src="{{ public_path($value->path_dni) }}" width="100%" ></div>
+            <div style="margin: 25px !important;"><img src="{{ url($value->path_dni) }}" width="100%" ></div>
         @endif
     @endforeach
 </body>
