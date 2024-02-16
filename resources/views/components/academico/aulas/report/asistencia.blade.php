@@ -14,9 +14,10 @@
 
     @foreach ($imagenes as $value)
         @if ($value->path_dni)
-        {{-- <p>{{ asset(''.$value->path_dni) }}</p> --}}
-        {{-- <p>/{{$value->path_dni}}</p> --}}
-            <div style="margin: 25px !important;"><img src="{{$value->path_dni}}" width="100%" ></div>
+        {{-- <p>{{$value->path_dni}}</p>
+        <p>{{url("")}}</p>--}}
+        {{-- {{ public_path($value->path_dni) }} --}}
+            <div style="margin: 25px !important;"><img src="{{ public_path($value->path_dni) }}" width="100%" ></div>
         @endif
     @endforeach
 </body>

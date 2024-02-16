@@ -17,6 +17,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -284,25 +285,26 @@ class AulasController extends Controller
             $value->path_dni = ($value->usuario->persona->path_dni?$value->usuario->persona->path_dni:'');
         }
         sort($alumnos_nombres);
+        $dominio = FacadesRequest::root();
         foreach($alumnos_nombres as $key => $value){
             foreach($alumnos as $key_alumno => $value_alumno){
                 if( $value['apellidos'] == $value_alumno['apellidos'] ){
 
                     array_push($ordenados,array(
                         "apellidos"=>$value_alumno['apellidos'],
-                        "path_dni"=>$value_alumno['path_dni']
+                        "path_dni"=>$value_alumno['path_dni'],
+                        "dominio"=>$dominio,
                     ));
                 }
             }
 
         }
 
-
         $valores = array("data"=>json_encode($ordenados));
         // return $ordenados;
         $pdf = PDF::loadView('components.academico.aulas.report.asistencia', $valores);
-        // return $pdf->stream('-asistencia.pdf');
-        return $pdf->download($aula->codigo.'-asistencia.pdf');
+        return $pdf->stream('-asistencia.pdf');
+        // return $pdf->download($aula->codigo.'-asistencia.pdf');
     }
     public function reporteAsistencia($id){
         $aula = Aulas::find($id);
@@ -364,6 +366,7 @@ class AulasController extends Controller
             "logo"=>'web/images/logo/hb_group.png',
             "codigo-asistencia"=>'F-004 Rv 03',
         );
+
         $valores = array("cabecera"=>json_encode($cabecera),"alumnos"=>json_encode($ordenados),"nombre"=>'niels');
         // $pdf = PDF::loadView('components/academico/aulas/report/asistencia_reporte', $valores);
         $pdf = PDF::loadView('components.academico.aulas.report.asistencia_reporte', $valores);
