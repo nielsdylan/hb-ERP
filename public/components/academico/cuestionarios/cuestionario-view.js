@@ -219,6 +219,17 @@ class CuestionarioView {
             console.log(id);
         });
 
+        /**
+         * REPORTE DE EXCEL DE PREGUNTAS CON CANTIDAD DE ALUMNOS AL RESPONDER
+         */
+        $("#tabla-data").on("click", "button.reporte-respuestas", (e) => {
+            e.preventDefault();
+            let id = $(e.currentTarget).attr('data-id');
+            // window.location.href = route('hb.academicos.cuestionario.reporte-respuestas',{id: id});
+
+            window.open(route('hb.academicos.cuestionario.reporte-respuestas',{id: id}), "Reporte")
+        });
+
     }
 
     cuestionario = () => {

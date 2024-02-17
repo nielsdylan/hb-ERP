@@ -166,6 +166,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('resultados-ver/{id}',[CuestionarioController::class,'resultadosVer'])->name('resultados-ver');
 
             Route::get('clonar/{id}',[CuestionarioController::class,'clonar'])->name('clonar');
+            Route::get('reporte-respuestas/{id}',[CuestionarioController::class,'reporteRespuestas'])->name('reporte-respuestas');
         });
         Route::name('certificados.')->prefix('certificados')->group(function () {
 

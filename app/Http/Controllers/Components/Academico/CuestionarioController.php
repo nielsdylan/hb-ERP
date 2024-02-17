@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Components\Academico;
 
+use App\Exports\CuestionarioResultadosExport;
 use App\Http\Controllers\Controller;
 use App\Models\Cuestionario;
 use App\Models\CuestionarioPregunta;
@@ -12,6 +13,7 @@ use App\Models\FormularioRespuesta;
 use App\Models\LogActividades;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class CuestionarioController extends Controller
@@ -29,6 +31,10 @@ class CuestionarioController extends Controller
         ->addColumn('accion', function ($data) {
             return
             '<div class="btn-list">
+                <button type="button" class="btn text-dark btn-sm link protip reporte-respuestas" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Clonar cuestionario">
+                    <i class="fa fa-file-excel-o fs-14"></i>
+                </button>
+
                 <button type="button" class="btn text-dark btn-sm link protip clonar" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Clonar cuestionario">
                     <i class="fe fe-copy fs-14"></i>
                 </button>
@@ -232,5 +238,35 @@ class CuestionarioController extends Controller
         }else{
             return response()->json(array("titulo"=>"Información", "mensaje"=>"No registro ninguna pregunta para el cuestionario.","tipo"=>"info"),200);
         }
+    }
+    public function reporteRespuestas($id){
+        $formulario   = Formulario::where('cuestionario_id',$id)->where('estado',1)->orderBy('id','desc')->first();
+        $preguntas  = FormularioPregunta::select('id','pregunta', 'tipo_pregunta_id','formulario_id')->where('formulario_id',$formulario->id)->get();
+
+        $respuestas = FormularioRespuesta::select('descripcion', 'formulario_pregunta_id','formulario_id')->where('formulario_id',$formulario->id)->distinct('descripcion')->get();
+
+        $preguntas_filtrada = array();
+
+        foreach ($respuestas as $key => $value) {
+
+            if(!in_array($value->descripcion, $preguntas_filtrada)){
+
+                if($value->pregunta->tipo_pregunta_id==3 &&  !in_array("RESPUESTA ABIERTA", $preguntas_filtrada)){
+                    array_push($preguntas_filtrada, "RESPUESTA ABIERTA");
+                }else{
+                    array_push($preguntas_filtrada, $value->descripcion);
+                }
+
+            }
+        }
+        $valores = json_encode(array("preguntas"=>$preguntas,"respuestas"=>$preguntas_filtrada));
+        return Excel::download(new CuestionarioResultadosExport($valores), 'reporte-cuestionario.xlsx');
+        return response()->json([
+            "id"=>$id,
+            // "data"=>$formulario,
+            "preguntas"=>$preguntas,
+            "respuestas"=>$preguntas_filtrada,
+
+        ],200);
     }
 }
