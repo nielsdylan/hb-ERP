@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Cuestionario;
 use App\Models\CuestionarioPregunta;
 use App\Models\CuestionarioRespuesta;
+use App\Models\CuestionarioResultado;
+use App\Models\CuestionarioUsuario;
 use App\Models\Formulario;
 use App\Models\FormularioPregunta;
 use App\Models\FormularioRespuesta;
@@ -166,7 +168,7 @@ class CuestionarioController extends Controller
         return view('components.academico.cuestionario.resultados', get_defined_vars());
     }
     public function resultadosListar(Request $request){
-        $data = Formulario::where('estado',1)->where('cuestionario_id',$request->id)->get();
+        $data = CuestionarioUsuario::where('estado',1)->where('cuestionario_id',$request->id)->get();
         return DataTables::of($data)
         ->addColumn('apellidos_nombres', function ($data) {
             return $data->apellido_paterno.' '.$data->apellido_materno.' '.$data->nombres;
@@ -181,12 +183,17 @@ class CuestionarioController extends Controller
         })->rawColumns(['accion'])->make(true);
     }
     public function resultadosVer($id){
-        $formulario   = Formulario::find($id);
-        $formulario->preguntas      = FormularioPregunta::where('formulario_id',$id)->get();
-        foreach ($formulario->preguntas as $key => $value) {
-            $value->respuestas = FormularioRespuesta::where('formulario_id',$id)->where('formulario_pregunta_id',$value->id)->get();
+        $cuestionario_resultado = CuestionarioUsuario::find($id);
+        $cuestionario   = Cuestionario::find($cuestionario_resultado->cuestionario_id);
+        $cuestionario->preguntas      = CuestionarioPregunta::where('cuestionario_id',$cuestionario->id)->get();
+        foreach ($cuestionario->preguntas as $key => $value) {
+            $value->respuestas = CuestionarioRespuesta::where('cuestionario_id',$cuestionario->id)->where('pregunta_id',$value->id)->get();
         }
-        return response()->json(["cuestionario"=>$formulario],200);
+        $resultados = CuestionarioResultado::where('cuestionario_usuario_id',$id)->get();
+        return response()->json([
+            "cuestionario"=>$cuestionario,
+            "resultados"=>$resultados
+        ],200);
     }
     public function clonar($id){
         $cuestionario   = Cuestionario::find($id);
@@ -240,23 +247,24 @@ class CuestionarioController extends Controller
         }
     }
     public function reporteRespuestas($id){
-        $formulario   = Formulario::where('cuestionario_id',$id)->where('estado',1)->orderBy('id','desc')->first();
-        $preguntas  = FormularioPregunta::select('id','pregunta', 'tipo_pregunta_id','formulario_id')->where('formulario_id',$formulario->id)->orderBy('id','asc')->get();
 
-        $respuestas = FormularioRespuesta::select('descripcion', 'formulario_pregunta_id','formulario_id')->where('formulario_id',$formulario->id)->distinct('descripcion')->get();
-
-        // ordenar de una forma ordenada para el match
-
+        $cuestionario = Cuestionario::find($id);
+        $preguntas = CuestionarioPregunta::where('cuestionario_id',$id)->get();
+        $respuestas = CuestionarioRespuesta::where('cuestionario_id',$id)->get();
+        // return $respuestas;exit;
         foreach ($respuestas as $key => $value) {
+            $value->cantidad = 0;
+            if($value->pregunta->tipo_pregunta_id ==  3){
+                $value->text = 'Texto Libre';
 
-            if($value->pregunta->tipo_pregunta_id==3){
-                $value->texto = "Texto Libre";
+                $value->cantidad = CuestionarioResultado::where('estado',1)->where('cuestionario_respuesta_id',$value->id)->where('descripcion','!=',null)->count();
+                // return $value;
             }else{
-                $value->texto = $value->descripcion;
+                $value->text = $value->descripcion;
+                $value->cantidad = CuestionarioResultado::where('estado',1)->where('cuestionario_respuesta_id',$value->id)->count();
             }
+
         }
-        return $preguntas;
-        // $valores = json_encode(array("preguntas"=>$preguntas,"respuestas"=>$preguntas_filtrada));
         $valores = json_encode(array("preguntas"=>$preguntas,"respuestas"=>$respuestas));
         return Excel::download(new CuestionarioResultadosExport($valores), 'reporte-cuestionario.xlsx');
     }

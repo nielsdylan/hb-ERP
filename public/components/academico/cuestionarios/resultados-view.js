@@ -83,18 +83,17 @@ class ResultadosView {
 
             this.model.resultadosVer(id).then((respuesta) => {
                 $('#preguntas').html('');
-                renderizarRespuestas(respuesta.cuestionario);
+                renderizarRespuestas(respuesta.cuestionario, respuesta.resultados);
                 $('#modal-ver-respuestas').modal('show');
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
             });
         });
-        function renderizarRespuestas(data) {
+        function renderizarRespuestas(data, resultados) {
 
             let preguntas = $('#preguntas');
             let numero_random = 0;
-
             $.each(data.preguntas, function (index_pregunta, element_pregunta) {
                 // numero_random = Math.random();
                 numero_random = element_pregunta.id;
@@ -103,7 +102,7 @@ class ResultadosView {
                     '<div class="col-md-12">'+
                         '<input type="hidden" name="cuestionario['+numero_random+'][tipo_pregunta_id]" value="'+element_pregunta.tipo_pregunta_id+'"></input>'+
                         '<input type="hidden" name="cuestionario['+numero_random+'][pregunta]" value="'+element_pregunta.pregunta+'">'+
-                        ''+ (index_pregunta+1) + '. ' + element_pregunta.pregunta+''+
+                        ''+(index_pregunta+1)+' '+element_pregunta.pregunta+''+
                     '</div>'+
 
                 '</div>'+
@@ -127,7 +126,7 @@ class ResultadosView {
                         }
                         let html_respuestas = ''+
                         '<label class="custom-control custom-'+componente+'">'+
-                            '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'" '+(element_respuesta.seleccion==1?'checked':'')+' disabled>'+
+                            '<input type="'+componente+'" class="custom-control-input" name="cuestionario['+key+'][respuesta][]" value="'+id+'" disabled>'+
                             '<span class="custom-control-label">'+element_respuesta.descripcion+'</span>'+
                             '<input type="hidden" name="cuestionario['+key+'][alternativas]['+id+']" value="'+element_respuesta.descripcion+'" >'+
                         '</label>';
@@ -149,12 +148,21 @@ class ResultadosView {
                     if (tipo_pregunta_id == '3') {
                         let html_respuestas = ''+
                         '<div class="col-md-12">'+
-                            '<textarea class="form-control form-control-sm mb-4" placeholder="Escriba su respuesta..." rows="3" name="cuestionario['+key+'][alternativas]['+id+']" disabled>'+element_respuesta.descripcion+'</textarea>'+
+                            '<textarea class="form-control form-control-sm mb-4" placeholder="Escriba su respuesta..." rows="3" name="cuestionario['+key+'][alternativas]['+id+']"disabled></textarea>'+
                         '</div>'+
                         '';
                         this_preguntas.html(html_respuestas);
                     }
                 });
+            });
+
+            $.each(resultados, function (index, element) {
+                if (element.tipo_pregunta_id == 3) {
+                    $('[name="cuestionario['+element.cuestionario_pregunta_id+'][alternativas]['+element.cuestionario_respuesta_id+']"]').text(element.descripcion);
+                }else{
+
+                    $('[name="cuestionario['+element.cuestionario_pregunta_id+'][respuesta][]"][value="'+element.cuestionario_respuesta_id+'"]').attr('checked','true');
+                }
             });
         }
     }

@@ -195,3 +195,41 @@ ALTER TABLE `formulario_respuestas` ADD `seleccion` int(11) DEFAULT 0 AFTER `ver
 ALTER TABLE `cuestionarios` CHANGE `nombre` `titulo` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL ;
 -- 6 / 2 / 2024
 ALTER TABLE `aulas` ADD `registro_instructor` VARCHAR(255) DEFAULT NULL AFTER `hora_final`;
+
+-- eliminar las tablas formulario porque ya no son requeridas
+CREATE TABLE `cuestionario_usuario` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `numero_documento` text DEFAULT NULL,
+  `apellido_paterno` text DEFAULT NULL,
+  `apellido_materno` text DEFAULT NULL,
+  `nombres` text DEFAULT NULL,
+  `cuestionario_id` int(11) DEFAULT 0,
+  `fecha_registro` datetime DEFAULT NULL,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+CREATE TABLE `cuestionario_resultado` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `seleccion` int(11) DEFAULT 0,
+  `descripcion` text DEFAULT NULL,
+  `tipo_pregunta_id` int(11) DEFAULT 0,
+  `cuestionario_id` int(11) DEFAULT 0,
+  `cuestionario_pregunta_id` int(11) DEFAULT 0,
+  `cuestionario_respuesta_id` int(11) DEFAULT 0,
+  `cuestionario_usuario_id` int(11) DEFAULT 0,
+  `fecha_registro` datetime DEFAULT NULL,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);

@@ -24,22 +24,21 @@ class CuestionarioResultadosExport implements FromView, WithStyles
 
     public function view(): View
     {
-        // dd($this->data);
+
         return view('components.academico.cuestionario.Report.cuadro_comparativo', ['data' => $this->data] );
     }
 
     public function styles(Worksheet $sheet)
     {
+        for ($i=0; $i < ($this->cantidad_respuestas+1) ; $i++) {
+            $index = ''.($i+1);
+            $sheet->getStyle($index)->getFont()->setSize(8);
+            $sheet->getStyle($index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle($index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->getStyle($index)->getAlignment()->setWrapText(true);
+            $sheet->getStyle($index)->getQuotePrefix(true);
+        }
         return [
-            '1'=>[
-                'font' => ['size' => 8],
-                'alignment' => [
-                    'horizontal' => Alignment::HORIZONTAL_CENTER,
-                    'vertical' => Alignment::VERTICAL_CENTER,
-                    'wrapText' => true,
-                ],
-                'quotePrefix'    => true
-            ],
             'A'=>[
                 'font' => ['size' => 8],
                 'alignment' => [

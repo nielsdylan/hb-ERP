@@ -7,9 +7,11 @@ use App\Models\Certificado;
 use App\Models\Cuestionario;
 use App\Models\CuestionarioPregunta;
 use App\Models\CuestionarioRespuesta;
-use App\Models\Formulario;
-use App\Models\FormularioPregunta;
-use App\Models\FormularioRespuesta;
+use App\Models\CuestionarioResultado;
+use App\Models\CuestionarioUsuario;
+// use App\Models\Formulario;
+// use App\Models\FormularioPregunta;
+// use App\Models\FormularioRespuesta;
 // use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -167,59 +169,68 @@ class HomeController extends Controller
         return response()->json(["cuestionario"=>$cuestionario],200);
     }
     public function guardarCuestionario(Request $request){
-        // return response()->json($request->all(),200);
 
         try {
 
             $cuestionario = Cuestionario::find($request->id);
+            $cuestionario_usuario = CuestionarioUsuario::firstOrNew(['numero_documento' => $request->numero_documento]);
+            $cuestionario_usuario->numero_documento = $request->numero_documento;
+            $cuestionario_usuario->apellido_paterno = $request->apellido_paterno;
+            $cuestionario_usuario->apellido_materno = $request->apellido_materno;
+            $cuestionario_usuario->nombres = $request->nombres;
+            $cuestionario_usuario->cuestionario_id = $request->id;
+            $cuestionario_usuario->fecha_registro = date('Y-m-d') ;
+            $cuestionario_usuario->save();
 
-            $formulario = Formulario::firstOrNew(['numero_documento' => $request->numero_documento,'cuestionario_id' => $request->id]);
-            $formulario->codigo         = $request->cuestionario_codigo;
-            $formulario->titulo         = $request->cuestionario_nombre;
-            $formulario->encuesta       = 1;
-            $formulario->numero_documento   = $request->numero_documento;
-            $formulario->apellido_paterno   = $request->apellido_paterno;
-            $formulario->apellido_materno   = $request->apellido_materno;
-            $formulario->nombres            = $request->nombres;
-            $formulario->cuestionario_id    = $request->id;
-            $formulario->fecha_registro = date('Y-m-d H:i:s');
-            $formulario->created_at     = date('Y-m-d H:i:s');
-            $formulario->save();
 
-            FormularioPregunta::where('formulario_id',$formulario->id)->delete();
+            CuestionarioResultado::where('estado', 1)
+            ->where('cuestionario_usuario_id',$cuestionario_usuario->id)
+              ->update(['estado' => 0]);
+            CuestionarioResultado::where('cuestionario_usuario_id',$cuestionario_usuario->id)->delete();
+            $data = array();
             if (sizeof($request->cuestionario)>0) {
-                foreach ($request->cuestionario as $key_pregunta => $value_pregunta) {
-                    $pregunta = new FormularioPregunta();
-                    $pregunta->pregunta         = $value_pregunta['pregunta'];
-                    // $pregunta->puntaje          = $value_pregunta['puntaje'];
-                    $pregunta->fecha_registro   = date('Y-m-d H:i:s');
-                    $pregunta->formulario_id    = $formulario->id;
-                    $pregunta->tipo_pregunta_id = (int) $value_pregunta['tipo_pregunta_id'];
-                    $pregunta->created_at       = date('Y-m-d H:i:s');
-                    $pregunta->save();
+                foreach ($request->cuestionario as $key => $value) {
 
-                    FormularioRespuesta::where('formulario_id',$formulario->id)->where('formulario_pregunta_id',$pregunta->id)->delete();
-                    foreach ($value_pregunta['alternativas'] as $key_alternativas => $value_alternativas) {
-                        $respuestas                     = new FormularioRespuesta();
-                        $respuestas->descripcion        = $value_alternativas;
+                    $cuestionario_respuesta_id = 0;
+                    $cuestionario_respuesta_text = 0;
 
-                        if ( isset($value_pregunta['respuesta']) && sizeof($value_pregunta['respuesta'])>0) {
-                            foreach ($value_pregunta['respuesta'] as $key_respuesta => $value_respuesta) {
-                                if ($value_respuesta==$key_alternativas) {
-                                    $respuestas->seleccion  = 1;
-                                }
+                    if (isset($value['respuesta'])) {
+                        foreach ($value['respuesta'] as $key_respuesta => $value_respuesta) {
+
+                            $resultados = new CuestionarioResultado();
+                            $resultados->seleccion=1;
+                            $resultados->descripcion= null;
+                            $resultados->tipo_pregunta_id= (int) $value['tipo_pregunta_id'];
+                            $resultados->cuestionario_id=$request->id;
+                            $resultados->cuestionario_pregunta_id=$key;
+                            $resultados->cuestionario_respuesta_id=$value_respuesta;
+                            $resultados->cuestionario_usuario_id=$cuestionario_usuario->id;
+                            $resultados->save();
+                        }
+                    }else{
+
+                        $cuestionario_respuesta_id = 0;
+                        $cuestionario_respuesta_text = 0;
+
+                        if((int)$value['tipo_pregunta_id'] === 3){
+                            foreach ($value['alternativas'] as $key_atr => $value_atr) {
+                                $cuestionario_respuesta_id = $key_atr;
+                                $cuestionario_respuesta_text = $value_atr;
                             }
                         }
-
-                        $respuestas->fecha_registro         = date('Y-m-d H:i:s');
-                        $respuestas->formulario_pregunta_id = $pregunta->id;
-                        $respuestas->formulario_id          = $formulario->id;
-                        $respuestas->created_at             = date('Y-m-d H:i:s');
-                        $respuestas->save();
+                        $resultados = new CuestionarioResultado();
+                        $resultados->seleccion=1;
+                        $resultados->descripcion= $cuestionario_respuesta_text;
+                        $resultados->tipo_pregunta_id= (int) $value['tipo_pregunta_id'];
+                        $resultados->cuestionario_id=$request->id;
+                        $resultados->cuestionario_pregunta_id=$key;
+                        $resultados->cuestionario_respuesta_id=$cuestionario_respuesta_id;
+                        $resultados->cuestionario_usuario_id=$cuestionario_usuario->id;
+                        $resultados->save();
                     }
                 }
-
             }
+            // return $data;
             return response()->json(array("titulo"=>"Éxito.", "mensaje"=>"Se envío el cuestionario.","tipo"=>"success"),200);
         } catch (\Throwable $th) {
             return response()->json(array("titulo"=>"Warning", "mensaje"=>"Comuniquese con soporte academico","tipo"=>"warning"),200);
