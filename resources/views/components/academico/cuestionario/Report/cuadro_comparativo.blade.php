@@ -4,20 +4,20 @@
 @endphp
 
 <table class="table table-light">
-    <thead class="thead-light">
+    <tbody>
         <tr>
-            <th>#</th>
-            @foreach ( $respuestas as $key => $value )
-                <th>{{$value}}</th>
+            <td>#</td>
+            @foreach ( $preguntas as $key => $value )
+                <td>{{ $value->pregunta }}</td>
             @endforeach
         </tr>
-    </thead>
-    <tbody>
-        @foreach ( $preguntas as $key => $value )
+        @foreach ( $respuestas as $key => $value )
             <tr>
-                <td>{{ $value->pregunta }}</td>
+                <td>{{ $value->texto }}</td>
             </tr>
         @endforeach
+
+
 
     </tbody>
 </table>

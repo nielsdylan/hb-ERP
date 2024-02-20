@@ -241,32 +241,23 @@ class CuestionarioController extends Controller
     }
     public function reporteRespuestas($id){
         $formulario   = Formulario::where('cuestionario_id',$id)->where('estado',1)->orderBy('id','desc')->first();
-        $preguntas  = FormularioPregunta::select('id','pregunta', 'tipo_pregunta_id','formulario_id')->where('formulario_id',$formulario->id)->get();
+        $preguntas  = FormularioPregunta::select('id','pregunta', 'tipo_pregunta_id','formulario_id')->where('formulario_id',$formulario->id)->orderBy('id','asc')->get();
 
         $respuestas = FormularioRespuesta::select('descripcion', 'formulario_pregunta_id','formulario_id')->where('formulario_id',$formulario->id)->distinct('descripcion')->get();
 
-        $preguntas_filtrada = array();
+        // ordenar de una forma ordenada para el match
 
         foreach ($respuestas as $key => $value) {
 
-            if(!in_array($value->descripcion, $preguntas_filtrada)){
-
-                if($value->pregunta->tipo_pregunta_id==3 &&  !in_array("RESPUESTA ABIERTA", $preguntas_filtrada)){
-                    array_push($preguntas_filtrada, "RESPUESTA ABIERTA");
-                }else{
-                    array_push($preguntas_filtrada, $value->descripcion);
-                }
-
+            if($value->pregunta->tipo_pregunta_id==3){
+                $value->texto = "Texto Libre";
+            }else{
+                $value->texto = $value->descripcion;
             }
         }
-        $valores = json_encode(array("preguntas"=>$preguntas,"respuestas"=>$preguntas_filtrada));
+        return $preguntas;
+        // $valores = json_encode(array("preguntas"=>$preguntas,"respuestas"=>$preguntas_filtrada));
+        $valores = json_encode(array("preguntas"=>$preguntas,"respuestas"=>$respuestas));
         return Excel::download(new CuestionarioResultadosExport($valores), 'reporte-cuestionario.xlsx');
-        return response()->json([
-            "id"=>$id,
-            // "data"=>$formulario,
-            "preguntas"=>$preguntas,
-            "respuestas"=>$preguntas_filtrada,
-
-        ],200);
     }
 }
