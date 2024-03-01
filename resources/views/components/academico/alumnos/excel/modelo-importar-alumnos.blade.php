@@ -8,7 +8,7 @@
             <th style="width: 200px; background-color: #f3ff44;">Nombres *</th>
             <th style="width: 200px; background-color: #888888;">Whatsapp </th>
             <th style="width: 200px; background-color: #888888;">Nacionalidad </th>
-            <th style="width: 200px; background-color: #888888;">Cargo </th>
+            <th style="width: 200px; background-color: #f3ff44;">Cargo *</th>
             <th style="width: 200px; background-color: #888888;">Telefono </th>
             <th style="width: 200px; background-color: #f3ff44;">Sexo(M/F) *</th>
             <th style="width: 200px; background-color: #f3ff44;">Empresa *</th>

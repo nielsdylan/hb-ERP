@@ -280,6 +280,17 @@ class AlumnosController extends Controller
     }
     public function importarAlumnosExport(Request $request) {
 
+
+        $importacion_alumnos = Excel::toArray(new ModeloImportarAlumnosExport, request()->file('importar_excel'));
+        $importacion_alumnos = $importacion_alumnos[0];
+        foreach ($importacion_alumnos as $key => $value) {
+            if($key!=0){
+
+                $validar = $this->validarCamposAlumnos($value);
+                return $validar;
+            }
+        }
+
         $spreadsheet = IOFactory::load(request()->file('importar_excel'));
 
         $indiceHoja = 0; // indicamos la primera hoja por defecto
@@ -303,7 +314,7 @@ class AlumnosController extends Controller
                 if (!$hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue()) {
                     $requeridos = false;
                 }
-                if (!$hojaActual->getCellByColumnAndRow(3, $indiceFila)->getFormattedValue()) {
+                if (!$hojaActual->getCellByColumnAndRow(3, $indiceFila)->getValue()) {
                     $requeridos = false;
                 }
                 if (!$hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue()) {
@@ -336,7 +347,7 @@ class AlumnosController extends Controller
                 if (!$documento || !$empresa) {
                     $requeridos = false;
                 }
-                // return  $hojaActual->getCellByColumnAndRow(20, $indiceFila)->getFormattedValue();
+                return  $hojaActual->getCellByColumnAndRow(3, $indiceFila)->getValue();
                 if ($requeridos) {
 
                     // $data = Personas::firstOrNew(['nro_documento' => $value[2]]);
@@ -347,7 +358,7 @@ class AlumnosController extends Controller
                     );
                     $data->tipo_documento_id        = $documento->id;
                     $data->nro_documento            = $hojaActual->getCellByColumnAndRow(2, $indiceFila)->getFormattedValue();
-                    $data->apellido_paterno         = $hojaActual->getCellByColumnAndRow(3, $indiceFila)->getFormattedValue();
+                    $data->apellido_paterno         = $hojaActual->getCellByColumnAndRow(3, $indiceFila)->getValue();
                     $data->apellido_materno         = $hojaActual->getCellByColumnAndRow(4, $indiceFila)->getFormattedValue();
                     $data->nombres                  = $hojaActual->getCellByColumnAndRow(5, $indiceFila)->getFormattedValue();
                     $data->sexo                     = $hojaActual->getCellByColumnAndRow(10, $indiceFila)->getFormattedValue();
@@ -444,5 +455,23 @@ class AlumnosController extends Controller
 
     public function formatoFechaExcel($numero){
         return gmdate("Y-m-d", (((int)$numero - 25569) * 86400));
+    }
+
+    public function validarCamposAlumnos($data){
+
+        $validado = false;
+
+        $validado = (!$data[0] ? true : false );
+        $validado = (!$data[1] ? true : false );
+        $validado = (!$data[2] ? true : false );
+        $validado = (!$data[3] ? true : false );
+        $validado = (!$data[4] ? true : false );
+        $validado = (!$data[9] ? true : false );
+        $validado = (!$data[10] ? true : false );
+        $validado = (!$data[11] ? true : false );
+        $validado = (!$data[12] ? true : false );
+        $validado = (!$data[13] ? true : false );
+
+        return $validado;
     }
 }
