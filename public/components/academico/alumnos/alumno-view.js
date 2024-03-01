@@ -259,11 +259,12 @@ class AlumnoView {
             model.importarExcel(data).then((respuesta) => {
                 $('#tabla-data').DataTable().ajax.reload();
                 notif({
-                    msg: '<span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>'+
+                    msg: '<span class="alert-inner--icon"><i class="'+respuesta.icono+'"></i></span>'+
                     '<span class="alert-inner--text"><strong> '+respuesta.titulo+'!</strong> '+respuesta.mensaje+'</span>',
                     type: respuesta.tipo,
                     width: 480,
                 });
+                console.log(respuesta);
                 if (respuesta.tipo == 'warning') {
 
                     $.each(respuesta.data, function (index, element) {
@@ -281,8 +282,8 @@ class AlumnoView {
                                 <td>`+(element.Telefono==null?'-':element.Telefono)+`</td>
                                 <td>`+(element.Sexo==null?'-':element.Sexo)+`</td>
                                 <td>`+(element.Empresa==null?'-':element.Empresa)+`</td>
-                                <td>`+(element.Fecha_Cumpleaños==null?'-':element.Fecha_Cumpleaños)+`</td>
-                                <td>`+(element.Fecha_Caducidad_DNI==null?'-':element.Fecha_Caducidad_DNI)+`</td>
+                                <td>`+(element.Fecha_cumpleaños==null?'-':element.Fecha_cumpleaños)+`</td>
+                                <td>`+(element.Fecha_Caducación==null?'-':element.Fecha_Caducación)+`</td>
                                 <td>`+(element.Email==null?'-':element.Email)+`</td>
                             </tr>`;
 
@@ -317,6 +318,8 @@ class AlumnoView {
                     </div>
                     `;
                     $('[data-table="respuesta"]').html(html);
+                }else{
+                    $('#modal-importar').modal('hide');
                 }
             }).fail((respuesta) => {
                 // return respuesta;
