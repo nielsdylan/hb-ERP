@@ -19,6 +19,7 @@ use App\Http\Controllers\Components\EmpresasController;
 use App\Http\Controllers\Components\Configuraciones\TipoDocumentosController;
 use App\Http\Controllers\Components\Configuraciones\TipoMonedasController;
 use App\Http\Controllers\Components\Configuraciones\UsuariosController;
+use App\Http\Controllers\MisCursosController;
 use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -65,6 +66,14 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
     Route::get('logout',[LoginController::class,'logout'])->name('logout');
     Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 
+    // rutas para los alumnos
+    Route::name('mis-cursos.')->prefix('mis-cursos')->group(function () {
+        Route::get('lista',[MisCursosController::class,'lista'])->name('lista');
+        Route::get('curso/{codigo}',[MisCursosController::class,'curso'])->name('curso');
+    });
+
+    // -----------------------------------------------------------------------------------------------------
+    // rutas para el area administrativa
     Route::name('academicos.')->prefix('academicos')->group(function () {
 
         Route::name('alumnos.')->prefix('alumnos')->group(function () {
@@ -257,6 +266,7 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
 
         });
     });
+    // -----------------------------------------------------------------------------------------------------
 });
 
 // --fin----
