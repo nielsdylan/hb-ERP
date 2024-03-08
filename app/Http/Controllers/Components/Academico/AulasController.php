@@ -10,6 +10,7 @@ use App\Models\Asistencia;
 use App\Models\Aulas;
 use App\Models\AulasDescripcion;
 use App\Models\Cursos;
+use App\Models\Examen;
 use App\Models\LogActividades;
 use App\Models\UsuariosAccesos;
 use App\Models\UsuariosRoles;
@@ -17,6 +18,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -438,5 +440,33 @@ class AulasController extends Controller
         return Excel::download(new AsistenciaReporteExport($valores), 'reporte-asistencia.xlsx');
 
         return $valores;
+    }
+    public function agregarExamen(Request $request) {
+        $examen = Examen::firstOrNew(['aula_id' => $request->aula_id, 'cuestionario_id' => $request->cuestionario_id]);
+        $examen->cuestionario_id = $request->cuestionario_id;
+        $examen->aula_id = $request->aula_id;
+        if(Examen::where('aula_id', $request->aula_id)->where('cuestionario_id', $request->cuestionario_id)->first()){
+            $examen->updated_id = Auth::user()->id;
+        }else{
+            $examen->created_id = Auth::user()->id;
+            $examen->fecha_registro = date('Y-m-d H:i:s');
+        }
+        $examen->save();
+
+        return response()->json([
+            "titulo"=>"Éxito",
+            "mensaje"=>"Se asigno con éxito",
+            "tipo"=>"success",
+        ],200);
+    }
+    public function listaExamenes($aula_id) {
+        $examen = Examen::where('aula_id', $aula_id)->where('estado',1)->get();
+        foreach ($examen as $key => $value) {
+            $value->aula;
+            $value->cuestionario;
+        }
+        return response()->json([
+            "data"=>$examen
+        ],200);
     }
 }

@@ -159,6 +159,8 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
             Route::get('descargar-asistencia/{id}', [AulasController::class, 'descargarAsistencia'])->name('descargar-asistencia');
             Route::get('reporte-asistencia/{id}', [AulasController::class, 'reporteAsistencia'])->name('reporte-asistencia');
             Route::get('reporte-asistencia-excel/{id}', [AulasController::class, 'reporteAsistenciaExcel'])->name('reporte-asistencia-excel');
+            Route::post('agregar-examen', [AulasController::class, 'agregarExamen'])->name('agregar-examen');
+            Route::get('lista-examenes/{aula_id}', [AulasController::class, 'listaExamenes'])->name('lista-examenes');
         });
         Route::name('cuestionario.')->prefix('cuestionario')->group(function () {
             Route::get('lista',[CuestionarioController::class,'lista'])->name('lista');

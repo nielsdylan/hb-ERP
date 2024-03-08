@@ -107,4 +107,24 @@ class AulaModel {
             data: {_token:this.token},
         });
     };
+    agregarExamen = (aula_id, cuestionario_id) => {
+        return $.ajax({
+            url: route("hb.academicos.aulas.agregar-examen"),
+            type: "POST",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token, aula_id:aula_id, cuestionario_id:cuestionario_id},
+        });
+    };
+    listaExamenes = (aula_id) => {
+        return $.ajax({
+            url: route("hb.academicos.aulas.lista-examenes",{aula_id:aula_id}),
+            type: "GET",
+            dataType: "JSON",
+            // processData: false,
+            // contentType: false,
+            data: {_token:this.token},
+        });
+    };
 }

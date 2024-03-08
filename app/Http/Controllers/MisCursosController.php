@@ -12,9 +12,8 @@ class MisCursosController extends Controller
     //
     public function lista() {
 
-        $aulas = Asistencia::where('alumno_id',Auth::user()->id)->get();
-        // $aulas = Aulas::orderBy('id', 'desc')->paginate(12);
-        // return $aulas;
+        $aulas = Asistencia::where('alumno_id',Auth::user()->id)->paginate(12);
+
         return view('components.mis-cursos.lista', get_defined_vars());
     }
     public function curso($codigo) {

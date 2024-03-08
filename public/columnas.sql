@@ -233,3 +233,19 @@ CREATE TABLE `cuestionario_resultado` (
   `deleted_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
+
+CREATE TABLE `examenes` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `cuestionario_id` int(11) DEFAULT 0,
+  `aula_id` int(11) DEFAULT 0,
+
+  `fecha_registro` datetime DEFAULT NULL,
+  `estado` int(11) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_id` int(11) DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL,
+  `deleted_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);

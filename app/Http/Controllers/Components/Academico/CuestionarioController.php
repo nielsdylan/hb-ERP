@@ -30,7 +30,15 @@ class CuestionarioController extends Controller
     {
         $data = Cuestionario::where('estado',1)->get();
         return DataTables::of($data)
-        ->addColumn('accion', function ($data) {
+        ->addColumn('seleccionar', function ($data) {
+            return
+            '<div class="btn-list">
+                <button type="button" class="btn btn-success btn-sm link protip asignar-cuestionario" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Clonar cuestionario">
+                    <i class="fa fa-check fs-14"></i>
+                     Seleccionar
+                </button>
+            </div>';
+        })->addColumn('accion', function ($data) {
             return
             '<div class="btn-list">
                 <button type="button" class="btn text-dark btn-sm link protip reporte-respuestas" data-id="'.$data->id.'" data-pt-scheme="dark" data-pt-size="small" data-pt-position="top" data-pt-title="Clonar cuestionario">
@@ -54,7 +62,7 @@ class CuestionarioController extends Controller
                     <i class="fe fe-trash-2 fs-14"></i>
                 </button>
             </div>';
-        })->rawColumns(['accion'])->make(true);
+        })->rawColumns(['accion', 'seleccionar'])->make(true);
     }
     public function formulario($id=0)
     {

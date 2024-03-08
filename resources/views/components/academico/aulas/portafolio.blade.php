@@ -162,6 +162,33 @@ HB GROUP - Alumnado
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="examen">
+                                    <div class="row" id="cuestionarios-asignados">
+                                        <div class="col-md-4">
+                                            <div class="thumbnail text-center agregar-cuestionario">
+                                                <div class="caption">
+                                                    <a href="javascript:void(0)">
+                                                        <i class="fe fe-plus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="thumbnail">
+                                                <a href="javascript:void(0)">
+                                                    <img src="{{ asset('components/images/examen/imagen_1.png') }}" alt="thumb1" class="thumbimg">
+                                                </a>
+                                                <div class="caption">
+                                                    <h4><strong>Thumbnail label</strong></h4>
+                                                    <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                                    <p>
+                                                        <a href="javascript:void(0)" class="btn btn-primary" role="button">Resultado</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
                                     <p>over the years, sometimes by accident, sometimes on purpose (injected humour and the like</p>
                                 </div>
                                 <div class="tab-pane" id="tab8">
@@ -179,7 +206,40 @@ HB GROUP - Alumnado
 
 
     <!-- ROW-1 END -->
+    <!-- MODAL EFFECTS -->
+    <div class="modal fade effect-super-scaled " id="modal-cuestionario">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Lista de Cuestionarios</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered text-nowrap border-bottom table-hover" id="tabla-data-cuestionario" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-15p border-bottom-0">#</th>
+                                        <th class="wd-15p border-bottom-0">Código</th>
+                                        <th class="wd-15p border-bottom-0">Nombre</th>
+                                        <th class="wd-20p border-bottom-0">Fecha de registro</th>
+                                        <th class="wd-15p border-bottom-0">-</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-sm"><i class="fe fe-save"></i> Guardar</button>
+                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal"><i class="fe fe-x"></i> Cerrar</button>
+                </div> --}}
 
+            </div>
+        </div>
+    </div>
 
 </div>
 @endsection
@@ -209,6 +269,7 @@ HB GROUP - Alumnado
 
     <script src="{{asset('components/academico/aulas/alumnos-view.js')}}"></script>
     <script src="{{asset('components/academico/aulas/asistencia-view.js')}}"></script>
+    <script src="{{asset('components/academico/aulas/examen-view.js')}}"></script>
     <script>
         // Select2
 
@@ -221,6 +282,11 @@ HB GROUP - Alumnado
             const viewAsistencia = new AsistenciaView(new AulaModel(csrf_token));
             viewAsistencia.eventos();
             viewAsistencia.listar();
+
+            const viewExamen = new ExamenView(new AulaModel(csrf_token));
+            viewExamen.eventos();
+            viewExamen.listarCuestionario();
+            viewExamen.examenes();
         });
 
 
