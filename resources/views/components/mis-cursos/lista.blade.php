@@ -21,7 +21,7 @@ HB GROUP - Mis Cursos
         @foreach ( $aulas as $key => $value )
             <div class="col-md-4">
                 <div class="card">
-                    <a href="{{ route('hb.mis-cursos.curso', ['codigo'=>$value->aula->codigo]) }}"><img class="card-img-top" src="{{ asset('components/images/cursos/mis-cursos.jpg') }}" alt="And this isn&#39;t my nose. This is a false one."></a>
+                    <a href="{{ route('hb.mis-cursos.curso', ['codigo'=>$value->aula->codigo]) }}"><img class="card-img-top" src="{{ asset('images/cursos/mis-cursos.jpg') }}" alt="And this isn&#39;t my nose. This is a false one."></a>
                     <div class="card-body d-flex flex-column">
                         <h3>
                             <a href="{{ route('hb.mis-cursos.curso', ['codigo'=>$value->aula->codigo]) }}">{{$value->aula->curso->nombre}}</a>
