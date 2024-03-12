@@ -37,7 +37,7 @@
                                             </div> --}}
                                                 <div class="profile-img-content text-dark text-start">
                                                     <div class="text-dark">
-                                                        <h3 class="h3 mb-2">{{ $aula->codigo }}</h3>
+                                                        <h3 class="h3 mb-2">{{ $aula->curso->nombre }}</h3>
                                                         <h5 class="text-muted">{{ $aula->codigo }}</h5>
                                                     </div>
                                                 </div>
@@ -179,8 +179,8 @@
                                     </div>
                                     <div class="tab-pane" id="examen">
                                         <div class="row" id="cuestionarios-asignados">
-                                            <div class="col-md-4">
-                                                <div class="thumbnail text-center agregar-cuestionario">
+                                            {{-- <div class="col-md-4">
+                                                <div class="thumbnail text-center agregar-cuestionario" id="agregar-cuestionario">
                                                     <div class="caption">
                                                         <a href="javascript:void(0)">
                                                             <i class="fe fe-plus"></i>
@@ -206,7 +206,7 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="tab8">

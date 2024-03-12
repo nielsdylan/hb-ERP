@@ -84,10 +84,9 @@ class ExamenView {
         /**
          *  Agregar examen
          */
-        $('.agregar-cuestionario').click((e) => {
+        $(document).on('click','.agregar-cuestionario',function (e) {
             e.preventDefault();
             $('#modal-cuestionario').modal('show');
-            // this.listarCuestionario();
         });
         /**
          *  Asignar cuestionario
@@ -107,51 +106,58 @@ class ExamenView {
                 btn_curren.find('i').remove();
                 btn_curren.html('<i class="fa fs-14 fa-check"></i> Seleccionar')
                 btn_curren.removeAttr('disabled');
+
                 this.examenes();
             }).fail((respuesta) => {
                 // return respuesta;
-
             }).always(() => {
             });
 
         });
+
 
     }
 
     examenes = () => {
         let cuestionarios_asignados = $('#cuestionarios-asignados');
         let aula_id = $('[name="aula_id"]').val();
-        let html = '';
+        let url = window.location.origin;
+        let html = '<div class="col-md-3" id="agregar-cuestionario">'+
+            '<div class="thumbnail text-center agregar-cuestionario" >'+
+                '<div class="caption">'+
+                    '<a href="javascript:void(0)">'+
+                        '<i class="fe fe-plus"></i>'+
+                    '</a>'+
+                '</div>'+
+            '</div>'+
+        '</div>';
         this.model.listaExamenes(aula_id).then((respuesta) => {
-            console.log(respuesta.data);
-            $.each(respuesta.data, function (index, element) {
-                html=''+
-                '<div className="col-md-4">'+
-                    '<div className="thumbnail">'+
+            $.each(respuesta.data, function (index, element) { 
+                html+='<div class="col-md-3">'+
+                    '<div class="thumbnail">'+
                         '<a href="javascript:void(0)">'+
-                            '<img src="{{ asset('images/examen/imagen_1.png') }}" alt="thumb1" className="thumbimg" />'+
+                            '<img src="'+url+'/images/examen/imagen_1.png" alt="thumb1" class="thumbimg" />'+
                         '</a>'+
-                        '<div className="caption">'+
-                            '<h4><strong>Thumbnail label</strong></h4>'+
-                            '<p>sed do eiusmod tempor incididunt ut labore et dolore magna'+
-                                'aliqua. Ut enim ad minim veniam, quis nostrud exercitation'+
-                                'ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>'+
+                        '<div class="caption">'+
+                            '<h4><strong>'+element.cuestionario.titulo+'</strong></h4>'+
+                            '<p>Leer antes de responder.</p>'+
                             '<p>'+
-                                '<a href="javascript:void(0)" className="btn btn-primary" role="button">Resultado</a>'+
+                                '<a href="javascript:void(0)" class="btn btn-primary" role="button">Resultado</a>'+
                             '</p>'+
                         '</div>'+
                     '</div>'+
-                '</div>'+
-                +'';
-                console.log(element.aula);
+                '</div>';
             });
-
+            cuestionarios_asignados.html(html);
         }).fail((respuesta) => {
             // return respuesta;
-
         }).always(() => {
         });
+
+
+        
     }
+
 
 }
 

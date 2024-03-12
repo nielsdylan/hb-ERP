@@ -456,7 +456,7 @@ class AulasController extends Controller
         return response()->json([
             "titulo"=>"Éxito",
             "mensaje"=>"Se asigno con éxito",
-            "tipo"=>"success",
+            "tipo"=>"success"
         ],200);
     }
     public function listaExamenes($aula_id) {

@@ -33,8 +33,9 @@ HB GROUP - Mis Cursos
                                             </div> --}}
                                             <div class="profile-img-content text-dark text-start">
                                                 <div class="text-dark">
-                                                    <h3 class="h3 mb-2">{{ $aula->codigo }}</h3>
+                                                    <h3 class="h3 mb-2">{{ $aula->curso->nombre }}</h3>
                                                     <h5 class="text-muted">{{ $aula->codigo }}</h5>
+                                                    <input type="hidden" name="aula_id" value="{{ $aula->id }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -65,7 +66,13 @@ HB GROUP - Mis Cursos
     <!-- ROW-1 -->
     <div class="row">
         <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" id="cuestionarios-asignados">
 
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -73,4 +80,12 @@ HB GROUP - Mis Cursos
     <!-- ROW-1 END -->
 
 </div>
+@endsection
+@section('script')
+    <script src="{{ asset('components/mis-cursos/mi-curso-view.js') }}"></script>
+    <script src="{{ asset('components/mis-cursos/mi-curso-model.js') }}"></script>
+    <script>
+        const view = new MiCursoView(new MiCursoModel(csrf_token));
+        view.examenes();
+    </script>
 @endsection
