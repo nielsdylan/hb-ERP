@@ -48,7 +48,7 @@ HB GROUP - Gestion de Cuestionario
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="nombre">Nombre</label>
+                                    <label for="nombre">Titulo</label>
                                     <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" value="{{($data?$data->titulo:'')}}" placeholder="Ingrese el nombre del cuestionario" required>
                                 </div>
                             </div>

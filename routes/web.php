@@ -70,6 +70,8 @@ Route::middleware(['auth'])->name('hb.')->prefix('hb')->group(function () {
     Route::name('mis-cursos.')->prefix('mis-cursos')->group(function () {
         Route::get('lista',[MisCursosController::class,'lista'])->name('lista');
         Route::get('curso/{codigo}',[MisCursosController::class,'curso'])->name('curso');
+        Route::get('cuestionario/{id}',[MisCursosController::class,'cuestionario'])->name('cuestionario');
+        Route::post('guardar-cuestionario',[MisCursosController::class,'guardarCuestionario'])->name('guardar-cuestionario');
     });
 
     // -----------------------------------------------------------------------------------------------------
