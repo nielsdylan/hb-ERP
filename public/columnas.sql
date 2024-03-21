@@ -249,3 +249,6 @@ CREATE TABLE `examenes` (
   `deleted_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
+----------------- 20-03-2024 agregar el campo persona id y usuario id
+ALTER TABLE `cuestionario_usuario` ADD `persona_id` bigint(20) unsigned DEFAULT Null AFTER `cuestionario_id`;
+ALTER TABLE `cuestionario_usuario` ADD `usuario_id` bigint(20) unsigned DEFAULT Null AFTER `cuestionario_id`;

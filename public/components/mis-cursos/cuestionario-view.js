@@ -89,6 +89,7 @@ class CuestionarioView {
         $('#guardar').submit((e) => {
             e.preventDefault();
             let data = $(e.currentTarget).serialize();
+            console.log(data);
             this.model.guardarCuestionario(data).then((respuesta) => {
                 console.log(respuesta);
             }).fail((respuesta) => {

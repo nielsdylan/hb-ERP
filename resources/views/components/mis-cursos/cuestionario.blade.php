@@ -11,6 +11,7 @@ HB GROUP - Cuestionario
         <div>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Mis cursos</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Cursos</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Cuestionario</li>
             </ol>
         </div>
