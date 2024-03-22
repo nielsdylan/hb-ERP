@@ -252,3 +252,6 @@ CREATE TABLE `examenes` (
 ----------------- 20-03-2024 agregar el campo persona id y usuario id
 ALTER TABLE `cuestionario_usuario` ADD `persona_id` bigint(20) unsigned DEFAULT Null AFTER `cuestionario_id`;
 ALTER TABLE `cuestionario_usuario` ADD `usuario_id` bigint(20) unsigned DEFAULT Null AFTER `cuestionario_id`;
+ALTER TABLE `cuestionario_usuario` ADD `aula_id` bigint(20) unsigned DEFAULT Null AFTER `persona_id`;
+ALTER TABLE `cuestionario_usuario` ADD `nota` int(11) DEFAULT 0 AFTER `persona_id`;
+ALTER TABLE `cuestionario_usuario` ADD `aciertos` int(11) DEFAULT 0 AFTER `persona_id`;

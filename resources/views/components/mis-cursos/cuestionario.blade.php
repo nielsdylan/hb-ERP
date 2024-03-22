@@ -18,7 +18,31 @@ HB GROUP - Cuestionario
     </div>
     <!-- PAGE-HEADER END -->
     <!-- ROW-1 -->
-    <div class="row">
+    <div class="row justify-content-md-center {{ ($cuestionario_usuario?'': 'd-none' ) }}" id="reporte-notas">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h6 class=""><span class="text-success"><i class="fe fe-award mx-2 fs-20 text-success-shadow"></i></span>Resultados del Cuestionario</h6>
+                    {{-- <h3 class="text-dark counter mt-0 mb-3 number-font">7,896</h3>
+                    <div class="progress h-1 mt-0 mb-2">
+                        <div class="progress-bar progress-bar-striped bg-primary" style="width: 70%;" role="progressbar"></div>
+                    </div> --}}
+                    <div class="row mt-4">
+                        <div class="col text-center"> <span class="text-muted">Preguntas</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font1" id="cantidad-preguntas">{{ ($cuestionario_usuario ? $numero_preguntas : '00' ) }}</h4>
+                        </div>
+                        <div class="col text-center"> <span class="text-muted">Aciertos</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font2" id="aciertos">{{ ($cuestionario_usuario ? $cuestionario_usuario->aciertos : '00' ) }}</h4>
+                        </div>
+                        <div class="col text-center"> <span class="text-muted">Nota</span>
+                            <h4 class="fw-normal mt-2 mb-0 number-font3" id="notas">{{ ($cuestionario_usuario ? $cuestionario_usuario->nota : '00' ) }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row {{ ($cuestionario_usuario?'d-none': '' ) }}" id="car-cuestionario">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -28,6 +52,7 @@ HB GROUP - Cuestionario
                             <div class="col-md-12 text-center">
                                 <h2>{{$cuestionario->titulo}}</h2>
                                 <input type="hidden" name="cuestionario_id" value="{{$cuestionario->id}}">
+                                <input type="hidden" name="aula_id" value="{{$aula_id}}">
                             </div>
                         </div>
                         <div id="preguntas">
@@ -44,6 +69,7 @@ HB GROUP - Cuestionario
 
 
     </div>
+
     <!-- ROW-1 END -->
 
 </div>

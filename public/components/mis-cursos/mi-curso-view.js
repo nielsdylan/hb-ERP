@@ -24,7 +24,7 @@ class MiCursoView {
                             '<h4><strong>'+element.cuestionario.titulo+'</strong></h4>'+
                             '<p>Leer antes de responder.</p>'+
                             '<p>'+
-                                '<a href="'+ route("hb.mis-cursos.cuestionario",{id:element.cuestionario_id}) +'" class="btn btn-primary" role="button">Resultado</a>'+
+                                '<a href="'+ route("hb.mis-cursos.cuestionario",{id:element.cuestionario_id, aula_id:element.aula_id}) +'" class="btn btn-primary" role="button">Resultado</a>'+
                             '</p>'+
                         '</div>'+
                     '</div>'+

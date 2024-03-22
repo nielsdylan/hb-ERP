@@ -89,9 +89,17 @@ class CuestionarioView {
         $('#guardar').submit((e) => {
             e.preventDefault();
             let data = $(e.currentTarget).serialize();
-            console.log(data);
+            let curren = $(e.currentTarget);
             this.model.guardarCuestionario(data).then((respuesta) => {
-                console.log(respuesta);
+                if (respuesta.tipo == "success") {
+                    $('#car-cuestionario').addClass('d-none');
+                    $('#cantidad-preguntas').text(respuesta.numero_preguntas);
+                    $('#aciertos').text(respuesta.aciertos);
+                    $('#notas').text(respuesta.nota);
+                    $('#reporte-notas').removeClass('d-none');
+                    console.log(respuesta);
+                }
+
             }).fail((respuesta) => {
                 // return respuesta;
             }).always(() => {
