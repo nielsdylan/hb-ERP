@@ -6,6 +6,7 @@
 @section('content')
     <section class="mt-5 mb-5">
         <div class="container">
+            @if ($cuestionario)
             <div class="card">
                 <form action="" id="guardar">
                     @csrf
@@ -60,6 +61,12 @@
                     </div>
                 </form>
             </div>
+            @else
+            <div class="card">
+
+            </div>
+            @endif
+
         </div>
     </section>
 @endsection

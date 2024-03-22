@@ -153,10 +153,10 @@ class HomeController extends Controller
     }
     public function cuestionario($codigo) {
         $cuestionario = Cuestionario::where('encuesta',1)->where('id',$codigo)->first();
-        if (!$cuestionario) {
-            return response()->json(["mensaje"=>"cuestionario no existe"],200);exit;
-        }
-        $id = $cuestionario->id;
+        // if (!$cuestionario) {
+        //     return response()->json(["mensaje"=>"cuestionario no existe"],200);exit;
+        // }
+        $id = ($cuestionario ? $cuestionario->id : 0);
         return view('web.links.cuestionario', get_defined_vars());
         // return response()->json(["data"=>$cuestionario],200);
     }
